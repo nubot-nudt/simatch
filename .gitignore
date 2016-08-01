@@ -1,0 +1,10 @@
+## Ignore build files
+build/
+devel/
+
+*.jpg
+*.bmp
+CMakeLists.txt.*
+*~
+*.tar.gz
+*.zip

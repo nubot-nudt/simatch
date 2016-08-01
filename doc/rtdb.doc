@@ -1,0 +1,16 @@
+﻿sudo gedit /etc/security/limits.conf
+ *               -       rtprio          100
+
+
+
+
+
+
+## Absolute path in rtdb package:
+1. rtdb/parser/CMakeLists.txt:
+    (1) SET(RTDB_USER_H_FILE   /home/nubot8/nubot_ws/src/nubot/world_model/include/nubot/rtdb/rtdb_user.h)
+    (2) SET(RTDB_INI_FILE      /home/nubot8/nubot_ws/src/nubot/world_model/config/rtdb.ini )
+    (3) SET(RTDB_Config_FILE   /home/nubot8/nubot_ws/src/nubot/world_model/config/rtdb.config )
+
+2. rtdb/rtdb_api.cpp:    
+    std::string ini_config_file="/home/nubot8/nubot_ws/src/nubot/world_model/config/rtdb.ini";

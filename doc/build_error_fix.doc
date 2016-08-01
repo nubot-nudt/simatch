@@ -1,0 +1,22 @@
+﻿编译可能出现的错误以及解决办法
+
+1. Cannot find Eigen:
+	There is a new package called cmake_modules which contains some commonly used dependencies which do not have CMake modules by default. Currently the list includes:
+
+    FindEigen.cmake
+    FindNUMPY.cmake
+    FindTBB.cmake
+    FindTinyXML.cmake
+
+    FindXenomai.cmake 
+
+If you would like to use one of these in your CMakeLists.txt of your package, simply follow the usage instructions here: 
+	https://github.com/ros/cmake_modules/blob/0.3-devel/README.md. Briefly as follows:
+	step 1: in package.xml, add <build_depend>cmake_modules</build_depend>
+	step 2: in CMakeLists.txt: add find_package(cmake_modules REQUIRED) and find_package(Eigen REQUIRED)
+
+2. Cannot find ncurses.h
+问题的解决：
+
+在Ubuntu下，“apt-get install libncurses5-dev”安装上ncurses库即可。
+

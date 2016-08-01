@@ -1,0 +1,9 @@
+Welcome anyone to add somthing to this list or pick some items from it and contribute to this code.
+
+1. Add a GUI to configure parameters, e.g. robot numbers, model path, etc. (medium)
+2. Add a physical simulation model for kicking mechanism.  (hard)
+3. Add a physical simulation model for dribble mechanism.  (hard) 
+4. show role labels beside each robot; show the positioning points; (medium)
+5. set up a virtule runtime environment; refer to Matlab's support for RoboCup; (hard)
+6. automatic referee. (hard)
+7. enable adding and removing robot models. (hard)

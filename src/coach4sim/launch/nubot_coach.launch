@@ -1,0 +1,6 @@
+
+<launch>
+	<env name="AGENT" value="0" />
+  <include file="$(find world_model)/launch/world_model.launch"> </include>
+  <node name="nubot_coach_node" pkg="nubot_coach" type="nubot_coach_node"/>
+</launch>

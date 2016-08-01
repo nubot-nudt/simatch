@@ -1,0 +1,75 @@
+注意：	1、标定的时候，请务必将机器人正对着球门，哪一边的球门都可以。
+	2、以下标定以3号机器人为例，因此文件路径中有nubot3以及3作为文件夹名字，标定其他机器人时记得修改编号。
+步骤：
+     1.检查相机是否固定，插线。
+
+     2.运行：roscore
+     
+       1.路径;nubot_ws\src\nubot\omin_camera\calib_results\3   (compress:打包）
+
+       2.初始化：rosrun prosilica_camera prosilica_node _height:=0  _width:=0  _x_offset:=0  _y_offset:=0 
+                                                          row         colum    start_colum    start_row
+     
+     3.检查摄像头：运行rqt_image_view
+
+第一部分：标定ROI
+     4.大小圆标定：运行rosrun color_segment color_segment_node
+           ->    update image
+           ->    load result
+           ->    画图（大小圆）
+           ->    保存ROI
+
+     5.重新载入roi数据：查看roi数据（保存路径）
+           ->    载入数据：rosrun prosilica_camera prosilica_node _height:=  _width:=  _x_offset:=  _y_offset:=
+           ->    修改/home/nubot3/nubot_ws/src/prosilica_driver/prosilica_camera/launch/3中generic.launch文件中的x_offset，y_offset，height width的参数值（大小为roi中各参数的大小）        
+
+第二部分：颜色标定（现在只需要标定足球就可以了，障碍物和场地是通过其他方法标定的，不是颜色标定）         
+     6.标定足球：
+           ->    YUV空间
+           ->    找到球
+           ->    标定颜色区域（用扇形表示）
+           ->    result_save
+  #  7.标定障碍物：
+           ->    YUV空间
+           ->    找到机器人，查看颜色，限定范围
+           ->    result_save
+  #  8.标定场地：
+           ->    HIV空间
+           ->    找到场地（长方形）
+           ->    result_save
+
+第三部分：距离标定
+     9.检测白线：
+           ->    update image
+           ->    load result 
+           ->    white wave(检测白线）
+           ->    左键消除红点，右键增加红点
+           ->    关闭检测后的窗口
+           ->    save white
+           ->    load whites
+           ->    white wave(查看是否保存结果)
+     10.检测标定结果：
+           ->    segment_result
+           ->    segment_show
+     11.进入该机器人标定的文件夹/home/nubot3/nubot_ws/src/nubot/omni_vision/calib_results/3修改场地参数
+         修改文件：calibration2.m    costfcn.m 和show_calibration.m中以下参数
+				     startx =-900-100;
+                                     endx   = 900+100;
+                                     starty =-600-100;（600->400）   因为在家里场地小，所以从600改为400
+                                     endy   = 600+100;（600->400）
+                                   
+                                     fieldwidth =  1200 ;(1200->800)
+                                     fieldlength = 1800 ;
+         修改文件calibration2.m 中fip=fopen('../errortable.bin','rb')->fip=fopen('errortable.bin','rb')
+         注意：costfcn.m文件中无fieldwidth =  1200 ;(1200->800)
+                               fieldlength = 1800 ;
+     12.将/home/nubot3/nubot_ws/src/nubot/omni_vision/calib_results中的Diff_X.bin，Diff_Y.bin和errortable.bin文件以及该机器人修改后的标定文件夹中(各机器人的文件夹)，再将文件夹拷至Matlab软件，运行calibration2.m文件（大约10分钟），获得距离标定结果（大致红色场地图形）
+     13.将生成文件mirror_calib.xml拷贝至机器人/home/nubot3/nubot_ws/src/nubot/omni_vision/calib_results/3中，运行coach检测实际效果
+     14.标定完成
+
+   **注意：常见故障：运行rosrun color_segment color_segment_node报错
+      
+           解决方法：分辨率错误，运行桌面上的1.sh文件。
+   **注意：如有错误，请告知，进行修改，谢谢！
+
+   **注意：此文档由程球编写，姚伟嘉增加了部分内容。 ---2016年3月2日

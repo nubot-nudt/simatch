@@ -1,0 +1,15 @@
+<!--
+ <include file="$(find world_model)/launch/world_model.launch"> </include>
+-->
+
+<launch>
+  <include file="$(find omni_vision)/launch/omni_vision.launch"> </include>
+  <include file="$(find front_vision)/launch/front_vision.launch"> </include>
+
+  <include file="$(find world_model)/launch/world_model.launch"> </include>
+
+
+  <include file="$(find nubot_hwcontroller)/launch/nubot_hwcontroller.launch"> </include> 
+
+  <include file="$(find nubot_control)/launch/nubot_control.launch"> </include>
+</launch>

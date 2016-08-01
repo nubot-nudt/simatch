@@ -1,0 +1,6 @@
+
+<launch>
+	<env name="AGENT" value="0" />
+  <node name="nubot_coach_magenta" pkg="nubot_coach" type="magenta_coach.sh"/>
+</launch>
+

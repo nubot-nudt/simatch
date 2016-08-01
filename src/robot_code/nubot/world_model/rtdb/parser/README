@@ -1,0 +1,68 @@
+/****************************************************************
+*@Program: xrtdb -> Cambada soccer robots configuration files	*
+*		automatic generator				*
+*@Authors: Tiago Nunes Mec 37161				*
+*	   Milton Gregório Mec 36275				*
+*	   David Ferreira Mec 36129				*
+*@Year: 2007							*
+*@Univ: Universidade de Aveiro					*
+*@File: README							*
+*@Description: Readme file of the xrtdb program with info about	*
+*		it						*
+*****************************************************************/
+
+#> O nosso programa é composto pelos ficheiros:
+
+	-> Makefile
+	-> xrtdb.lex
+        -> xrtdb.y
+	-> rtdb_errors.c
+	-> rtdb_errors.h
+	-> rtdb_structs.h
+	-> rtdb_configuration.h
+	-> rtdb_ini_creator.c
+	-> rtdb_ini_creator.h
+	-> rtdb_user_creator.c
+	-> rtdb_user_creator.h
+	-> rtdb_functions.c
+	-> rtdb_functions.h
+	-> README
+
+	-> Os ficheiros rtdb-C.conf e rtdb_types.h são apenas incluídos para o programa poder ser testado.
+
+#> Antes de compilar o programa leia o ficheiro rtdb_configuration.h e defina os campos necessários:
+
+	-> STRUCTPREFIX foi incluído porque para fazer o sizeof() dos datatypes definidos nos items é necessário incluir struct antes caso seja uma estrutura ou class caso seja uma class em c++, e isso pode vir definido no ficheiro de configuração rtdb.conf ou ser acrescentado pela função getSizeOf() se for definido aqui.
+	
+	-> DEBUG é uma flag boleana inteira que define se o programa é compilado em modo de Debugging, de modo a que imprima no ecrã informações detalhadas à medida que vai trabalhando ou se apenas cria os ficheiros sem qualquer tipo de output para o utilizador, tirando o estritamente necessário.
+
+	-> DEBUGSIZEOF é uma flag booleana inteira que define se o programa é compilado de forma a que a função getSizeOf() pare após a geração de cada um dos ficheiros temporários e pergunte ao utilizador se os deseja visualizar, compilar e seguir o programa ou abortar.
+	   Como impõe imensas paragens ao programa é definida independemente do modo de Debugging normal.
+
+	-> CFLAGS são as flags usadas para compilar os ficheiros temporários que a função getSizeOf() gera.
+
+	-> Todos os outros campos são óbvios e estão comentados com uma descrição
+
+#> O programa é bastante modular e permite a definição de mensagens de erro personalizadas geradas durante a interpretação do ficheiro de entrada. Basta para isso editar o ficheiro rtdb_errors.h
+
+#> Sempre que ocorre um erro na interpretação do ficheiro de entrada é gerada uma mensagem de erro com a linha do ficheiro em questão e uma descrição do erro.
+
+#> Se algum dos ficheiros rtdb.ini ou rtdb_user.h existir e o programa for executado, o utilizador tem que autorizar a sua substituição.
+
+#> Para compilar o programa basta executar o comando make na pasta do programa
+#> Estão também disponíveis o comandos make clean, que limpa todos os ficheiros objecto (ficheiro.o) criados durante a compilação e os ficheiros xrtdb.c, xrtdb.y, xrtdb.tab.h e xrtdb.tab.c, e o comando make clean-all, que além de apagar tudo o que apaga o make clean, apaga também o executável gerado (xrtdb)
+
+#> Para correr o programa após uma compilação com sucesso basta executar xrtdb nome_fich em que nome_fich é o ficheiro de configuração com uma sintaxe que respeite a do rtdb-C.conf
+
+#> Resta adicionar que na sintaxe do ficheiro de entrada rtdb.conf são aceites:
+
+	-> Comentários em qualquer sitio desde que sejam até ao fim da linha.
+	-> A única imposição na ordem das declarações é a de que os agentes já estejam declarados aquando da declaração dos assignments que os incluem e que os items já estejam declarados aquando da declaração dos esquemas que os incluem.
+	-> Dentro dos items, esquemas e assignments a ordem dos campos é indiferente.
+	-> Pode haver várias listas de agentes em cada assignment.
+	-> Pode haver várias listas de items partilhados e locais em cada item.
+	-> Se for definido um esquema com o mesmo nome mais que uma vez, na 2ª ele adiciona os items às listas do 1º, logo pode haver esquemas com o mesmo nome, que na verdade são o mesmo esquema.
+	-> Items adicionados mais que uma vez às listas de items partilhados ou locais de um esquema são ignorados.
+	-> Agentes adicionados mais que uma vez à lista de agentes de um assignment também são ignorados. 
+
+/* EOF: README */
