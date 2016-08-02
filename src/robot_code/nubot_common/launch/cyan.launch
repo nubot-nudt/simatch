@@ -1,0 +1,4 @@
+<launch>
+  <node name="nubot_common" pkg="nubot_common" type="cyan_robot.sh"/>
+</launch>
+

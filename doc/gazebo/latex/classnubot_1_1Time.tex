@@ -1,0 +1,365 @@
+\hypertarget{classnubot_1_1Time}{\section{nubot\-:\-:Time Class Reference}
+\label{classnubot_1_1Time}\index{nubot\-::\-Time@{nubot\-::\-Time}}
+}
+
+
+{\ttfamily \#include $<$time.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classnubot_1_1Time_a07a2c5b5f50e5c39040607dffdca8cf2}{Time} ()  throw ()
+\begin{DoxyCompactList}\small\item\em various constructors; \end{DoxyCompactList}\item 
+\hyperlink{classnubot_1_1Time_a87fe1767a6370743c81d231657fa4870}{Time} (const \hyperlink{classnubot_1_1Time}{Time} \&)  throw ()
+\item 
+\hyperlink{classnubot_1_1Time_a3a4bed39dc118c114affb9f362688493}{Time} (const timeval \&)  throw ()
+\item 
+const \hyperlink{classnubot_1_1Time}{Time} \& \hyperlink{classnubot_1_1Time_aea48b98944334733eda2ed3b794174c6}{operator=} (const \hyperlink{classnubot_1_1Time}{Time} \&)  throw ()
+\item 
+long int \hyperlink{classnubot_1_1Time_a4f721a09b093abfa55692dbb24183d7b}{get\-\_\-usec} () const   throw ()
+\begin{DoxyCompactList}\small\item\em get the microsecond ; \end{DoxyCompactList}\item 
+long int \hyperlink{classnubot_1_1Time_ab10504cd0ac88562f55f12b9821eac3c}{get\-\_\-msec} () const   throw ()
+\begin{DoxyCompactList}\small\item\em get the millisecond ; \end{DoxyCompactList}\item 
+long int \hyperlink{classnubot_1_1Time_a6720ffaa75761d96fe911789a24ee1d3}{get\-\_\-sec} () const   throw ()
+\begin{DoxyCompactList}\small\item\em get the second ; \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1Time_a0f45a32999f8bbf3a73ae3f0fbdf6bf4}{set\-\_\-usec} (const long int \&)  throw ()
+\begin{DoxyCompactList}\small\item\em set the microsecond ; \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1Time_a5fc4acf109f37af9772378a6d5e86d23}{set\-\_\-msec} (const long int \&)  throw ()
+\begin{DoxyCompactList}\small\item\em set the millisecond ; \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1Time_af52b25621c50caa9a2c4419f7a695577}{set\-\_\-sec} (const long int \&)  throw ()
+\begin{DoxyCompactList}\small\item\em set the second ; \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1Time_a2862404f9f2ca3f14b6b0a58d8540f75}{update} ()  throw ()
+\begin{DoxyCompactList}\small\item\em update the time ; \end{DoxyCompactList}\item 
+long int \hyperlink{classnubot_1_1Time_ab6bf73273c4ef7b45017ea9104909039}{elapsed\-\_\-usec} () const   throw ()
+\begin{DoxyCompactList}\small\item\em elapse microseconds ; \end{DoxyCompactList}\item 
+long int \hyperlink{classnubot_1_1Time_a518f8fd951b312c03bd9f725946e5fd1}{elapsed\-\_\-msec} () const   throw ()
+\begin{DoxyCompactList}\small\item\em elapse milliseconds ; \end{DoxyCompactList}\item 
+long int \hyperlink{classnubot_1_1Time_af40877857ced8437a7828188bc22e884}{elapsed\-\_\-sec} () const   throw ()
+\begin{DoxyCompactList}\small\item\em elapse second ; \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1Time_a13a0b0af1dc127c67f2533df6827a5fd}{add\-\_\-usec} (long int)  throw ()
+\begin{DoxyCompactList}\small\item\em add the microseconds ; \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1Time_a5ebb3c5af685232553a0082917df7fa2}{add\-\_\-msec} (long int)  throw ()
+\begin{DoxyCompactList}\small\item\em add the milliseconds ; \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1Time_ad8378fc95552047a2bf8cf84fda57822}{add\-\_\-sec} (long int)  throw ()
+\begin{DoxyCompactList}\small\item\em add the second ; \end{DoxyCompactList}\item 
+long int \hyperlink{classnubot_1_1Time_ac1d4a23ba198272c24e22375754a0309}{diff\-\_\-usec} (const \hyperlink{classnubot_1_1Time}{Time} \&) const   throw ()
+\begin{DoxyCompactList}\small\item\em the difference between the different time; \end{DoxyCompactList}\item 
+long int \hyperlink{classnubot_1_1Time_a37f7fa2e286c1bff7ad8cabb767b151a}{diff\-\_\-msec} (const \hyperlink{classnubot_1_1Time}{Time} \&) const   throw ()
+\item 
+long int \hyperlink{classnubot_1_1Time_abdd3b9c043054674c9e1c8630bb3cc8c}{diff\-\_\-sec} (const \hyperlink{classnubot_1_1Time}{Time} \&) const   throw ()
+\item 
+bool \hyperlink{classnubot_1_1Time_a67cccd0ef45f417708e39aba6c8445ce}{operator==} (const \hyperlink{classnubot_1_1Time}{Time} \&) const   throw ()
+\item 
+bool \hyperlink{classnubot_1_1Time_a0b4b0ee6ebbaa62cf5c48943a8e853a6}{operator!=} (const \hyperlink{classnubot_1_1Time}{Time} \&) const   throw ()
+\item 
+bool \hyperlink{classnubot_1_1Time_aff915527aeab60210d8340a22d611d23}{operator$<$=} (const \hyperlink{classnubot_1_1Time}{Time} \&) const   throw ()
+\item 
+bool \hyperlink{classnubot_1_1Time_af122ee2cf5e5bf2ea75e72576cab432d}{operator$<$} (const \hyperlink{classnubot_1_1Time}{Time} \&) const   throw ()
+\item 
+bool \hyperlink{classnubot_1_1Time_a02e43a52ecefa9cc92cbc14afafa4645}{operator$>$=} (const \hyperlink{classnubot_1_1Time}{Time} \&) const   throw ()
+\item 
+bool \hyperlink{classnubot_1_1Time_afb6d4caba887fed70dfb2f24e1487433}{operator$>$} (const \hyperlink{classnubot_1_1Time}{Time} \&) const   throw ()
+\item 
+void \hyperlink{classnubot_1_1Time_a8b713039c7f3bd1af4f608a83dc90b81}{set} (const timeval \&)  throw ()
+\begin{DoxyCompactList}\small\item\em set the time ; \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1Time_ae682f50758a8a360073affc7db02ac9b}{get} (timeval \&) const   throw ()
+\begin{DoxyCompactList}\small\item\em get the time ; \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+long int \hyperlink{classnubot_1_1Time_a6ce0787728d8f9dd277f4e47a4af2b69}{sec}
+\item 
+long int \hyperlink{classnubot_1_1Time_a87ec2fe1deff7bc3b427d06e92925771}{usec}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const \hyperlink{classnubot_1_1Time}{Time} \hyperlink{classnubot_1_1Time_ac0e71e86ad24be3368dc7eb38cfd6456}{starting\-\_\-time}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classnubot_1_1Time_a07a2c5b5f50e5c39040607dffdca8cf2}{\index{nubot\-::\-Time@{nubot\-::\-Time}!Time@{Time}}
+\index{Time@{Time}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{Time}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-::\-Time\-::\-Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a07a2c5b5f50e5c39040607dffdca8cf2}
+
+
+various constructors; 
+
+\hypertarget{classnubot_1_1Time_a87fe1767a6370743c81d231657fa4870}{\index{nubot\-::\-Time@{nubot\-::\-Time}!Time@{Time}}
+\index{Time@{Time}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{Time}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-::\-Time\-::\-Time (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a87fe1767a6370743c81d231657fa4870}
+\hypertarget{classnubot_1_1Time_a3a4bed39dc118c114affb9f362688493}{\index{nubot\-::\-Time@{nubot\-::\-Time}!Time@{Time}}
+\index{Time@{Time}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{Time}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-::\-Time\-::\-Time (
+\begin{DoxyParamCaption}
+\item[{const timeval \&}]{tv}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a3a4bed39dc118c114affb9f362688493}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classnubot_1_1Time_a5ebb3c5af685232553a0082917df7fa2}{\index{nubot\-::\-Time@{nubot\-::\-Time}!add\-\_\-msec@{add\-\_\-msec}}
+\index{add\-\_\-msec@{add\-\_\-msec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{add\-\_\-msec}]{\setlength{\rightskip}{0pt plus 5cm}void nubot\-::\-Time\-::add\-\_\-msec (
+\begin{DoxyParamCaption}
+\item[{long int}]{n}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a5ebb3c5af685232553a0082917df7fa2}
+
+
+add the milliseconds ; 
+
+\hypertarget{classnubot_1_1Time_ad8378fc95552047a2bf8cf84fda57822}{\index{nubot\-::\-Time@{nubot\-::\-Time}!add\-\_\-sec@{add\-\_\-sec}}
+\index{add\-\_\-sec@{add\-\_\-sec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{add\-\_\-sec}]{\setlength{\rightskip}{0pt plus 5cm}void nubot\-::\-Time\-::add\-\_\-sec (
+\begin{DoxyParamCaption}
+\item[{long int}]{n}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_ad8378fc95552047a2bf8cf84fda57822}
+
+
+add the second ; 
+
+\hypertarget{classnubot_1_1Time_a13a0b0af1dc127c67f2533df6827a5fd}{\index{nubot\-::\-Time@{nubot\-::\-Time}!add\-\_\-usec@{add\-\_\-usec}}
+\index{add\-\_\-usec@{add\-\_\-usec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{add\-\_\-usec}]{\setlength{\rightskip}{0pt plus 5cm}void nubot\-::\-Time\-::add\-\_\-usec (
+\begin{DoxyParamCaption}
+\item[{long int}]{n}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a13a0b0af1dc127c67f2533df6827a5fd}
+
+
+add the microseconds ; 
+
+\hypertarget{classnubot_1_1Time_a37f7fa2e286c1bff7ad8cabb767b151a}{\index{nubot\-::\-Time@{nubot\-::\-Time}!diff\-\_\-msec@{diff\-\_\-msec}}
+\index{diff\-\_\-msec@{diff\-\_\-msec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{diff\-\_\-msec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::diff\-\_\-msec (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a37f7fa2e286c1bff7ad8cabb767b151a}
+\hypertarget{classnubot_1_1Time_abdd3b9c043054674c9e1c8630bb3cc8c}{\index{nubot\-::\-Time@{nubot\-::\-Time}!diff\-\_\-sec@{diff\-\_\-sec}}
+\index{diff\-\_\-sec@{diff\-\_\-sec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{diff\-\_\-sec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::diff\-\_\-sec (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_abdd3b9c043054674c9e1c8630bb3cc8c}
+\hypertarget{classnubot_1_1Time_ac1d4a23ba198272c24e22375754a0309}{\index{nubot\-::\-Time@{nubot\-::\-Time}!diff\-\_\-usec@{diff\-\_\-usec}}
+\index{diff\-\_\-usec@{diff\-\_\-usec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{diff\-\_\-usec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::diff\-\_\-usec (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_ac1d4a23ba198272c24e22375754a0309}
+
+
+the difference between the different time; 
+
+\hypertarget{classnubot_1_1Time_a518f8fd951b312c03bd9f725946e5fd1}{\index{nubot\-::\-Time@{nubot\-::\-Time}!elapsed\-\_\-msec@{elapsed\-\_\-msec}}
+\index{elapsed\-\_\-msec@{elapsed\-\_\-msec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{elapsed\-\_\-msec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::elapsed\-\_\-msec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a518f8fd951b312c03bd9f725946e5fd1}
+
+
+elapse milliseconds ; 
+
+\hypertarget{classnubot_1_1Time_af40877857ced8437a7828188bc22e884}{\index{nubot\-::\-Time@{nubot\-::\-Time}!elapsed\-\_\-sec@{elapsed\-\_\-sec}}
+\index{elapsed\-\_\-sec@{elapsed\-\_\-sec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{elapsed\-\_\-sec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::elapsed\-\_\-sec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_af40877857ced8437a7828188bc22e884}
+
+
+elapse second ; 
+
+\hypertarget{classnubot_1_1Time_ab6bf73273c4ef7b45017ea9104909039}{\index{nubot\-::\-Time@{nubot\-::\-Time}!elapsed\-\_\-usec@{elapsed\-\_\-usec}}
+\index{elapsed\-\_\-usec@{elapsed\-\_\-usec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{elapsed\-\_\-usec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::elapsed\-\_\-usec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_ab6bf73273c4ef7b45017ea9104909039}
+
+
+elapse microseconds ; 
+
+\hypertarget{classnubot_1_1Time_ae682f50758a8a360073affc7db02ac9b}{\index{nubot\-::\-Time@{nubot\-::\-Time}!get@{get}}
+\index{get@{get}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}void nubot\-::\-Time\-::get (
+\begin{DoxyParamCaption}
+\item[{timeval \&}]{tv}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_ae682f50758a8a360073affc7db02ac9b}
+
+
+get the time ; 
+
+\hypertarget{classnubot_1_1Time_ab10504cd0ac88562f55f12b9821eac3c}{\index{nubot\-::\-Time@{nubot\-::\-Time}!get\-\_\-msec@{get\-\_\-msec}}
+\index{get\-\_\-msec@{get\-\_\-msec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{get\-\_\-msec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::get\-\_\-msec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) }}\label{classnubot_1_1Time_ab10504cd0ac88562f55f12b9821eac3c}
+
+
+get the millisecond ; 
+
+\hypertarget{classnubot_1_1Time_a6720ffaa75761d96fe911789a24ee1d3}{\index{nubot\-::\-Time@{nubot\-::\-Time}!get\-\_\-sec@{get\-\_\-sec}}
+\index{get\-\_\-sec@{get\-\_\-sec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{get\-\_\-sec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::get\-\_\-sec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) }}\label{classnubot_1_1Time_a6720ffaa75761d96fe911789a24ee1d3}
+
+
+get the second ; 
+
+\hypertarget{classnubot_1_1Time_a4f721a09b093abfa55692dbb24183d7b}{\index{nubot\-::\-Time@{nubot\-::\-Time}!get\-\_\-usec@{get\-\_\-usec}}
+\index{get\-\_\-usec@{get\-\_\-usec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{get\-\_\-usec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::get\-\_\-usec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) }}\label{classnubot_1_1Time_a4f721a09b093abfa55692dbb24183d7b}
+
+
+get the microsecond ; 
+
+\hypertarget{classnubot_1_1Time_a0b4b0ee6ebbaa62cf5c48943a8e853a6}{\index{nubot\-::\-Time@{nubot\-::\-Time}!operator!=@{operator!=}}
+\index{operator!=@{operator!=}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{operator!=}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Time\-::operator!= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a0b4b0ee6ebbaa62cf5c48943a8e853a6}
+\hypertarget{classnubot_1_1Time_af122ee2cf5e5bf2ea75e72576cab432d}{\index{nubot\-::\-Time@{nubot\-::\-Time}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{operator$<$}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Time\-::operator$<$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_af122ee2cf5e5bf2ea75e72576cab432d}
+\hypertarget{classnubot_1_1Time_aff915527aeab60210d8340a22d611d23}{\index{nubot\-::\-Time@{nubot\-::\-Time}!operator$<$=@{operator$<$=}}
+\index{operator$<$=@{operator$<$=}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{operator$<$=}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Time\-::operator$<$= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_aff915527aeab60210d8340a22d611d23}
+\hypertarget{classnubot_1_1Time_aea48b98944334733eda2ed3b794174c6}{\index{nubot\-::\-Time@{nubot\-::\-Time}!operator=@{operator=}}
+\index{operator=@{operator=}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf nubot\-::\-Time} \& nubot\-::\-Time\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_aea48b98944334733eda2ed3b794174c6}
+\hypertarget{classnubot_1_1Time_a67cccd0ef45f417708e39aba6c8445ce}{\index{nubot\-::\-Time@{nubot\-::\-Time}!operator==@{operator==}}
+\index{operator==@{operator==}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Time\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a67cccd0ef45f417708e39aba6c8445ce}
+\hypertarget{classnubot_1_1Time_afb6d4caba887fed70dfb2f24e1487433}{\index{nubot\-::\-Time@{nubot\-::\-Time}!operator$>$@{operator$>$}}
+\index{operator$>$@{operator$>$}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{operator$>$}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Time\-::operator$>$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_afb6d4caba887fed70dfb2f24e1487433}
+\hypertarget{classnubot_1_1Time_a02e43a52ecefa9cc92cbc14afafa4645}{\index{nubot\-::\-Time@{nubot\-::\-Time}!operator$>$=@{operator$>$=}}
+\index{operator$>$=@{operator$>$=}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{operator$>$=}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Time\-::operator$>$= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Time} \&}]{src}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a02e43a52ecefa9cc92cbc14afafa4645}
+\hypertarget{classnubot_1_1Time_a8b713039c7f3bd1af4f608a83dc90b81}{\index{nubot\-::\-Time@{nubot\-::\-Time}!set@{set}}
+\index{set@{set}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void nubot\-::\-Time\-::set (
+\begin{DoxyParamCaption}
+\item[{const timeval \&}]{tv}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a8b713039c7f3bd1af4f608a83dc90b81}
+
+
+set the time ; 
+
+\hypertarget{classnubot_1_1Time_a5fc4acf109f37af9772378a6d5e86d23}{\index{nubot\-::\-Time@{nubot\-::\-Time}!set\-\_\-msec@{set\-\_\-msec}}
+\index{set\-\_\-msec@{set\-\_\-msec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{set\-\_\-msec}]{\setlength{\rightskip}{0pt plus 5cm}void nubot\-::\-Time\-::set\-\_\-msec (
+\begin{DoxyParamCaption}
+\item[{const long int \&}]{}
+\end{DoxyParamCaption}
+) throw  ) }}\label{classnubot_1_1Time_a5fc4acf109f37af9772378a6d5e86d23}
+
+
+set the millisecond ; 
+
+\hypertarget{classnubot_1_1Time_af52b25621c50caa9a2c4419f7a695577}{\index{nubot\-::\-Time@{nubot\-::\-Time}!set\-\_\-sec@{set\-\_\-sec}}
+\index{set\-\_\-sec@{set\-\_\-sec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{set\-\_\-sec}]{\setlength{\rightskip}{0pt plus 5cm}void nubot\-::\-Time\-::set\-\_\-sec (
+\begin{DoxyParamCaption}
+\item[{const long int \&}]{}
+\end{DoxyParamCaption}
+) throw  ) }}\label{classnubot_1_1Time_af52b25621c50caa9a2c4419f7a695577}
+
+
+set the second ; 
+
+\hypertarget{classnubot_1_1Time_a0f45a32999f8bbf3a73ae3f0fbdf6bf4}{\index{nubot\-::\-Time@{nubot\-::\-Time}!set\-\_\-usec@{set\-\_\-usec}}
+\index{set\-\_\-usec@{set\-\_\-usec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{set\-\_\-usec}]{\setlength{\rightskip}{0pt plus 5cm}void nubot\-::\-Time\-::set\-\_\-usec (
+\begin{DoxyParamCaption}
+\item[{const long int \&}]{}
+\end{DoxyParamCaption}
+) throw  ) }}\label{classnubot_1_1Time_a0f45a32999f8bbf3a73ae3f0fbdf6bf4}
+
+
+set the microsecond ; 
+
+\hypertarget{classnubot_1_1Time_a2862404f9f2ca3f14b6b0a58d8540f75}{\index{nubot\-::\-Time@{nubot\-::\-Time}!update@{update}}
+\index{update@{update}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}void nubot\-::\-Time\-::update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Time_a2862404f9f2ca3f14b6b0a58d8540f75}
+
+
+update the time ; 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classnubot_1_1Time_a6ce0787728d8f9dd277f4e47a4af2b69}{\index{nubot\-::\-Time@{nubot\-::\-Time}!sec@{sec}}
+\index{sec@{sec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{sec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::sec}}\label{classnubot_1_1Time_a6ce0787728d8f9dd277f4e47a4af2b69}
+\hypertarget{classnubot_1_1Time_ac0e71e86ad24be3368dc7eb38cfd6456}{\index{nubot\-::\-Time@{nubot\-::\-Time}!starting\-\_\-time@{starting\-\_\-time}}
+\index{starting\-\_\-time@{starting\-\_\-time}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{starting\-\_\-time}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Time} nubot\-::\-Time\-::starting\-\_\-time\hspace{0.3cm}{\ttfamily [static]}}}\label{classnubot_1_1Time_ac0e71e86ad24be3368dc7eb38cfd6456}
+\hypertarget{classnubot_1_1Time_a87ec2fe1deff7bc3b427d06e92925771}{\index{nubot\-::\-Time@{nubot\-::\-Time}!usec@{usec}}
+\index{usec@{usec}!nubot::Time@{nubot\-::\-Time}}
+\subsubsection[{usec}]{\setlength{\rightskip}{0pt plus 5cm}long int nubot\-::\-Time\-::usec}}\label{classnubot_1_1Time_a87ec2fe1deff7bc3b427d06e92925771}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/nubot\-\_\-common/core/include/nubot/core/\hyperlink{time_8hpp}{time.\-hpp}\end{DoxyCompactItemize}

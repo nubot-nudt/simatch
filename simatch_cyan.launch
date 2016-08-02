@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find nubot_gazebo)/launch/game_ready.launch"> </include>
+  <node name="cyan_robot" pkg="nubot_common" type="cyan_robot.sh"/>
+  <node name="cyan_coach" pkg="coach4sim" type="cyan_coach.sh"/>
+</launch>

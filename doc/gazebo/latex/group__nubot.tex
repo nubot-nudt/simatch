@@ -1,0 +1,343 @@
+\hypertarget{group__nubot}{\section{Nubot}
+\label{group__nubot}\index{Nubot@{Nubot}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classnubot_1_1para__traj__planning}{nubot\-::para\-\_\-traj\-\_\-planning}
+\begin{DoxyCompactList}\small\item\em trajectory planning for parabolic curve transition. The trajectory consists of 3 part\-: two parabolic curve in the beginning and in the end; a straight line in the middle. This trajectory avoids the infinite acceleration at the beginning and at the end if just sepcify straight line trajectory \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group__nubot_ga1300969c1d26ae23945d2ac1bc428a96}{nubot\-::para\-\_\-traj\-\_\-planning\-::para\-\_\-traj\-\_\-planning} (double \-\_\-accel=0.\-0, double \-\_\-max\-\_\-vel=0.\-0, double \-\_\-distance=0.\-0)
+\begin{DoxyCompactList}\small\item\em Constructor. Initialize \hyperlink{classnubot_1_1para__traj__planning}{para\-\_\-traj\-\_\-planning} params. \end{DoxyCompactList}\item 
+virtual \hyperlink{group__nubot_gac091cb7cbef52a262db8952f52dc717d}{nubot\-::para\-\_\-traj\-\_\-planning\-::$\sim$para\-\_\-traj\-\_\-planning} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{group__nubot_ga18420bf66ac499e432718b9c6faab5b2}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Init} (double \-\_\-accel=0.\-0, double \-\_\-max\-\_\-vel=0.\-0, double \-\_\-distance=0.\-0)
+\begin{DoxyCompactList}\small\item\em Initialize \hyperlink{classnubot_1_1para__traj__planning}{para\-\_\-traj\-\_\-planning} params. \end{DoxyCompactList}\item 
+void \hyperlink{group__nubot_gacacb310a853b8045c860fd4735610b70}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Set\-Accel} (double \-\_\-accel)
+\begin{DoxyCompactList}\small\item\em Set the constant acceleration for the parabolic curve. \end{DoxyCompactList}\item 
+void \hyperlink{group__nubot_ga52da7443d436abac47ea0a84fb734032}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Set\-Distance} (double \-\_\-distance)
+\begin{DoxyCompactList}\small\item\em Set distance about to travel. \end{DoxyCompactList}\item 
+void \hyperlink{group__nubot_gae85df349fd73029b13b60ca13a60c37d}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Set\-Max\-Vel} (double \-\_\-vel)
+\begin{DoxyCompactList}\small\item\em Set the maximum velocity. \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_gaec43c0428c311568c6369d02e12795e8}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Get\-Accel} () const 
+\begin{DoxyCompactList}\small\item\em Get the constant acceleration. \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_gadca3092bc6cfe64f2b7fb09dd66c50c9}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Get\-Distance} () const 
+\begin{DoxyCompactList}\small\item\em Get distance about to travel. \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_ga8c5b225529f70ba36617a81b38f2da61}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Get\-Max\-Vel} () const 
+\begin{DoxyCompactList}\small\item\em Get the maximum velocity or the velocity of the straight line part. \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_ga444ae4938bb69327f99d293fb08b3d4d}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Vel\-Update} (double \-\_\-dt)
+\begin{DoxyCompactList}\small\item\em Get velocity of the trajectory. \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_gae67aeaf943c7db5c12b18ec4d915247b}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Disp\-Update} (double \-\_\-dt)
+\begin{DoxyCompactList}\small\item\em Get displacement of the trajectory. \end{DoxyCompactList}\item 
+para\-\_\-traj\-\_\-planning \& \hyperlink{group__nubot_ga8b1a8820091ff8bb12801171ef10d9f2}{nubot\-::para\-\_\-traj\-\_\-planning\-::operator=} (const para\-\_\-traj\-\_\-planning \&\-\_\-p)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+void \hyperlink{group__nubot_gaeb7b8fa44365f9b6e81a24214d2556a4}{nubot\-::para\-\_\-traj\-\_\-planning\-::\-Reset} ()
+\begin{DoxyCompactList}\small\item\em Reset all the params, output\-\_\-vel\-\_\- and output\-\_\-disp\-\_\-;. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{group__nubot_gac2f88068a317316a2e483be7d75a71b8}{nubot\-::para\-\_\-traj\-\_\-planning\-::acceleration\-\_\-}
+\begin{DoxyCompactList}\small\item\em constant acceleration of the parabolic curve. \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_ga6115be17c446c1a2437b5575baf3f5a8}{nubot\-::para\-\_\-traj\-\_\-planning\-::distance\-\_\-}
+\begin{DoxyCompactList}\small\item\em total distance to travel \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_ga1ae8b889bdbb7716e9fbb5821328e4d1}{nubot\-::para\-\_\-traj\-\_\-planning\-::max\-\_\-vel\-\_\-}
+\begin{DoxyCompactList}\small\item\em maximum velocity; the const velocity of the stragight line trajectory \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_ga06fe0c4fbd1afaa2a33672a85705410a}{nubot\-::para\-\_\-traj\-\_\-planning\-::time\-\_\-}
+\begin{DoxyCompactList}\small\item\em total time starting from 0 \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_gae57f0165c2b073b880bf4827bdd76204}{nubot\-::para\-\_\-traj\-\_\-planning\-::output\-\_\-vel\-\_\-}
+\begin{DoxyCompactList}\small\item\em output velocity of the trajectory \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_ga9095bac66ff724f1b9b9c366546f2b36}{nubot\-::para\-\_\-traj\-\_\-planning\-::output\-\_\-disp\-\_\-}
+\begin{DoxyCompactList}\small\item\em output displacement of the trajectory \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_ga89b8a9abfcb47b34ac861127fe26b8ca}{nubot\-::para\-\_\-traj\-\_\-planning\-::t\-\_\-b\-\_\-}
+\begin{DoxyCompactList}\small\item\em end time of the first parabolic curve \end{DoxyCompactList}\item 
+double \hyperlink{group__nubot_ga9c93d92b950dcb6f34b3c3b843aad823}{nubot\-::para\-\_\-traj\-\_\-planning\-::t\-\_\-f\-\_\-}
+\begin{DoxyCompactList}\small\item\em end time of the trajectory \end{DoxyCompactList}\item 
+bool \hyperlink{group__nubot_ga84667362f94667e70f1cf67829645a7d}{nubot\-::para\-\_\-traj\-\_\-planning\-::is\-\_\-straight\-\_\-line\-\_\-}
+\begin{DoxyCompactList}\small\item\em flag to indicate if there is a straight line part \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__nubot_gae67aeaf943c7db5c12b18ec4d915247b}{\index{Nubot@{Nubot}!Disp\-Update@{Disp\-Update}}
+\index{Disp\-Update@{Disp\-Update}!Nubot@{Nubot}}
+\subsubsection[{Disp\-Update}]{\setlength{\rightskip}{0pt plus 5cm}double para\-\_\-traj\-\_\-planning\-::\-Disp\-Update (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-dt}
+\end{DoxyParamCaption}
+)}}\label{group__nubot_gae67aeaf943c7db5c12b18ec4d915247b}
+
+
+Get displacement of the trajectory. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-dt} & Change in time since last update call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the displacemet 
+\end{DoxyReturn}
+\hypertarget{group__nubot_gaec43c0428c311568c6369d02e12795e8}{\index{Nubot@{Nubot}!Get\-Accel@{Get\-Accel}}
+\index{Get\-Accel@{Get\-Accel}!Nubot@{Nubot}}
+\subsubsection[{Get\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}double para\-\_\-traj\-\_\-planning\-::\-Get\-Accel (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__nubot_gaec43c0428c311568c6369d02e12795e8}
+
+
+Get the constant acceleration. 
+
+\begin{DoxyReturn}{Returns}
+The constant acceleration 
+\end{DoxyReturn}
+\hypertarget{group__nubot_gadca3092bc6cfe64f2b7fb09dd66c50c9}{\index{Nubot@{Nubot}!Get\-Distance@{Get\-Distance}}
+\index{Get\-Distance@{Get\-Distance}!Nubot@{Nubot}}
+\subsubsection[{Get\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}double para\-\_\-traj\-\_\-planning\-::\-Get\-Distance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__nubot_gadca3092bc6cfe64f2b7fb09dd66c50c9}
+
+
+Get distance about to travel. 
+
+\begin{DoxyReturn}{Returns}
+The distance 
+\end{DoxyReturn}
+\hypertarget{group__nubot_ga8c5b225529f70ba36617a81b38f2da61}{\index{Nubot@{Nubot}!Get\-Max\-Vel@{Get\-Max\-Vel}}
+\index{Get\-Max\-Vel@{Get\-Max\-Vel}!Nubot@{Nubot}}
+\subsubsection[{Get\-Max\-Vel}]{\setlength{\rightskip}{0pt plus 5cm}double para\-\_\-traj\-\_\-planning\-::\-Get\-Max\-Vel (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__nubot_ga8c5b225529f70ba36617a81b38f2da61}
+
+
+Get the maximum velocity or the velocity of the straight line part. 
+
+\begin{DoxyReturn}{Returns}
+The maximum velocity 
+\end{DoxyReturn}
+\hypertarget{group__nubot_ga18420bf66ac499e432718b9c6faab5b2}{\index{Nubot@{Nubot}!Init@{Init}}
+\index{Init@{Init}!Nubot@{Nubot}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void para\-\_\-traj\-\_\-planning\-::\-Init (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-accel = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-max\-\_\-vel = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-distance = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}}\label{group__nubot_ga18420bf66ac499e432718b9c6faab5b2}
+
+
+Initialize \hyperlink{classnubot_1_1para__traj__planning}{para\-\_\-traj\-\_\-planning} params. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-accel} & The acceleration. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-distance} & The total distance to travel. If \-\_\-distance is negative, it will changed to positive in this function. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-max\-\_\-vel} & The maximum velocity. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__nubot_ga8b1a8820091ff8bb12801171ef10d9f2}{\index{Nubot@{Nubot}!operator=@{operator=}}
+\index{operator=@{operator=}!Nubot@{Nubot}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}para\-\_\-traj\-\_\-planning\& nubot\-::para\-\_\-traj\-\_\-planning\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf para\-\_\-traj\-\_\-planning} \&}]{\-\_\-p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{group__nubot_ga8b1a8820091ff8bb12801171ef10d9f2}
+
+
+Assignment operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & a reference to a para\-\_\-traj\-\_\-plannining to assign values from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this instance 
+\end{DoxyReturn}
+\hypertarget{group__nubot_ga1300969c1d26ae23945d2ac1bc428a96}{\index{Nubot@{Nubot}!para\-\_\-traj\-\_\-planning@{para\-\_\-traj\-\_\-planning}}
+\index{para\-\_\-traj\-\_\-planning@{para\-\_\-traj\-\_\-planning}!Nubot@{Nubot}}
+\subsubsection[{para\-\_\-traj\-\_\-planning}]{\setlength{\rightskip}{0pt plus 5cm}para\-\_\-traj\-\_\-planning\-::para\-\_\-traj\-\_\-planning (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-accel = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-max\-\_\-vel = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-distance = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}}\label{group__nubot_ga1300969c1d26ae23945d2ac1bc428a96}
+
+
+Constructor. Initialize \hyperlink{classnubot_1_1para__traj__planning}{para\-\_\-traj\-\_\-planning} params. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-accel} & The acceleration. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-distance} & The total distance to travel. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-max\-\_\-vel} & The maximum velocity. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__nubot_gaeb7b8fa44365f9b6e81a24214d2556a4}{\index{Nubot@{Nubot}!Reset@{Reset}}
+\index{Reset@{Reset}!Nubot@{Nubot}}
+\subsubsection[{Reset}]{\setlength{\rightskip}{0pt plus 5cm}void para\-\_\-traj\-\_\-planning\-::\-Reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__nubot_gaeb7b8fa44365f9b6e81a24214d2556a4}
+
+
+Reset all the params, output\-\_\-vel\-\_\- and output\-\_\-disp\-\_\-;. 
+
+\hypertarget{group__nubot_gacacb310a853b8045c860fd4735610b70}{\index{Nubot@{Nubot}!Set\-Accel@{Set\-Accel}}
+\index{Set\-Accel@{Set\-Accel}!Nubot@{Nubot}}
+\subsubsection[{Set\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}void para\-\_\-traj\-\_\-planning\-::\-Set\-Accel (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-accel}
+\end{DoxyParamCaption}
+)}}\label{group__nubot_gacacb310a853b8045c860fd4735610b70}
+
+
+Set the constant acceleration for the parabolic curve. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-accel} & the acceleration. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__nubot_ga52da7443d436abac47ea0a84fb734032}{\index{Nubot@{Nubot}!Set\-Distance@{Set\-Distance}}
+\index{Set\-Distance@{Set\-Distance}!Nubot@{Nubot}}
+\subsubsection[{Set\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}void para\-\_\-traj\-\_\-planning\-::\-Set\-Distance (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-distance}
+\end{DoxyParamCaption}
+)}}\label{group__nubot_ga52da7443d436abac47ea0a84fb734032}
+
+
+Set distance about to travel. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-distance} & the distance \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__nubot_gae85df349fd73029b13b60ca13a60c37d}{\index{Nubot@{Nubot}!Set\-Max\-Vel@{Set\-Max\-Vel}}
+\index{Set\-Max\-Vel@{Set\-Max\-Vel}!Nubot@{Nubot}}
+\subsubsection[{Set\-Max\-Vel}]{\setlength{\rightskip}{0pt plus 5cm}void para\-\_\-traj\-\_\-planning\-::\-Set\-Max\-Vel (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-vel}
+\end{DoxyParamCaption}
+)}}\label{group__nubot_gae85df349fd73029b13b60ca13a60c37d}
+
+
+Set the maximum velocity. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-vel} & the velocity \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__nubot_ga444ae4938bb69327f99d293fb08b3d4d}{\index{Nubot@{Nubot}!Vel\-Update@{Vel\-Update}}
+\index{Vel\-Update@{Vel\-Update}!Nubot@{Nubot}}
+\subsubsection[{Vel\-Update}]{\setlength{\rightskip}{0pt plus 5cm}double para\-\_\-traj\-\_\-planning\-::\-Vel\-Update (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-dt}
+\end{DoxyParamCaption}
+)}}\label{group__nubot_ga444ae4938bb69327f99d293fb08b3d4d}
+
+
+Get velocity of the trajectory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-in\mbox{]}} & \-\_\-dt Change in time since last update call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the velocity 
+\end{DoxyReturn}
+\hypertarget{group__nubot_gac091cb7cbef52a262db8952f52dc717d}{\index{Nubot@{Nubot}!$\sim$para\-\_\-traj\-\_\-planning@{$\sim$para\-\_\-traj\-\_\-planning}}
+\index{$\sim$para\-\_\-traj\-\_\-planning@{$\sim$para\-\_\-traj\-\_\-planning}!Nubot@{Nubot}}
+\subsubsection[{$\sim$para\-\_\-traj\-\_\-planning}]{\setlength{\rightskip}{0pt plus 5cm}para\-\_\-traj\-\_\-planning\-::$\sim$para\-\_\-traj\-\_\-planning (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{group__nubot_gac091cb7cbef52a262db8952f52dc717d}
+
+
+Destructor. 
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group__nubot_gac2f88068a317316a2e483be7d75a71b8}{\index{Nubot@{Nubot}!acceleration\-\_\-@{acceleration\-\_\-}}
+\index{acceleration\-\_\-@{acceleration\-\_\-}!Nubot@{Nubot}}
+\subsubsection[{acceleration\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::para\-\_\-traj\-\_\-planning\-::acceleration\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{group__nubot_gac2f88068a317316a2e483be7d75a71b8}
+
+
+constant acceleration of the parabolic curve. 
+
+\hypertarget{group__nubot_ga6115be17c446c1a2437b5575baf3f5a8}{\index{Nubot@{Nubot}!distance\-\_\-@{distance\-\_\-}}
+\index{distance\-\_\-@{distance\-\_\-}!Nubot@{Nubot}}
+\subsubsection[{distance\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::para\-\_\-traj\-\_\-planning\-::distance\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{group__nubot_ga6115be17c446c1a2437b5575baf3f5a8}
+
+
+total distance to travel 
+
+\hypertarget{group__nubot_ga84667362f94667e70f1cf67829645a7d}{\index{Nubot@{Nubot}!is\-\_\-straight\-\_\-line\-\_\-@{is\-\_\-straight\-\_\-line\-\_\-}}
+\index{is\-\_\-straight\-\_\-line\-\_\-@{is\-\_\-straight\-\_\-line\-\_\-}!Nubot@{Nubot}}
+\subsubsection[{is\-\_\-straight\-\_\-line\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::para\-\_\-traj\-\_\-planning\-::is\-\_\-straight\-\_\-line\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{group__nubot_ga84667362f94667e70f1cf67829645a7d}
+
+
+flag to indicate if there is a straight line part 
+
+\hypertarget{group__nubot_ga1ae8b889bdbb7716e9fbb5821328e4d1}{\index{Nubot@{Nubot}!max\-\_\-vel\-\_\-@{max\-\_\-vel\-\_\-}}
+\index{max\-\_\-vel\-\_\-@{max\-\_\-vel\-\_\-}!Nubot@{Nubot}}
+\subsubsection[{max\-\_\-vel\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::para\-\_\-traj\-\_\-planning\-::max\-\_\-vel\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{group__nubot_ga1ae8b889bdbb7716e9fbb5821328e4d1}
+
+
+maximum velocity; the const velocity of the stragight line trajectory 
+
+\hypertarget{group__nubot_ga9095bac66ff724f1b9b9c366546f2b36}{\index{Nubot@{Nubot}!output\-\_\-disp\-\_\-@{output\-\_\-disp\-\_\-}}
+\index{output\-\_\-disp\-\_\-@{output\-\_\-disp\-\_\-}!Nubot@{Nubot}}
+\subsubsection[{output\-\_\-disp\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::para\-\_\-traj\-\_\-planning\-::output\-\_\-disp\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{group__nubot_ga9095bac66ff724f1b9b9c366546f2b36}
+
+
+output displacement of the trajectory 
+
+\hypertarget{group__nubot_gae57f0165c2b073b880bf4827bdd76204}{\index{Nubot@{Nubot}!output\-\_\-vel\-\_\-@{output\-\_\-vel\-\_\-}}
+\index{output\-\_\-vel\-\_\-@{output\-\_\-vel\-\_\-}!Nubot@{Nubot}}
+\subsubsection[{output\-\_\-vel\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::para\-\_\-traj\-\_\-planning\-::output\-\_\-vel\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{group__nubot_gae57f0165c2b073b880bf4827bdd76204}
+
+
+output velocity of the trajectory 
+
+\hypertarget{group__nubot_ga89b8a9abfcb47b34ac861127fe26b8ca}{\index{Nubot@{Nubot}!t\-\_\-b\-\_\-@{t\-\_\-b\-\_\-}}
+\index{t\-\_\-b\-\_\-@{t\-\_\-b\-\_\-}!Nubot@{Nubot}}
+\subsubsection[{t\-\_\-b\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::para\-\_\-traj\-\_\-planning\-::t\-\_\-b\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{group__nubot_ga89b8a9abfcb47b34ac861127fe26b8ca}
+
+
+end time of the first parabolic curve 
+
+\hypertarget{group__nubot_ga9c93d92b950dcb6f34b3c3b843aad823}{\index{Nubot@{Nubot}!t\-\_\-f\-\_\-@{t\-\_\-f\-\_\-}}
+\index{t\-\_\-f\-\_\-@{t\-\_\-f\-\_\-}!Nubot@{Nubot}}
+\subsubsection[{t\-\_\-f\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::para\-\_\-traj\-\_\-planning\-::t\-\_\-f\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{group__nubot_ga9c93d92b950dcb6f34b3c3b843aad823}
+
+
+end time of the trajectory 
+
+\hypertarget{group__nubot_ga06fe0c4fbd1afaa2a33672a85705410a}{\index{Nubot@{Nubot}!time\-\_\-@{time\-\_\-}}
+\index{time\-\_\-@{time\-\_\-}!Nubot@{Nubot}}
+\subsubsection[{time\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::para\-\_\-traj\-\_\-planning\-::time\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{group__nubot_ga06fe0c4fbd1afaa2a33672a85705410a}
+
+
+total time starting from 0 
+

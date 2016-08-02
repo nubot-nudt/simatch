@@ -1,0 +1,85 @@
+\hypertarget{nubot__gazebo_8cc}{\section{src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/nubot\-\_\-gazebo.cc File Reference}
+\label{nubot__gazebo_8cc}\index{src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/nubot\-\_\-gazebo.\-cc@{src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/nubot\-\_\-gazebo.\-cc}}
+}
+{\ttfamily \#include \char`\"{}nubot\-\_\-gazebo.\-hh\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}vector\-\_\-angle.\-hh\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{nubot__gazebo_8cc_a35f69a612b07bbf1de53bbbd8d877c09}{R\-U\-N}~-\/1
+\item 
+\#define \hyperlink{nubot__gazebo_8cc_aade79338e8a13001ae5ed198e40dd844}{F\-L\-Y}~1
+\item 
+\#define \hyperlink{nubot__gazebo_8cc_abf368acf7f42cb30dbfc340c7485ab78}{Z\-E\-R\-O\-\_\-\-V\-E\-C\-T\-O\-R}~math\-::\-Vector3\-::\-Zero
+\item 
+\#define \hyperlink{nubot__gazebo_8cc_a598a3330b3c21701223ee0ca14316eca}{P\-I}~3.\-14159265
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const math\-::\-Vector3 \hyperlink{nubot__gazebo_8cc_aab761f39571fc61afcadefe1a3e029f0}{kick\-\_\-vector\-\_\-nubot} (1, 0, 0)
+\item 
+const math\-::\-Vector3 \hyperlink{nubot__gazebo_8cc_a3ebf92156a4bdb6cbf60140d606e78b5}{right\-\_\-goal} (\hyperlink{nubot__gazebo_8cc_a2d268536aadecab5755107360056fcd4}{goal\-\_\-x}, 0.\-0, 0.\-0)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const double \hyperlink{nubot__gazebo_8cc_a2d268536aadecab5755107360056fcd4}{goal\-\_\-x} = 9.\-0
+\item 
+const double \hyperlink{nubot__gazebo_8cc_a0236cd0ee9abd10fc9cafe63b6e491fa}{goal\-\_\-height} = 1.\-0
+\item 
+const double \hyperlink{nubot__gazebo_8cc_a6e550921d5c2c78c55be1c0d76512d45}{g} = 9.\-8
+\item 
+const double \hyperlink{nubot__gazebo_8cc_a9990e99e87d163c58817550b21d35a83}{m} = 0.\-41
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{nubot__gazebo_8cc_aade79338e8a13001ae5ed198e40dd844}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!F\-L\-Y@{F\-L\-Y}}
+\index{F\-L\-Y@{F\-L\-Y}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{F\-L\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-L\-Y~1}}\label{nubot__gazebo_8cc_aade79338e8a13001ae5ed198e40dd844}
+\hypertarget{nubot__gazebo_8cc_a598a3330b3c21701223ee0ca14316eca}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!P\-I@{P\-I}}
+\index{P\-I@{P\-I}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{P\-I}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\-I~3.\-14159265}}\label{nubot__gazebo_8cc_a598a3330b3c21701223ee0ca14316eca}
+\hypertarget{nubot__gazebo_8cc_a35f69a612b07bbf1de53bbbd8d877c09}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!R\-U\-N@{R\-U\-N}}
+\index{R\-U\-N@{R\-U\-N}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{R\-U\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\-U\-N~-\/1}}\label{nubot__gazebo_8cc_a35f69a612b07bbf1de53bbbd8d877c09}
+\hypertarget{nubot__gazebo_8cc_abf368acf7f42cb30dbfc340c7485ab78}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!Z\-E\-R\-O\-\_\-\-V\-E\-C\-T\-O\-R@{Z\-E\-R\-O\-\_\-\-V\-E\-C\-T\-O\-R}}
+\index{Z\-E\-R\-O\-\_\-\-V\-E\-C\-T\-O\-R@{Z\-E\-R\-O\-\_\-\-V\-E\-C\-T\-O\-R}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{Z\-E\-R\-O\-\_\-\-V\-E\-C\-T\-O\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define Z\-E\-R\-O\-\_\-\-V\-E\-C\-T\-O\-R~math\-::\-Vector3\-::\-Zero}}\label{nubot__gazebo_8cc_abf368acf7f42cb30dbfc340c7485ab78}
+
+
+\subsection{Function Documentation}
+\hypertarget{nubot__gazebo_8cc_aab761f39571fc61afcadefe1a3e029f0}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!kick\-\_\-vector\-\_\-nubot@{kick\-\_\-vector\-\_\-nubot}}
+\index{kick\-\_\-vector\-\_\-nubot@{kick\-\_\-vector\-\_\-nubot}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{kick\-\_\-vector\-\_\-nubot}]{\setlength{\rightskip}{0pt plus 5cm}const math\-::\-Vector3 kick\-\_\-vector\-\_\-nubot (
+\begin{DoxyParamCaption}
+\item[{1}]{, }
+\item[{0}]{, }
+\item[{0}]{}
+\end{DoxyParamCaption}
+)}}\label{nubot__gazebo_8cc_aab761f39571fc61afcadefe1a3e029f0}
+\hypertarget{nubot__gazebo_8cc_a3ebf92156a4bdb6cbf60140d606e78b5}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!right\-\_\-goal@{right\-\_\-goal}}
+\index{right\-\_\-goal@{right\-\_\-goal}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{right\-\_\-goal}]{\setlength{\rightskip}{0pt plus 5cm}const math\-::\-Vector3 right\-\_\-goal (
+\begin{DoxyParamCaption}
+\item[{{\bf goal\-\_\-x}}]{, }
+\item[{0.}]{0, }
+\item[{0.}]{0}
+\end{DoxyParamCaption}
+)}}\label{nubot__gazebo_8cc_a3ebf92156a4bdb6cbf60140d606e78b5}
+
+
+\subsection{Variable Documentation}
+\hypertarget{nubot__gazebo_8cc_a6e550921d5c2c78c55be1c0d76512d45}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!g@{g}}
+\index{g@{g}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{g}]{\setlength{\rightskip}{0pt plus 5cm}const double g = 9.\-8}}\label{nubot__gazebo_8cc_a6e550921d5c2c78c55be1c0d76512d45}
+\hypertarget{nubot__gazebo_8cc_a0236cd0ee9abd10fc9cafe63b6e491fa}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!goal\-\_\-height@{goal\-\_\-height}}
+\index{goal\-\_\-height@{goal\-\_\-height}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{goal\-\_\-height}]{\setlength{\rightskip}{0pt plus 5cm}const double goal\-\_\-height = 1.\-0}}\label{nubot__gazebo_8cc_a0236cd0ee9abd10fc9cafe63b6e491fa}
+\hypertarget{nubot__gazebo_8cc_a2d268536aadecab5755107360056fcd4}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!goal\-\_\-x@{goal\-\_\-x}}
+\index{goal\-\_\-x@{goal\-\_\-x}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{goal\-\_\-x}]{\setlength{\rightskip}{0pt plus 5cm}const double goal\-\_\-x = 9.\-0}}\label{nubot__gazebo_8cc_a2d268536aadecab5755107360056fcd4}
+\hypertarget{nubot__gazebo_8cc_a9990e99e87d163c58817550b21d35a83}{\index{nubot\-\_\-gazebo.\-cc@{nubot\-\_\-gazebo.\-cc}!m@{m}}
+\index{m@{m}!nubot_gazebo.cc@{nubot\-\_\-gazebo.\-cc}}
+\subsubsection[{m}]{\setlength{\rightskip}{0pt plus 5cm}const double m = 0.\-41}}\label{nubot__gazebo_8cc_a9990e99e87d163c58817550b21d35a83}

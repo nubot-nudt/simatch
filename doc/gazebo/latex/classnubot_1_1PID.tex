@@ -1,0 +1,634 @@
+\hypertarget{classnubot_1_1PID}{\section{nubot\-:\-:P\-I\-D Class Reference}
+\label{classnubot_1_1PID}\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}}
+}
+
+
+Generic \hyperlink{classnubot_1_1PID}{P\-I\-D} controller class. Generic proportiolnal-\/integral-\/derivative controller class that keeps track of P\-I\-D-\/error states and control inputs given the state of a system and a user specified target state.  
+
+
+
+
+{\ttfamily \#include $<$nubot\-\_\-\-P\-I\-D.\-hh$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classnubot_1_1PID_ae71f7fb98fd3cd275d83dcc6ba37678e}{P\-I\-D} (double \-\_\-p=0.\-0, double \-\_\-i=0.\-0, double \-\_\-d=0.\-0, double \-\_\-imax=0.\-0, double \-\_\-imin=0.\-0, double \-\_\-cmd\-Max=0.\-0, double \-\_\-cmd\-Min=0.\-0)
+\begin{DoxyCompactList}\small\item\em Constructor, zeros out Pid values when created and initialize Pid-\/gains and integral term limits\-:\mbox{[}i\-Max\-:i\-Min\mbox{]}-\/\mbox{[}I1\-:I2\mbox{]}. \end{DoxyCompactList}\item 
+virtual \hyperlink{classnubot_1_1PID_ab7d389fc5b88d881bc25f5dafd360441}{$\sim$\-P\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_a382ce53f7a1ad7d86cbd86a25a100ec7}{Init} (double \-\_\-p=0.\-0, double \-\_\-i=0.\-0, double \-\_\-d=0.\-0, double \-\_\-imax=0.\-0, double \-\_\-imin=0.\-0, double \-\_\-cmd\-Max=0.\-0, double \-\_\-cmd\-Min=0.\-0)
+\begin{DoxyCompactList}\small\item\em Initialize P\-I\-D-\/gains and integral term limits\-:\mbox{[}i\-Max\-:i\-Min\mbox{]}-\/\mbox{[}I1\-:I2\mbox{]}. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_ae2e298baa50a7dee51d56ffe08c250a0}{Set\-P\-Gain} (double \-\_\-p)
+\begin{DoxyCompactList}\small\item\em Set the proportional Gain. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_a3787d609a4559005dcfc0d66565748aa}{Set\-I\-Gain} (double \-\_\-i)
+\begin{DoxyCompactList}\small\item\em Set the integral Gain. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_a93525f67c0152418f360074e8d6d970d}{Set\-D\-Gain} (double \-\_\-d)
+\begin{DoxyCompactList}\small\item\em Set the derivtive Gain. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_a7a605b62cd1355c137ac6e87911fc83f}{Set\-I\-Max} (double \-\_\-i)
+\begin{DoxyCompactList}\small\item\em Set the integral upper limit. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_abdfd118371fe19fcf63c56dee66892f2}{Set\-I\-Min} (double \-\_\-i)
+\begin{DoxyCompactList}\small\item\em Set the integral lower limit. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_a756b27c805adea693e9af92c767aa981}{Set\-Cmd\-Max} (double \-\_\-c)
+\begin{DoxyCompactList}\small\item\em Set the maximum value for the command. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_a2124f2b2e8d7b9b8aa1a933ac412a5d1}{Set\-Cmd\-Min} (double \-\_\-c)
+\begin{DoxyCompactList}\small\item\em Set the maximum value for the command. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a1c0443f163e53483369989c4f185b84e}{Get\-P\-Gain} () const 
+\begin{DoxyCompactList}\small\item\em Get the proportional Gain. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a9aa6fdeab746f430822c02d719a8ba7a}{Get\-I\-Gain} () const 
+\begin{DoxyCompactList}\small\item\em Get the integral Gain. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_aee309a8f184f0a2de417d24513f7e48a}{Get\-D\-Gain} () const 
+\begin{DoxyCompactList}\small\item\em Get the derivative Gain. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a49f73670f78e53265eae69338c084062}{Get\-I\-Max} () const 
+\begin{DoxyCompactList}\small\item\em Get the integral upper limit. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_ad0330647e22283f20d217b0e2d6cd420}{Get\-I\-Min} () const 
+\begin{DoxyCompactList}\small\item\em Get the integral lower limit. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a0738df8f919a587a843f23387e7f67f4}{Get\-Cmd\-Max} () const 
+\begin{DoxyCompactList}\small\item\em Get the maximum value for the command. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a64a6e969502546bc315ff69ef157269f}{Get\-Cmd\-Min} () const 
+\begin{DoxyCompactList}\small\item\em Get the maximum value for the command. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_aa1e86d60a148f38574c130538e0ea9d1}{Update} (double \-\_\-error, double dt)
+\begin{DoxyCompactList}\small\item\em Update the Pid loop with nonuniform time step size. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_ac2a48aa0f59da310078de11a776968d7}{Set\-Cmd} (double \-\_\-cmd)
+\begin{DoxyCompactList}\small\item\em Set current target command for this \hyperlink{classnubot_1_1PID}{P\-I\-D} controller. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_afcc5fde219a034baee2be82906c17996}{Get\-Cmd} ()
+\begin{DoxyCompactList}\small\item\em Return current command for this \hyperlink{classnubot_1_1PID}{P\-I\-D} controller. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_a23f7bafbad7472d8d8dce24236bf5baa}{Get\-Errors} (double \&\-\_\-pe, double \&\-\_\-ie, double \&\-\_\-de)
+\begin{DoxyCompactList}\small\item\em Return \hyperlink{classnubot_1_1PID}{P\-I\-D} error terms for the controller. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_a012fe343ac6256b82f97f6e0ce2710f7}{Get\-Terms} (double \&\-\_\-pt, double \&\-\_\-it, double \&\-\_\-dt)
+\begin{DoxyCompactList}\small\item\em Return \hyperlink{classnubot_1_1PID}{P\-I\-D} terms for the controller. \end{DoxyCompactList}\item 
+\hyperlink{classnubot_1_1PID}{P\-I\-D} \& \hyperlink{classnubot_1_1PID_add67e35a4895870bb49e62479232cf2f}{operator=} (const \hyperlink{classnubot_1_1PID}{P\-I\-D} \&\-\_\-p)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1PID_a9f949fd4445477ee9bf1af2bfa3e1a84}{Reset} ()
+\begin{DoxyCompactList}\small\item\em Reset the errors and command. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classnubot_1_1PID_ab22052153953c1a8b5eee63ab415fa2a}{p\-Err\-Last}
+\begin{DoxyCompactList}\small\item\em Error at a previous step. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a3b4084ff47368c23428b95c2fa6d78ee}{p\-Err}
+\begin{DoxyCompactList}\small\item\em Current error. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_abed7f1c0d6b47c154c5b8733d5c043ef}{i\-Err}
+\begin{DoxyCompactList}\small\item\em Integral error. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_aa8ebb6b2cec73c281d83ac6882739320}{d\-Err}
+\begin{DoxyCompactList}\small\item\em Derivative error. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a515d0b570daa43350349e1b776860a58}{p\-Gain}
+\begin{DoxyCompactList}\small\item\em Gain for proportional control. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_ac7b246ff55dc55bf825432fa362af235}{i\-Gain}
+\begin{DoxyCompactList}\small\item\em Gain for integral control. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a4e2f4ef996f5fd9628686b5111e3d0d3}{d\-Gain}
+\begin{DoxyCompactList}\small\item\em Gain for derivative control. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a23926b1473b7ad4cbbd9fb565b94712e}{i\-Max}
+\begin{DoxyCompactList}\small\item\em Maximum clamping value for integral term. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_aabd36c7c162217550544931b749e4a7e}{i\-Min}
+\begin{DoxyCompactList}\small\item\em Minim clamping value for integral term. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a756c5fabaf2421e05302b93e9ef248a7}{cmd}
+\begin{DoxyCompactList}\small\item\em Command value. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a2a4e5aac90ab72833c48b1f7f06313a6}{cmd\-Max}
+\begin{DoxyCompactList}\small\item\em Max command clamping value. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a887cadc64650fbd326b05c081141603f}{cmd\-Min}
+\begin{DoxyCompactList}\small\item\em Min command clamping value. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_ac209a483d85ab0a198d36709dd0d089d}{p\-Term}
+\begin{DoxyCompactList}\small\item\em p\-Term \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_a5b1af456567f8c17b81d4be70dbb1bb1}{d\-Term}
+\begin{DoxyCompactList}\small\item\em d\-Term \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1PID_ad05e98c72f5396f4bd32e729ede59ad1}{i\-Term}
+\begin{DoxyCompactList}\small\item\em i\-Term \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Generic \hyperlink{classnubot_1_1PID}{P\-I\-D} controller class. Generic proportiolnal-\/integral-\/derivative controller class that keeps track of P\-I\-D-\/error states and control inputs given the state of a system and a user specified target state. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classnubot_1_1PID_ae71f7fb98fd3cd275d83dcc6ba37678e}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!P\-I\-D@{P\-I\-D}}
+\index{P\-I\-D@{P\-I\-D}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{P\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}P\-I\-D\-::\-P\-I\-D (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-p = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-i = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-d = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-imax = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-imin = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-cmd\-Max = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-cmd\-Min = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_ae71f7fb98fd3cd275d83dcc6ba37678e}
+
+
+Constructor, zeros out Pid values when created and initialize Pid-\/gains and integral term limits\-:\mbox{[}i\-Max\-:i\-Min\mbox{]}-\/\mbox{[}I1\-:I2\mbox{]}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & The proportional gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-i} & The integral gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-d} & The derivative gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-imax} & The integral upper limit. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-imin} & The integral lower limit. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-cmd\-Max} & Output max value. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-cmd\-Min} & Output min value. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_ab7d389fc5b88d881bc25f5dafd360441}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!$\sim$\-P\-I\-D@{$\sim$\-P\-I\-D}}
+\index{$\sim$\-P\-I\-D@{$\sim$\-P\-I\-D}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{$\sim$\-P\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}P\-I\-D\-::$\sim$\-P\-I\-D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classnubot_1_1PID_ab7d389fc5b88d881bc25f5dafd360441}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classnubot_1_1PID_afcc5fde219a034baee2be82906c17996}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-Cmd@{Get\-Cmd}}
+\index{Get\-Cmd@{Get\-Cmd}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-Cmd (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_afcc5fde219a034baee2be82906c17996}
+
+
+Return current command for this \hyperlink{classnubot_1_1PID}{P\-I\-D} controller. 
+
+\begin{DoxyReturn}{Returns}
+the command value 
+\end{DoxyReturn}
+\hypertarget{classnubot_1_1PID_a0738df8f919a587a843f23387e7f67f4}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-Cmd\-Max@{Get\-Cmd\-Max}}
+\index{Get\-Cmd\-Max@{Get\-Cmd\-Max}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-Cmd\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-Cmd\-Max (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classnubot_1_1PID_a0738df8f919a587a843f23387e7f67f4}
+
+
+Get the maximum value for the command. 
+
+\begin{DoxyReturn}{Returns}
+The maximum value 
+\end{DoxyReturn}
+\hypertarget{classnubot_1_1PID_a64a6e969502546bc315ff69ef157269f}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-Cmd\-Min@{Get\-Cmd\-Min}}
+\index{Get\-Cmd\-Min@{Get\-Cmd\-Min}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-Cmd\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-Cmd\-Min (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classnubot_1_1PID_a64a6e969502546bc315ff69ef157269f}
+
+
+Get the maximum value for the command. 
+
+\begin{DoxyReturn}{Returns}
+The maximum value 
+\end{DoxyReturn}
+\hypertarget{classnubot_1_1PID_aee309a8f184f0a2de417d24513f7e48a}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-D\-Gain@{Get\-D\-Gain}}
+\index{Get\-D\-Gain@{Get\-D\-Gain}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-D\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-D\-Gain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classnubot_1_1PID_aee309a8f184f0a2de417d24513f7e48a}
+
+
+Get the derivative Gain. 
+
+\begin{DoxyReturn}{Returns}
+The derivative gain value 
+\end{DoxyReturn}
+\hypertarget{classnubot_1_1PID_a23f7bafbad7472d8d8dce24236bf5baa}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-Errors@{Get\-Errors}}
+\index{Get\-Errors@{Get\-Errors}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-Errors}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Get\-Errors (
+\begin{DoxyParamCaption}
+\item[{double \&}]{\-\_\-pe, }
+\item[{double \&}]{\-\_\-ie, }
+\item[{double \&}]{\-\_\-de}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_a23f7bafbad7472d8d8dce24236bf5baa}
+
+
+Return \hyperlink{classnubot_1_1PID}{P\-I\-D} error terms for the controller. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-pe} & The proportional error. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-ie} & The integral error. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-de} & The derivative error. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_a9aa6fdeab746f430822c02d719a8ba7a}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-I\-Gain@{Get\-I\-Gain}}
+\index{Get\-I\-Gain@{Get\-I\-Gain}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-I\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-I\-Gain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classnubot_1_1PID_a9aa6fdeab746f430822c02d719a8ba7a}
+
+
+Get the integral Gain. 
+
+\begin{DoxyReturn}{Returns}
+The integral gain value 
+\end{DoxyReturn}
+\hypertarget{classnubot_1_1PID_a49f73670f78e53265eae69338c084062}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-I\-Max@{Get\-I\-Max}}
+\index{Get\-I\-Max@{Get\-I\-Max}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-I\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-I\-Max (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classnubot_1_1PID_a49f73670f78e53265eae69338c084062}
+
+
+Get the integral upper limit. 
+
+\begin{DoxyReturn}{Returns}
+The integral upper limit value 
+\end{DoxyReturn}
+\hypertarget{classnubot_1_1PID_ad0330647e22283f20d217b0e2d6cd420}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-I\-Min@{Get\-I\-Min}}
+\index{Get\-I\-Min@{Get\-I\-Min}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-I\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-I\-Min (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classnubot_1_1PID_ad0330647e22283f20d217b0e2d6cd420}
+
+
+Get the integral lower limit. 
+
+\begin{DoxyReturn}{Returns}
+The integral lower limit value 
+\end{DoxyReturn}
+\hypertarget{classnubot_1_1PID_a1c0443f163e53483369989c4f185b84e}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-P\-Gain@{Get\-P\-Gain}}
+\index{Get\-P\-Gain@{Get\-P\-Gain}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-P\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-P\-Gain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classnubot_1_1PID_a1c0443f163e53483369989c4f185b84e}
+
+
+Get the proportional Gain. 
+
+\begin{DoxyReturn}{Returns}
+The proportional gain value 
+\end{DoxyReturn}
+\hypertarget{classnubot_1_1PID_a012fe343ac6256b82f97f6e0ce2710f7}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Get\-Terms@{Get\-Terms}}
+\index{Get\-Terms@{Get\-Terms}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Get\-Terms}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Get\-Terms (
+\begin{DoxyParamCaption}
+\item[{double \&}]{\-\_\-pt, }
+\item[{double \&}]{\-\_\-it, }
+\item[{double \&}]{\-\_\-dt}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_a012fe343ac6256b82f97f6e0ce2710f7}
+
+
+Return \hyperlink{classnubot_1_1PID}{P\-I\-D} terms for the controller. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-pt} & The proportional error term. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-it} & The integral error term. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-dt} & The derivative error term. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_a382ce53f7a1ad7d86cbd86a25a100ec7}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Init@{Init}}
+\index{Init@{Init}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Init (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-p = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-i = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-d = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-imax = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-imin = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-cmd\-Max = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-cmd\-Min = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_a382ce53f7a1ad7d86cbd86a25a100ec7}
+
+
+Initialize P\-I\-D-\/gains and integral term limits\-:\mbox{[}i\-Max\-:i\-Min\mbox{]}-\/\mbox{[}I1\-:I2\mbox{]}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & The proportional gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-i} & The integral gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-d} & The derivative gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-imax} & The integral upper limit. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-imin} & The integral lower limit. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-cmd\-Max} & Output max value. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-cmd\-Min} & Output min value. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_add67e35a4895870bb49e62479232cf2f}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!operator=@{operator=}}
+\index{operator=@{operator=}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-D}\& nubot\-::\-P\-I\-D\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf P\-I\-D} \&}]{\-\_\-p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1PID_add67e35a4895870bb49e62479232cf2f}
+
+
+Assignment operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & a reference to a \hyperlink{classnubot_1_1PID}{P\-I\-D} to assign values from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this instance 
+\end{DoxyReturn}
+\hypertarget{classnubot_1_1PID_a9f949fd4445477ee9bf1af2bfa3e1a84}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Reset@{Reset}}
+\index{Reset@{Reset}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Reset}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_a9f949fd4445477ee9bf1af2bfa3e1a84}
+
+
+Reset the errors and command. 
+
+\hypertarget{classnubot_1_1PID_ac2a48aa0f59da310078de11a776968d7}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Set\-Cmd@{Set\-Cmd}}
+\index{Set\-Cmd@{Set\-Cmd}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Set\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-Cmd (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-cmd}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_ac2a48aa0f59da310078de11a776968d7}
+
+
+Set current target command for this \hyperlink{classnubot_1_1PID}{P\-I\-D} controller. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-cmd} & New command \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_a756b27c805adea693e9af92c767aa981}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Set\-Cmd\-Max@{Set\-Cmd\-Max}}
+\index{Set\-Cmd\-Max@{Set\-Cmd\-Max}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Set\-Cmd\-Max}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-Cmd\-Max (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-c}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_a756b27c805adea693e9af92c767aa981}
+
+
+Set the maximum value for the command. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-c} & The maximum value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_a2124f2b2e8d7b9b8aa1a933ac412a5d1}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Set\-Cmd\-Min@{Set\-Cmd\-Min}}
+\index{Set\-Cmd\-Min@{Set\-Cmd\-Min}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Set\-Cmd\-Min}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-Cmd\-Min (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-c}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_a2124f2b2e8d7b9b8aa1a933ac412a5d1}
+
+
+Set the maximum value for the command. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-c} & The maximum value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_a93525f67c0152418f360074e8d6d970d}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Set\-D\-Gain@{Set\-D\-Gain}}
+\index{Set\-D\-Gain@{Set\-D\-Gain}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Set\-D\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-D\-Gain (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-d}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_a93525f67c0152418f360074e8d6d970d}
+
+
+Set the derivtive Gain. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & dertivative gain value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_a3787d609a4559005dcfc0d66565748aa}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Set\-I\-Gain@{Set\-I\-Gain}}
+\index{Set\-I\-Gain@{Set\-I\-Gain}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Set\-I\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-I\-Gain (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-i}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_a3787d609a4559005dcfc0d66565748aa}
+
+
+Set the integral Gain. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & integral gain value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_a7a605b62cd1355c137ac6e87911fc83f}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Set\-I\-Max@{Set\-I\-Max}}
+\index{Set\-I\-Max@{Set\-I\-Max}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Set\-I\-Max}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-I\-Max (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-i}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_a7a605b62cd1355c137ac6e87911fc83f}
+
+
+Set the integral upper limit. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & integral upper limit value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_abdfd118371fe19fcf63c56dee66892f2}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Set\-I\-Min@{Set\-I\-Min}}
+\index{Set\-I\-Min@{Set\-I\-Min}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Set\-I\-Min}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-I\-Min (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-i}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_abdfd118371fe19fcf63c56dee66892f2}
+
+
+Set the integral lower limit. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & integral lower limit value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_ae2e298baa50a7dee51d56ffe08c250a0}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Set\-P\-Gain@{Set\-P\-Gain}}
+\index{Set\-P\-Gain@{Set\-P\-Gain}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Set\-P\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-P\-Gain (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-p}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_ae2e298baa50a7dee51d56ffe08c250a0}
+
+
+Set the proportional Gain. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & proportional gain value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classnubot_1_1PID_aa1e86d60a148f38574c130538e0ea9d1}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!Update@{Update}}
+\index{Update@{Update}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Update (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-error, }
+\item[{double}]{dt}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1PID_aa1e86d60a148f38574c130538e0ea9d1}
+
+
+Update the Pid loop with nonuniform time step size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-in\mbox{]}} & \-\_\-error Error since last call (p\-\_\-target -\/ p\-\_\-state). \\
+\hline
+{\em \-\_\-in\mbox{]}} & \-\_\-dt Change in time since last update call. Normally, this is called at every time step, The return value is an updated command to be passed to the object being controlled. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the command value 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classnubot_1_1PID_a756c5fabaf2421e05302b93e9ef248a7}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!cmd@{cmd}}
+\index{cmd@{cmd}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{cmd}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::cmd\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_a756c5fabaf2421e05302b93e9ef248a7}
+
+
+Command value. 
+
+\hypertarget{classnubot_1_1PID_a2a4e5aac90ab72833c48b1f7f06313a6}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!cmd\-Max@{cmd\-Max}}
+\index{cmd\-Max@{cmd\-Max}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{cmd\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::cmd\-Max\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_a2a4e5aac90ab72833c48b1f7f06313a6}
+
+
+Max command clamping value. 
+
+\hypertarget{classnubot_1_1PID_a887cadc64650fbd326b05c081141603f}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!cmd\-Min@{cmd\-Min}}
+\index{cmd\-Min@{cmd\-Min}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{cmd\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::cmd\-Min\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_a887cadc64650fbd326b05c081141603f}
+
+
+Min command clamping value. 
+
+\hypertarget{classnubot_1_1PID_aa8ebb6b2cec73c281d83ac6882739320}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!d\-Err@{d\-Err}}
+\index{d\-Err@{d\-Err}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{d\-Err}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::d\-Err\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_aa8ebb6b2cec73c281d83ac6882739320}
+
+
+Derivative error. 
+
+\hypertarget{classnubot_1_1PID_a4e2f4ef996f5fd9628686b5111e3d0d3}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!d\-Gain@{d\-Gain}}
+\index{d\-Gain@{d\-Gain}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{d\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::d\-Gain\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_a4e2f4ef996f5fd9628686b5111e3d0d3}
+
+
+Gain for derivative control. 
+
+\hypertarget{classnubot_1_1PID_a5b1af456567f8c17b81d4be70dbb1bb1}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!d\-Term@{d\-Term}}
+\index{d\-Term@{d\-Term}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{d\-Term}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::d\-Term\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_a5b1af456567f8c17b81d4be70dbb1bb1}
+
+
+d\-Term 
+
+\hypertarget{classnubot_1_1PID_abed7f1c0d6b47c154c5b8733d5c043ef}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!i\-Err@{i\-Err}}
+\index{i\-Err@{i\-Err}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{i\-Err}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Err\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_abed7f1c0d6b47c154c5b8733d5c043ef}
+
+
+Integral error. 
+
+\hypertarget{classnubot_1_1PID_ac7b246ff55dc55bf825432fa362af235}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!i\-Gain@{i\-Gain}}
+\index{i\-Gain@{i\-Gain}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{i\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Gain\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_ac7b246ff55dc55bf825432fa362af235}
+
+
+Gain for integral control. 
+
+\hypertarget{classnubot_1_1PID_a23926b1473b7ad4cbbd9fb565b94712e}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!i\-Max@{i\-Max}}
+\index{i\-Max@{i\-Max}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{i\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Max\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_a23926b1473b7ad4cbbd9fb565b94712e}
+
+
+Maximum clamping value for integral term. 
+
+\hypertarget{classnubot_1_1PID_aabd36c7c162217550544931b749e4a7e}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!i\-Min@{i\-Min}}
+\index{i\-Min@{i\-Min}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{i\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Min\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_aabd36c7c162217550544931b749e4a7e}
+
+
+Minim clamping value for integral term. 
+
+\hypertarget{classnubot_1_1PID_ad05e98c72f5396f4bd32e729ede59ad1}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!i\-Term@{i\-Term}}
+\index{i\-Term@{i\-Term}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{i\-Term}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Term\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_ad05e98c72f5396f4bd32e729ede59ad1}
+
+
+i\-Term 
+
+\hypertarget{classnubot_1_1PID_a3b4084ff47368c23428b95c2fa6d78ee}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!p\-Err@{p\-Err}}
+\index{p\-Err@{p\-Err}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{p\-Err}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::p\-Err\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_a3b4084ff47368c23428b95c2fa6d78ee}
+
+
+Current error. 
+
+\hypertarget{classnubot_1_1PID_ab22052153953c1a8b5eee63ab415fa2a}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!p\-Err\-Last@{p\-Err\-Last}}
+\index{p\-Err\-Last@{p\-Err\-Last}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{p\-Err\-Last}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::p\-Err\-Last\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_ab22052153953c1a8b5eee63ab415fa2a}
+
+
+Error at a previous step. 
+
+\hypertarget{classnubot_1_1PID_a515d0b570daa43350349e1b776860a58}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!p\-Gain@{p\-Gain}}
+\index{p\-Gain@{p\-Gain}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{p\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::p\-Gain\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_a515d0b570daa43350349e1b776860a58}
+
+
+Gain for proportional control. 
+
+\hypertarget{classnubot_1_1PID_ac209a483d85ab0a198d36709dd0d089d}{\index{nubot\-::\-P\-I\-D@{nubot\-::\-P\-I\-D}!p\-Term@{p\-Term}}
+\index{p\-Term@{p\-Term}!nubot::PID@{nubot\-::\-P\-I\-D}}
+\subsubsection[{p\-Term}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::p\-Term\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1PID_ac209a483d85ab0a198d36709dd0d089d}
+
+
+p\-Term 
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/\hyperlink{nubot__PID_8hh}{nubot\-\_\-\-P\-I\-D.\-hh}\item 
+src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/\hyperlink{nubot__PID_8cc}{nubot\-\_\-\-P\-I\-D.\-cc}\end{DoxyCompactItemize}

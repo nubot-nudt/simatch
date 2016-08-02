@@ -1,0 +1,170 @@
+\hypertarget{classnubot_1_1NubotTeleopKey}{\section{nubot\-:\-:Nubot\-Teleop\-Key Class Reference}
+\label{classnubot_1_1NubotTeleopKey}\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}}
+}
+
+
+Teleoperate nubot using keyboad.  
+
+
+
+
+{\ttfamily \#include $<$nubot\-\_\-teleop\-\_\-keyboard.\-hh$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classnubot_1_1NubotTeleopKey_a41a4cd6c44dc169f72ca559b3dbd2ff0}{Nubot\-Teleop\-Key} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classnubot_1_1NubotTeleopKey_a42f6239835f4c5e6062dbc4a51328858}{key\-Loop} ()
+\begin{DoxyCompactList}\small\item\em Update function that receives keyboard input and acts accordingly. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Service\-Client \hyperlink{classnubot_1_1NubotTeleopKey_a194eb225b4f90ce108cfd69ab02a0c98}{ballhandle\-\_\-client\-\_\-}
+\begin{DoxyCompactList}\small\item\em Service client for ball-\/dribbling. \end{DoxyCompactList}\item 
+ros\-::\-Service\-Client \hyperlink{classnubot_1_1NubotTeleopKey_a944cfba55efc7f7ef7ed9acd17c7f676}{shoot\-\_\-client\-\_\-}
+\begin{DoxyCompactList}\small\item\em Service client for ball-\/shooting. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Node\-Handle \hyperlink{classnubot_1_1NubotTeleopKey_aa0685c9872576f6ce3b19b6f467e5cee}{nh\-\_\-}
+\begin{DoxyCompactList}\small\item\em Node handler. \end{DoxyCompactList}\item 
+ros\-::\-Publisher \hyperlink{classnubot_1_1NubotTeleopKey_af2b940ed562da027c7eda729403e4f86}{vel\-\_\-pub}
+\begin{DoxyCompactList}\small\item\em R\-O\-S Publisher that publishes velocity messages to control robot locomotion. \end{DoxyCompactList}\item 
+\hyperlink{namespacenubot__common_a7dcbb6e0f9d7827fd3a4c5b347ae3cfa}{nubot\-\_\-common\-::\-Vel\-Cmd} \hyperlink{classnubot_1_1NubotTeleopKey_a7c70e3f5f30f940e9c508deb84f23da5}{vel\-\_\-cmd\-\_\-}
+\begin{DoxyCompactList}\small\item\em Velocity messages. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1NubotTeleopKey_aafe296ec15a99f249180144842c64b29}{vx\-\_\-}
+\item 
+double \hyperlink{classnubot_1_1NubotTeleopKey_a9bd6bb13fc993a07fb3d2272d3e2a600}{vy\-\_\-}
+\item 
+double \hyperlink{classnubot_1_1NubotTeleopKey_a40143b187fb9f6278b0c2847acd3d756}{w\-\_\-}
+\item 
+int \hyperlink{classnubot_1_1NubotTeleopKey_a5d4f917773136b83f6ba268f50c8a0ea}{mode\-\_\-}
+\begin{DoxyCompactList}\small\item\em Ball-\/shooting mode\-: ground pass or flip shot. \end{DoxyCompactList}\item 
+bool \hyperlink{classnubot_1_1NubotTeleopKey_a91a6e9ae14ee91dfa3880ab840d03ca1}{dribble\-\_\-flag\-\_\-}
+\begin{DoxyCompactList}\small\item\em Flags to indicate ball-\/dribbling. \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1NubotTeleopKey_a90a481a3a66e64083a27945def47f4ae}{shot\-\_\-flag\-\_\-}
+\begin{DoxyCompactList}\small\item\em Flags to indicate ball-\/shooting. \end{DoxyCompactList}\item 
+bool \hyperlink{classnubot_1_1NubotTeleopKey_a60e6eb5b4d57a2b379f64db50a6c783d}{last\-\_\-dribble\-\_\-flag\-\_\-}
+\begin{DoxyCompactList}\small\item\em The last dribble flag. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classnubot_1_1NubotTeleopKey_a1dbd680214196cf4eb9cfe4f817d8158}{robot\-\_\-prefix\-\_\-}
+\begin{DoxyCompactList}\small\item\em The prefix of robot name defined in .yaml file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Teleoperate nubot using keyboad. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classnubot_1_1NubotTeleopKey_a41a4cd6c44dc169f72ca559b3dbd2ff0}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!Nubot\-Teleop\-Key@{Nubot\-Teleop\-Key}}
+\index{Nubot\-Teleop\-Key@{Nubot\-Teleop\-Key}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{Nubot\-Teleop\-Key}]{\setlength{\rightskip}{0pt plus 5cm}Nubot\-Teleop\-Key\-::\-Nubot\-Teleop\-Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1NubotTeleopKey_a41a4cd6c44dc169f72ca559b3dbd2ff0}
+
+
+Constructor. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classnubot_1_1NubotTeleopKey_a42f6239835f4c5e6062dbc4a51328858}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!key\-Loop@{key\-Loop}}
+\index{key\-Loop@{key\-Loop}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{key\-Loop}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Teleop\-Key\-::key\-Loop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1NubotTeleopKey_a42f6239835f4c5e6062dbc4a51328858}
+
+
+Update function that receives keyboard input and acts accordingly. 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classnubot_1_1NubotTeleopKey_a194eb225b4f90ce108cfd69ab02a0c98}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!ballhandle\-\_\-client\-\_\-@{ballhandle\-\_\-client\-\_\-}}
+\index{ballhandle\-\_\-client\-\_\-@{ballhandle\-\_\-client\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{ballhandle\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client nubot\-::\-Nubot\-Teleop\-Key\-::ballhandle\-\_\-client\-\_\-}}\label{classnubot_1_1NubotTeleopKey_a194eb225b4f90ce108cfd69ab02a0c98}
+
+
+Service client for ball-\/dribbling. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_a91a6e9ae14ee91dfa3880ab840d03ca1}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!dribble\-\_\-flag\-\_\-@{dribble\-\_\-flag\-\_\-}}
+\index{dribble\-\_\-flag\-\_\-@{dribble\-\_\-flag\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{dribble\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Nubot\-Teleop\-Key\-::dribble\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_a91a6e9ae14ee91dfa3880ab840d03ca1}
+
+
+Flags to indicate ball-\/dribbling. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_a60e6eb5b4d57a2b379f64db50a6c783d}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!last\-\_\-dribble\-\_\-flag\-\_\-@{last\-\_\-dribble\-\_\-flag\-\_\-}}
+\index{last\-\_\-dribble\-\_\-flag\-\_\-@{last\-\_\-dribble\-\_\-flag\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{last\-\_\-dribble\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Nubot\-Teleop\-Key\-::last\-\_\-dribble\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_a60e6eb5b4d57a2b379f64db50a6c783d}
+
+
+The last dribble flag. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_a5d4f917773136b83f6ba268f50c8a0ea}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!mode\-\_\-@{mode\-\_\-}}
+\index{mode\-\_\-@{mode\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{mode\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int nubot\-::\-Nubot\-Teleop\-Key\-::mode\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_a5d4f917773136b83f6ba268f50c8a0ea}
+
+
+Ball-\/shooting mode\-: ground pass or flip shot. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_aa0685c9872576f6ce3b19b6f467e5cee}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!nh\-\_\-@{nh\-\_\-}}
+\index{nh\-\_\-@{nh\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{nh\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle nubot\-::\-Nubot\-Teleop\-Key\-::nh\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_aa0685c9872576f6ce3b19b6f467e5cee}
+
+
+Node handler. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_a1dbd680214196cf4eb9cfe4f817d8158}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!robot\-\_\-prefix\-\_\-@{robot\-\_\-prefix\-\_\-}}
+\index{robot\-\_\-prefix\-\_\-@{robot\-\_\-prefix\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{robot\-\_\-prefix\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string nubot\-::\-Nubot\-Teleop\-Key\-::robot\-\_\-prefix\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_a1dbd680214196cf4eb9cfe4f817d8158}
+
+
+The prefix of robot name defined in .yaml file. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_a944cfba55efc7f7ef7ed9acd17c7f676}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!shoot\-\_\-client\-\_\-@{shoot\-\_\-client\-\_\-}}
+\index{shoot\-\_\-client\-\_\-@{shoot\-\_\-client\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{shoot\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client nubot\-::\-Nubot\-Teleop\-Key\-::shoot\-\_\-client\-\_\-}}\label{classnubot_1_1NubotTeleopKey_a944cfba55efc7f7ef7ed9acd17c7f676}
+
+
+Service client for ball-\/shooting. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_a90a481a3a66e64083a27945def47f4ae}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!shot\-\_\-flag\-\_\-@{shot\-\_\-flag\-\_\-}}
+\index{shot\-\_\-flag\-\_\-@{shot\-\_\-flag\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{shot\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Nubot\-Teleop\-Key\-::shot\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_a90a481a3a66e64083a27945def47f4ae}
+
+
+Flags to indicate ball-\/shooting. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_a7c70e3f5f30f940e9c508deb84f23da5}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!vel\-\_\-cmd\-\_\-@{vel\-\_\-cmd\-\_\-}}
+\index{vel\-\_\-cmd\-\_\-@{vel\-\_\-cmd\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{vel\-\_\-cmd\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf nubot\-\_\-common\-::\-Vel\-Cmd} nubot\-::\-Nubot\-Teleop\-Key\-::vel\-\_\-cmd\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_a7c70e3f5f30f940e9c508deb84f23da5}
+
+
+Velocity messages. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_af2b940ed562da027c7eda729403e4f86}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!vel\-\_\-pub@{vel\-\_\-pub}}
+\index{vel\-\_\-pub@{vel\-\_\-pub}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{vel\-\_\-pub}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher nubot\-::\-Nubot\-Teleop\-Key\-::vel\-\_\-pub\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_af2b940ed562da027c7eda729403e4f86}
+
+
+R\-O\-S Publisher that publishes velocity messages to control robot locomotion. 
+
+\hypertarget{classnubot_1_1NubotTeleopKey_aafe296ec15a99f249180144842c64b29}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!vx\-\_\-@{vx\-\_\-}}
+\index{vx\-\_\-@{vx\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{vx\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Nubot\-Teleop\-Key\-::vx\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_aafe296ec15a99f249180144842c64b29}
+\hypertarget{classnubot_1_1NubotTeleopKey_a9bd6bb13fc993a07fb3d2272d3e2a600}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!vy\-\_\-@{vy\-\_\-}}
+\index{vy\-\_\-@{vy\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{vy\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Nubot\-Teleop\-Key\-::vy\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_a9bd6bb13fc993a07fb3d2272d3e2a600}
+\hypertarget{classnubot_1_1NubotTeleopKey_a40143b187fb9f6278b0c2847acd3d756}{\index{nubot\-::\-Nubot\-Teleop\-Key@{nubot\-::\-Nubot\-Teleop\-Key}!w\-\_\-@{w\-\_\-}}
+\index{w\-\_\-@{w\-\_\-}!nubot::NubotTeleopKey@{nubot\-::\-Nubot\-Teleop\-Key}}
+\subsubsection[{w\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Nubot\-Teleop\-Key\-::w\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1NubotTeleopKey_a40143b187fb9f6278b0c2847acd3d756}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/\hyperlink{nubot__teleop__keyboard_8hh}{nubot\-\_\-teleop\-\_\-keyboard.\-hh}\item 
+src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/\hyperlink{nubot__teleop__keyboard_8cc}{nubot\-\_\-teleop\-\_\-keyboard.\-cc}\end{DoxyCompactItemize}

@@ -1,0 +1,61 @@
+\hypertarget{DPoint_8hpp}{\section{src/nubot\-\_\-common/core/include/nubot/core/\-D\-Point.hpp File Reference}
+\label{DPoint_8hpp}\index{src/nubot\-\_\-common/core/include/nubot/core/\-D\-Point.\-hpp@{src/nubot\-\_\-common/core/include/nubot/core/\-D\-Point.\-hpp}}
+}
+{\ttfamily \#include \char`\"{}Angle.\-hpp\char`\"{}}\\*
+{\ttfamily \#include $<$cmath$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classnubot_1_1DPoint__}{nubot\-::\-D\-Point\-\_\-$<$ \-\_\-\-Tp $>$}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespacenubot}{nubot}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef D\-Point\-\_\-$<$ int $>$ \hyperlink{namespacenubot_ae69184d9b1bffbfbf9d691878fdab937}{nubot\-::\-D\-Point2i}
+\item 
+typedef D\-Point\-\_\-$<$ float $>$ \hyperlink{namespacenubot_a6be33a8f735ad395ebcd6406ac569f6c}{nubot\-::\-D\-Point2f}
+\item 
+typedef D\-Point\-\_\-$<$ double $>$ \hyperlink{namespacenubot_ab9fab4518d012a39668ef9243a79592d}{nubot\-::\-D\-Point2d}
+\item 
+typedef D\-Point2d \hyperlink{namespacenubot_aa018cd283eed6867313e025b8274d7cb}{nubot\-::\-D\-Point}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_aeee7040bf2fb2c3751790a0fc77830b4}{nubot\-::operator+=} (D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_a3b73a3b6b460533f8ad79c02efb36d4b}{nubot\-::operator-\/=} (D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_a713bac86edc7cd76ec0d01747eb665eb}{nubot\-::operator$\ast$=} (D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, int b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_a20c7a21ca40e80113429b2565a7a2adc}{nubot\-::operator$\ast$=} (D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, float b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_a1e26177670641c742e9632331addc7d2}{nubot\-::operator$\ast$=} (D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, double b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static bool \hyperlink{namespacenubot_a75e598a8e71a10c59ae03ba2159e5ea8}{nubot\-::operator==} (const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static bool \hyperlink{namespacenubot_a1496d5a6655274a731501fb46074f74b}{nubot\-::operator!=} (const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a327b80223b278da05a5494ac543f89b4}{nubot\-::operator+} (const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a217fff01127372a66bb46896e0d0a4f0}{nubot\-::operator-\/} (const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a14de3c0253b772c1e9ad60636de13166}{nubot\-::operator-\/} (const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a4ea1555b4c9a7d09b8a93f9225e6e8e4}{nubot\-::operator$\ast$} (const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, int b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a64a279fb92906e412ad4ca293573bb7b}{nubot\-::operator$\ast$} (int a, const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_abc957b6da745b25497bca54d774dc2fb}{nubot\-::operator$\ast$} (const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, float b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_ad7c107404cae1f8d86d8dfd8892ec282}{nubot\-::operator$\ast$} (float a, const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a5790832e928725a31d8d62a1f3ee1128}{nubot\-::operator$\ast$} (const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&a, double b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_ae3cf1882cb11f60aa153f8c6097ab971}{nubot\-::operator$\ast$} (double a, const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&b)
+\end{DoxyCompactItemize}

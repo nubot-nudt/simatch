@@ -1,0 +1,162 @@
+\hypertarget{classnubot_1_1Circle}{\section{nubot\-:\-:Circle Class Reference}
+\label{classnubot_1_1Circle}\index{nubot\-::\-Circle@{nubot\-::\-Circle}}
+}
+
+
+{\ttfamily \#include $<$Circle.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classnubot_1_1Circle_a6fcb5d5835ad8c86696ce21948609270}{Circle} ()
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\\hyperlink{classnubot_1_1Circle_a7b9e93757d174a530119510ea4f5f09f}{Circle} (double \-\_\-radius, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&\-\_\-center)
+\item 
+\hyperlink{classnubot_1_1Circle_aee5aa88389a236d017bc42dff3bc5b4f}{Circle} (const \hyperlink{classnubot_1_1Circle}{Circle} \&\-\_\-circle)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\\hyperlink{classnubot_1_1Circle_a575a6adbfd11e44614c53e4db663d2fc}{Circle} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt1, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt2)
+\begin{DoxyCompactList}\small\item\em two points are endpoints of a diameter \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\bool \hyperlink{classnubot_1_1Circle_a221e2537db4f65da3462eca1374070d0}{inside} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt) const 
+\begin{DoxyCompactList}\small\item\em whether the point is in the circle \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\bool \hyperlink{classnubot_1_1Circle_a27c663258243e156860092eb648e6eb1}{onedge} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt) const 
+\begin{DoxyCompactList}\small\item\em whether the point is on the circle \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ double $>$ $>$ \hyperlink{classnubot_1_1Circle_a0f636f2fa233c4ea91c2bf76a5357e85}{crosspoint} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line) const 
+\begin{DoxyCompactList}\small\item\em crossing point between line and circle \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\std\-::vector$<$ \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ double $>$ $>$ \hyperlink{classnubot_1_1Circle_ae30b8af217855017e72b6ad27d97e0d8}{tangentpoint} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt) const 
+\begin{DoxyCompactList}\small\item\em tangent point of circle and tangential line pass through pt and tangent point \end{DoxyCompactList}\item 
+bool \hyperlink{classnubot_1_1Circle_aaa9f7ac0951e42a9daf093e0b6b04a35}{is\-Intersect} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line) const 
+\begin{DoxyCompactList}\small\item\em the relationship between Line and \hyperlink{classnubot_1_1Circle}{Circle}; \end{DoxyCompactList}\item 
+bool \hyperlink{classnubot_1_1Circle_a42df665db5104645c7c7cbd509110553}{is\-Contact} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line) const 
+\item 
+bool \hyperlink{classnubot_1_1Circle_a86f0a0b3c09e8d4f0a63d7211b99c43f}{is\-Separate} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line) const 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classnubot_1_1Circle_a64d442408c8cb47a97c31017976722bb}{radius\-\_\-}
+\item 
+\hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ double $>$ \hyperlink{classnubot_1_1Circle_aa65fe4a79dff4f07f6d024fa55edb6aa}{center\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classnubot_1_1Circle_a6fcb5d5835ad8c86696ce21948609270}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!Circle@{Circle}}
+\index{Circle@{Circle}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{Circle}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-::\-Circle\-::\-Circle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_a6fcb5d5835ad8c86696ce21948609270}
+\hypertarget{classnubot_1_1Circle_a7b9e93757d174a530119510ea4f5f09f}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!Circle@{Circle}}
+\index{Circle@{Circle}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{Circle}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ nubot\-::\-Circle\-::\-Circle (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-radius, }
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{\-\_\-center}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_a7b9e93757d174a530119510ea4f5f09f}
+\hypertarget{classnubot_1_1Circle_aee5aa88389a236d017bc42dff3bc5b4f}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!Circle@{Circle}}
+\index{Circle@{Circle}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{Circle}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-::\-Circle\-::\-Circle (
+\begin{DoxyParamCaption}
+\item[{const {\bf Circle} \&}]{\-\_\-circle}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_aee5aa88389a236d017bc42dff3bc5b4f}
+\hypertarget{classnubot_1_1Circle_a575a6adbfd11e44614c53e4db663d2fc}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!Circle@{Circle}}
+\index{Circle@{Circle}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{Circle}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ nubot\-::\-Circle\-::\-Circle (
+\begin{DoxyParamCaption}
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{pt1, }
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{pt2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_a575a6adbfd11e44614c53e4db663d2fc}
+
+
+two points are endpoints of a diameter 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classnubot_1_1Circle_a0f636f2fa233c4ea91c2bf76a5357e85}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!crosspoint@{crosspoint}}
+\index{crosspoint@{crosspoint}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{crosspoint}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf D\-Point\-\_\-}$<$ double $>$ $>$ nubot\-::\-Circle\-::crosspoint (
+\begin{DoxyParamCaption}
+\item[{const {\bf Line\-\_\-} \&}]{line}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_a0f636f2fa233c4ea91c2bf76a5357e85}
+
+
+crossing point between line and circle 
+
+two or one intersection points \hypertarget{classnubot_1_1Circle_a221e2537db4f65da3462eca1374070d0}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!inside@{inside}}
+\index{inside@{inside}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{inside}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ bool nubot\-::\-Circle\-::inside (
+\begin{DoxyParamCaption}
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{pt}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_a221e2537db4f65da3462eca1374070d0}
+
+
+whether the point is in the circle 
+
+\hypertarget{classnubot_1_1Circle_a42df665db5104645c7c7cbd509110553}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!is\-Contact@{is\-Contact}}
+\index{is\-Contact@{is\-Contact}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{is\-Contact}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Circle\-::is\-Contact (
+\begin{DoxyParamCaption}
+\item[{const {\bf Line\-\_\-} \&}]{line}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_a42df665db5104645c7c7cbd509110553}
+\hypertarget{classnubot_1_1Circle_aaa9f7ac0951e42a9daf093e0b6b04a35}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!is\-Intersect@{is\-Intersect}}
+\index{is\-Intersect@{is\-Intersect}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{is\-Intersect}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Circle\-::is\-Intersect (
+\begin{DoxyParamCaption}
+\item[{const {\bf Line\-\_\-} \&}]{line}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_aaa9f7ac0951e42a9daf093e0b6b04a35}
+
+
+the relationship between Line and \hyperlink{classnubot_1_1Circle}{Circle}; 
+
+\hypertarget{classnubot_1_1Circle_a86f0a0b3c09e8d4f0a63d7211b99c43f}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!is\-Separate@{is\-Separate}}
+\index{is\-Separate@{is\-Separate}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{is\-Separate}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Circle\-::is\-Separate (
+\begin{DoxyParamCaption}
+\item[{const {\bf Line\-\_\-} \&}]{line}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_a86f0a0b3c09e8d4f0a63d7211b99c43f}
+\hypertarget{classnubot_1_1Circle_a27c663258243e156860092eb648e6eb1}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!onedge@{onedge}}
+\index{onedge@{onedge}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{onedge}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ bool nubot\-::\-Circle\-::onedge (
+\begin{DoxyParamCaption}
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{pt}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_a27c663258243e156860092eb648e6eb1}
+
+
+whether the point is on the circle 
+
+\hypertarget{classnubot_1_1Circle_ae30b8af217855017e72b6ad27d97e0d8}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!tangentpoint@{tangentpoint}}
+\index{tangentpoint@{tangentpoint}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{tangentpoint}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ std\-::vector$<$ {\bf D\-Point\-\_\-}$<$ double $>$ $>$ nubot\-::\-Circle\-::tangentpoint (
+\begin{DoxyParamCaption}
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{pt}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Circle_ae30b8af217855017e72b6ad27d97e0d8}
+
+
+tangent point of circle and tangential line pass through pt and tangent point 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classnubot_1_1Circle_aa65fe4a79dff4f07f6d024fa55edb6aa}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!center\-\_\-@{center\-\_\-}}
+\index{center\-\_\-@{center\-\_\-}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{center\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf D\-Point\-\_\-}$<$double$>$ nubot\-::\-Circle\-::center\-\_\-}}\label{classnubot_1_1Circle_aa65fe4a79dff4f07f6d024fa55edb6aa}
+\hypertarget{classnubot_1_1Circle_a64d442408c8cb47a97c31017976722bb}{\index{nubot\-::\-Circle@{nubot\-::\-Circle}!radius\-\_\-@{radius\-\_\-}}
+\index{radius\-\_\-@{radius\-\_\-}!nubot::Circle@{nubot\-::\-Circle}}
+\subsubsection[{radius\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Circle\-::radius\-\_\-}}\label{classnubot_1_1Circle_a64d442408c8cb47a97c31017976722bb}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/nubot\-\_\-common/core/include/nubot/core/\hyperlink{Circle_8hpp}{Circle.\-hpp}\end{DoxyCompactItemize}

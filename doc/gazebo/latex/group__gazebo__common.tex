@@ -1,0 +1,621 @@
+\hypertarget{group__gazebo__common}{\section{Gazebo\-\_\-common}
+\label{group__gazebo__common}\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classnubot_1_1PID}{nubot\-::\-P\-I\-D}
+\begin{DoxyCompactList}\small\item\em Generic \hyperlink{classnubot_1_1PID}{P\-I\-D} controller class. Generic proportiolnal-\/integral-\/derivative controller class that keeps track of P\-I\-D-\/error states and control inputs given the state of a system and a user specified target state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group__gazebo__common_gae71f7fb98fd3cd275d83dcc6ba37678e}{nubot\-::\-P\-I\-D\-::\-P\-I\-D} (double \-\_\-p=0.\-0, double \-\_\-i=0.\-0, double \-\_\-d=0.\-0, double \-\_\-imax=0.\-0, double \-\_\-imin=0.\-0, double \-\_\-cmd\-Max=0.\-0, double \-\_\-cmd\-Min=0.\-0)
+\begin{DoxyCompactList}\small\item\em Constructor, zeros out Pid values when created and initialize Pid-\/gains and integral term limits\-:\mbox{[}i\-Max\-:i\-Min\mbox{]}-\/\mbox{[}I1\-:I2\mbox{]}. \end{DoxyCompactList}\item 
+virtual \hyperlink{group__gazebo__common_gab7d389fc5b88d881bc25f5dafd360441}{nubot\-::\-P\-I\-D\-::$\sim$\-P\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_ga382ce53f7a1ad7d86cbd86a25a100ec7}{nubot\-::\-P\-I\-D\-::\-Init} (double \-\_\-p=0.\-0, double \-\_\-i=0.\-0, double \-\_\-d=0.\-0, double \-\_\-imax=0.\-0, double \-\_\-imin=0.\-0, double \-\_\-cmd\-Max=0.\-0, double \-\_\-cmd\-Min=0.\-0)
+\begin{DoxyCompactList}\small\item\em Initialize P\-I\-D-\/gains and integral term limits\-:\mbox{[}i\-Max\-:i\-Min\mbox{]}-\/\mbox{[}I1\-:I2\mbox{]}. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_gae2e298baa50a7dee51d56ffe08c250a0}{nubot\-::\-P\-I\-D\-::\-Set\-P\-Gain} (double \-\_\-p)
+\begin{DoxyCompactList}\small\item\em Set the proportional Gain. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_ga3787d609a4559005dcfc0d66565748aa}{nubot\-::\-P\-I\-D\-::\-Set\-I\-Gain} (double \-\_\-i)
+\begin{DoxyCompactList}\small\item\em Set the integral Gain. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_ga93525f67c0152418f360074e8d6d970d}{nubot\-::\-P\-I\-D\-::\-Set\-D\-Gain} (double \-\_\-d)
+\begin{DoxyCompactList}\small\item\em Set the derivtive Gain. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_ga7a605b62cd1355c137ac6e87911fc83f}{nubot\-::\-P\-I\-D\-::\-Set\-I\-Max} (double \-\_\-i)
+\begin{DoxyCompactList}\small\item\em Set the integral upper limit. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_gabdfd118371fe19fcf63c56dee66892f2}{nubot\-::\-P\-I\-D\-::\-Set\-I\-Min} (double \-\_\-i)
+\begin{DoxyCompactList}\small\item\em Set the integral lower limit. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_ga756b27c805adea693e9af92c767aa981}{nubot\-::\-P\-I\-D\-::\-Set\-Cmd\-Max} (double \-\_\-c)
+\begin{DoxyCompactList}\small\item\em Set the maximum value for the command. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_ga2124f2b2e8d7b9b8aa1a933ac412a5d1}{nubot\-::\-P\-I\-D\-::\-Set\-Cmd\-Min} (double \-\_\-c)
+\begin{DoxyCompactList}\small\item\em Set the maximum value for the command. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga1c0443f163e53483369989c4f185b84e}{nubot\-::\-P\-I\-D\-::\-Get\-P\-Gain} () const 
+\begin{DoxyCompactList}\small\item\em Get the proportional Gain. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga9aa6fdeab746f430822c02d719a8ba7a}{nubot\-::\-P\-I\-D\-::\-Get\-I\-Gain} () const 
+\begin{DoxyCompactList}\small\item\em Get the integral Gain. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gaee309a8f184f0a2de417d24513f7e48a}{nubot\-::\-P\-I\-D\-::\-Get\-D\-Gain} () const 
+\begin{DoxyCompactList}\small\item\em Get the derivative Gain. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga49f73670f78e53265eae69338c084062}{nubot\-::\-P\-I\-D\-::\-Get\-I\-Max} () const 
+\begin{DoxyCompactList}\small\item\em Get the integral upper limit. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gad0330647e22283f20d217b0e2d6cd420}{nubot\-::\-P\-I\-D\-::\-Get\-I\-Min} () const 
+\begin{DoxyCompactList}\small\item\em Get the integral lower limit. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga0738df8f919a587a843f23387e7f67f4}{nubot\-::\-P\-I\-D\-::\-Get\-Cmd\-Max} () const 
+\begin{DoxyCompactList}\small\item\em Get the maximum value for the command. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga64a6e969502546bc315ff69ef157269f}{nubot\-::\-P\-I\-D\-::\-Get\-Cmd\-Min} () const 
+\begin{DoxyCompactList}\small\item\em Get the maximum value for the command. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gaa1e86d60a148f38574c130538e0ea9d1}{nubot\-::\-P\-I\-D\-::\-Update} (double \-\_\-error, double dt)
+\begin{DoxyCompactList}\small\item\em Update the Pid loop with nonuniform time step size. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_gac2a48aa0f59da310078de11a776968d7}{nubot\-::\-P\-I\-D\-::\-Set\-Cmd} (double \-\_\-cmd)
+\begin{DoxyCompactList}\small\item\em Set current target command for this \hyperlink{classnubot_1_1PID}{P\-I\-D} controller. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gafcc5fde219a034baee2be82906c17996}{nubot\-::\-P\-I\-D\-::\-Get\-Cmd} ()
+\begin{DoxyCompactList}\small\item\em Return current command for this \hyperlink{classnubot_1_1PID}{P\-I\-D} controller. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_ga23f7bafbad7472d8d8dce24236bf5baa}{nubot\-::\-P\-I\-D\-::\-Get\-Errors} (double \&\-\_\-pe, double \&\-\_\-ie, double \&\-\_\-de)
+\begin{DoxyCompactList}\small\item\em Return \hyperlink{classnubot_1_1PID}{P\-I\-D} error terms for the controller. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_ga012fe343ac6256b82f97f6e0ce2710f7}{nubot\-::\-P\-I\-D\-::\-Get\-Terms} (double \&\-\_\-pt, double \&\-\_\-it, double \&\-\_\-dt)
+\begin{DoxyCompactList}\small\item\em Return \hyperlink{classnubot_1_1PID}{P\-I\-D} terms for the controller. \end{DoxyCompactList}\item 
+P\-I\-D \& \hyperlink{group__gazebo__common_gadd67e35a4895870bb49e62479232cf2f}{nubot\-::\-P\-I\-D\-::operator=} (const P\-I\-D \&\-\_\-p)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+void \hyperlink{group__gazebo__common_ga9f949fd4445477ee9bf1af2bfa3e1a84}{nubot\-::\-P\-I\-D\-::\-Reset} ()
+\begin{DoxyCompactList}\small\item\em Reset the errors and command. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{group__gazebo__common_gab22052153953c1a8b5eee63ab415fa2a}{nubot\-::\-P\-I\-D\-::p\-Err\-Last}
+\begin{DoxyCompactList}\small\item\em Error at a previous step. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga3b4084ff47368c23428b95c2fa6d78ee}{nubot\-::\-P\-I\-D\-::p\-Err}
+\begin{DoxyCompactList}\small\item\em Current error. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gabed7f1c0d6b47c154c5b8733d5c043ef}{nubot\-::\-P\-I\-D\-::i\-Err}
+\begin{DoxyCompactList}\small\item\em Integral error. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gaa8ebb6b2cec73c281d83ac6882739320}{nubot\-::\-P\-I\-D\-::d\-Err}
+\begin{DoxyCompactList}\small\item\em Derivative error. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga515d0b570daa43350349e1b776860a58}{nubot\-::\-P\-I\-D\-::p\-Gain}
+\begin{DoxyCompactList}\small\item\em Gain for proportional control. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gac7b246ff55dc55bf825432fa362af235}{nubot\-::\-P\-I\-D\-::i\-Gain}
+\begin{DoxyCompactList}\small\item\em Gain for integral control. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga4e2f4ef996f5fd9628686b5111e3d0d3}{nubot\-::\-P\-I\-D\-::d\-Gain}
+\begin{DoxyCompactList}\small\item\em Gain for derivative control. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga23926b1473b7ad4cbbd9fb565b94712e}{nubot\-::\-P\-I\-D\-::i\-Max}
+\begin{DoxyCompactList}\small\item\em Maximum clamping value for integral term. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gaabd36c7c162217550544931b749e4a7e}{nubot\-::\-P\-I\-D\-::i\-Min}
+\begin{DoxyCompactList}\small\item\em Minim clamping value for integral term. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga756c5fabaf2421e05302b93e9ef248a7}{nubot\-::\-P\-I\-D\-::cmd}
+\begin{DoxyCompactList}\small\item\em Command value. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga2a4e5aac90ab72833c48b1f7f06313a6}{nubot\-::\-P\-I\-D\-::cmd\-Max}
+\begin{DoxyCompactList}\small\item\em Max command clamping value. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga887cadc64650fbd326b05c081141603f}{nubot\-::\-P\-I\-D\-::cmd\-Min}
+\begin{DoxyCompactList}\small\item\em Min command clamping value. \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gac209a483d85ab0a198d36709dd0d089d}{nubot\-::\-P\-I\-D\-::p\-Term}
+\begin{DoxyCompactList}\small\item\em p\-Term \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_ga5b1af456567f8c17b81d4be70dbb1bb1}{nubot\-::\-P\-I\-D\-::d\-Term}
+\begin{DoxyCompactList}\small\item\em d\-Term \end{DoxyCompactList}\item 
+double \hyperlink{group__gazebo__common_gad05e98c72f5396f4bd32e729ede59ad1}{nubot\-::\-P\-I\-D\-::i\-Term}
+\begin{DoxyCompactList}\small\item\em i\-Term \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__gazebo__common_gafcc5fde219a034baee2be82906c17996}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-Cmd@{Get\-Cmd}}
+\index{Get\-Cmd@{Get\-Cmd}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-Cmd (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_gafcc5fde219a034baee2be82906c17996}
+
+
+Return current command for this \hyperlink{classnubot_1_1PID}{P\-I\-D} controller. 
+
+\begin{DoxyReturn}{Returns}
+the command value 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_ga0738df8f919a587a843f23387e7f67f4}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-Cmd\-Max@{Get\-Cmd\-Max}}
+\index{Get\-Cmd\-Max@{Get\-Cmd\-Max}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-Cmd\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-Cmd\-Max (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__gazebo__common_ga0738df8f919a587a843f23387e7f67f4}
+
+
+Get the maximum value for the command. 
+
+\begin{DoxyReturn}{Returns}
+The maximum value 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_ga64a6e969502546bc315ff69ef157269f}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-Cmd\-Min@{Get\-Cmd\-Min}}
+\index{Get\-Cmd\-Min@{Get\-Cmd\-Min}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-Cmd\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-Cmd\-Min (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__gazebo__common_ga64a6e969502546bc315ff69ef157269f}
+
+
+Get the maximum value for the command. 
+
+\begin{DoxyReturn}{Returns}
+The maximum value 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_gaee309a8f184f0a2de417d24513f7e48a}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-D\-Gain@{Get\-D\-Gain}}
+\index{Get\-D\-Gain@{Get\-D\-Gain}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-D\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-D\-Gain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__gazebo__common_gaee309a8f184f0a2de417d24513f7e48a}
+
+
+Get the derivative Gain. 
+
+\begin{DoxyReturn}{Returns}
+The derivative gain value 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_ga23f7bafbad7472d8d8dce24236bf5baa}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-Errors@{Get\-Errors}}
+\index{Get\-Errors@{Get\-Errors}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-Errors}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Get\-Errors (
+\begin{DoxyParamCaption}
+\item[{double \&}]{\-\_\-pe, }
+\item[{double \&}]{\-\_\-ie, }
+\item[{double \&}]{\-\_\-de}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_ga23f7bafbad7472d8d8dce24236bf5baa}
+
+
+Return \hyperlink{classnubot_1_1PID}{P\-I\-D} error terms for the controller. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-pe} & The proportional error. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-ie} & The integral error. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-de} & The derivative error. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_ga9aa6fdeab746f430822c02d719a8ba7a}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-I\-Gain@{Get\-I\-Gain}}
+\index{Get\-I\-Gain@{Get\-I\-Gain}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-I\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-I\-Gain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__gazebo__common_ga9aa6fdeab746f430822c02d719a8ba7a}
+
+
+Get the integral Gain. 
+
+\begin{DoxyReturn}{Returns}
+The integral gain value 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_ga49f73670f78e53265eae69338c084062}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-I\-Max@{Get\-I\-Max}}
+\index{Get\-I\-Max@{Get\-I\-Max}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-I\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-I\-Max (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__gazebo__common_ga49f73670f78e53265eae69338c084062}
+
+
+Get the integral upper limit. 
+
+\begin{DoxyReturn}{Returns}
+The integral upper limit value 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_gad0330647e22283f20d217b0e2d6cd420}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-I\-Min@{Get\-I\-Min}}
+\index{Get\-I\-Min@{Get\-I\-Min}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-I\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-I\-Min (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__gazebo__common_gad0330647e22283f20d217b0e2d6cd420}
+
+
+Get the integral lower limit. 
+
+\begin{DoxyReturn}{Returns}
+The integral lower limit value 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_ga1c0443f163e53483369989c4f185b84e}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-P\-Gain@{Get\-P\-Gain}}
+\index{Get\-P\-Gain@{Get\-P\-Gain}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-P\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Get\-P\-Gain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group__gazebo__common_ga1c0443f163e53483369989c4f185b84e}
+
+
+Get the proportional Gain. 
+
+\begin{DoxyReturn}{Returns}
+The proportional gain value 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_ga012fe343ac6256b82f97f6e0ce2710f7}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Get\-Terms@{Get\-Terms}}
+\index{Get\-Terms@{Get\-Terms}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Get\-Terms}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Get\-Terms (
+\begin{DoxyParamCaption}
+\item[{double \&}]{\-\_\-pt, }
+\item[{double \&}]{\-\_\-it, }
+\item[{double \&}]{\-\_\-dt}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_ga012fe343ac6256b82f97f6e0ce2710f7}
+
+
+Return \hyperlink{classnubot_1_1PID}{P\-I\-D} terms for the controller. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-pt} & The proportional error term. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-it} & The integral error term. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-dt} & The derivative error term. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_ga382ce53f7a1ad7d86cbd86a25a100ec7}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Init@{Init}}
+\index{Init@{Init}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Init (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-p = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-i = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-d = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-imax = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-imin = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-cmd\-Max = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-cmd\-Min = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_ga382ce53f7a1ad7d86cbd86a25a100ec7}
+
+
+Initialize P\-I\-D-\/gains and integral term limits\-:\mbox{[}i\-Max\-:i\-Min\mbox{]}-\/\mbox{[}I1\-:I2\mbox{]}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & The proportional gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-i} & The integral gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-d} & The derivative gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-imax} & The integral upper limit. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-imin} & The integral lower limit. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-cmd\-Max} & Output max value. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-cmd\-Min} & Output min value. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_gadd67e35a4895870bb49e62479232cf2f}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!operator=@{operator=}}
+\index{operator=@{operator=}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}P\-I\-D\& nubot\-::\-P\-I\-D\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf P\-I\-D} \&}]{\-\_\-p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{group__gazebo__common_gadd67e35a4895870bb49e62479232cf2f}
+
+
+Assignment operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & a reference to a \hyperlink{classnubot_1_1PID}{P\-I\-D} to assign values from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this instance 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_gae71f7fb98fd3cd275d83dcc6ba37678e}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!P\-I\-D@{P\-I\-D}}
+\index{P\-I\-D@{P\-I\-D}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{P\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}P\-I\-D\-::\-P\-I\-D (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-p = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-i = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-d = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-imax = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-imin = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-cmd\-Max = {\ttfamily 0.0}, }
+\item[{double}]{\-\_\-cmd\-Min = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_gae71f7fb98fd3cd275d83dcc6ba37678e}
+
+
+Constructor, zeros out Pid values when created and initialize Pid-\/gains and integral term limits\-:\mbox{[}i\-Max\-:i\-Min\mbox{]}-\/\mbox{[}I1\-:I2\mbox{]}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & The proportional gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-i} & The integral gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-d} & The derivative gain. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-imax} & The integral upper limit. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-imin} & The integral lower limit. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-cmd\-Max} & Output max value. \\
+\hline
+\mbox{\tt in}  & {\em \-\_\-cmd\-Min} & Output min value. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_ga9f949fd4445477ee9bf1af2bfa3e1a84}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Reset@{Reset}}
+\index{Reset@{Reset}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Reset}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_ga9f949fd4445477ee9bf1af2bfa3e1a84}
+
+
+Reset the errors and command. 
+
+\hypertarget{group__gazebo__common_gac2a48aa0f59da310078de11a776968d7}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Set\-Cmd@{Set\-Cmd}}
+\index{Set\-Cmd@{Set\-Cmd}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Set\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-Cmd (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-cmd}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_gac2a48aa0f59da310078de11a776968d7}
+
+
+Set current target command for this \hyperlink{classnubot_1_1PID}{P\-I\-D} controller. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-cmd} & New command \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_ga756b27c805adea693e9af92c767aa981}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Set\-Cmd\-Max@{Set\-Cmd\-Max}}
+\index{Set\-Cmd\-Max@{Set\-Cmd\-Max}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Set\-Cmd\-Max}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-Cmd\-Max (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-c}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_ga756b27c805adea693e9af92c767aa981}
+
+
+Set the maximum value for the command. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-c} & The maximum value \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_ga2124f2b2e8d7b9b8aa1a933ac412a5d1}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Set\-Cmd\-Min@{Set\-Cmd\-Min}}
+\index{Set\-Cmd\-Min@{Set\-Cmd\-Min}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Set\-Cmd\-Min}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-Cmd\-Min (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-c}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_ga2124f2b2e8d7b9b8aa1a933ac412a5d1}
+
+
+Set the maximum value for the command. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-c} & The maximum value \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_ga93525f67c0152418f360074e8d6d970d}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Set\-D\-Gain@{Set\-D\-Gain}}
+\index{Set\-D\-Gain@{Set\-D\-Gain}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Set\-D\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-D\-Gain (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-d}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_ga93525f67c0152418f360074e8d6d970d}
+
+
+Set the derivtive Gain. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & dertivative gain value \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_ga3787d609a4559005dcfc0d66565748aa}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Set\-I\-Gain@{Set\-I\-Gain}}
+\index{Set\-I\-Gain@{Set\-I\-Gain}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Set\-I\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-I\-Gain (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-i}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_ga3787d609a4559005dcfc0d66565748aa}
+
+
+Set the integral Gain. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & integral gain value \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_ga7a605b62cd1355c137ac6e87911fc83f}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Set\-I\-Max@{Set\-I\-Max}}
+\index{Set\-I\-Max@{Set\-I\-Max}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Set\-I\-Max}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-I\-Max (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-i}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_ga7a605b62cd1355c137ac6e87911fc83f}
+
+
+Set the integral upper limit. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & integral upper limit value \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_gabdfd118371fe19fcf63c56dee66892f2}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Set\-I\-Min@{Set\-I\-Min}}
+\index{Set\-I\-Min@{Set\-I\-Min}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Set\-I\-Min}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-I\-Min (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-i}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_gabdfd118371fe19fcf63c56dee66892f2}
+
+
+Set the integral lower limit. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & integral lower limit value \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_gae2e298baa50a7dee51d56ffe08c250a0}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Set\-P\-Gain@{Set\-P\-Gain}}
+\index{Set\-P\-Gain@{Set\-P\-Gain}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Set\-P\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}void P\-I\-D\-::\-Set\-P\-Gain (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-p}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_gae2e298baa50a7dee51d56ffe08c250a0}
+
+
+Set the proportional Gain. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-p} & proportional gain value \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__gazebo__common_gaa1e86d60a148f38574c130538e0ea9d1}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!Update@{Update}}
+\index{Update@{Update}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}double P\-I\-D\-::\-Update (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-error, }
+\item[{double}]{dt}
+\end{DoxyParamCaption}
+)}}\label{group__gazebo__common_gaa1e86d60a148f38574c130538e0ea9d1}
+
+
+Update the Pid loop with nonuniform time step size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-in\mbox{]}} & \-\_\-error Error since last call (p\-\_\-target -\/ p\-\_\-state). \\
+\hline
+{\em \-\_\-in\mbox{]}} & \-\_\-dt Change in time since last update call. Normally, this is called at every time step, The return value is an updated command to be passed to the object being controlled. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the command value 
+\end{DoxyReturn}
+\hypertarget{group__gazebo__common_gab7d389fc5b88d881bc25f5dafd360441}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!$\sim$\-P\-I\-D@{$\sim$\-P\-I\-D}}
+\index{$\sim$\-P\-I\-D@{$\sim$\-P\-I\-D}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{$\sim$\-P\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}P\-I\-D\-::$\sim$\-P\-I\-D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{group__gazebo__common_gab7d389fc5b88d881bc25f5dafd360441}
+
+
+Destructor. 
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group__gazebo__common_ga756c5fabaf2421e05302b93e9ef248a7}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!cmd@{cmd}}
+\index{cmd@{cmd}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{cmd}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::cmd\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_ga756c5fabaf2421e05302b93e9ef248a7}
+
+
+Command value. 
+
+\hypertarget{group__gazebo__common_ga2a4e5aac90ab72833c48b1f7f06313a6}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!cmd\-Max@{cmd\-Max}}
+\index{cmd\-Max@{cmd\-Max}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{cmd\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::cmd\-Max\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_ga2a4e5aac90ab72833c48b1f7f06313a6}
+
+
+Max command clamping value. 
+
+\hypertarget{group__gazebo__common_ga887cadc64650fbd326b05c081141603f}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!cmd\-Min@{cmd\-Min}}
+\index{cmd\-Min@{cmd\-Min}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{cmd\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::cmd\-Min\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_ga887cadc64650fbd326b05c081141603f}
+
+
+Min command clamping value. 
+
+\hypertarget{group__gazebo__common_gaa8ebb6b2cec73c281d83ac6882739320}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!d\-Err@{d\-Err}}
+\index{d\-Err@{d\-Err}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{d\-Err}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::d\-Err\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_gaa8ebb6b2cec73c281d83ac6882739320}
+
+
+Derivative error. 
+
+\hypertarget{group__gazebo__common_ga4e2f4ef996f5fd9628686b5111e3d0d3}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!d\-Gain@{d\-Gain}}
+\index{d\-Gain@{d\-Gain}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{d\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::d\-Gain\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_ga4e2f4ef996f5fd9628686b5111e3d0d3}
+
+
+Gain for derivative control. 
+
+\hypertarget{group__gazebo__common_ga5b1af456567f8c17b81d4be70dbb1bb1}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!d\-Term@{d\-Term}}
+\index{d\-Term@{d\-Term}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{d\-Term}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::d\-Term\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_ga5b1af456567f8c17b81d4be70dbb1bb1}
+
+
+d\-Term 
+
+\hypertarget{group__gazebo__common_gabed7f1c0d6b47c154c5b8733d5c043ef}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!i\-Err@{i\-Err}}
+\index{i\-Err@{i\-Err}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{i\-Err}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Err\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_gabed7f1c0d6b47c154c5b8733d5c043ef}
+
+
+Integral error. 
+
+\hypertarget{group__gazebo__common_gac7b246ff55dc55bf825432fa362af235}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!i\-Gain@{i\-Gain}}
+\index{i\-Gain@{i\-Gain}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{i\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Gain\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_gac7b246ff55dc55bf825432fa362af235}
+
+
+Gain for integral control. 
+
+\hypertarget{group__gazebo__common_ga23926b1473b7ad4cbbd9fb565b94712e}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!i\-Max@{i\-Max}}
+\index{i\-Max@{i\-Max}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{i\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Max\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_ga23926b1473b7ad4cbbd9fb565b94712e}
+
+
+Maximum clamping value for integral term. 
+
+\hypertarget{group__gazebo__common_gaabd36c7c162217550544931b749e4a7e}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!i\-Min@{i\-Min}}
+\index{i\-Min@{i\-Min}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{i\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Min\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_gaabd36c7c162217550544931b749e4a7e}
+
+
+Minim clamping value for integral term. 
+
+\hypertarget{group__gazebo__common_gad05e98c72f5396f4bd32e729ede59ad1}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!i\-Term@{i\-Term}}
+\index{i\-Term@{i\-Term}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{i\-Term}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::i\-Term\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_gad05e98c72f5396f4bd32e729ede59ad1}
+
+
+i\-Term 
+
+\hypertarget{group__gazebo__common_ga3b4084ff47368c23428b95c2fa6d78ee}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!p\-Err@{p\-Err}}
+\index{p\-Err@{p\-Err}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{p\-Err}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::p\-Err\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_ga3b4084ff47368c23428b95c2fa6d78ee}
+
+
+Current error. 
+
+\hypertarget{group__gazebo__common_gab22052153953c1a8b5eee63ab415fa2a}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!p\-Err\-Last@{p\-Err\-Last}}
+\index{p\-Err\-Last@{p\-Err\-Last}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{p\-Err\-Last}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::p\-Err\-Last\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_gab22052153953c1a8b5eee63ab415fa2a}
+
+
+Error at a previous step. 
+
+\hypertarget{group__gazebo__common_ga515d0b570daa43350349e1b776860a58}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!p\-Gain@{p\-Gain}}
+\index{p\-Gain@{p\-Gain}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{p\-Gain}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::p\-Gain\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_ga515d0b570daa43350349e1b776860a58}
+
+
+Gain for proportional control. 
+
+\hypertarget{group__gazebo__common_gac209a483d85ab0a198d36709dd0d089d}{\index{Gazebo\-\_\-common@{Gazebo\-\_\-common}!p\-Term@{p\-Term}}
+\index{p\-Term@{p\-Term}!Gazebo_common@{Gazebo\-\_\-common}}
+\subsubsection[{p\-Term}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-P\-I\-D\-::p\-Term\hspace{0.3cm}{\ttfamily [private]}}}\label{group__gazebo__common_gac209a483d85ab0a198d36709dd0d089d}
+
+
+p\-Term 
+

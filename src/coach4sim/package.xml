@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>nubot_coach</name>
+  <name>coach4sim</name>
   <version>0.0.0</version>
   <description>The nubot_coach package</description>
   <maintainer email="nubot9@todo.todo">nubot9</maintainer>

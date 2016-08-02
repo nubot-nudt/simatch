@@ -1,0 +1,444 @@
+\hypertarget{namespacenubot}{\section{nubot Namespace Reference}
+\label{namespacenubot}\index{nubot@{nubot}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classnubot_1_1PID}{P\-I\-D}
+\begin{DoxyCompactList}\small\item\em Generic \hyperlink{classnubot_1_1PID}{P\-I\-D} controller class. Generic proportiolnal-\/integral-\/derivative controller class that keeps track of P\-I\-D-\/error states and control inputs given the state of a system and a user specified target state. \end{DoxyCompactList}\item 
+class \hyperlink{classnubot_1_1NubotTeleopKey}{Nubot\-Teleop\-Key}
+\begin{DoxyCompactList}\small\item\em Teleoperate nubot using keyboad. \end{DoxyCompactList}\item 
+class \hyperlink{classnubot_1_1ParaTrajPlanning}{Para\-Traj\-Planning}
+\begin{DoxyCompactList}\small\item\em trajectory planning for parabolic curve transition. The trajectory consists of 3 part\-: two parabolic curve in the beginning and in the end; a straight line in the middle. This trajectory avoids the infinite acceleration at the beginning and at the end if just sepcify straight line trajectory \end{DoxyCompactList}\item 
+class \hyperlink{classnubot_1_1Angle}{Angle}
+\item 
+class \hyperlink{classnubot_1_1Circle}{Circle}
+\item 
+class \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}
+\item 
+class \hyperlink{classnubot_1_1Line__}{Line\-\_\-}
+\item 
+class \hyperlink{classnubot_1_1PPoint__}{P\-Point\-\_\-}
+\item 
+class \hyperlink{classnubot_1_1Time}{Time}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ int $>$ \hyperlink{namespacenubot_ae69184d9b1bffbfbf9d691878fdab937}{D\-Point2i}
+\item 
+typedef \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ float $>$ \hyperlink{namespacenubot_a6be33a8f735ad395ebcd6406ac569f6c}{D\-Point2f}
+\item 
+typedef \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ double $>$ \hyperlink{namespacenubot_ab9fab4518d012a39668ef9243a79592d}{D\-Point2d}
+\item 
+typedef \hyperlink{namespacenubot_ab9fab4518d012a39668ef9243a79592d}{D\-Point2d} \hyperlink{namespacenubot_aa018cd283eed6867313e025b8274d7cb}{D\-Point}
+\item 
+typedef \hyperlink{classnubot_1_1PPoint__}{P\-Point\-\_\-}$<$ int $>$ \hyperlink{namespacenubot_a2de267f77449de1b98bfeb641671301b}{P\-Point2i}
+\item 
+typedef \hyperlink{classnubot_1_1PPoint__}{P\-Point\-\_\-}$<$ float $>$ \hyperlink{namespacenubot_a93e65a2d123526a505e4364043785072}{P\-Point2f}
+\item 
+typedef \hyperlink{classnubot_1_1PPoint__}{P\-Point\-\_\-}$<$ double $>$ \hyperlink{namespacenubot_a2b8f952f9a6ec80df0a885dbca6671f9}{P\-Point2d}
+\item 
+typedef \hyperlink{namespacenubot_a2b8f952f9a6ec80df0a885dbca6671f9}{P\-Point2d} \hyperlink{namespacenubot_a8f62d6210d4a62013af1a40cd5f39de2}{P\-Point}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classnubot_1_1Angle}{Angle} \hyperlink{namespacenubot_aa8ca6af34711fca90938c0880bb15c49}{operator-\/} (const \hyperlink{classnubot_1_1Angle}{Angle} \&a)
+\item 
+static bool \hyperlink{namespacenubot_af329ad82a05c28a0fc51c500e537fe55}{operator==} (const \hyperlink{classnubot_1_1Angle}{Angle} \&a, const \hyperlink{classnubot_1_1Angle}{Angle} \&b)
+\item 
+static bool \hyperlink{namespacenubot_a40e374c97f88169b69143eb1d923d496}{operator!=} (const \hyperlink{classnubot_1_1Angle}{Angle} \&a, const \hyperlink{classnubot_1_1Angle}{Angle} \&b)
+\item 
+static \hyperlink{classnubot_1_1Angle}{Angle} \hyperlink{namespacenubot_abb3de2047a7eae0cfc3700ef06c42531}{operator+} (const \hyperlink{classnubot_1_1Angle}{Angle} \&a, const \hyperlink{classnubot_1_1Angle}{Angle} \&b)
+\item 
+static \hyperlink{classnubot_1_1Angle}{Angle} \hyperlink{namespacenubot_a178d1f0ed2ef537f9e364bbd5596f65a}{operator-\/} (const \hyperlink{classnubot_1_1Angle}{Angle} \&a, const \hyperlink{classnubot_1_1Angle}{Angle} \&b)
+\item 
+static \hyperlink{classnubot_1_1Angle}{Angle} \& \hyperlink{namespacenubot_a61c07c4190cbbde322307bcf1152bb84}{operator+=} (\hyperlink{classnubot_1_1Angle}{Angle} \&a, \hyperlink{classnubot_1_1Angle}{Angle} \&b)
+\item 
+static \hyperlink{classnubot_1_1Angle}{Angle} \& \hyperlink{namespacenubot_a9f354e0f2d292ee266b97e92ff8d3e2d}{operator-\/=} (\hyperlink{classnubot_1_1Angle}{Angle} \&a, \hyperlink{classnubot_1_1Angle}{Angle} \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1Angle}{Angle} \& \hyperlink{namespacenubot_a74ae3fab7d3549c26fe7f9522ad0c269}{operator+=} (\hyperlink{classnubot_1_1Angle}{Angle} \&a, \-\_\-\-Tp b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1Angle}{Angle} \& \hyperlink{namespacenubot_a8b3e71c1f93f2750899624ab045dc8ed}{operator-\/=} (\hyperlink{classnubot_1_1Angle}{Angle} \&a, \-\_\-\-Tp b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1Angle}{Angle} \& \hyperlink{namespacenubot_a6a8464620069fa497dde914b198caac5}{operator/=} (\hyperlink{classnubot_1_1Angle}{Angle} \&a, \-\_\-\-Tp b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1Angle}{Angle} \& \hyperlink{namespacenubot_a09c038981f748f7d46b3648a383e832d}{operator$\ast$=} (\hyperlink{classnubot_1_1Angle}{Angle} \&a, \-\_\-\-Tp b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1Angle}{Angle} \hyperlink{namespacenubot_a62776a001819baf70c559410815de5c0}{operator+} (const \hyperlink{classnubot_1_1Angle}{Angle} \&a, const \-\_\-\-Tp \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1Angle}{Angle} \hyperlink{namespacenubot_ac5995dd20e2c70a49a5283635b62d4c4}{operator-\/} (const \hyperlink{classnubot_1_1Angle}{Angle} \&a, const \-\_\-\-Tp \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1Angle}{Angle} \hyperlink{namespacenubot_abc75ebbe41b6cf227283ca4bc48c52cf}{operator$\ast$} (const \-\_\-\-Tp \&a, const \hyperlink{classnubot_1_1Angle}{Angle} \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1Angle}{Angle} \hyperlink{namespacenubot_a5bf5eca744743d34c4ec37d4c6724735}{operator$\ast$} (const \hyperlink{classnubot_1_1Angle}{Angle} \&a, const \-\_\-\-Tp \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_aeee7040bf2fb2c3751790a0fc77830b4}{operator+=} (\hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_a3b73a3b6b460533f8ad79c02efb36d4b}{operator-\/=} (\hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_a713bac86edc7cd76ec0d01747eb665eb}{operator$\ast$=} (\hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, int b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_a20c7a21ca40e80113429b2565a7a2adc}{operator$\ast$=} (\hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, float b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \& \hyperlink{namespacenubot_a1e26177670641c742e9632331addc7d2}{operator$\ast$=} (\hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, double b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static bool \hyperlink{namespacenubot_a75e598a8e71a10c59ae03ba2159e5ea8}{operator==} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static bool \hyperlink{namespacenubot_a1496d5a6655274a731501fb46074f74b}{operator!=} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a327b80223b278da05a5494ac543f89b4}{operator+} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a217fff01127372a66bb46896e0d0a4f0}{operator-\/} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a14de3c0253b772c1e9ad60636de13166}{operator-\/} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a4ea1555b4c9a7d09b8a93f9225e6e8e4}{operator$\ast$} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, int b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a64a279fb92906e412ad4ca293573bb7b}{operator$\ast$} (int a, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_abc957b6da745b25497bca54d774dc2fb}{operator$\ast$} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, float b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_ad7c107404cae1f8d86d8dfd8892ec282}{operator$\ast$} (float a, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a5790832e928725a31d8d62a1f3ee1128}{operator$\ast$} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, double b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_ae3cf1882cb11f60aa153f8c6097ab971}{operator$\ast$} (double a, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \hyperlink{namespacenubot_a1ff5f24d4f83aa4e31f28cef699a3507}{verticalline} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt)
+\begin{DoxyCompactList}\small\item\em get the vertical line which passes through point pt; \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a822e3dc5ebbc620d8478f5cc78ed8665}{pointinline} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt, double dis)
+\begin{DoxyCompactList}\small\item\em get the point which has the dis with pt in line \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \hyperlink{namespacenubot_a3ef23abce325d44c7509330711f673f2}{verticalpoint} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static bool \hyperlink{namespacenubot_aa6e91d1453a83f9f89065776a6f7f7de}{operator==} (const \hyperlink{classnubot_1_1PPoint__}{P\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, const \hyperlink{classnubot_1_1PPoint__}{P\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\static bool \hyperlink{namespacenubot_a3e8b52719d2fc7b8d147d3334baaf92e}{operator!=} (const \hyperlink{classnubot_1_1PPoint__}{P\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&a, const \hyperlink{classnubot_1_1PPoint__}{P\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&b)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{namespacenubot_aa018cd283eed6867313e025b8274d7cb}{\index{nubot@{nubot}!D\-Point@{D\-Point}}
+\index{D\-Point@{D\-Point}!nubot@{nubot}}
+\subsubsection[{D\-Point}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf D\-Point2d} {\bf nubot\-::\-D\-Point}}}\label{namespacenubot_aa018cd283eed6867313e025b8274d7cb}
+\hypertarget{namespacenubot_ab9fab4518d012a39668ef9243a79592d}{\index{nubot@{nubot}!D\-Point2d@{D\-Point2d}}
+\index{D\-Point2d@{D\-Point2d}!nubot@{nubot}}
+\subsubsection[{D\-Point2d}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf D\-Point\-\_\-}$<$double$>$ {\bf nubot\-::\-D\-Point2d}}}\label{namespacenubot_ab9fab4518d012a39668ef9243a79592d}
+\hypertarget{namespacenubot_a6be33a8f735ad395ebcd6406ac569f6c}{\index{nubot@{nubot}!D\-Point2f@{D\-Point2f}}
+\index{D\-Point2f@{D\-Point2f}!nubot@{nubot}}
+\subsubsection[{D\-Point2f}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf D\-Point\-\_\-}$<$float$>$ {\bf nubot\-::\-D\-Point2f}}}\label{namespacenubot_a6be33a8f735ad395ebcd6406ac569f6c}
+\hypertarget{namespacenubot_ae69184d9b1bffbfbf9d691878fdab937}{\index{nubot@{nubot}!D\-Point2i@{D\-Point2i}}
+\index{D\-Point2i@{D\-Point2i}!nubot@{nubot}}
+\subsubsection[{D\-Point2i}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf D\-Point\-\_\-}$<$int$>$ {\bf nubot\-::\-D\-Point2i}}}\label{namespacenubot_ae69184d9b1bffbfbf9d691878fdab937}
+\hypertarget{namespacenubot_a8f62d6210d4a62013af1a40cd5f39de2}{\index{nubot@{nubot}!P\-Point@{P\-Point}}
+\index{P\-Point@{P\-Point}!nubot@{nubot}}
+\subsubsection[{P\-Point}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf P\-Point2d} {\bf nubot\-::\-P\-Point}}}\label{namespacenubot_a8f62d6210d4a62013af1a40cd5f39de2}
+\hypertarget{namespacenubot_a2b8f952f9a6ec80df0a885dbca6671f9}{\index{nubot@{nubot}!P\-Point2d@{P\-Point2d}}
+\index{P\-Point2d@{P\-Point2d}!nubot@{nubot}}
+\subsubsection[{P\-Point2d}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf P\-Point\-\_\-}$<$double$>$ {\bf nubot\-::\-P\-Point2d}}}\label{namespacenubot_a2b8f952f9a6ec80df0a885dbca6671f9}
+\hypertarget{namespacenubot_a93e65a2d123526a505e4364043785072}{\index{nubot@{nubot}!P\-Point2f@{P\-Point2f}}
+\index{P\-Point2f@{P\-Point2f}!nubot@{nubot}}
+\subsubsection[{P\-Point2f}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf P\-Point\-\_\-}$<$float$>$ {\bf nubot\-::\-P\-Point2f}}}\label{namespacenubot_a93e65a2d123526a505e4364043785072}
+\hypertarget{namespacenubot_a2de267f77449de1b98bfeb641671301b}{\index{nubot@{nubot}!P\-Point2i@{P\-Point2i}}
+\index{P\-Point2i@{P\-Point2i}!nubot@{nubot}}
+\subsubsection[{P\-Point2i}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf P\-Point\-\_\-}$<$int$>$ {\bf nubot\-::\-P\-Point2i}}}\label{namespacenubot_a2de267f77449de1b98bfeb641671301b}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespacenubot_a3e8b52719d2fc7b8d147d3334baaf92e}{\index{nubot@{nubot}!operator!=@{operator!=}}
+\index{operator!=@{operator!=}!nubot@{nubot}}
+\subsubsection[{operator!=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static bool nubot\-::operator!= (
+\begin{DoxyParamCaption}
+\item[{const P\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{const P\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a3e8b52719d2fc7b8d147d3334baaf92e}
+\hypertarget{namespacenubot_a40e374c97f88169b69143eb1d923d496}{\index{nubot@{nubot}!operator!=@{operator!=}}
+\index{operator!=@{operator!=}!nubot@{nubot}}
+\subsubsection[{operator!=}]{\setlength{\rightskip}{0pt plus 5cm}static bool nubot\-::operator!= (
+\begin{DoxyParamCaption}
+\item[{const Angle \&}]{a, }
+\item[{const Angle \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a40e374c97f88169b69143eb1d923d496}
+\hypertarget{namespacenubot_a1496d5a6655274a731501fb46074f74b}{\index{nubot@{nubot}!operator!=@{operator!=}}
+\index{operator!=@{operator!=}!nubot@{nubot}}
+\subsubsection[{operator!=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static bool nubot\-::operator!= (
+\begin{DoxyParamCaption}
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a1496d5a6655274a731501fb46074f74b}
+\hypertarget{namespacenubot_abc75ebbe41b6cf227283ca4bc48c52cf}{\index{nubot@{nubot}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nubot@{nubot}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf Angle} nubot\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const \-\_\-\-Tp \&}]{a, }
+\item[{const Angle \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_abc75ebbe41b6cf227283ca4bc48c52cf}
+\hypertarget{namespacenubot_a5bf5eca744743d34c4ec37d4c6724735}{\index{nubot@{nubot}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nubot@{nubot}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf Angle} nubot\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const Angle \&}]{a, }
+\item[{const \-\_\-\-Tp \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a5bf5eca744743d34c4ec37d4c6724735}
+\hypertarget{namespacenubot_a4ea1555b4c9a7d09b8a93f9225e6e8e4}{\index{nubot@{nubot}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nubot@{nubot}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{int}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a4ea1555b4c9a7d09b8a93f9225e6e8e4}
+\hypertarget{namespacenubot_a64a279fb92906e412ad4ca293573bb7b}{\index{nubot@{nubot}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nubot@{nubot}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{int}]{a, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a64a279fb92906e412ad4ca293573bb7b}
+\hypertarget{namespacenubot_abc957b6da745b25497bca54d774dc2fb}{\index{nubot@{nubot}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nubot@{nubot}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{float}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_abc957b6da745b25497bca54d774dc2fb}
+\hypertarget{namespacenubot_ad7c107404cae1f8d86d8dfd8892ec282}{\index{nubot@{nubot}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nubot@{nubot}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{float}]{a, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_ad7c107404cae1f8d86d8dfd8892ec282}
+\hypertarget{namespacenubot_a5790832e928725a31d8d62a1f3ee1128}{\index{nubot@{nubot}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nubot@{nubot}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{double}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a5790832e928725a31d8d62a1f3ee1128}
+\hypertarget{namespacenubot_ae3cf1882cb11f60aa153f8c6097ab971}{\index{nubot@{nubot}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nubot@{nubot}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{double}]{a, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_ae3cf1882cb11f60aa153f8c6097ab971}
+\hypertarget{namespacenubot_a713bac86edc7cd76ec0d01747eb665eb}{\index{nubot@{nubot}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!nubot@{nubot}}
+\subsubsection[{operator$\ast$=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$\& nubot\-::operator$\ast$= (
+\begin{DoxyParamCaption}
+\item[{D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{int}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a713bac86edc7cd76ec0d01747eb665eb}
+\hypertarget{namespacenubot_a09c038981f748f7d46b3648a383e832d}{\index{nubot@{nubot}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!nubot@{nubot}}
+\subsubsection[{operator$\ast$=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf Angle}\& nubot\-::operator$\ast$= (
+\begin{DoxyParamCaption}
+\item[{Angle \&}]{a, }
+\item[{\-\_\-\-Tp}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a09c038981f748f7d46b3648a383e832d}
+\hypertarget{namespacenubot_a20c7a21ca40e80113429b2565a7a2adc}{\index{nubot@{nubot}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!nubot@{nubot}}
+\subsubsection[{operator$\ast$=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$\& nubot\-::operator$\ast$= (
+\begin{DoxyParamCaption}
+\item[{D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{float}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a20c7a21ca40e80113429b2565a7a2adc}
+\hypertarget{namespacenubot_a1e26177670641c742e9632331addc7d2}{\index{nubot@{nubot}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!nubot@{nubot}}
+\subsubsection[{operator$\ast$=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$\& nubot\-::operator$\ast$= (
+\begin{DoxyParamCaption}
+\item[{D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{double}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a1e26177670641c742e9632331addc7d2}
+\hypertarget{namespacenubot_abb3de2047a7eae0cfc3700ef06c42531}{\index{nubot@{nubot}!operator+@{operator+}}
+\index{operator+@{operator+}!nubot@{nubot}}
+\subsubsection[{operator+}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Angle} nubot\-::operator+ (
+\begin{DoxyParamCaption}
+\item[{const Angle \&}]{a, }
+\item[{const Angle \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_abb3de2047a7eae0cfc3700ef06c42531}
+\hypertarget{namespacenubot_a62776a001819baf70c559410815de5c0}{\index{nubot@{nubot}!operator+@{operator+}}
+\index{operator+@{operator+}!nubot@{nubot}}
+\subsubsection[{operator+}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf Angle} nubot\-::operator+ (
+\begin{DoxyParamCaption}
+\item[{const Angle \&}]{a, }
+\item[{const \-\_\-\-Tp \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a62776a001819baf70c559410815de5c0}
+\hypertarget{namespacenubot_a327b80223b278da05a5494ac543f89b4}{\index{nubot@{nubot}!operator+@{operator+}}
+\index{operator+@{operator+}!nubot@{nubot}}
+\subsubsection[{operator+}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::operator+ (
+\begin{DoxyParamCaption}
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a327b80223b278da05a5494ac543f89b4}
+\hypertarget{namespacenubot_a61c07c4190cbbde322307bcf1152bb84}{\index{nubot@{nubot}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!nubot@{nubot}}
+\subsubsection[{operator+=}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Angle}\& nubot\-::operator+= (
+\begin{DoxyParamCaption}
+\item[{Angle \&}]{a, }
+\item[{Angle \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a61c07c4190cbbde322307bcf1152bb84}
+\hypertarget{namespacenubot_aeee7040bf2fb2c3751790a0fc77830b4}{\index{nubot@{nubot}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!nubot@{nubot}}
+\subsubsection[{operator+=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$\& nubot\-::operator+= (
+\begin{DoxyParamCaption}
+\item[{D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_aeee7040bf2fb2c3751790a0fc77830b4}
+\hypertarget{namespacenubot_a74ae3fab7d3549c26fe7f9522ad0c269}{\index{nubot@{nubot}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!nubot@{nubot}}
+\subsubsection[{operator+=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf Angle}\& nubot\-::operator+= (
+\begin{DoxyParamCaption}
+\item[{Angle \&}]{a, }
+\item[{\-\_\-\-Tp}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a74ae3fab7d3549c26fe7f9522ad0c269}
+\hypertarget{namespacenubot_aa8ca6af34711fca90938c0880bb15c49}{\index{nubot@{nubot}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!nubot@{nubot}}
+\subsubsection[{operator-\/}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Angle} nubot\-::operator-\/ (
+\begin{DoxyParamCaption}
+\item[{const Angle \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_aa8ca6af34711fca90938c0880bb15c49}
+\hypertarget{namespacenubot_a178d1f0ed2ef537f9e364bbd5596f65a}{\index{nubot@{nubot}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!nubot@{nubot}}
+\subsubsection[{operator-\/}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Angle} nubot\-::operator-\/ (
+\begin{DoxyParamCaption}
+\item[{const Angle \&}]{a, }
+\item[{const Angle \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a178d1f0ed2ef537f9e364bbd5596f65a}
+\hypertarget{namespacenubot_ac5995dd20e2c70a49a5283635b62d4c4}{\index{nubot@{nubot}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!nubot@{nubot}}
+\subsubsection[{operator-\/}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf Angle} nubot\-::operator-\/ (
+\begin{DoxyParamCaption}
+\item[{const Angle \&}]{a, }
+\item[{const \-\_\-\-Tp \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_ac5995dd20e2c70a49a5283635b62d4c4}
+\hypertarget{namespacenubot_a217fff01127372a66bb46896e0d0a4f0}{\index{nubot@{nubot}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!nubot@{nubot}}
+\subsubsection[{operator-\/}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::operator-\/ (
+\begin{DoxyParamCaption}
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a217fff01127372a66bb46896e0d0a4f0}
+\hypertarget{namespacenubot_a14de3c0253b772c1e9ad60636de13166}{\index{nubot@{nubot}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!nubot@{nubot}}
+\subsubsection[{operator-\/}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::operator-\/ (
+\begin{DoxyParamCaption}
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a14de3c0253b772c1e9ad60636de13166}
+\hypertarget{namespacenubot_a9f354e0f2d292ee266b97e92ff8d3e2d}{\index{nubot@{nubot}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!nubot@{nubot}}
+\subsubsection[{operator-\/=}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Angle}\& nubot\-::operator-\/= (
+\begin{DoxyParamCaption}
+\item[{Angle \&}]{a, }
+\item[{Angle \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a9f354e0f2d292ee266b97e92ff8d3e2d}
+\hypertarget{namespacenubot_a3b73a3b6b460533f8ad79c02efb36d4b}{\index{nubot@{nubot}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!nubot@{nubot}}
+\subsubsection[{operator-\/=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$\& nubot\-::operator-\/= (
+\begin{DoxyParamCaption}
+\item[{D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a3b73a3b6b460533f8ad79c02efb36d4b}
+\hypertarget{namespacenubot_a8b3e71c1f93f2750899624ab045dc8ed}{\index{nubot@{nubot}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!nubot@{nubot}}
+\subsubsection[{operator-\/=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf Angle}\& nubot\-::operator-\/= (
+\begin{DoxyParamCaption}
+\item[{Angle \&}]{a, }
+\item[{\-\_\-\-Tp}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a8b3e71c1f93f2750899624ab045dc8ed}
+\hypertarget{namespacenubot_a6a8464620069fa497dde914b198caac5}{\index{nubot@{nubot}!operator/=@{operator/=}}
+\index{operator/=@{operator/=}!nubot@{nubot}}
+\subsubsection[{operator/=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf Angle}\& nubot\-::operator/= (
+\begin{DoxyParamCaption}
+\item[{Angle \&}]{a, }
+\item[{\-\_\-\-Tp}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a6a8464620069fa497dde914b198caac5}
+\hypertarget{namespacenubot_aa6e91d1453a83f9f89065776a6f7f7de}{\index{nubot@{nubot}!operator==@{operator==}}
+\index{operator==@{operator==}!nubot@{nubot}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static bool nubot\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const P\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{const P\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_aa6e91d1453a83f9f89065776a6f7f7de}
+\hypertarget{namespacenubot_af329ad82a05c28a0fc51c500e537fe55}{\index{nubot@{nubot}!operator==@{operator==}}
+\index{operator==@{operator==}!nubot@{nubot}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}static bool nubot\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const Angle \&}]{a, }
+\item[{const Angle \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_af329ad82a05c28a0fc51c500e537fe55}
+\hypertarget{namespacenubot_a75e598a8e71a10c59ae03ba2159e5ea8}{\index{nubot@{nubot}!operator==@{operator==}}
+\index{operator==@{operator==}!nubot@{nubot}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static bool nubot\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{a, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a75e598a8e71a10c59ae03ba2159e5ea8}
+\hypertarget{namespacenubot_a822e3dc5ebbc620d8478f5cc78ed8665}{\index{nubot@{nubot}!pointinline@{pointinline}}
+\index{pointinline@{pointinline}!nubot@{nubot}}
+\subsubsection[{pointinline}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::pointinline (
+\begin{DoxyParamCaption}
+\item[{const Line\-\_\- \&}]{line, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{pt, }
+\item[{double}]{dis}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a822e3dc5ebbc620d8478f5cc78ed8665}
+
+
+get the point which has the dis with pt in line 
+
+\hypertarget{namespacenubot_a1ff5f24d4f83aa4e31f28cef699a3507}{\index{nubot@{nubot}!verticalline@{verticalline}}
+\index{verticalline@{verticalline}!nubot@{nubot}}
+\subsubsection[{verticalline}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf Line\-\_\-} nubot\-::verticalline (
+\begin{DoxyParamCaption}
+\item[{const Line\-\_\- \&}]{line, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{pt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a1ff5f24d4f83aa4e31f28cef699a3507}
+
+
+get the vertical line which passes through point pt; 
+
+\hypertarget{namespacenubot_a3ef23abce325d44c7509330711f673f2}{\index{nubot@{nubot}!verticalpoint@{verticalpoint}}
+\index{verticalpoint@{verticalpoint}!nubot@{nubot}}
+\subsubsection[{verticalpoint}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ static {\bf D\-Point\-\_\-}$<$\-\_\-\-Tp$>$ nubot\-::verticalpoint (
+\begin{DoxyParamCaption}
+\item[{const Line\-\_\- \&}]{line, }
+\item[{const D\-Point\-\_\-$<$ \-\_\-\-Tp $>$ \&}]{pt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{namespacenubot_a3ef23abce325d44c7509330711f673f2}
+get the vertical point which is in the line, and the new line connects the vertical point and input point pt is vertical with original line 

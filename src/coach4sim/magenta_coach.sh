@@ -13,7 +13,7 @@ magenta_prefix=$(rosparam get /magenta/prefix)
 #rosrun world_model world_model_node& & __name:=$(magenta_prefix)_wm &
 #let "kill_num=kill_num+1"
 
-rosrun nubot_coach nubot_coach_node ${magenta_prefix} __name:=nubot_coach_magenta &
+rosrun coach4sim nubot_coach_node ${magenta_prefix} __name:=coach4sim_magenta &
 PIDS[kill_num]=$!
 let "kill_num=kill_num+1"
 

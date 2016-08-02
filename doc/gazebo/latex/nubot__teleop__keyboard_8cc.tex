@@ -1,0 +1,130 @@
+\hypertarget{nubot__teleop__keyboard_8cc}{\section{src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/nubot\-\_\-teleop\-\_\-keyboard.cc File Reference}
+\label{nubot__teleop__keyboard_8cc}\index{src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/nubot\-\_\-teleop\-\_\-keyboard.\-cc@{src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$signal.\-h$>$}\\*
+{\ttfamily \#include $<$termios.\-h$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include \char`\"{}nubot\-\_\-teleop\-\_\-keyboard.\-hh\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_a35f69a612b07bbf1de53bbbd8d877c09}{R\-U\-N}~-\/1
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_aade79338e8a13001ae5ed198e40dd844}{F\-L\-Y}~1
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_ad68e68f441f2dd17b96f695fa76c1c28}{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R}~0x43
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_a100314cda229a11092e12ecedd53a85a}{K\-E\-Y\-C\-O\-D\-E\-\_\-\-L}~0x44
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_af84143a30564f2bca0fbd7d7b6b4c253}{K\-E\-Y\-C\-O\-D\-E\-\_\-\-U}~0x41
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_af0c998786dcada98bf809fea0b157603}{K\-E\-Y\-C\-O\-D\-E\-\_\-\-D}~0x42
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_a5663d439a634b5b62f17368a80bb4e76}{K\-E\-Y\-C\-O\-D\-E\-\_\-\-Z}~0x7a
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_ad68c2a7bcf6375c5d17e4082bd0e9d32}{K\-E\-Y\-C\-O\-D\-E\-\_\-\-X}~0x78
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_a5790443f81bd04e800a3f62b718dc934}{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-O}~0x2c
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_a8f8c1d36afd16de0e53458df55775c4d}{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-R}~0x2e
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_acce4f5cd0e54294bde01a0ec949db5cd}{K\-E\-Y\-C\-O\-D\-E\-\_\-\-S\-P}~0x20
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_ab7d66695dede78826ee578ddfc5a92aa}{V\-E\-L\-O\-C\-I\-T\-Y}~1
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_a8913b4bfc15703ad42ca91552a8d5796}{O\-M\-E\-G\-A}~1.\-0
+\item 
+\#define \hyperlink{nubot__teleop__keyboard_8cc_a7505252e0d43e9d4cbddc8b428e27446}{K\-I\-C\-K\-\_\-\-B\-A\-L\-L\-\_\-\-V\-E\-L}~5.\-0
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{nubot__teleop__keyboard_8cc_af9150b82e29a37ab848ee2f66e993793}{quit} (int sig)
+\item 
+int \hyperlink{nubot__teleop__keyboard_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{nubot__teleop__keyboard_8cc_a886857c2b2af9d1ac9a0ad403685e160}{kfd} = 0
+\item 
+struct termios cooked \hyperlink{nubot__teleop__keyboard_8cc_a22578afdd6632157bdfb67a2b2033378}{raw}
+\item 
+std\-::string \hyperlink{nubot__teleop__keyboard_8cc_ad866931981756c1f4afca845d00670d9}{robot\-\_\-num}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{nubot__teleop__keyboard_8cc_aade79338e8a13001ae5ed198e40dd844}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!F\-L\-Y@{F\-L\-Y}}
+\index{F\-L\-Y@{F\-L\-Y}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{F\-L\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-L\-Y~1}}\label{nubot__teleop__keyboard_8cc_aade79338e8a13001ae5ed198e40dd844}
+\hypertarget{nubot__teleop__keyboard_8cc_af0c998786dcada98bf809fea0b157603}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-E\-Y\-C\-O\-D\-E\-\_\-\-D@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-D}}
+\index{K\-E\-Y\-C\-O\-D\-E\-\_\-\-D@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-D}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-E\-Y\-C\-O\-D\-E\-\_\-\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-C\-O\-D\-E\-\_\-\-D~0x42}}\label{nubot__teleop__keyboard_8cc_af0c998786dcada98bf809fea0b157603}
+\hypertarget{nubot__teleop__keyboard_8cc_a100314cda229a11092e12ecedd53a85a}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-E\-Y\-C\-O\-D\-E\-\_\-\-L@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-L}}
+\index{K\-E\-Y\-C\-O\-D\-E\-\_\-\-L@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-L}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-E\-Y\-C\-O\-D\-E\-\_\-\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-C\-O\-D\-E\-\_\-\-L~0x44}}\label{nubot__teleop__keyboard_8cc_a100314cda229a11092e12ecedd53a85a}
+\hypertarget{nubot__teleop__keyboard_8cc_ad68e68f441f2dd17b96f695fa76c1c28}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-E\-Y\-C\-O\-D\-E\-\_\-\-R@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R}}
+\index{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-C\-O\-D\-E\-\_\-\-R~0x43}}\label{nubot__teleop__keyboard_8cc_ad68e68f441f2dd17b96f695fa76c1c28}
+\hypertarget{nubot__teleop__keyboard_8cc_a5790443f81bd04e800a3f62b718dc934}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-O@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-O}}
+\index{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-O@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-O}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-O}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-O~0x2c}}\label{nubot__teleop__keyboard_8cc_a5790443f81bd04e800a3f62b718dc934}
+\hypertarget{nubot__teleop__keyboard_8cc_a8f8c1d36afd16de0e53458df55775c4d}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-R@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-R}}
+\index{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-R@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-R}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-C\-O\-D\-E\-\_\-\-R\-R~0x2e}}\label{nubot__teleop__keyboard_8cc_a8f8c1d36afd16de0e53458df55775c4d}
+\hypertarget{nubot__teleop__keyboard_8cc_acce4f5cd0e54294bde01a0ec949db5cd}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-E\-Y\-C\-O\-D\-E\-\_\-\-S\-P@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-S\-P}}
+\index{K\-E\-Y\-C\-O\-D\-E\-\_\-\-S\-P@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-S\-P}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-E\-Y\-C\-O\-D\-E\-\_\-\-S\-P}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-C\-O\-D\-E\-\_\-\-S\-P~0x20}}\label{nubot__teleop__keyboard_8cc_acce4f5cd0e54294bde01a0ec949db5cd}
+\hypertarget{nubot__teleop__keyboard_8cc_af84143a30564f2bca0fbd7d7b6b4c253}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-E\-Y\-C\-O\-D\-E\-\_\-\-U@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-U}}
+\index{K\-E\-Y\-C\-O\-D\-E\-\_\-\-U@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-U}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-E\-Y\-C\-O\-D\-E\-\_\-\-U}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-C\-O\-D\-E\-\_\-\-U~0x41}}\label{nubot__teleop__keyboard_8cc_af84143a30564f2bca0fbd7d7b6b4c253}
+\hypertarget{nubot__teleop__keyboard_8cc_ad68c2a7bcf6375c5d17e4082bd0e9d32}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-E\-Y\-C\-O\-D\-E\-\_\-\-X@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-X}}
+\index{K\-E\-Y\-C\-O\-D\-E\-\_\-\-X@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-X}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-E\-Y\-C\-O\-D\-E\-\_\-\-X}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-C\-O\-D\-E\-\_\-\-X~0x78}}\label{nubot__teleop__keyboard_8cc_ad68c2a7bcf6375c5d17e4082bd0e9d32}
+\hypertarget{nubot__teleop__keyboard_8cc_a5663d439a634b5b62f17368a80bb4e76}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-E\-Y\-C\-O\-D\-E\-\_\-\-Z@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-Z}}
+\index{K\-E\-Y\-C\-O\-D\-E\-\_\-\-Z@{K\-E\-Y\-C\-O\-D\-E\-\_\-\-Z}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-E\-Y\-C\-O\-D\-E\-\_\-\-Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-C\-O\-D\-E\-\_\-\-Z~0x7a}}\label{nubot__teleop__keyboard_8cc_a5663d439a634b5b62f17368a80bb4e76}
+\hypertarget{nubot__teleop__keyboard_8cc_a7505252e0d43e9d4cbddc8b428e27446}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!K\-I\-C\-K\-\_\-\-B\-A\-L\-L\-\_\-\-V\-E\-L@{K\-I\-C\-K\-\_\-\-B\-A\-L\-L\-\_\-\-V\-E\-L}}
+\index{K\-I\-C\-K\-\_\-\-B\-A\-L\-L\-\_\-\-V\-E\-L@{K\-I\-C\-K\-\_\-\-B\-A\-L\-L\-\_\-\-V\-E\-L}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{K\-I\-C\-K\-\_\-\-B\-A\-L\-L\-\_\-\-V\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-I\-C\-K\-\_\-\-B\-A\-L\-L\-\_\-\-V\-E\-L~5.\-0}}\label{nubot__teleop__keyboard_8cc_a7505252e0d43e9d4cbddc8b428e27446}
+\hypertarget{nubot__teleop__keyboard_8cc_a8913b4bfc15703ad42ca91552a8d5796}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!O\-M\-E\-G\-A@{O\-M\-E\-G\-A}}
+\index{O\-M\-E\-G\-A@{O\-M\-E\-G\-A}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{O\-M\-E\-G\-A}]{\setlength{\rightskip}{0pt plus 5cm}\#define O\-M\-E\-G\-A~1.\-0}}\label{nubot__teleop__keyboard_8cc_a8913b4bfc15703ad42ca91552a8d5796}
+\hypertarget{nubot__teleop__keyboard_8cc_a35f69a612b07bbf1de53bbbd8d877c09}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!R\-U\-N@{R\-U\-N}}
+\index{R\-U\-N@{R\-U\-N}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{R\-U\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\-U\-N~-\/1}}\label{nubot__teleop__keyboard_8cc_a35f69a612b07bbf1de53bbbd8d877c09}
+\hypertarget{nubot__teleop__keyboard_8cc_ab7d66695dede78826ee578ddfc5a92aa}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!V\-E\-L\-O\-C\-I\-T\-Y@{V\-E\-L\-O\-C\-I\-T\-Y}}
+\index{V\-E\-L\-O\-C\-I\-T\-Y@{V\-E\-L\-O\-C\-I\-T\-Y}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{V\-E\-L\-O\-C\-I\-T\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\-E\-L\-O\-C\-I\-T\-Y~1}}\label{nubot__teleop__keyboard_8cc_ab7d66695dede78826ee578ddfc5a92aa}
+
+
+\subsection{Function Documentation}
+\hypertarget{nubot__teleop__keyboard_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!main@{main}}
+\index{main@{main}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{nubot__teleop__keyboard_8cc_a3c04138a5bfe5d72780bb7e82a18e627}
+\hypertarget{nubot__teleop__keyboard_8cc_af9150b82e29a37ab848ee2f66e993793}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!quit@{quit}}
+\index{quit@{quit}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{quit}]{\setlength{\rightskip}{0pt plus 5cm}void quit (
+\begin{DoxyParamCaption}
+\item[{int}]{sig}
+\end{DoxyParamCaption}
+)}}\label{nubot__teleop__keyboard_8cc_af9150b82e29a37ab848ee2f66e993793}
+
+
+\subsection{Variable Documentation}
+\hypertarget{nubot__teleop__keyboard_8cc_a886857c2b2af9d1ac9a0ad403685e160}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!kfd@{kfd}}
+\index{kfd@{kfd}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{kfd}]{\setlength{\rightskip}{0pt plus 5cm}int kfd = 0}}\label{nubot__teleop__keyboard_8cc_a886857c2b2af9d1ac9a0ad403685e160}
+\hypertarget{nubot__teleop__keyboard_8cc_a22578afdd6632157bdfb67a2b2033378}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!raw@{raw}}
+\index{raw@{raw}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{raw}]{\setlength{\rightskip}{0pt plus 5cm}struct termios cooked raw}}\label{nubot__teleop__keyboard_8cc_a22578afdd6632157bdfb67a2b2033378}
+\hypertarget{nubot__teleop__keyboard_8cc_ad866931981756c1f4afca845d00670d9}{\index{nubot\-\_\-teleop\-\_\-keyboard.\-cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}!robot\-\_\-num@{robot\-\_\-num}}
+\index{robot\-\_\-num@{robot\-\_\-num}!nubot_teleop_keyboard.cc@{nubot\-\_\-teleop\-\_\-keyboard.\-cc}}
+\subsubsection[{robot\-\_\-num}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string robot\-\_\-num}}\label{nubot__teleop__keyboard_8cc_ad866931981756c1f4afca845d00670d9}

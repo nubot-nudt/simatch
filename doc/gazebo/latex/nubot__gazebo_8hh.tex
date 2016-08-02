@@ -1,0 +1,91 @@
+\hypertarget{nubot__gazebo_8hh}{\section{src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/nubot\-\_\-gazebo.hh File Reference}
+\label{nubot__gazebo_8hh}\index{src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/nubot\-\_\-gazebo.\-hh@{src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/nubot\-\_\-gazebo.\-hh}}
+}
+{\ttfamily \#include $<$boost/bind.\-hpp$>$}\\*
+{\ttfamily \#include $<$gazebo/gazebo.\-hh$>$}\\*
+{\ttfamily \#include $<$gazebo/physics/physics.\-hh$>$}\\*
+{\ttfamily \#include $<$gazebo/common/common.\-hh$>$}\\*
+{\ttfamily \#include $<$gazebo/common/\-Plugin.\-hh$>$}\\*
+{\ttfamily \#include $<$gazebo/common/\-Events.\-hh$>$}\\*
+{\ttfamily \#include $<$ros/callback\-\_\-queue.\-h$>$}\\*
+{\ttfamily \#include $<$ros/subscribe\-\_\-options.\-h$>$}\\*
+{\ttfamily \#include $<$gazebo\-\_\-msgs/\-Model\-States.\-h$>$}\\*
+{\ttfamily \#include $<$gazebo\-\_\-msgs/\-Model\-State.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}nubot\-\_\-common/\-Vel\-Cmd.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}nubot\-\_\-common/\-Shoot.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}nubot\-\_\-common/\-Ball\-Handle.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include $<$boost/thread.\-hpp$>$}\\*
+{\ttfamily \#include $<$boost/thread/mutex.\-hpp$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include \char`\"{}nubot/core/core.\-hpp\char`\"{}}\\*
+{\ttfamily \#include $<$nubot\-\_\-gazebo/\-Nubot\-Gazebo\-Config.\-h$>$}\\*
+{\ttfamily \#include $<$dynamic\-\_\-reconfigure/server.\-h$>$}\\*
+{\ttfamily \#include $<$pthread.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}nubot\-\_\-\-P\-I\-D.\-hh\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}parabolic\-\_\-transition\-\_\-planning.\-hh\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structgazebo_1_1Pose}{gazebo\-::\-Pose}
+\item 
+struct \hyperlink{structgazebo_1_1Twist}{gazebo\-::\-Twist}
+\item 
+struct \hyperlink{structgazebo_1_1model__state}{gazebo\-::model\-\_\-state}
+\item 
+class \hyperlink{classgazebo_1_1NubotGazebo}{gazebo\-::\-Nubot\-Gazebo}
+\begin{DoxyCompactList}\small\item\em A basic motions realization in Gazebo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespacegazebo}{gazebo}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953b}{nubot\-\_\-state} \{ \\*
+\hyperlink{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba11f40e487a9654ac3bd15a1463898275}{C\-H\-A\-S\-E\-\_\-\-B\-A\-L\-L}, 
+\hyperlink{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953babc8e41c2d63243ae782d425719dd355c}{D\-R\-I\-B\-B\-L\-E\-\_\-\-B\-A\-L\-L}, 
+\hyperlink{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba2fc2989f8c52255c003e122db39b885e}{K\-I\-C\-K\-\_\-\-B\-A\-L\-L}, 
+\hyperlink{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba589b7d94a3d91d145720e2fed0eb3a05}{R\-E\-S\-E\-T}, 
+\\*
+\hyperlink{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba8f280224da64e98f2d52d50ec43bc197}{H\-O\-M\-E}
+ \}
+\item 
+enum \hyperlink{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528}{nubot\-\_\-substate} \{ \hyperlink{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528a34c99321316fe6ceed43466e9627a0c5}{M\-O\-V\-E\-\_\-\-B\-A\-L\-L}, 
+\hyperlink{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528abdcb91b3f5374a0c1d9e7325816dc93c}{R\-O\-T\-A\-T\-E\-\_\-\-B\-A\-L\-L}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953b}{\index{nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}!nubot\-\_\-state@{nubot\-\_\-state}}
+\index{nubot\-\_\-state@{nubot\-\_\-state}!nubot_gazebo.hh@{nubot\-\_\-gazebo.\-hh}}
+\subsubsection[{nubot\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf nubot\-\_\-state}}}\label{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953b}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\-H\-A\-S\-E\-\_\-\-B\-A\-L\-L@{C\-H\-A\-S\-E\-\_\-\-B\-A\-L\-L}!nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}}\index{nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}!C\-H\-A\-S\-E\-\_\-\-B\-A\-L\-L@{C\-H\-A\-S\-E\-\_\-\-B\-A\-L\-L}}\item[{\em 
+\hypertarget{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba11f40e487a9654ac3bd15a1463898275}{C\-H\-A\-S\-E\-\_\-\-B\-A\-L\-L}\label{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba11f40e487a9654ac3bd15a1463898275}
+}]\index{D\-R\-I\-B\-B\-L\-E\-\_\-\-B\-A\-L\-L@{D\-R\-I\-B\-B\-L\-E\-\_\-\-B\-A\-L\-L}!nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}}\index{nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}!D\-R\-I\-B\-B\-L\-E\-\_\-\-B\-A\-L\-L@{D\-R\-I\-B\-B\-L\-E\-\_\-\-B\-A\-L\-L}}\item[{\em 
+\hypertarget{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953babc8e41c2d63243ae782d425719dd355c}{D\-R\-I\-B\-B\-L\-E\-\_\-\-B\-A\-L\-L}\label{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953babc8e41c2d63243ae782d425719dd355c}
+}]\index{K\-I\-C\-K\-\_\-\-B\-A\-L\-L@{K\-I\-C\-K\-\_\-\-B\-A\-L\-L}!nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}}\index{nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}!K\-I\-C\-K\-\_\-\-B\-A\-L\-L@{K\-I\-C\-K\-\_\-\-B\-A\-L\-L}}\item[{\em 
+\hypertarget{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba2fc2989f8c52255c003e122db39b885e}{K\-I\-C\-K\-\_\-\-B\-A\-L\-L}\label{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba2fc2989f8c52255c003e122db39b885e}
+}]\index{R\-E\-S\-E\-T@{R\-E\-S\-E\-T}!nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}}\index{nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}!R\-E\-S\-E\-T@{R\-E\-S\-E\-T}}\item[{\em 
+\hypertarget{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba589b7d94a3d91d145720e2fed0eb3a05}{R\-E\-S\-E\-T}\label{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba589b7d94a3d91d145720e2fed0eb3a05}
+}]\index{H\-O\-M\-E@{H\-O\-M\-E}!nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}}\index{nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}!H\-O\-M\-E@{H\-O\-M\-E}}\item[{\em 
+\hypertarget{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba8f280224da64e98f2d52d50ec43bc197}{H\-O\-M\-E}\label{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953ba8f280224da64e98f2d52d50ec43bc197}
+}]\end{description}
+\end{Desc}
+\hypertarget{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528}{\index{nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}!nubot\-\_\-substate@{nubot\-\_\-substate}}
+\index{nubot\-\_\-substate@{nubot\-\_\-substate}!nubot_gazebo.hh@{nubot\-\_\-gazebo.\-hh}}
+\subsubsection[{nubot\-\_\-substate}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf nubot\-\_\-substate}}}\label{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{M\-O\-V\-E\-\_\-\-B\-A\-L\-L@{M\-O\-V\-E\-\_\-\-B\-A\-L\-L}!nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}}\index{nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}!M\-O\-V\-E\-\_\-\-B\-A\-L\-L@{M\-O\-V\-E\-\_\-\-B\-A\-L\-L}}\item[{\em 
+\hypertarget{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528a34c99321316fe6ceed43466e9627a0c5}{M\-O\-V\-E\-\_\-\-B\-A\-L\-L}\label{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528a34c99321316fe6ceed43466e9627a0c5}
+}]\index{R\-O\-T\-A\-T\-E\-\_\-\-B\-A\-L\-L@{R\-O\-T\-A\-T\-E\-\_\-\-B\-A\-L\-L}!nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}}\index{nubot\-\_\-gazebo.\-hh@{nubot\-\_\-gazebo.\-hh}!R\-O\-T\-A\-T\-E\-\_\-\-B\-A\-L\-L@{R\-O\-T\-A\-T\-E\-\_\-\-B\-A\-L\-L}}\item[{\em 
+\hypertarget{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528abdcb91b3f5374a0c1d9e7325816dc93c}{R\-O\-T\-A\-T\-E\-\_\-\-B\-A\-L\-L}\label{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528abdcb91b3f5374a0c1d9e7325816dc93c}
+}]\end{description}
+\end{Desc}

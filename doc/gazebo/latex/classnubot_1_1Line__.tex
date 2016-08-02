@@ -1,0 +1,202 @@
+\hypertarget{classnubot_1_1Line__}{\section{nubot\-:\-:Line\-\_\- Class Reference}
+\label{classnubot_1_1Line__}\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}}
+}
+
+
+{\ttfamily \#include $<$Line.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classnubot_1_1Line___af1cbf1f7e8d5f398bfa04636ab84ff4d}{Line\-\_\-} ()
+\item 
+\hyperlink{classnubot_1_1Line___a42dae13f70c2c713bb6a8e1c294b36e5}{Line\-\_\-} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line)
+\item 
+\hyperlink{classnubot_1_1Line___a53cffb2a64d15a9a3abee89ef16f099a}{Line\-\_\-} (double a, double b, double c)
+\begin{DoxyCompactList}\small\item\em general form of line \end{DoxyCompactList}\item 
+\hyperlink{classnubot_1_1Line___ab8872471a644ac3124ec5046843513a1}{Line\-\_\-} (double k, double b)
+\begin{DoxyCompactList}\small\item\em line from slope k and intercept n \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\\hyperlink{classnubot_1_1Line___ad039d75b78c9c4b47da641b96e581ccf}{Line\-\_\-} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt1, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt2)
+\begin{DoxyCompactList}\small\item\em line from two points \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\\hyperlink{classnubot_1_1Line___a98c59bbad204ed81dfb7575e1dde42b6}{Line\-\_\-} (double k, const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt)
+\begin{DoxyCompactList}\small\item\em line from slope k and a point \end{DoxyCompactList}\item 
+bool \hyperlink{classnubot_1_1Line___a3518fa7936f488fe013454c43e40d1b9}{is\-Parallel} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line) const 
+\begin{DoxyCompactList}\small\item\em whether the line is parallel \end{DoxyCompactList}\item 
+bool \hyperlink{classnubot_1_1Line___a824b937e1c6179590b078036e9ea2d87}{is\-Orthogonal} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line) const 
+\begin{DoxyCompactList}\small\item\em whether the line is orthogonal \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \-\_\-\-Tp $>$ }\\double \hyperlink{classnubot_1_1Line___a2922d374fef598bcc7d12a74a7923e92}{distance} (const \hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&pt) const 
+\begin{DoxyCompactList}\small\item\em the distance between a point and a line; \end{DoxyCompactList}\item 
+double \hyperlink{classnubot_1_1Line___acaffff55fb8e0e3ec80ecc759ad92052}{distance} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line) const 
+\begin{DoxyCompactList}\small\item\em the distance between two parallel lines \end{DoxyCompactList}\item 
+\hyperlink{classnubot_1_1DPoint__}{D\-Point\-\_\-}$<$ double $>$ \hyperlink{classnubot_1_1Line___a11716bc7ffee70394aeb54fbb6acc1a6}{crosspoint} (const \hyperlink{classnubot_1_1Line__}{Line\-\_\-} \&line) const 
+\begin{DoxyCompactList}\small\item\em the cross point of two lines; \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classnubot_1_1Line___a78d6e6771b3542aeac3092b28c6f8477}{A\-\_\-}
+\item 
+double \hyperlink{classnubot_1_1Line___a6ec007dca1b1a5ae1132290dea230545}{B\-\_\-}
+\item 
+double \hyperlink{classnubot_1_1Line___a2949bf29de27c89c653afb5ca77c30d3}{C\-\_\-}
+\item 
+double \hyperlink{classnubot_1_1Line___a569a0bc980db41b36ad5471811b8dc87}{k\-\_\-}
+\item 
+double \hyperlink{classnubot_1_1Line___a57c955f64b7b2ecf2858f589c1880a45}{b\-\_\-}
+\item 
+bool \hyperlink{classnubot_1_1Line___a24e8175ccedd35f48fea06f34f0e4ee6}{is\-Slope\-\_\-}
+\item 
+bool \hyperlink{classnubot_1_1Line___accfccb14bb889d1579c653aed927fb82}{is\-Line\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classnubot_1_1Line___af1cbf1f7e8d5f398bfa04636ab84ff4d}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!Line\-\_\-@{Line\-\_\-}}
+\index{Line\-\_\-@{Line\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{Line\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-::\-Line\-\_\-\-::\-Line\-\_\- (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___af1cbf1f7e8d5f398bfa04636ab84ff4d}
+\hypertarget{classnubot_1_1Line___a42dae13f70c2c713bb6a8e1c294b36e5}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!Line\-\_\-@{Line\-\_\-}}
+\index{Line\-\_\-@{Line\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{Line\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-::\-Line\-\_\-\-::\-Line\-\_\- (
+\begin{DoxyParamCaption}
+\item[{const {\bf Line\-\_\-} \&}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___a42dae13f70c2c713bb6a8e1c294b36e5}
+\hypertarget{classnubot_1_1Line___a53cffb2a64d15a9a3abee89ef16f099a}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!Line\-\_\-@{Line\-\_\-}}
+\index{Line\-\_\-@{Line\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{Line\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-::\-Line\-\_\-\-::\-Line\-\_\- (
+\begin{DoxyParamCaption}
+\item[{double}]{a, }
+\item[{double}]{b, }
+\item[{double}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___a53cffb2a64d15a9a3abee89ef16f099a}
+
+
+general form of line 
+
+\hypertarget{classnubot_1_1Line___ab8872471a644ac3124ec5046843513a1}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!Line\-\_\-@{Line\-\_\-}}
+\index{Line\-\_\-@{Line\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{Line\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-::\-Line\-\_\-\-::\-Line\-\_\- (
+\begin{DoxyParamCaption}
+\item[{double}]{k, }
+\item[{double}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___ab8872471a644ac3124ec5046843513a1}
+
+
+line from slope k and intercept n 
+
+\hypertarget{classnubot_1_1Line___ad039d75b78c9c4b47da641b96e581ccf}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!Line\-\_\-@{Line\-\_\-}}
+\index{Line\-\_\-@{Line\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{Line\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ nubot\-::\-Line\-\_\-\-::\-Line\-\_\- (
+\begin{DoxyParamCaption}
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{pt1, }
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{pt2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___ad039d75b78c9c4b47da641b96e581ccf}
+
+
+line from two points 
+
+\hypertarget{classnubot_1_1Line___a98c59bbad204ed81dfb7575e1dde42b6}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!Line\-\_\-@{Line\-\_\-}}
+\index{Line\-\_\-@{Line\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{Line\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ nubot\-::\-Line\-\_\-\-::\-Line\-\_\- (
+\begin{DoxyParamCaption}
+\item[{double}]{k, }
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{pt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___a98c59bbad204ed81dfb7575e1dde42b6}
+
+
+line from slope k and a point 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classnubot_1_1Line___a11716bc7ffee70394aeb54fbb6acc1a6}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!crosspoint@{crosspoint}}
+\index{crosspoint@{crosspoint}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{crosspoint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf D\-Point\-\_\-}$<$ double $>$ nubot\-::\-Line\-\_\-\-::crosspoint (
+\begin{DoxyParamCaption}
+\item[{const {\bf Line\-\_\-} \&}]{line}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___a11716bc7ffee70394aeb54fbb6acc1a6}
+
+
+the cross point of two lines; 
+
+\hypertarget{classnubot_1_1Line___a2922d374fef598bcc7d12a74a7923e92}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!distance@{distance}}
+\index{distance@{distance}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{distance}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Tp $>$ double nubot\-::\-Line\-\_\-\-::distance (
+\begin{DoxyParamCaption}
+\item[{const {\bf D\-Point\-\_\-}$<$ \-\_\-\-Tp $>$ \&}]{pt}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___a2922d374fef598bcc7d12a74a7923e92}
+
+
+the distance between a point and a line; 
+
+\hypertarget{classnubot_1_1Line___acaffff55fb8e0e3ec80ecc759ad92052}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!distance@{distance}}
+\index{distance@{distance}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{distance}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Line\-\_\-\-::distance (
+\begin{DoxyParamCaption}
+\item[{const {\bf Line\-\_\-} \&}]{line}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___acaffff55fb8e0e3ec80ecc759ad92052}
+
+
+the distance between two parallel lines 
+
+\hypertarget{classnubot_1_1Line___a824b937e1c6179590b078036e9ea2d87}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!is\-Orthogonal@{is\-Orthogonal}}
+\index{is\-Orthogonal@{is\-Orthogonal}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{is\-Orthogonal}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Line\-\_\-\-::is\-Orthogonal (
+\begin{DoxyParamCaption}
+\item[{const {\bf Line\-\_\-} \&}]{line}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___a824b937e1c6179590b078036e9ea2d87}
+
+
+whether the line is orthogonal 
+
+\hypertarget{classnubot_1_1Line___a3518fa7936f488fe013454c43e40d1b9}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!is\-Parallel@{is\-Parallel}}
+\index{is\-Parallel@{is\-Parallel}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{is\-Parallel}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Line\-\_\-\-::is\-Parallel (
+\begin{DoxyParamCaption}
+\item[{const {\bf Line\-\_\-} \&}]{line}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classnubot_1_1Line___a3518fa7936f488fe013454c43e40d1b9}
+
+
+whether the line is parallel 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classnubot_1_1Line___a78d6e6771b3542aeac3092b28c6f8477}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!A\-\_\-@{A\-\_\-}}
+\index{A\-\_\-@{A\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{A\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Line\-\_\-\-::\-A\-\_\-}}\label{classnubot_1_1Line___a78d6e6771b3542aeac3092b28c6f8477}
+\hypertarget{classnubot_1_1Line___a6ec007dca1b1a5ae1132290dea230545}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!B\-\_\-@{B\-\_\-}}
+\index{B\-\_\-@{B\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{B\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Line\-\_\-\-::\-B\-\_\-}}\label{classnubot_1_1Line___a6ec007dca1b1a5ae1132290dea230545}
+\hypertarget{classnubot_1_1Line___a57c955f64b7b2ecf2858f589c1880a45}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!b\-\_\-@{b\-\_\-}}
+\index{b\-\_\-@{b\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{b\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Line\-\_\-\-::b\-\_\-}}\label{classnubot_1_1Line___a57c955f64b7b2ecf2858f589c1880a45}
+\hypertarget{classnubot_1_1Line___a2949bf29de27c89c653afb5ca77c30d3}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!C\-\_\-@{C\-\_\-}}
+\index{C\-\_\-@{C\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{C\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Line\-\_\-\-::\-C\-\_\-}}\label{classnubot_1_1Line___a2949bf29de27c89c653afb5ca77c30d3}
+\hypertarget{classnubot_1_1Line___accfccb14bb889d1579c653aed927fb82}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!is\-Line\-\_\-@{is\-Line\-\_\-}}
+\index{is\-Line\-\_\-@{is\-Line\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{is\-Line\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Line\-\_\-\-::is\-Line\-\_\-}}\label{classnubot_1_1Line___accfccb14bb889d1579c653aed927fb82}
+\hypertarget{classnubot_1_1Line___a24e8175ccedd35f48fea06f34f0e4ee6}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!is\-Slope\-\_\-@{is\-Slope\-\_\-}}
+\index{is\-Slope\-\_\-@{is\-Slope\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{is\-Slope\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Line\-\_\-\-::is\-Slope\-\_\-}}\label{classnubot_1_1Line___a24e8175ccedd35f48fea06f34f0e4ee6}
+\hypertarget{classnubot_1_1Line___a569a0bc980db41b36ad5471811b8dc87}{\index{nubot\-::\-Line\-\_\-@{nubot\-::\-Line\-\_\-}!k\-\_\-@{k\-\_\-}}
+\index{k\-\_\-@{k\-\_\-}!nubot::Line_@{nubot\-::\-Line\-\_\-}}
+\subsubsection[{k\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Line\-\_\-\-::k\-\_\-}}\label{classnubot_1_1Line___a569a0bc980db41b36ad5471811b8dc87}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/nubot\-\_\-common/core/include/nubot/core/\hyperlink{Line_8hpp}{Line.\-hpp}\end{DoxyCompactItemize}

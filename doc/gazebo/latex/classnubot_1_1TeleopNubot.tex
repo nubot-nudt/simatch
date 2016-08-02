@@ -1,0 +1,122 @@
+\hypertarget{classnubot_1_1TeleopNubot}{\section{nubot\-:\-:Teleop\-Nubot Class Reference}
+\label{classnubot_1_1TeleopNubot}\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}}
+}
+
+
+Teleoperate nubot using keyboad.  
+
+
+
+
+{\ttfamily \#include $<$nubot\-\_\-teleop\-\_\-keyboard.\-hh$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classnubot_1_1TeleopNubot_a02ac1e7e03d529b402ce8cee2a5e471c}{Teleop\-Nubot} ()
+\item 
+void \hyperlink{classnubot_1_1TeleopNubot_a4a87d58343f798bf151b5e6fc86dba80}{key\-Loop} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Service\-Client \hyperlink{classnubot_1_1TeleopNubot_aa2e697fc90b7891b53a8def6d0fb6348}{ballhandle\-\_\-client\-\_\-}
+\item 
+ros\-::\-Service\-Client \hyperlink{classnubot_1_1TeleopNubot_a6c44cfc75edcdaab50a1c7c8ae32b2ae}{shoot\-\_\-client\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Node\-Handle \hyperlink{classnubot_1_1TeleopNubot_a079dc783d3d6b809abd3bc9b46afc2c3}{nh\-\_\-}
+\item 
+ros\-::\-Publisher \hyperlink{classnubot_1_1TeleopNubot_a9ad97f610c49b200d1d28d70c2162cc8}{vel\-\_\-pub}
+\item 
+nubot\-\_\-common\-::\-Vel\-Cmd \hyperlink{classnubot_1_1TeleopNubot_adb1261f7f5a4271dc617f39320607a58}{vel\-\_\-cmd\-\_\-}
+\item 
+double \hyperlink{classnubot_1_1TeleopNubot_a92b17e7ba44e3ddbfef69fe86ea4f98a}{vx\-\_\-}
+\item 
+double \hyperlink{classnubot_1_1TeleopNubot_abd5b72b05fb96eb0124f0ad8b75024bf}{vy\-\_\-}
+\item 
+double \hyperlink{classnubot_1_1TeleopNubot_a110d8e399db727c159a28b177bf83440}{w\-\_\-}
+\item 
+int \hyperlink{classnubot_1_1TeleopNubot_a5ac3c220312010fd4003fe8ea7fc7fb9}{mode\-\_\-}
+\item 
+bool \hyperlink{classnubot_1_1TeleopNubot_a12765e31d28a4d422b7ffe335add42e4}{dribble\-\_\-flag\-\_\-}
+\item 
+bool \hyperlink{classnubot_1_1TeleopNubot_a82652ea161996e869f1c17611ade45bb}{shot\-\_\-flag\-\_\-}
+\item 
+bool \hyperlink{classnubot_1_1TeleopNubot_a15404d1259b5ef1e693b402fc684e729}{last\-\_\-dribble\-\_\-flag\-\_\-}
+\item 
+std\-::string \hyperlink{classnubot_1_1TeleopNubot_a3f7d7eb272ebe924b48e236cbf250d43}{robot\-\_\-prefix\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Teleoperate nubot using keyboad. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classnubot_1_1TeleopNubot_a02ac1e7e03d529b402ce8cee2a5e471c}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!Teleop\-Nubot@{Teleop\-Nubot}}
+\index{Teleop\-Nubot@{Teleop\-Nubot}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{Teleop\-Nubot}]{\setlength{\rightskip}{0pt plus 5cm}Teleop\-Nubot\-::\-Teleop\-Nubot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1TeleopNubot_a02ac1e7e03d529b402ce8cee2a5e471c}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classnubot_1_1TeleopNubot_a4a87d58343f798bf151b5e6fc86dba80}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!key\-Loop@{key\-Loop}}
+\index{key\-Loop@{key\-Loop}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{key\-Loop}]{\setlength{\rightskip}{0pt plus 5cm}void Teleop\-Nubot\-::key\-Loop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classnubot_1_1TeleopNubot_a4a87d58343f798bf151b5e6fc86dba80}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classnubot_1_1TeleopNubot_aa2e697fc90b7891b53a8def6d0fb6348}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!ballhandle\-\_\-client\-\_\-@{ballhandle\-\_\-client\-\_\-}}
+\index{ballhandle\-\_\-client\-\_\-@{ballhandle\-\_\-client\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{ballhandle\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client nubot\-::\-Teleop\-Nubot\-::ballhandle\-\_\-client\-\_\-}}\label{classnubot_1_1TeleopNubot_aa2e697fc90b7891b53a8def6d0fb6348}
+\hypertarget{classnubot_1_1TeleopNubot_a12765e31d28a4d422b7ffe335add42e4}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!dribble\-\_\-flag\-\_\-@{dribble\-\_\-flag\-\_\-}}
+\index{dribble\-\_\-flag\-\_\-@{dribble\-\_\-flag\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{dribble\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Teleop\-Nubot\-::dribble\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_a12765e31d28a4d422b7ffe335add42e4}
+\hypertarget{classnubot_1_1TeleopNubot_a15404d1259b5ef1e693b402fc684e729}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!last\-\_\-dribble\-\_\-flag\-\_\-@{last\-\_\-dribble\-\_\-flag\-\_\-}}
+\index{last\-\_\-dribble\-\_\-flag\-\_\-@{last\-\_\-dribble\-\_\-flag\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{last\-\_\-dribble\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Teleop\-Nubot\-::last\-\_\-dribble\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_a15404d1259b5ef1e693b402fc684e729}
+\hypertarget{classnubot_1_1TeleopNubot_a5ac3c220312010fd4003fe8ea7fc7fb9}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!mode\-\_\-@{mode\-\_\-}}
+\index{mode\-\_\-@{mode\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{mode\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int nubot\-::\-Teleop\-Nubot\-::mode\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_a5ac3c220312010fd4003fe8ea7fc7fb9}
+\hypertarget{classnubot_1_1TeleopNubot_a079dc783d3d6b809abd3bc9b46afc2c3}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!nh\-\_\-@{nh\-\_\-}}
+\index{nh\-\_\-@{nh\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{nh\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle nubot\-::\-Teleop\-Nubot\-::nh\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_a079dc783d3d6b809abd3bc9b46afc2c3}
+\hypertarget{classnubot_1_1TeleopNubot_a3f7d7eb272ebe924b48e236cbf250d43}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!robot\-\_\-prefix\-\_\-@{robot\-\_\-prefix\-\_\-}}
+\index{robot\-\_\-prefix\-\_\-@{robot\-\_\-prefix\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{robot\-\_\-prefix\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string nubot\-::\-Teleop\-Nubot\-::robot\-\_\-prefix\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_a3f7d7eb272ebe924b48e236cbf250d43}
+\hypertarget{classnubot_1_1TeleopNubot_a6c44cfc75edcdaab50a1c7c8ae32b2ae}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!shoot\-\_\-client\-\_\-@{shoot\-\_\-client\-\_\-}}
+\index{shoot\-\_\-client\-\_\-@{shoot\-\_\-client\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{shoot\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client nubot\-::\-Teleop\-Nubot\-::shoot\-\_\-client\-\_\-}}\label{classnubot_1_1TeleopNubot_a6c44cfc75edcdaab50a1c7c8ae32b2ae}
+\hypertarget{classnubot_1_1TeleopNubot_a82652ea161996e869f1c17611ade45bb}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!shot\-\_\-flag\-\_\-@{shot\-\_\-flag\-\_\-}}
+\index{shot\-\_\-flag\-\_\-@{shot\-\_\-flag\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{shot\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool nubot\-::\-Teleop\-Nubot\-::shot\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_a82652ea161996e869f1c17611ade45bb}
+\hypertarget{classnubot_1_1TeleopNubot_adb1261f7f5a4271dc617f39320607a58}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!vel\-\_\-cmd\-\_\-@{vel\-\_\-cmd\-\_\-}}
+\index{vel\-\_\-cmd\-\_\-@{vel\-\_\-cmd\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{vel\-\_\-cmd\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}nubot\-\_\-common\-::\-Vel\-Cmd nubot\-::\-Teleop\-Nubot\-::vel\-\_\-cmd\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_adb1261f7f5a4271dc617f39320607a58}
+\hypertarget{classnubot_1_1TeleopNubot_a9ad97f610c49b200d1d28d70c2162cc8}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!vel\-\_\-pub@{vel\-\_\-pub}}
+\index{vel\-\_\-pub@{vel\-\_\-pub}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{vel\-\_\-pub}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher nubot\-::\-Teleop\-Nubot\-::vel\-\_\-pub\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_a9ad97f610c49b200d1d28d70c2162cc8}
+\hypertarget{classnubot_1_1TeleopNubot_a92b17e7ba44e3ddbfef69fe86ea4f98a}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!vx\-\_\-@{vx\-\_\-}}
+\index{vx\-\_\-@{vx\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{vx\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Teleop\-Nubot\-::vx\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_a92b17e7ba44e3ddbfef69fe86ea4f98a}
+\hypertarget{classnubot_1_1TeleopNubot_abd5b72b05fb96eb0124f0ad8b75024bf}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!vy\-\_\-@{vy\-\_\-}}
+\index{vy\-\_\-@{vy\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{vy\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Teleop\-Nubot\-::vy\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_abd5b72b05fb96eb0124f0ad8b75024bf}
+\hypertarget{classnubot_1_1TeleopNubot_a110d8e399db727c159a28b177bf83440}{\index{nubot\-::\-Teleop\-Nubot@{nubot\-::\-Teleop\-Nubot}!w\-\_\-@{w\-\_\-}}
+\index{w\-\_\-@{w\-\_\-}!nubot::TeleopNubot@{nubot\-::\-Teleop\-Nubot}}
+\subsubsection[{w\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double nubot\-::\-Teleop\-Nubot\-::w\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classnubot_1_1TeleopNubot_a110d8e399db727c159a28b177bf83440}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/\hyperlink{nubot__teleop__keyboard_8hh}{nubot\-\_\-teleop\-\_\-keyboard.\-hh}\item 
+src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/\hyperlink{nubot__teleop__keyboard_8cc}{nubot\-\_\-teleop\-\_\-keyboard.\-cc}\end{DoxyCompactItemize}

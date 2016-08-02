@@ -1,0 +1,787 @@
+\hypertarget{classgazebo_1_1NubotGazebo}{\section{gazebo\-:\-:Nubot\-Gazebo Class Reference}
+\label{classgazebo_1_1NubotGazebo}\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}}
+}
+
+
+A basic motions realization in Gazebo.  
+
+
+
+
+{\ttfamily \#include $<$nubot\-\_\-gazebo.\-hh$>$}
+
+Inheritance diagram for gazebo\-:\-:Nubot\-Gazebo\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgazebo_1_1NubotGazebo}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgazebo_1_1NubotGazebo_a6c8d0be666316dfa03c49ec0a5e01e96}{Nubot\-Gazebo} ()
+\begin{DoxyCompactList}\small\item\em Constructor. Will be called firstly. \end{DoxyCompactList}\item 
+virtual \hyperlink{classgazebo_1_1NubotGazebo_a90ec014dbd4dcad3f1f0c78771fd4e63}{$\sim$\-Nubot\-Gazebo} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_aa1eea79757774a935fe82a5fbc1b3f94}{Load} (physics\-::\-Model\-Ptr \-\_\-parent, sdf\-::\-Element\-Ptr)
+\begin{DoxyCompactList}\small\item\em Load the controller. Required by model plugin. Will be called secondly. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classgazebo_1_1NubotGazebo_a9d2bb8130da6d209089f5ee469427ca4}{Update\-Child} ()
+\begin{DoxyCompactList}\small\item\em Update the controller. It is running every simulation iteration. So you can put your core code here.(in this code, either \hyperlink{classgazebo_1_1NubotGazebo_aaa7835337bbfd120b5b85af40ccf47ae}{nubot\-\_\-be\-\_\-control()} or \hyperlink{classgazebo_1_1NubotGazebo_a991cc13697cbd1eaf855d21e4f5d78d2}{nubot\-\_\-auto\-\_\-control()}) \end{DoxyCompactList}\item 
+virtual void \hyperlink{classgazebo_1_1NubotGazebo_abf91360d6ce9b5f2cf02c3907100495e}{Init} ()
+\begin{DoxyCompactList}\small\item\em Model Initialization(after the Load function). Not required by model plugin. Will be called thirdly. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classgazebo_1_1NubotGazebo_aefa336771bb8dffca92a2919352b62bc}{Reset} ()
+\begin{DoxyCompactList}\small\item\em Model Reset function. Not required by model plugin. It is triggered when the world resets. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_a96b102bf11d96dda2cdab0f2f9460d8d}{model\-\_\-states\-\_\-\-C\-B} (const gazebo\-\_\-msgs\-::\-Model\-States\-::\-Const\-Ptr \&\-\_\-msg)
+\begin{DoxyCompactList}\small\item\em Model\-States message callback function. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_aafe5e8deca0e5a85a30c73629eee8703}{vel\-\_\-cmd\-\_\-\-C\-B} (const \hyperlink{structnubot__common_1_1VelCmd___a5a57f1d76c9209090962bf805a6d8cc8}{nubot\-\_\-common\-::\-Vel\-Cmd\-::\-Const\-Ptr} \&cmd)
+\begin{DoxyCompactList}\small\item\em Vel\-Cmd message callback function. \end{DoxyCompactList}\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_ae042db5614aea3da7c8f547c44d9ff6e}{ball\-\_\-handle\-\_\-control\-\_\-service} (\hyperlink{structnubot__common_1_1BallHandle_a02af01a2f731b0fc249f1cf9df23a00e}{nubot\-\_\-common\-::\-Ball\-Handle\-::\-Request} \&req, \hyperlink{structnubot__common_1_1BallHandle_a6c4cc1c333d5fe1cfc569ee22b68ba89}{nubot\-\_\-common\-::\-Ball\-Handle\-::\-Response} \&res)
+\begin{DoxyCompactList}\small\item\em Ball handling service server function. \end{DoxyCompactList}\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_ade096537ecc11263f1dd14428325329b}{shoot\-\_\-control\-\_\-servive} (\hyperlink{structnubot__common_1_1Shoot_a8d200603298d1fe7377f13911e7d5bdc}{nubot\-\_\-common\-::\-Shoot\-::\-Request} \&req, \hyperlink{structnubot__common_1_1Shoot_a4d609a5e9faac9c7c0d32b7cf0eb5738}{nubot\-\_\-common\-::\-Shoot\-::\-Response} \&res)
+\begin{DoxyCompactList}\small\item\em Ball shooting service server function. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_a2c87fbf2e13762d4827367028d493670}{message\-\_\-queue\-\_\-thread} ()
+\begin{DoxyCompactList}\small\item\em Custom message callback queue thread. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_abe786a1fbc3407f1b2ac655b1af15a8b}{service\-\_\-queue\-\_\-thread} ()
+\begin{DoxyCompactList}\small\item\em Custom service callback queue thread. \end{DoxyCompactList}\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_a3b884175db3fd9e7ac88f6076d5f2b8e}{update\-\_\-model\-\_\-info} (void)
+\begin{DoxyCompactList}\small\item\em Updating models' states; By default, Gaussian noise is not added, but you can add it by changing the flag in this function. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_ad93752507f23724bba2f731325e4c14b}{nubot\-\_\-locomotion} (math\-::\-Vector3 linear\-\_\-vel\-\_\-vector, math\-::\-Vector3 angular\-\_\-vel\-\_\-vector)
+\begin{DoxyCompactList}\small\item\em Nubot moving fuction\-: rotation + translation. \end{DoxyCompactList}\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_a8ac8c9467b8e14b4ceb0718d97031617}{get\-\_\-rot\-\_\-vector} (math\-::\-Vector3 target\-\_\-point\-\_\-world, double degree\-\_\-thres)
+\begin{DoxyCompactList}\small\item\em Nubot rotates; kicking mechanism towards ball. \end{DoxyCompactList}\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_a0a50fbb4be79c99cf860b84413f8fa9b}{get\-\_\-trans\-\_\-vector} (math\-::\-Vector3 target\-\_\-point\-\_\-world, double metre\-\_\-thres)
+\begin{DoxyCompactList}\small\item\em Nubot chasing football function. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_a91862269320f78bc24856e8877af3cc4}{dribble\-\_\-ball} (void)
+\begin{DoxyCompactList}\small\item\em Nubot dribbling ball function. The football follows nubot movement. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_a0b8f02255ccde5f6768afb45fee8b81b}{kick\-\_\-ball} (int mode, double vel)
+\begin{DoxyCompactList}\small\item\em Nubot kicking ball. For more information, read the paper \char`\"{}\-Weijia Yao et al., A Simulation System Based on R\-O\-S and Gazebo for Robo\-Cup Middle Size League, 2015\char`\"{}. \end{DoxyCompactList}\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_a8366f268f6bba085201123d74b786368}{get\-\_\-is\-\_\-hold\-\_\-ball} (void)
+\begin{DoxyCompactList}\small\item\em Get the value of flag is\-\_\-hold\-\_\-ball\-\_\-. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_a991cc13697cbd1eaf855d21e4f5d78d2}{nubot\-\_\-auto\-\_\-control} (void)
+\begin{DoxyCompactList}\small\item\em Single nubot predefined autonomous motions. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_aaa7835337bbfd120b5b85af40ccf47ae}{nubot\-\_\-be\-\_\-control} (void)
+\begin{DoxyCompactList}\small\item\em Robot motion controlled by real-\/robot code; or controlled by a keyboard. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_a828269281839a4f18d30f02d20ad62b6}{config} (\hyperlink{classnubot__gazebo_1_1NubotGazeboConfig}{nubot\-\_\-gazebo\-::\-Nubot\-Gazebo\-Config} \&config, uint32\-\_\-t level)
+\begin{DoxyCompactList}\small\item\em dynmaic recofigure calback function \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_a3a42f8965b7ccb35d0b6a0624c56ba86}{ball\-\_\-vel\-\_\-decay} (math\-::\-Vector3 vel, double mu)
+\begin{DoxyCompactList}\small\item\em a work-\/around for no rolling-\/friction in O\-D\-E. For more information, please read O\-D\-E manual. \end{DoxyCompactList}\item 
+void \hyperlink{classgazebo_1_1NubotGazebo_a5b5d4a3644867257cb379613072e9567}{set\-\_\-ball\-\_\-vel} (math\-::\-Vector3 \&vel, bool \&ball\-\_\-decay\-\_\-flag)
+\begin{DoxyCompactList}\small\item\em replace football\-\_\-model\-\_\--\/$>$Set\-Linear\-Vel() with a flag to indicate vel decay \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+physics\-::\-World\-Ptr \hyperlink{classgazebo_1_1NubotGazebo_aa56e5c10cfbbc981460ab1bcc204d071}{world\-\_\-}
+\item 
+physics\-::\-Model\-Ptr \hyperlink{classgazebo_1_1NubotGazebo_ac7f22b4b498327d11697f07cb064e460}{nubot\-\_\-model\-\_\-}
+\item 
+physics\-::\-Model\-Ptr \hyperlink{classgazebo_1_1NubotGazebo_a76897836db2bb2e49c75fbf64b4b9aeb}{football\-\_\-model\-\_\-}
+\item 
+physics\-::\-Link\-Ptr \hyperlink{classgazebo_1_1NubotGazebo_a191e11ef5a0b3e6275c3938ad61cec0a}{football\-\_\-link\-\_\-}
+\item 
+physics\-::\-Link\-Ptr \hyperlink{classgazebo_1_1NubotGazebo_a97a021a147d45134fe79ab21531e55df}{nubot\-\_\-link\-\_\-}
+\item 
+ros\-::\-Node\-Handle $\ast$ \hyperlink{classgazebo_1_1NubotGazebo_a310c7df239fab0570dbdc82d4552ec6d}{rosnode\-\_\-}
+\item 
+ros\-::\-Subscriber \hyperlink{classgazebo_1_1NubotGazebo_a7b758780795b0406d06bf5db5122dbe2}{Model\-States\-\_\-sub\-\_\-}
+\item 
+ros\-::\-Subscriber \hyperlink{classgazebo_1_1NubotGazebo_a6264896320559e214ac33d820c44b357}{Velcmd\-\_\-sub\-\_\-}
+\item 
+ros\-::\-Service\-Server \hyperlink{classgazebo_1_1NubotGazebo_af8abc682c8dc7cad7d29d131901aec05}{ballhandle\-\_\-server\-\_\-}
+\item 
+ros\-::\-Service\-Server \hyperlink{classgazebo_1_1NubotGazebo_afd3e6ab82580823e83d84433dac19e86}{shoot\-\_\-server\-\_\-}
+\item 
+boost\-::thread \hyperlink{classgazebo_1_1NubotGazebo_ae985620428222dd9b1b5f507339119b8}{message\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-}
+\item 
+boost\-::thread \hyperlink{classgazebo_1_1NubotGazebo_a0c0bc3e99d501d7fcac319848006f87c}{service\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-}
+\item 
+boost\-::mutex \hyperlink{classgazebo_1_1NubotGazebo_a70f7775e1670311efc2aad7c306a3077}{msg\-C\-B\-\_\-lock\-\_\-}
+\item 
+boost\-::mutex \hyperlink{classgazebo_1_1NubotGazebo_a6b3d2a253732eedfcf18e0223435bed0}{srv\-C\-B\-\_\-lock\-\_\-}
+\item 
+ros\-::\-Callback\-Queue \hyperlink{classgazebo_1_1NubotGazebo_a7186c914f81602db7bd347b940794bbf}{message\-\_\-queue\-\_\-}
+\item 
+ros\-::\-Callback\-Queue \hyperlink{classgazebo_1_1NubotGazebo_ae1fe2dc1962659f70ebba9555a92e59a}{service\-\_\-queue\-\_\-}
+\item 
+event\-::\-Connection\-Ptr \hyperlink{classgazebo_1_1NubotGazebo_a4e3b8b74aa075427ecbd5c82f630144d}{update\-\_\-connection\-\_\-}
+\item 
+gazebo\-\_\-msgs\-::\-Model\-States \hyperlink{classgazebo_1_1NubotGazebo_a320dc212fab523958abb529f946133bd}{model\-\_\-states\-\_\-msg\-\_\-}
+\item 
+\hyperlink{structgazebo_1_1model__state}{model\-\_\-state} \hyperlink{classgazebo_1_1NubotGazebo_a5abf5be34d8441db05d94ead7924ce14}{nubot\-\_\-state\-\_\-}
+\item 
+\hyperlink{structgazebo_1_1model__state}{model\-\_\-state} \hyperlink{classgazebo_1_1NubotGazebo_af7356a83d30997d884440a10e95d29f4}{football\-\_\-state\-\_\-}
+\item 
+common\-::\-Time \hyperlink{classgazebo_1_1NubotGazebo_a36186a24f60f3c88fd6fb12fd85b4fa4}{receive\-\_\-sim\-\_\-time\-\_\-}
+\item 
+common\-::\-Time \hyperlink{classgazebo_1_1NubotGazebo_a8e05ad53365765db200e0d62c451e069}{last\-\_\-current\-\_\-time\-\_\-}
+\item 
+math\-::\-Vector3 \hyperlink{classgazebo_1_1NubotGazebo_a385577ffa9cc48440e8047019d6e67f6}{desired\-\_\-rot\-\_\-vector\-\_\-}
+\item 
+math\-::\-Vector3 \hyperlink{classgazebo_1_1NubotGazebo_ac515996ccf0c682a0ed88f00e401373d}{desired\-\_\-trans\-\_\-vector\-\_\-}
+\item 
+math\-::\-Vector3 \hyperlink{classgazebo_1_1NubotGazebo_ae4b4790d24996fbfdd51f74baa45170a}{nubot\-\_\-football\-\_\-vector\-\_\-}
+\item 
+math\-::\-Vector3 \hyperlink{classgazebo_1_1NubotGazebo_aea8b62919e2834d4311a7fd7935036af}{kick\-\_\-vector\-\_\-world\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a11fbfac7f239d13730b4d676af18f67e}{nubot\-\_\-football\-\_\-vector\-\_\-length\-\_\-}
+\item 
+std\-::string \hyperlink{classgazebo_1_1NubotGazebo_ac92e4461911d9522f1454978d26ec461}{robot\-\_\-namespace\-\_\-}
+\item 
+std\-::string \hyperlink{classgazebo_1_1NubotGazebo_adf2314dfb2ab6cb5ecdb2bb0a9736665}{model\-\_\-name\-\_\-}
+\item 
+std\-::string \hyperlink{classgazebo_1_1NubotGazebo_aea004ec0ee1c5dfdc8cba31939f18e39}{football\-\_\-name\-\_\-}
+\item 
+std\-::string \hyperlink{classgazebo_1_1NubotGazebo_a918fab93f4939a8bb06d65a997e20a54}{football\-\_\-chassis\-\_\-}
+\item 
+std\-::string \hyperlink{classgazebo_1_1NubotGazebo_a5d3cf2ace05ce1ade8b71d1c6397a7b0}{robot\-\_\-prefix\-\_\-}
+\item 
+unsigned int \hyperlink{classgazebo_1_1NubotGazebo_af45b036c2156b537d5282f63c509d1e4}{football\-\_\-index\-\_\-}
+\item 
+unsigned int \hyperlink{classgazebo_1_1NubotGazebo_adce69b7247cba8a3433a6cdfad5b61ef}{nubot\-\_\-index\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a67f7850c63c5dd6fe80694c9a426e5ec}{max\-\_\-linear\-\_\-vel\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_ae9da5f6a1c7b5624dbf6bb20a2819d40}{max\-\_\-angular\-\_\-vel\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a646a80199e35f2f47558b7b7aa27bea4}{dribble\-\_\-distance\-\_\-thres\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_ab012e0229172416640558cf2746a0974}{dribble\-\_\-angle\-\_\-thres\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_abc8f7cb67014e700c08e27023353e419}{kick\-\_\-ball\-\_\-vel\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_af17747304ff9b241fa0642c52923498b}{Vx\-\_\-cmd\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a977c91e62fed23c5fb9233e5d38ad597}{Vy\-\_\-cmd\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_aebc0851c9ab6da1d1c96d470e72758f8}{w\-\_\-cmd\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a7ebd21f6da11a8f2b514c2e0930a26e6}{force\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a9e30363181d0a790081ce6d0e9151e6b}{dribble\-\_\-\-P\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_ab74f3e63fe906f0c982837b1eeeefb5c}{dribble\-\_\-\-I\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a727079312e073df8799e1a385ac8da00}{dribble\-\_\-\-D\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a0f8a50e34877912a0c53c3185ccd28d9}{I\-\_\-term\-\_\-max\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_affe0d982594c738a7ebec3ac1849c01f}{I\-\_\-term\-\_\-min\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a6b6ab10ac24ec1483797885f5d1b9110}{cmd\-\_\-max\-\_\-}
+\item 
+double \hyperlink{classgazebo_1_1NubotGazebo_a360cbab192432814122197f21d685e56}{cmd\-\_\-min\-\_\-}
+\item 
+int \hyperlink{classgazebo_1_1NubotGazebo_a3c54a29f7aa4e67e4f86b5e848a930d5}{mode\-\_\-}
+\item 
+common\-::\-Time \hyperlink{classgazebo_1_1NubotGazebo_a1aeb8fee9f7e057b182afcf2fd03f1c1}{last\-\_\-update\-\_\-time\-\_\-}
+\item 
+unsigned int \hyperlink{classgazebo_1_1NubotGazebo_aefc2d91922066c5ffc1d7faa175ab68a}{model\-\_\-count\-\_\-}
+\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_a408738f621515f00547b54ed74481127}{dribble\-\_\-flag\-\_\-}
+\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_a85d5357dfacc73801bed752d6dc297d4}{shot\-\_\-flag\-\_\-}
+\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_ae7c8ddd9342426222c1354740b23a01d}{Model\-States\-C\-B\-\_\-flag\-\_\-}
+\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_a6392423c1aaf2ba68aac9eeb318f9e5b}{judge\-\_\-nubot\-\_\-stuck\-\_\-}
+\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_a0d63b5e7f3d213fca30bbe09bd15e114}{is\-\_\-hold\-\_\-ball\-\_\-}
+\item 
+bool \hyperlink{classgazebo_1_1NubotGazebo_a51c8eaa9e931b22700f6c000e413bfa2}{ball\-\_\-decay\-\_\-flag\-\_\-}
+\item 
+int \hyperlink{classgazebo_1_1NubotGazebo_afbdb7428487c2f6dec5000bae3d6f5a7}{count\-\_\-}
+\item 
+\hyperlink{nubot__gazebo_8hh_a9f17572284bab3e9bd067a6393a7953b}{nubot\-\_\-state} \hyperlink{classgazebo_1_1NubotGazebo_acf9828d7b8b37440a8e45ef63895ec8b}{state\-\_\-}
+\item 
+\hyperlink{nubot__gazebo_8hh_a503a2f01f9f49bd293d3c44faf21b528}{nubot\-\_\-substate} \hyperlink{classgazebo_1_1NubotGazebo_a8db3f4b9767b4ec34716756f02fb7fe9}{sub\-\_\-state\-\_\-}
+\item 
+\hyperlink{classnubot_1_1PID}{nubot\-::\-P\-I\-D} \hyperlink{classgazebo_1_1NubotGazebo_a5865f8d5f7aad90ace72fe2942b6d25e}{dribble\-\_\-pid\-\_\-}
+\item 
+\hyperlink{classnubot_1_1ParaTrajPlanning}{nubot\-::\-Para\-Traj\-Planning} \hyperlink{classgazebo_1_1NubotGazebo_ac16bd419aba2826c0227ac575b351e9e}{traj\-\_\-plan\-\_\-linear\-\_\-}
+\item 
+\hyperlink{classnubot_1_1ParaTrajPlanning}{nubot\-::\-Para\-Traj\-Planning} \hyperlink{classgazebo_1_1NubotGazebo_a95c171c478be4aadf6b4d96a3d3a48c8}{traj\-\_\-plan\-\_\-rot\-\_\-}
+\item 
+math\-::\-Rand \hyperlink{classgazebo_1_1NubotGazebo_a5a6b999a205a45e1778e0f4d75e325e0}{rand\-\_\-}
+\item 
+dynamic\-\_\-reconfigure\-::\-Server\\*
+$<$ \hyperlink{classnubot__gazebo_1_1NubotGazeboConfig}{nubot\-\_\-gazebo\-::\-Nubot\-Gazebo\-Config} $>$ $\ast$ \hyperlink{classgazebo_1_1NubotGazebo_a6f892f9dcb5b46bdd232ffec277dd093}{reconfigure\-Server\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A basic motions realization in Gazebo. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgazebo_1_1NubotGazebo_a6c8d0be666316dfa03c49ec0a5e01e96}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Nubot\-Gazebo@{Nubot\-Gazebo}}
+\index{Nubot\-Gazebo@{Nubot\-Gazebo}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Nubot\-Gazebo}]{\setlength{\rightskip}{0pt plus 5cm}Nubot\-Gazebo\-::\-Nubot\-Gazebo (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classgazebo_1_1NubotGazebo_a6c8d0be666316dfa03c49ec0a5e01e96}
+
+
+Constructor. Will be called firstly. 
+
+\hypertarget{classgazebo_1_1NubotGazebo_a90ec014dbd4dcad3f1f0c78771fd4e63}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!$\sim$\-Nubot\-Gazebo@{$\sim$\-Nubot\-Gazebo}}
+\index{$\sim$\-Nubot\-Gazebo@{$\sim$\-Nubot\-Gazebo}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{$\sim$\-Nubot\-Gazebo}]{\setlength{\rightskip}{0pt plus 5cm}Nubot\-Gazebo\-::$\sim$\-Nubot\-Gazebo (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classgazebo_1_1NubotGazebo_a90ec014dbd4dcad3f1f0c78771fd4e63}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgazebo_1_1NubotGazebo_ae042db5614aea3da7c8f547c44d9ff6e}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!ball\-\_\-handle\-\_\-control\-\_\-service@{ball\-\_\-handle\-\_\-control\-\_\-service}}
+\index{ball\-\_\-handle\-\_\-control\-\_\-service@{ball\-\_\-handle\-\_\-control\-\_\-service}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{ball\-\_\-handle\-\_\-control\-\_\-service}]{\setlength{\rightskip}{0pt plus 5cm}bool Nubot\-Gazebo\-::ball\-\_\-handle\-\_\-control\-\_\-service (
+\begin{DoxyParamCaption}
+\item[{{\bf nubot\-\_\-common\-::\-Ball\-Handle\-::\-Request} \&}]{req, }
+\item[{{\bf nubot\-\_\-common\-::\-Ball\-Handle\-::\-Response} \&}]{res}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ae042db5614aea3da7c8f547c44d9ff6e}
+
+
+Ball handling service server function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em req} & ball handle service request \\
+\hline
+\mbox{\tt out}  & {\em res} & ball handle service response \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgazebo_1_1NubotGazebo_a3a42f8965b7ccb35d0b6a0624c56ba86}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!ball\-\_\-vel\-\_\-decay@{ball\-\_\-vel\-\_\-decay}}
+\index{ball\-\_\-vel\-\_\-decay@{ball\-\_\-vel\-\_\-decay}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{ball\-\_\-vel\-\_\-decay}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::ball\-\_\-vel\-\_\-decay (
+\begin{DoxyParamCaption}
+\item[{math\-::\-Vector3}]{vel, }
+\item[{double}]{mu}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a3a42f8965b7ccb35d0b6a0624c56ba86}
+
+
+a work-\/around for no rolling-\/friction in O\-D\-E. For more information, please read O\-D\-E manual. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em vel} & football's current 3\-D velocity \\
+\hline
+\mbox{\tt in}  & {\em mu} & friction coefficient \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgazebo_1_1NubotGazebo_a828269281839a4f18d30f02d20ad62b6}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!config@{config}}
+\index{config@{config}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::config (
+\begin{DoxyParamCaption}
+\item[{{\bf nubot\-\_\-gazebo\-::\-Nubot\-Gazebo\-Config} \&}]{config, }
+\item[{uint32\-\_\-t}]{level}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a828269281839a4f18d30f02d20ad62b6}
+
+
+dynmaic recofigure calback function 
+
+\hypertarget{classgazebo_1_1NubotGazebo_a91862269320f78bc24856e8877af3cc4}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!dribble\-\_\-ball@{dribble\-\_\-ball}}
+\index{dribble\-\_\-ball@{dribble\-\_\-ball}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{dribble\-\_\-ball}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::dribble\-\_\-ball (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a91862269320f78bc24856e8877af3cc4}
+
+
+Nubot dribbling ball function. The football follows nubot movement. 
+
+Three ways of ball-\/dribbling are provided\-: 1. Set ball pose;
+\begin{DoxyEnumerate}
+\item Set tangential velocity; 3. Set secant velocity. 
+\end{DoxyEnumerate}\hypertarget{classgazebo_1_1NubotGazebo_a8366f268f6bba085201123d74b786368}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!get\-\_\-is\-\_\-hold\-\_\-ball@{get\-\_\-is\-\_\-hold\-\_\-ball}}
+\index{get\-\_\-is\-\_\-hold\-\_\-ball@{get\-\_\-is\-\_\-hold\-\_\-ball}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{get\-\_\-is\-\_\-hold\-\_\-ball}]{\setlength{\rightskip}{0pt plus 5cm}bool Nubot\-Gazebo\-::get\-\_\-is\-\_\-hold\-\_\-ball (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a8366f268f6bba085201123d74b786368}
+
+
+Get the value of flag is\-\_\-hold\-\_\-ball\-\_\-. 
+
+\begin{DoxyReturn}{Returns}
+1\-: is holding ball 0\-: is not holding ball 
+\end{DoxyReturn}
+\hypertarget{classgazebo_1_1NubotGazebo_a8ac8c9467b8e14b4ceb0718d97031617}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!get\-\_\-rot\-\_\-vector@{get\-\_\-rot\-\_\-vector}}
+\index{get\-\_\-rot\-\_\-vector@{get\-\_\-rot\-\_\-vector}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{get\-\_\-rot\-\_\-vector}]{\setlength{\rightskip}{0pt plus 5cm}bool Nubot\-Gazebo\-::get\-\_\-rot\-\_\-vector (
+\begin{DoxyParamCaption}
+\item[{math\-::\-Vector3}]{target\-\_\-point\-\_\-world, }
+\item[{double}]{degree\-\_\-thres}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a8ac8c9467b8e14b4ceb0718d97031617}
+
+
+Nubot rotates; kicking mechanism towards ball. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em target\-\_\-point\-\_\-world} & target point coordinates in world frame \\
+\hline
+\mbox{\tt in}  & {\em degree\-\_\-thres} & angle error threshold in degree \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool value indicate if reach the target orientation. 1\-: yes; 0\-:no 
+\end{DoxyReturn}
+\hypertarget{classgazebo_1_1NubotGazebo_a0a50fbb4be79c99cf860b84413f8fa9b}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!get\-\_\-trans\-\_\-vector@{get\-\_\-trans\-\_\-vector}}
+\index{get\-\_\-trans\-\_\-vector@{get\-\_\-trans\-\_\-vector}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{get\-\_\-trans\-\_\-vector}]{\setlength{\rightskip}{0pt plus 5cm}bool Nubot\-Gazebo\-::get\-\_\-trans\-\_\-vector (
+\begin{DoxyParamCaption}
+\item[{math\-::\-Vector3}]{target\-\_\-point\-\_\-world, }
+\item[{double}]{metre\-\_\-thres}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a0a50fbb4be79c99cf860b84413f8fa9b}
+
+
+Nubot chasing football function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em target\-\_\-point\-\_\-world} & target point coordinates in world frame \\
+\hline
+\mbox{\tt in}  & {\em metre\-\_\-thres} & distance error threshold in metres \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool value indicate if reach the target position. 1\-:yes; 0\-:no 
+\end{DoxyReturn}
+\hypertarget{classgazebo_1_1NubotGazebo_abf91360d6ce9b5f2cf02c3907100495e}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Init@{Init}}
+\index{Init@{Init}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classgazebo_1_1NubotGazebo_abf91360d6ce9b5f2cf02c3907100495e}
+
+
+Model Initialization(after the Load function). Not required by model plugin. Will be called thirdly. 
+
+\hypertarget{classgazebo_1_1NubotGazebo_a0b8f02255ccde5f6768afb45fee8b81b}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!kick\-\_\-ball@{kick\-\_\-ball}}
+\index{kick\-\_\-ball@{kick\-\_\-ball}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{kick\-\_\-ball}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::kick\-\_\-ball (
+\begin{DoxyParamCaption}
+\item[{int}]{mode, }
+\item[{double}]{vel = {\ttfamily 20.0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a0b8f02255ccde5f6768afb45fee8b81b}
+
+
+Nubot kicking ball. For more information, read the paper \char`\"{}\-Weijia Yao et al., A Simulation System Based on R\-O\-S and Gazebo for Robo\-Cup Middle Size League, 2015\char`\"{}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em mode} & kick ball mode F\-L\-Y or R\-U\-N \\
+\hline
+\mbox{\tt in}  & {\em vel} & initial velocity of the ball kicked \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgazebo_1_1NubotGazebo_aa1eea79757774a935fe82a5fbc1b3f94}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Load@{Load}}
+\index{Load@{Load}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Load}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::\-Load (
+\begin{DoxyParamCaption}
+\item[{physics\-::\-Model\-Ptr}]{\-\_\-parent, }
+\item[{sdf\-::\-Element\-Ptr}]{\-\_\-sdf}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgazebo_1_1NubotGazebo_aa1eea79757774a935fe82a5fbc1b3f94}
+
+
+Load the controller. Required by model plugin. Will be called secondly. 
+
+\hypertarget{classgazebo_1_1NubotGazebo_a2c87fbf2e13762d4827367028d493670}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!message\-\_\-queue\-\_\-thread@{message\-\_\-queue\-\_\-thread}}
+\index{message\-\_\-queue\-\_\-thread@{message\-\_\-queue\-\_\-thread}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{message\-\_\-queue\-\_\-thread}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::message\-\_\-queue\-\_\-thread (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a2c87fbf2e13762d4827367028d493670}
+
+
+Custom message callback queue thread. 
+
+\hypertarget{classgazebo_1_1NubotGazebo_a96b102bf11d96dda2cdab0f2f9460d8d}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!model\-\_\-states\-\_\-\-C\-B@{model\-\_\-states\-\_\-\-C\-B}}
+\index{model\-\_\-states\-\_\-\-C\-B@{model\-\_\-states\-\_\-\-C\-B}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{model\-\_\-states\-\_\-\-C\-B}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::model\-\_\-states\-\_\-\-C\-B (
+\begin{DoxyParamCaption}
+\item[{const gazebo\-\_\-msgs\-::\-Model\-States\-::\-Const\-Ptr \&}]{\-\_\-msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a96b102bf11d96dda2cdab0f2f9460d8d}
+
+
+Model\-States message callback function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \-\_\-msg} & model\-\_\-states msg shared pointer \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgazebo_1_1NubotGazebo_a991cc13697cbd1eaf855d21e4f5d78d2}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!nubot\-\_\-auto\-\_\-control@{nubot\-\_\-auto\-\_\-control}}
+\index{nubot\-\_\-auto\-\_\-control@{nubot\-\_\-auto\-\_\-control}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{nubot\-\_\-auto\-\_\-control}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::nubot\-\_\-auto\-\_\-control (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a991cc13697cbd1eaf855d21e4f5d78d2}
+
+
+Single nubot predefined autonomous motions. 
+
+\hypertarget{classgazebo_1_1NubotGazebo_aaa7835337bbfd120b5b85af40ccf47ae}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!nubot\-\_\-be\-\_\-control@{nubot\-\_\-be\-\_\-control}}
+\index{nubot\-\_\-be\-\_\-control@{nubot\-\_\-be\-\_\-control}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{nubot\-\_\-be\-\_\-control}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::nubot\-\_\-be\-\_\-control (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_aaa7835337bbfd120b5b85af40ccf47ae}
+
+
+Robot motion controlled by real-\/robot code; or controlled by a keyboard. 
+
+provide an interface, e.\-g. use messages to control robot velocity, use services to control robot perform ball-\/shooting or ball-\/dribbling \hypertarget{classgazebo_1_1NubotGazebo_ad93752507f23724bba2f731325e4c14b}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!nubot\-\_\-locomotion@{nubot\-\_\-locomotion}}
+\index{nubot\-\_\-locomotion@{nubot\-\_\-locomotion}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{nubot\-\_\-locomotion}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::nubot\-\_\-locomotion (
+\begin{DoxyParamCaption}
+\item[{math\-::\-Vector3}]{linear\-\_\-vel\-\_\-vector, }
+\item[{math\-::\-Vector3}]{angular\-\_\-vel\-\_\-vector}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ad93752507f23724bba2f731325e4c14b}
+
+
+Nubot moving fuction\-: rotation + translation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em linear\-\_\-vel\-\_\-vector} & translation velocity 3\-D vector \\
+\hline
+\mbox{\tt in}  & {\em angular\-\_\-vel\-\_\-vector} & rotation velocity 3\-D vector \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgazebo_1_1NubotGazebo_aefa336771bb8dffca92a2919352b62bc}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Reset@{Reset}}
+\index{Reset@{Reset}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Reset}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::\-Reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classgazebo_1_1NubotGazebo_aefa336771bb8dffca92a2919352b62bc}
+
+
+Model Reset function. Not required by model plugin. It is triggered when the world resets. 
+
+\hypertarget{classgazebo_1_1NubotGazebo_abe786a1fbc3407f1b2ac655b1af15a8b}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!service\-\_\-queue\-\_\-thread@{service\-\_\-queue\-\_\-thread}}
+\index{service\-\_\-queue\-\_\-thread@{service\-\_\-queue\-\_\-thread}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{service\-\_\-queue\-\_\-thread}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::service\-\_\-queue\-\_\-thread (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_abe786a1fbc3407f1b2ac655b1af15a8b}
+
+
+Custom service callback queue thread. 
+
+\hypertarget{classgazebo_1_1NubotGazebo_a5b5d4a3644867257cb379613072e9567}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!set\-\_\-ball\-\_\-vel@{set\-\_\-ball\-\_\-vel}}
+\index{set\-\_\-ball\-\_\-vel@{set\-\_\-ball\-\_\-vel}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{set\-\_\-ball\-\_\-vel}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::set\-\_\-ball\-\_\-vel (
+\begin{DoxyParamCaption}
+\item[{math\-::\-Vector3 \&}]{vel, }
+\item[{bool \&}]{ball\-\_\-decay\-\_\-flag}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a5b5d4a3644867257cb379613072e9567}
+
+
+replace football\-\_\-model\-\_\--\/$>$Set\-Linear\-Vel() with a flag to indicate vel decay 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em vel} & football's desired 3\-D velocity \\
+\hline
+\mbox{\tt out}  & {\em ball\-\_\-decay\-\_\-flag} & flag to indicate whether or not the slow down football \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgazebo_1_1NubotGazebo_ade096537ecc11263f1dd14428325329b}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!shoot\-\_\-control\-\_\-servive@{shoot\-\_\-control\-\_\-servive}}
+\index{shoot\-\_\-control\-\_\-servive@{shoot\-\_\-control\-\_\-servive}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{shoot\-\_\-control\-\_\-servive}]{\setlength{\rightskip}{0pt plus 5cm}bool Nubot\-Gazebo\-::shoot\-\_\-control\-\_\-servive (
+\begin{DoxyParamCaption}
+\item[{{\bf nubot\-\_\-common\-::\-Shoot\-::\-Request} \&}]{req, }
+\item[{{\bf nubot\-\_\-common\-::\-Shoot\-::\-Response} \&}]{res}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ade096537ecc11263f1dd14428325329b}
+
+
+Ball shooting service server function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em req} & ball handle service request \\
+\hline
+\mbox{\tt out}  & {\em res} & ball handle service response \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgazebo_1_1NubotGazebo_a3b884175db3fd9e7ac88f6076d5f2b8e}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!update\-\_\-model\-\_\-info@{update\-\_\-model\-\_\-info}}
+\index{update\-\_\-model\-\_\-info@{update\-\_\-model\-\_\-info}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{update\-\_\-model\-\_\-info}]{\setlength{\rightskip}{0pt plus 5cm}bool Nubot\-Gazebo\-::update\-\_\-model\-\_\-info (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a3b884175db3fd9e7ac88f6076d5f2b8e}
+
+
+Updating models' states; By default, Gaussian noise is not added, but you can add it by changing the flag in this function. 
+
+\begin{DoxyReturn}{Returns}
+1\-: updating model info success 0\-: not success 
+\end{DoxyReturn}
+\hypertarget{classgazebo_1_1NubotGazebo_a9d2bb8130da6d209089f5ee469427ca4}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Update\-Child@{Update\-Child}}
+\index{Update\-Child@{Update\-Child}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Update\-Child}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::\-Update\-Child (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classgazebo_1_1NubotGazebo_a9d2bb8130da6d209089f5ee469427ca4}
+
+
+Update the controller. It is running every simulation iteration. So you can put your core code here.(in this code, either \hyperlink{classgazebo_1_1NubotGazebo_aaa7835337bbfd120b5b85af40ccf47ae}{nubot\-\_\-be\-\_\-control()} or \hyperlink{classgazebo_1_1NubotGazebo_a991cc13697cbd1eaf855d21e4f5d78d2}{nubot\-\_\-auto\-\_\-control()}) 
+
+\hypertarget{classgazebo_1_1NubotGazebo_aafe5e8deca0e5a85a30c73629eee8703}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!vel\-\_\-cmd\-\_\-\-C\-B@{vel\-\_\-cmd\-\_\-\-C\-B}}
+\index{vel\-\_\-cmd\-\_\-\-C\-B@{vel\-\_\-cmd\-\_\-\-C\-B}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{vel\-\_\-cmd\-\_\-\-C\-B}]{\setlength{\rightskip}{0pt plus 5cm}void Nubot\-Gazebo\-::vel\-\_\-cmd\-\_\-\-C\-B (
+\begin{DoxyParamCaption}
+\item[{const {\bf nubot\-\_\-common\-::\-Vel\-Cmd\-::\-Const\-Ptr} \&}]{cmd}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_aafe5e8deca0e5a85a30c73629eee8703}
+
+
+Vel\-Cmd message callback function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em cmd} & Vel\-Cmd msg shared pointer \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classgazebo_1_1NubotGazebo_a51c8eaa9e931b22700f6c000e413bfa2}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!ball\-\_\-decay\-\_\-flag\-\_\-@{ball\-\_\-decay\-\_\-flag\-\_\-}}
+\index{ball\-\_\-decay\-\_\-flag\-\_\-@{ball\-\_\-decay\-\_\-flag\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{ball\-\_\-decay\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool gazebo\-::\-Nubot\-Gazebo\-::ball\-\_\-decay\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a51c8eaa9e931b22700f6c000e413bfa2}
+\hypertarget{classgazebo_1_1NubotGazebo_af8abc682c8dc7cad7d29d131901aec05}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!ballhandle\-\_\-server\-\_\-@{ballhandle\-\_\-server\-\_\-}}
+\index{ballhandle\-\_\-server\-\_\-@{ballhandle\-\_\-server\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{ballhandle\-\_\-server\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server gazebo\-::\-Nubot\-Gazebo\-::ballhandle\-\_\-server\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_af8abc682c8dc7cad7d29d131901aec05}
+\hypertarget{classgazebo_1_1NubotGazebo_a6b6ab10ac24ec1483797885f5d1b9110}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!cmd\-\_\-max\-\_\-@{cmd\-\_\-max\-\_\-}}
+\index{cmd\-\_\-max\-\_\-@{cmd\-\_\-max\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{cmd\-\_\-max\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::cmd\-\_\-max\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a6b6ab10ac24ec1483797885f5d1b9110}
+\hypertarget{classgazebo_1_1NubotGazebo_a360cbab192432814122197f21d685e56}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!cmd\-\_\-min\-\_\-@{cmd\-\_\-min\-\_\-}}
+\index{cmd\-\_\-min\-\_\-@{cmd\-\_\-min\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{cmd\-\_\-min\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::cmd\-\_\-min\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a360cbab192432814122197f21d685e56}
+\hypertarget{classgazebo_1_1NubotGazebo_afbdb7428487c2f6dec5000bae3d6f5a7}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!count\-\_\-@{count\-\_\-}}
+\index{count\-\_\-@{count\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{count\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int gazebo\-::\-Nubot\-Gazebo\-::count\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_afbdb7428487c2f6dec5000bae3d6f5a7}
+\hypertarget{classgazebo_1_1NubotGazebo_a385577ffa9cc48440e8047019d6e67f6}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!desired\-\_\-rot\-\_\-vector\-\_\-@{desired\-\_\-rot\-\_\-vector\-\_\-}}
+\index{desired\-\_\-rot\-\_\-vector\-\_\-@{desired\-\_\-rot\-\_\-vector\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{desired\-\_\-rot\-\_\-vector\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}math\-::\-Vector3 gazebo\-::\-Nubot\-Gazebo\-::desired\-\_\-rot\-\_\-vector\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a385577ffa9cc48440e8047019d6e67f6}
+\hypertarget{classgazebo_1_1NubotGazebo_ac515996ccf0c682a0ed88f00e401373d}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!desired\-\_\-trans\-\_\-vector\-\_\-@{desired\-\_\-trans\-\_\-vector\-\_\-}}
+\index{desired\-\_\-trans\-\_\-vector\-\_\-@{desired\-\_\-trans\-\_\-vector\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{desired\-\_\-trans\-\_\-vector\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}math\-::\-Vector3 gazebo\-::\-Nubot\-Gazebo\-::desired\-\_\-trans\-\_\-vector\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ac515996ccf0c682a0ed88f00e401373d}
+\hypertarget{classgazebo_1_1NubotGazebo_ab012e0229172416640558cf2746a0974}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!dribble\-\_\-angle\-\_\-thres\-\_\-@{dribble\-\_\-angle\-\_\-thres\-\_\-}}
+\index{dribble\-\_\-angle\-\_\-thres\-\_\-@{dribble\-\_\-angle\-\_\-thres\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{dribble\-\_\-angle\-\_\-thres\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::dribble\-\_\-angle\-\_\-thres\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ab012e0229172416640558cf2746a0974}
+\hypertarget{classgazebo_1_1NubotGazebo_a727079312e073df8799e1a385ac8da00}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!dribble\-\_\-\-D\-\_\-@{dribble\-\_\-\-D\-\_\-}}
+\index{dribble\-\_\-\-D\-\_\-@{dribble\-\_\-\-D\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{dribble\-\_\-\-D\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::dribble\-\_\-\-D\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a727079312e073df8799e1a385ac8da00}
+\hypertarget{classgazebo_1_1NubotGazebo_a646a80199e35f2f47558b7b7aa27bea4}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!dribble\-\_\-distance\-\_\-thres\-\_\-@{dribble\-\_\-distance\-\_\-thres\-\_\-}}
+\index{dribble\-\_\-distance\-\_\-thres\-\_\-@{dribble\-\_\-distance\-\_\-thres\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{dribble\-\_\-distance\-\_\-thres\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::dribble\-\_\-distance\-\_\-thres\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a646a80199e35f2f47558b7b7aa27bea4}
+\hypertarget{classgazebo_1_1NubotGazebo_a408738f621515f00547b54ed74481127}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!dribble\-\_\-flag\-\_\-@{dribble\-\_\-flag\-\_\-}}
+\index{dribble\-\_\-flag\-\_\-@{dribble\-\_\-flag\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{dribble\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool gazebo\-::\-Nubot\-Gazebo\-::dribble\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a408738f621515f00547b54ed74481127}
+\hypertarget{classgazebo_1_1NubotGazebo_ab74f3e63fe906f0c982837b1eeeefb5c}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!dribble\-\_\-\-I\-\_\-@{dribble\-\_\-\-I\-\_\-}}
+\index{dribble\-\_\-\-I\-\_\-@{dribble\-\_\-\-I\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{dribble\-\_\-\-I\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::dribble\-\_\-\-I\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ab74f3e63fe906f0c982837b1eeeefb5c}
+\hypertarget{classgazebo_1_1NubotGazebo_a9e30363181d0a790081ce6d0e9151e6b}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!dribble\-\_\-\-P\-\_\-@{dribble\-\_\-\-P\-\_\-}}
+\index{dribble\-\_\-\-P\-\_\-@{dribble\-\_\-\-P\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{dribble\-\_\-\-P\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::dribble\-\_\-\-P\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a9e30363181d0a790081ce6d0e9151e6b}
+\hypertarget{classgazebo_1_1NubotGazebo_a5865f8d5f7aad90ace72fe2942b6d25e}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!dribble\-\_\-pid\-\_\-@{dribble\-\_\-pid\-\_\-}}
+\index{dribble\-\_\-pid\-\_\-@{dribble\-\_\-pid\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{dribble\-\_\-pid\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf nubot\-::\-P\-I\-D} gazebo\-::\-Nubot\-Gazebo\-::dribble\-\_\-pid\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a5865f8d5f7aad90ace72fe2942b6d25e}
+\hypertarget{classgazebo_1_1NubotGazebo_a918fab93f4939a8bb06d65a997e20a54}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!football\-\_\-chassis\-\_\-@{football\-\_\-chassis\-\_\-}}
+\index{football\-\_\-chassis\-\_\-@{football\-\_\-chassis\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{football\-\_\-chassis\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string gazebo\-::\-Nubot\-Gazebo\-::football\-\_\-chassis\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a918fab93f4939a8bb06d65a997e20a54}
+\hypertarget{classgazebo_1_1NubotGazebo_af45b036c2156b537d5282f63c509d1e4}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!football\-\_\-index\-\_\-@{football\-\_\-index\-\_\-}}
+\index{football\-\_\-index\-\_\-@{football\-\_\-index\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{football\-\_\-index\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int gazebo\-::\-Nubot\-Gazebo\-::football\-\_\-index\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_af45b036c2156b537d5282f63c509d1e4}
+\hypertarget{classgazebo_1_1NubotGazebo_a191e11ef5a0b3e6275c3938ad61cec0a}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!football\-\_\-link\-\_\-@{football\-\_\-link\-\_\-}}
+\index{football\-\_\-link\-\_\-@{football\-\_\-link\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{football\-\_\-link\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}physics\-::\-Link\-Ptr gazebo\-::\-Nubot\-Gazebo\-::football\-\_\-link\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a191e11ef5a0b3e6275c3938ad61cec0a}
+\hypertarget{classgazebo_1_1NubotGazebo_a76897836db2bb2e49c75fbf64b4b9aeb}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!football\-\_\-model\-\_\-@{football\-\_\-model\-\_\-}}
+\index{football\-\_\-model\-\_\-@{football\-\_\-model\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{football\-\_\-model\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}physics\-::\-Model\-Ptr gazebo\-::\-Nubot\-Gazebo\-::football\-\_\-model\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a76897836db2bb2e49c75fbf64b4b9aeb}
+\hypertarget{classgazebo_1_1NubotGazebo_aea004ec0ee1c5dfdc8cba31939f18e39}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!football\-\_\-name\-\_\-@{football\-\_\-name\-\_\-}}
+\index{football\-\_\-name\-\_\-@{football\-\_\-name\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{football\-\_\-name\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string gazebo\-::\-Nubot\-Gazebo\-::football\-\_\-name\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_aea004ec0ee1c5dfdc8cba31939f18e39}
+\hypertarget{classgazebo_1_1NubotGazebo_af7356a83d30997d884440a10e95d29f4}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!football\-\_\-state\-\_\-@{football\-\_\-state\-\_\-}}
+\index{football\-\_\-state\-\_\-@{football\-\_\-state\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{football\-\_\-state\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf model\-\_\-state} gazebo\-::\-Nubot\-Gazebo\-::football\-\_\-state\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_af7356a83d30997d884440a10e95d29f4}
+\hypertarget{classgazebo_1_1NubotGazebo_a7ebd21f6da11a8f2b514c2e0930a26e6}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!force\-\_\-@{force\-\_\-}}
+\index{force\-\_\-@{force\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{force\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::force\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a7ebd21f6da11a8f2b514c2e0930a26e6}
+\hypertarget{classgazebo_1_1NubotGazebo_a0f8a50e34877912a0c53c3185ccd28d9}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!I\-\_\-term\-\_\-max\-\_\-@{I\-\_\-term\-\_\-max\-\_\-}}
+\index{I\-\_\-term\-\_\-max\-\_\-@{I\-\_\-term\-\_\-max\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{I\-\_\-term\-\_\-max\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::\-I\-\_\-term\-\_\-max\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a0f8a50e34877912a0c53c3185ccd28d9}
+\hypertarget{classgazebo_1_1NubotGazebo_affe0d982594c738a7ebec3ac1849c01f}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!I\-\_\-term\-\_\-min\-\_\-@{I\-\_\-term\-\_\-min\-\_\-}}
+\index{I\-\_\-term\-\_\-min\-\_\-@{I\-\_\-term\-\_\-min\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{I\-\_\-term\-\_\-min\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::\-I\-\_\-term\-\_\-min\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_affe0d982594c738a7ebec3ac1849c01f}
+\hypertarget{classgazebo_1_1NubotGazebo_a0d63b5e7f3d213fca30bbe09bd15e114}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!is\-\_\-hold\-\_\-ball\-\_\-@{is\-\_\-hold\-\_\-ball\-\_\-}}
+\index{is\-\_\-hold\-\_\-ball\-\_\-@{is\-\_\-hold\-\_\-ball\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{is\-\_\-hold\-\_\-ball\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool gazebo\-::\-Nubot\-Gazebo\-::is\-\_\-hold\-\_\-ball\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a0d63b5e7f3d213fca30bbe09bd15e114}
+\hypertarget{classgazebo_1_1NubotGazebo_a6392423c1aaf2ba68aac9eeb318f9e5b}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!judge\-\_\-nubot\-\_\-stuck\-\_\-@{judge\-\_\-nubot\-\_\-stuck\-\_\-}}
+\index{judge\-\_\-nubot\-\_\-stuck\-\_\-@{judge\-\_\-nubot\-\_\-stuck\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{judge\-\_\-nubot\-\_\-stuck\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool gazebo\-::\-Nubot\-Gazebo\-::judge\-\_\-nubot\-\_\-stuck\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a6392423c1aaf2ba68aac9eeb318f9e5b}
+\hypertarget{classgazebo_1_1NubotGazebo_abc8f7cb67014e700c08e27023353e419}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!kick\-\_\-ball\-\_\-vel\-\_\-@{kick\-\_\-ball\-\_\-vel\-\_\-}}
+\index{kick\-\_\-ball\-\_\-vel\-\_\-@{kick\-\_\-ball\-\_\-vel\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{kick\-\_\-ball\-\_\-vel\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::kick\-\_\-ball\-\_\-vel\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_abc8f7cb67014e700c08e27023353e419}
+\hypertarget{classgazebo_1_1NubotGazebo_aea8b62919e2834d4311a7fd7935036af}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!kick\-\_\-vector\-\_\-world\-\_\-@{kick\-\_\-vector\-\_\-world\-\_\-}}
+\index{kick\-\_\-vector\-\_\-world\-\_\-@{kick\-\_\-vector\-\_\-world\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{kick\-\_\-vector\-\_\-world\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}math\-::\-Vector3 gazebo\-::\-Nubot\-Gazebo\-::kick\-\_\-vector\-\_\-world\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_aea8b62919e2834d4311a7fd7935036af}
+\hypertarget{classgazebo_1_1NubotGazebo_a8e05ad53365765db200e0d62c451e069}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!last\-\_\-current\-\_\-time\-\_\-@{last\-\_\-current\-\_\-time\-\_\-}}
+\index{last\-\_\-current\-\_\-time\-\_\-@{last\-\_\-current\-\_\-time\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{last\-\_\-current\-\_\-time\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}common\-::\-Time gazebo\-::\-Nubot\-Gazebo\-::last\-\_\-current\-\_\-time\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a8e05ad53365765db200e0d62c451e069}
+\hypertarget{classgazebo_1_1NubotGazebo_a1aeb8fee9f7e057b182afcf2fd03f1c1}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!last\-\_\-update\-\_\-time\-\_\-@{last\-\_\-update\-\_\-time\-\_\-}}
+\index{last\-\_\-update\-\_\-time\-\_\-@{last\-\_\-update\-\_\-time\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{last\-\_\-update\-\_\-time\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}common\-::\-Time gazebo\-::\-Nubot\-Gazebo\-::last\-\_\-update\-\_\-time\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a1aeb8fee9f7e057b182afcf2fd03f1c1}
+\hypertarget{classgazebo_1_1NubotGazebo_ae9da5f6a1c7b5624dbf6bb20a2819d40}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!max\-\_\-angular\-\_\-vel\-\_\-@{max\-\_\-angular\-\_\-vel\-\_\-}}
+\index{max\-\_\-angular\-\_\-vel\-\_\-@{max\-\_\-angular\-\_\-vel\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{max\-\_\-angular\-\_\-vel\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::max\-\_\-angular\-\_\-vel\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ae9da5f6a1c7b5624dbf6bb20a2819d40}
+\hypertarget{classgazebo_1_1NubotGazebo_a67f7850c63c5dd6fe80694c9a426e5ec}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!max\-\_\-linear\-\_\-vel\-\_\-@{max\-\_\-linear\-\_\-vel\-\_\-}}
+\index{max\-\_\-linear\-\_\-vel\-\_\-@{max\-\_\-linear\-\_\-vel\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{max\-\_\-linear\-\_\-vel\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::max\-\_\-linear\-\_\-vel\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a67f7850c63c5dd6fe80694c9a426e5ec}
+\hypertarget{classgazebo_1_1NubotGazebo_ae985620428222dd9b1b5f507339119b8}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!message\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-@{message\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-}}
+\index{message\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-@{message\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{message\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::thread gazebo\-::\-Nubot\-Gazebo\-::message\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ae985620428222dd9b1b5f507339119b8}
+\hypertarget{classgazebo_1_1NubotGazebo_a7186c914f81602db7bd347b940794bbf}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!message\-\_\-queue\-\_\-@{message\-\_\-queue\-\_\-}}
+\index{message\-\_\-queue\-\_\-@{message\-\_\-queue\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{message\-\_\-queue\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Callback\-Queue gazebo\-::\-Nubot\-Gazebo\-::message\-\_\-queue\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a7186c914f81602db7bd347b940794bbf}
+\hypertarget{classgazebo_1_1NubotGazebo_a3c54a29f7aa4e67e4f86b5e848a930d5}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!mode\-\_\-@{mode\-\_\-}}
+\index{mode\-\_\-@{mode\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{mode\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int gazebo\-::\-Nubot\-Gazebo\-::mode\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a3c54a29f7aa4e67e4f86b5e848a930d5}
+\hypertarget{classgazebo_1_1NubotGazebo_aefc2d91922066c5ffc1d7faa175ab68a}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!model\-\_\-count\-\_\-@{model\-\_\-count\-\_\-}}
+\index{model\-\_\-count\-\_\-@{model\-\_\-count\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{model\-\_\-count\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int gazebo\-::\-Nubot\-Gazebo\-::model\-\_\-count\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_aefc2d91922066c5ffc1d7faa175ab68a}
+\hypertarget{classgazebo_1_1NubotGazebo_adf2314dfb2ab6cb5ecdb2bb0a9736665}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!model\-\_\-name\-\_\-@{model\-\_\-name\-\_\-}}
+\index{model\-\_\-name\-\_\-@{model\-\_\-name\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{model\-\_\-name\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string gazebo\-::\-Nubot\-Gazebo\-::model\-\_\-name\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_adf2314dfb2ab6cb5ecdb2bb0a9736665}
+\hypertarget{classgazebo_1_1NubotGazebo_a320dc212fab523958abb529f946133bd}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!model\-\_\-states\-\_\-msg\-\_\-@{model\-\_\-states\-\_\-msg\-\_\-}}
+\index{model\-\_\-states\-\_\-msg\-\_\-@{model\-\_\-states\-\_\-msg\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{model\-\_\-states\-\_\-msg\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}gazebo\-\_\-msgs\-::\-Model\-States gazebo\-::\-Nubot\-Gazebo\-::model\-\_\-states\-\_\-msg\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a320dc212fab523958abb529f946133bd}
+\hypertarget{classgazebo_1_1NubotGazebo_a7b758780795b0406d06bf5db5122dbe2}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Model\-States\-\_\-sub\-\_\-@{Model\-States\-\_\-sub\-\_\-}}
+\index{Model\-States\-\_\-sub\-\_\-@{Model\-States\-\_\-sub\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Model\-States\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber gazebo\-::\-Nubot\-Gazebo\-::\-Model\-States\-\_\-sub\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a7b758780795b0406d06bf5db5122dbe2}
+\hypertarget{classgazebo_1_1NubotGazebo_ae7c8ddd9342426222c1354740b23a01d}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Model\-States\-C\-B\-\_\-flag\-\_\-@{Model\-States\-C\-B\-\_\-flag\-\_\-}}
+\index{Model\-States\-C\-B\-\_\-flag\-\_\-@{Model\-States\-C\-B\-\_\-flag\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Model\-States\-C\-B\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool gazebo\-::\-Nubot\-Gazebo\-::\-Model\-States\-C\-B\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ae7c8ddd9342426222c1354740b23a01d}
+\hypertarget{classgazebo_1_1NubotGazebo_a70f7775e1670311efc2aad7c306a3077}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!msg\-C\-B\-\_\-lock\-\_\-@{msg\-C\-B\-\_\-lock\-\_\-}}
+\index{msg\-C\-B\-\_\-lock\-\_\-@{msg\-C\-B\-\_\-lock\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{msg\-C\-B\-\_\-lock\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex gazebo\-::\-Nubot\-Gazebo\-::msg\-C\-B\-\_\-lock\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a70f7775e1670311efc2aad7c306a3077}
+\hypertarget{classgazebo_1_1NubotGazebo_ae4b4790d24996fbfdd51f74baa45170a}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!nubot\-\_\-football\-\_\-vector\-\_\-@{nubot\-\_\-football\-\_\-vector\-\_\-}}
+\index{nubot\-\_\-football\-\_\-vector\-\_\-@{nubot\-\_\-football\-\_\-vector\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{nubot\-\_\-football\-\_\-vector\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}math\-::\-Vector3 gazebo\-::\-Nubot\-Gazebo\-::nubot\-\_\-football\-\_\-vector\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ae4b4790d24996fbfdd51f74baa45170a}
+\hypertarget{classgazebo_1_1NubotGazebo_a11fbfac7f239d13730b4d676af18f67e}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!nubot\-\_\-football\-\_\-vector\-\_\-length\-\_\-@{nubot\-\_\-football\-\_\-vector\-\_\-length\-\_\-}}
+\index{nubot\-\_\-football\-\_\-vector\-\_\-length\-\_\-@{nubot\-\_\-football\-\_\-vector\-\_\-length\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{nubot\-\_\-football\-\_\-vector\-\_\-length\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::nubot\-\_\-football\-\_\-vector\-\_\-length\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a11fbfac7f239d13730b4d676af18f67e}
+\hypertarget{classgazebo_1_1NubotGazebo_adce69b7247cba8a3433a6cdfad5b61ef}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!nubot\-\_\-index\-\_\-@{nubot\-\_\-index\-\_\-}}
+\index{nubot\-\_\-index\-\_\-@{nubot\-\_\-index\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{nubot\-\_\-index\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int gazebo\-::\-Nubot\-Gazebo\-::nubot\-\_\-index\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_adce69b7247cba8a3433a6cdfad5b61ef}
+\hypertarget{classgazebo_1_1NubotGazebo_a97a021a147d45134fe79ab21531e55df}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!nubot\-\_\-link\-\_\-@{nubot\-\_\-link\-\_\-}}
+\index{nubot\-\_\-link\-\_\-@{nubot\-\_\-link\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{nubot\-\_\-link\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}physics\-::\-Link\-Ptr gazebo\-::\-Nubot\-Gazebo\-::nubot\-\_\-link\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a97a021a147d45134fe79ab21531e55df}
+\hypertarget{classgazebo_1_1NubotGazebo_ac7f22b4b498327d11697f07cb064e460}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!nubot\-\_\-model\-\_\-@{nubot\-\_\-model\-\_\-}}
+\index{nubot\-\_\-model\-\_\-@{nubot\-\_\-model\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{nubot\-\_\-model\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}physics\-::\-Model\-Ptr gazebo\-::\-Nubot\-Gazebo\-::nubot\-\_\-model\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ac7f22b4b498327d11697f07cb064e460}
+\hypertarget{classgazebo_1_1NubotGazebo_a5abf5be34d8441db05d94ead7924ce14}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!nubot\-\_\-state\-\_\-@{nubot\-\_\-state\-\_\-}}
+\index{nubot\-\_\-state\-\_\-@{nubot\-\_\-state\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{nubot\-\_\-state\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf model\-\_\-state} gazebo\-::\-Nubot\-Gazebo\-::nubot\-\_\-state\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a5abf5be34d8441db05d94ead7924ce14}
+\hypertarget{classgazebo_1_1NubotGazebo_a5a6b999a205a45e1778e0f4d75e325e0}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!rand\-\_\-@{rand\-\_\-}}
+\index{rand\-\_\-@{rand\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{rand\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}math\-::\-Rand gazebo\-::\-Nubot\-Gazebo\-::rand\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a5a6b999a205a45e1778e0f4d75e325e0}
+\hypertarget{classgazebo_1_1NubotGazebo_a36186a24f60f3c88fd6fb12fd85b4fa4}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!receive\-\_\-sim\-\_\-time\-\_\-@{receive\-\_\-sim\-\_\-time\-\_\-}}
+\index{receive\-\_\-sim\-\_\-time\-\_\-@{receive\-\_\-sim\-\_\-time\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{receive\-\_\-sim\-\_\-time\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}common\-::\-Time gazebo\-::\-Nubot\-Gazebo\-::receive\-\_\-sim\-\_\-time\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a36186a24f60f3c88fd6fb12fd85b4fa4}
+\hypertarget{classgazebo_1_1NubotGazebo_a6f892f9dcb5b46bdd232ffec277dd093}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!reconfigure\-Server\-\_\-@{reconfigure\-Server\-\_\-}}
+\index{reconfigure\-Server\-\_\-@{reconfigure\-Server\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{reconfigure\-Server\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}dynamic\-\_\-reconfigure\-::\-Server$<${\bf nubot\-\_\-gazebo\-::\-Nubot\-Gazebo\-Config}$>$$\ast$ gazebo\-::\-Nubot\-Gazebo\-::reconfigure\-Server\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a6f892f9dcb5b46bdd232ffec277dd093}
+\hypertarget{classgazebo_1_1NubotGazebo_ac92e4461911d9522f1454978d26ec461}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!robot\-\_\-namespace\-\_\-@{robot\-\_\-namespace\-\_\-}}
+\index{robot\-\_\-namespace\-\_\-@{robot\-\_\-namespace\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{robot\-\_\-namespace\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string gazebo\-::\-Nubot\-Gazebo\-::robot\-\_\-namespace\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ac92e4461911d9522f1454978d26ec461}
+\hypertarget{classgazebo_1_1NubotGazebo_a5d3cf2ace05ce1ade8b71d1c6397a7b0}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!robot\-\_\-prefix\-\_\-@{robot\-\_\-prefix\-\_\-}}
+\index{robot\-\_\-prefix\-\_\-@{robot\-\_\-prefix\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{robot\-\_\-prefix\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string gazebo\-::\-Nubot\-Gazebo\-::robot\-\_\-prefix\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a5d3cf2ace05ce1ade8b71d1c6397a7b0}
+\hypertarget{classgazebo_1_1NubotGazebo_a310c7df239fab0570dbdc82d4552ec6d}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!rosnode\-\_\-@{rosnode\-\_\-}}
+\index{rosnode\-\_\-@{rosnode\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{rosnode\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle$\ast$ gazebo\-::\-Nubot\-Gazebo\-::rosnode\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a310c7df239fab0570dbdc82d4552ec6d}
+\hypertarget{classgazebo_1_1NubotGazebo_a0c0bc3e99d501d7fcac319848006f87c}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!service\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-@{service\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-}}
+\index{service\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-@{service\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{service\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::thread gazebo\-::\-Nubot\-Gazebo\-::service\-\_\-callback\-\_\-queue\-\_\-thread\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a0c0bc3e99d501d7fcac319848006f87c}
+\hypertarget{classgazebo_1_1NubotGazebo_ae1fe2dc1962659f70ebba9555a92e59a}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!service\-\_\-queue\-\_\-@{service\-\_\-queue\-\_\-}}
+\index{service\-\_\-queue\-\_\-@{service\-\_\-queue\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{service\-\_\-queue\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Callback\-Queue gazebo\-::\-Nubot\-Gazebo\-::service\-\_\-queue\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ae1fe2dc1962659f70ebba9555a92e59a}
+\hypertarget{classgazebo_1_1NubotGazebo_afd3e6ab82580823e83d84433dac19e86}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!shoot\-\_\-server\-\_\-@{shoot\-\_\-server\-\_\-}}
+\index{shoot\-\_\-server\-\_\-@{shoot\-\_\-server\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{shoot\-\_\-server\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server gazebo\-::\-Nubot\-Gazebo\-::shoot\-\_\-server\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_afd3e6ab82580823e83d84433dac19e86}
+\hypertarget{classgazebo_1_1NubotGazebo_a85d5357dfacc73801bed752d6dc297d4}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!shot\-\_\-flag\-\_\-@{shot\-\_\-flag\-\_\-}}
+\index{shot\-\_\-flag\-\_\-@{shot\-\_\-flag\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{shot\-\_\-flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool gazebo\-::\-Nubot\-Gazebo\-::shot\-\_\-flag\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a85d5357dfacc73801bed752d6dc297d4}
+\hypertarget{classgazebo_1_1NubotGazebo_a6b3d2a253732eedfcf18e0223435bed0}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!srv\-C\-B\-\_\-lock\-\_\-@{srv\-C\-B\-\_\-lock\-\_\-}}
+\index{srv\-C\-B\-\_\-lock\-\_\-@{srv\-C\-B\-\_\-lock\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{srv\-C\-B\-\_\-lock\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex gazebo\-::\-Nubot\-Gazebo\-::srv\-C\-B\-\_\-lock\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a6b3d2a253732eedfcf18e0223435bed0}
+\hypertarget{classgazebo_1_1NubotGazebo_acf9828d7b8b37440a8e45ef63895ec8b}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!state\-\_\-@{state\-\_\-}}
+\index{state\-\_\-@{state\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{state\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf nubot\-\_\-state} gazebo\-::\-Nubot\-Gazebo\-::state\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_acf9828d7b8b37440a8e45ef63895ec8b}
+\hypertarget{classgazebo_1_1NubotGazebo_a8db3f4b9767b4ec34716756f02fb7fe9}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!sub\-\_\-state\-\_\-@{sub\-\_\-state\-\_\-}}
+\index{sub\-\_\-state\-\_\-@{sub\-\_\-state\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{sub\-\_\-state\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf nubot\-\_\-substate} gazebo\-::\-Nubot\-Gazebo\-::sub\-\_\-state\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a8db3f4b9767b4ec34716756f02fb7fe9}
+\hypertarget{classgazebo_1_1NubotGazebo_ac16bd419aba2826c0227ac575b351e9e}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!traj\-\_\-plan\-\_\-linear\-\_\-@{traj\-\_\-plan\-\_\-linear\-\_\-}}
+\index{traj\-\_\-plan\-\_\-linear\-\_\-@{traj\-\_\-plan\-\_\-linear\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{traj\-\_\-plan\-\_\-linear\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf nubot\-::\-Para\-Traj\-Planning} gazebo\-::\-Nubot\-Gazebo\-::traj\-\_\-plan\-\_\-linear\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_ac16bd419aba2826c0227ac575b351e9e}
+\hypertarget{classgazebo_1_1NubotGazebo_a95c171c478be4aadf6b4d96a3d3a48c8}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!traj\-\_\-plan\-\_\-rot\-\_\-@{traj\-\_\-plan\-\_\-rot\-\_\-}}
+\index{traj\-\_\-plan\-\_\-rot\-\_\-@{traj\-\_\-plan\-\_\-rot\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{traj\-\_\-plan\-\_\-rot\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf nubot\-::\-Para\-Traj\-Planning} gazebo\-::\-Nubot\-Gazebo\-::traj\-\_\-plan\-\_\-rot\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a95c171c478be4aadf6b4d96a3d3a48c8}
+\hypertarget{classgazebo_1_1NubotGazebo_a4e3b8b74aa075427ecbd5c82f630144d}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!update\-\_\-connection\-\_\-@{update\-\_\-connection\-\_\-}}
+\index{update\-\_\-connection\-\_\-@{update\-\_\-connection\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{update\-\_\-connection\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}event\-::\-Connection\-Ptr gazebo\-::\-Nubot\-Gazebo\-::update\-\_\-connection\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a4e3b8b74aa075427ecbd5c82f630144d}
+\hypertarget{classgazebo_1_1NubotGazebo_a6264896320559e214ac33d820c44b357}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Velcmd\-\_\-sub\-\_\-@{Velcmd\-\_\-sub\-\_\-}}
+\index{Velcmd\-\_\-sub\-\_\-@{Velcmd\-\_\-sub\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Velcmd\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber gazebo\-::\-Nubot\-Gazebo\-::\-Velcmd\-\_\-sub\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a6264896320559e214ac33d820c44b357}
+\hypertarget{classgazebo_1_1NubotGazebo_af17747304ff9b241fa0642c52923498b}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Vx\-\_\-cmd\-\_\-@{Vx\-\_\-cmd\-\_\-}}
+\index{Vx\-\_\-cmd\-\_\-@{Vx\-\_\-cmd\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Vx\-\_\-cmd\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::\-Vx\-\_\-cmd\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_af17747304ff9b241fa0642c52923498b}
+\hypertarget{classgazebo_1_1NubotGazebo_a977c91e62fed23c5fb9233e5d38ad597}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!Vy\-\_\-cmd\-\_\-@{Vy\-\_\-cmd\-\_\-}}
+\index{Vy\-\_\-cmd\-\_\-@{Vy\-\_\-cmd\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{Vy\-\_\-cmd\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::\-Vy\-\_\-cmd\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_a977c91e62fed23c5fb9233e5d38ad597}
+\hypertarget{classgazebo_1_1NubotGazebo_aebc0851c9ab6da1d1c96d470e72758f8}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!w\-\_\-cmd\-\_\-@{w\-\_\-cmd\-\_\-}}
+\index{w\-\_\-cmd\-\_\-@{w\-\_\-cmd\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{w\-\_\-cmd\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double gazebo\-::\-Nubot\-Gazebo\-::w\-\_\-cmd\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_aebc0851c9ab6da1d1c96d470e72758f8}
+\hypertarget{classgazebo_1_1NubotGazebo_aa56e5c10cfbbc981460ab1bcc204d071}{\index{gazebo\-::\-Nubot\-Gazebo@{gazebo\-::\-Nubot\-Gazebo}!world\-\_\-@{world\-\_\-}}
+\index{world\-\_\-@{world\-\_\-}!gazebo::NubotGazebo@{gazebo\-::\-Nubot\-Gazebo}}
+\subsubsection[{world\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}physics\-::\-World\-Ptr gazebo\-::\-Nubot\-Gazebo\-::world\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classgazebo_1_1NubotGazebo_aa56e5c10cfbbc981460ab1bcc204d071}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/\hyperlink{nubot__gazebo_8hh}{nubot\-\_\-gazebo.\-hh}\item 
+src/nubot\-\_\-simulation/nubot\-\_\-gazebo/plugins/\hyperlink{nubot__gazebo_8cc}{nubot\-\_\-gazebo.\-cc}\end{DoxyCompactItemize}
