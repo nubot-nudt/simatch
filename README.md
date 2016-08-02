@@ -20,7 +20,7 @@
 > 	 - coach4sim:	 ROS, C++, Qt    配置文件:	 
 > 	 - Linux bash或其他 
 >  - 其他方面   
-> 	 - 使用说明:	 会打字，细心 
+> 	 - 使用说明:	  txt，Mardown 
 > 	 - 软件文档：	 Doxygen或其他
 
 ## 联系
@@ -64,12 +64,12 @@ is changed to
 You can read this link for more [information](http://answers.ros.org/question/215796/problem-for-install-gazebo_ros_package/)   
    (b) Install Gazebo 5.     
    `$ sudo apt-get install gazebo5`     
-If this fails, try to run the ['gazebo5_install.sh'](https://github.com/nubot-nudt/simatch/blob/master/gazebo5_install.sh)(obtained from Gazebo's official website) provided in this package.    
+If this fails, try to run the ['gazebo5_install.sh'](https://github.com/nubot-nudt/simatch/blob/master/gazebo5_install.sh)(obtained from Gazebo's official website).    
 Read for more [information](http://answers.ros.org/question/217970/ros-jade-and-gazebo-50-migration-problem/)   
   (c) Optional: copy resource files to the new gazebo folder.    
    `$ sudo cp -r /usr/share/gazebo-5.0/* /usr/share/gazebo-5.1`      
 3. If you decide to use **ROS Jade** with **gazebo 7.1**, read the following,    
-(1) Install gazebo 7.0 by running [gazebo7_install.sh](https://github.com/nubot-nudt/simatch/blob/master/gazebo7_install.sh)(obtained from Gazebo's official website) provided in this package;      
+(1) Install gazebo 7.0 by running [gazebo7_install.sh](https://github.com/nubot-nudt/simatch/blob/master/gazebo7_install.sh)(obtained from Gazebo's official website);      
 (2) Go to the github website and download the repository of gazebo_ros_pkgs on the branch 'kinetic-devel':      
 `$ git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b kinetic-devel`     
 (3) Go to gazebo_ros_pkgs and create src/, put all other files or folders inside src/.    
@@ -115,11 +115,11 @@ If you want to run those modules seperatly, you could
 > You could write this line into ~/.bashrc file so that you don't have to source it every time you open a terminal.   
 
 2 To run gazebo_visual,    
-`$ roslaunch nubot_gazebo game_ready.launch` 
-3 To run robot_code for cyan or magenta robots:   
-`$ rosrun nubot_common cyan_robot.sh` or `$ rosrun nubot_common magenta_robot.sh`
-4 To run coach4sim,   
-`rosrun coach4sim cyan_coach.sh` or `rosrun coach4sim magenta_coach.sh`
+`$ roslaunch nubot_gazebo game_ready.launch`    
+3 To run robot_code for cyan or magenta robots:      
+`$ rosrun nubot_common cyan_robot.sh` or `$ rosrun nubot_common magenta_robot.sh`   
+4 To run coach4sim,      
+`rosrun coach4sim cyan_coach.sh` or `rosrun coach4sim magenta_coach.sh`   
 
 ### With several computers
 
@@ -128,13 +128,14 @@ Configuration of computer A and computer B
 For example,computer A runs gazebo_visual to display the movement of robots. Computer B runs nubot_ws to    
 calculate and send  movement commands to robots. In addition, computer B should also run coach to send game    
 command such as game start.    
-  The communication between computer A and computer B is via ROS master. The following is the configuration steps:   
-1. In computer A, add computer B's IP address in /etc/hosts; and in computer B, add computer A's IP address in /etc/hosts
-e.g. In computer A, `$ sudo gedit /etc/hosts and add "Maggie 192.168.8.100"`
-     In computer B, `$ sudo gedit /etc/hosts and add "Bart   192.168.8.101"`
-2. In computer A, run gazebo_visual; In computer B, before you run nubot_ws, you should export ROS_MASTER_URI.
-e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`
-3. In computer B, run coach and send game command
+  The communication between computer A and computer B is via ROS master. 
+  The following is the configuration steps:   
+> 1. In computer A, add computer B's IP address in /etc/hosts; and in computer B, add computer A's IP address in /etc/hosts >  
+> e.g. In computer A, `$ sudo gedit /etc/hosts and add "Maggie 192.168.8.100"`   
+>     In computer B, `$ sudo gedit /etc/hosts and add "Bart   192.168.8.101"`   
+> 2. In computer A, run gazebo_visual; In computer B, before you run nubot_ws, you should export ROS_MASTER_URI.   
+> e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`   
+> 3. In computer B, run coach and send game command   
 
 > **NOTE:** 
 > You could change some parameters in sim_config file and relaunch all modules again.
