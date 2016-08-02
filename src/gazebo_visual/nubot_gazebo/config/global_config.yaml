@@ -5,11 +5,11 @@ general:
 
 cyan:
   prefix: "nubot"             # Nubot name prefix. Linked with model name; don't change
-  num: 2
+  num: 3
  
 magenta:
   prefix: "rival"            # Rival name prefix. Linked with model name; don't change
-  num: 2
+  num: 3
 
 field:
   length: 18                     # Use integer!   used in spawn_model_script
