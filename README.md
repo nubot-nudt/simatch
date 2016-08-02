@@ -1,37 +1,36 @@
-# ÖÐ¹ú»úÆ÷ÈË´óÈüÖÐÐÍ×é·ÂÕæ±ÈÈü
-## ËµÃ÷
-¸ÃÈí¼þ°ü°üÀ¨ÁËrobot_codeÄ£¿é£¬gazebo_visualÄ£¿é£¬coach4simÄ£¿éºÍcommonÄ£¿é£¬ÆäÖÐ£¬²ÎÈüÑ¡ÊÖÖ÷Òª×¢ÖØrobot_codeÄ£¿é£¬ÀïÃæ°üº¬µÄÊÇ¿ØÖÆ»úÆ÷ÈËÔË¶¯µÄÏà¹Ø³ÌÐò¡£¸÷¸öÄ£¿éµÄ½éÉÜÈçÏÂ£º   
+# ä¸­å›½æœºå™¨äººå¤§èµ›ä¸­åž‹ç»„ä»¿çœŸæ¯”èµ›
+## è¯´æ˜Ž
+è¯¥è½¯ä»¶åŒ…åŒ…æ‹¬äº†robot_codeæ¨¡å—ï¼Œgazebo_visualæ¨¡å—ï¼Œcoach4simæ¨¡å—å’Œcommonæ¨¡å—ï¼Œå…¶ä¸­ï¼Œå‚èµ›é€‰æ‰‹ä¸»è¦æ³¨é‡robot_codeæ¨¡å—ï¼Œé‡Œé¢åŒ…å«çš„æ˜¯æŽ§åˆ¶æœºå™¨äººè¿åŠ¨çš„ç›¸å…³ç¨‹åºã€‚å„ä¸ªæ¨¡å—çš„ä»‹ç»å¦‚ä¸‹ï¼š   
 
- - robot_code: »úÆ÷ÈËµÄ¸ÐÖª¡¢¹æ»®¡¢ÔË¶¯¿ØÖÆµÈ·½Ãæ£¬ÓÉNuBot¶ÓÎéµÄ»úÆ÷ÈË´úÂë¸ÄÔì¶ø³É,ÆäÖÐÖ÷ÒªµÄ²ßÂÔµÈ(ÔÚnubot_controlÈí¼þ°üÖÐ)²¿·ÖÒÑ¾­É¾³ý£¬Ñ¡ÊÖÓ¦×ÔÐÐ±àÐ´£¬ÆäÓà²¿·Ö¿ÉÒÔÖ±½ÓÑØÓÃ£¬Ò²¿ÉËæÒâ¸Ä¶¯¡£
- -  gazebo_visual: Gazebo·ÂÕæÆ½Ì¨£¬³ý»ù±¾µÄÉèÖÃ£¨ÔÚsim_configÎÄ¼þÖÐ£©Íâ£¬²»Ó¦×öÆäËû¸Ä¶¯¡£×îÖÕÊ¹ÓÃ°æ±¾ÒÔ±ÈÈüÊ±µÄ°æ±¾Îª×¼¡£   
- - coach4sim: ÓÃÓÚ·ÂÕæµÄcoach£¬·¢ËÍ±ÈÈü¿ªÊ¼¡¢ÔÝÍ£¡¢Õ¾Î»µÈÖ¸Áî¡£Ñ¡ÊÖ²»±Ø×ö¸Ä¶¯¡£
- - common: °üº¬cmake¡¢ÊÖ±úÇý¶¯µÈ¡£Ñ¡ÊÖ²»±Ø×ö¸Ä¶¯¡£   
-ÇëÏÈÑ§Ï°ROS¡¢C++£¬×÷Îª»ù±¾¼¼ÄÜºÍÖªÊ¶£¬È»ºó¶Ô»úÆ÷ÈË²ßÂÔµÈ·½ÃæÓÐÒ»¶¨ÁË½â£¬ÔÙ½øÐÐrobot_codeµÄ¶à»úÆ÷ÈËÐ­Í¬³ÌÐòµÄ±àÐ´¡£
+ - robot_code: æœºå™¨äººçš„æ„ŸçŸ¥ã€è§„åˆ’ã€è¿åŠ¨æŽ§åˆ¶ç­‰æ–¹é¢ï¼Œç”±NuBoté˜Ÿä¼çš„æœºå™¨äººä»£ç æ”¹é€ è€Œæˆ,å…¶ä¸­ä¸»è¦çš„ç­–ç•¥ç­‰(åœ¨nubot_controlè½¯ä»¶åŒ…ä¸­)éƒ¨åˆ†å·²ç»åˆ é™¤ï¼Œé€‰æ‰‹åº”è‡ªè¡Œç¼–å†™ï¼Œå…¶ä½™éƒ¨åˆ†å¯ä»¥ç›´æŽ¥æ²¿ç”¨ï¼Œä¹Ÿå¯éšæ„æ”¹åŠ¨ã€‚
+ -  gazebo_visual: Gazeboä»¿çœŸå¹³å°ï¼Œé™¤åŸºæœ¬çš„è®¾ç½®ï¼ˆåœ¨sim_configæ–‡ä»¶ä¸­ï¼‰å¤–ï¼Œä¸åº”åšå…¶ä»–æ”¹åŠ¨ã€‚æœ€ç»ˆä½¿ç”¨ç‰ˆæœ¬ä»¥æ¯”èµ›æ—¶çš„ç‰ˆæœ¬ä¸ºå‡†ã€‚   
+ - coach4sim: ç”¨äºŽä»¿çœŸçš„coachï¼Œå‘é€æ¯”èµ›å¼€å§‹ã€æš‚åœã€ç«™ä½ç­‰æŒ‡ä»¤ã€‚é€‰æ‰‹ä¸å¿…åšæ”¹åŠ¨ã€‚
+ - common: åŒ…å«cmakeã€æ‰‹æŸ„é©±åŠ¨ç­‰ã€‚é€‰æ‰‹ä¸å¿…åšæ”¹åŠ¨ã€‚   
+è¯·å…ˆå­¦ä¹ ROSã€C++ï¼Œä½œä¸ºåŸºæœ¬æŠ€èƒ½å’ŒçŸ¥è¯†ï¼Œç„¶åŽå¯¹æœºå™¨äººç­–ç•¥ç­‰æ–¹é¢æœ‰ä¸€å®šäº†è§£ï¼Œå†è¿›è¡Œrobot_codeçš„å¤šæœºå™¨äººååŒç¨‹åºçš„ç¼–å†™ã€‚
 
-## ¹²Í¬¿ª·¢
-»¶Ó­´ó¼Ò»ý¼«¹²Í¬ÍêÉÆ¸Ã·ÂÕæÆ½Ì¨£¬ÎÒÃÇ½«¸ÐÐ»Ã¿Ò»¸öÈËµÄ¹±Ï×¡£   
-±¾Èí¼þÊ¹ÓÃgit×÷Îª°æ±¾¿ØÖÆ£¬ÍÐ¹ÜÓÚGitHubÍøÕ¾¡£Èç¹ûÏë¹²Í¬¿ª·¢¸ÃÈí¼þ°ü£¬ÇëforkÒ»ÏÂ¸ÃÈí¼þ°ü£¨Ê×ÏÈÄãÒª×¢²áÒ»¸öGitHubÕÊºÅ£©£¬È»ºógit cloneµ½×Ô¼ºµÄµçÄÔÈ¥£¬¸Ä½øÍê´úÂëºó£¬¿ÉÒÔgit pushÉÏÀ´£¬È»ºóÔÙÔÚGitHubÀïÃæ·¢Ò»¸öpull request¡£   
+## å…±åŒå¼€å‘
+æ¬¢è¿Žå¤§å®¶ç§¯æžå…±åŒå®Œå–„è¯¥ä»¿çœŸå¹³å°ï¼Œæˆ‘ä»¬å°†æ„Ÿè°¢æ¯ä¸€ä¸ªäººçš„è´¡çŒ®ã€‚   
+æœ¬è½¯ä»¶ä½¿ç”¨gitä½œä¸ºç‰ˆæœ¬æŽ§åˆ¶ï¼Œæ‰˜ç®¡äºŽGitHubç½‘ç«™ã€‚å¦‚æžœæƒ³å…±åŒå¼€å‘è¯¥è½¯ä»¶åŒ…ï¼Œè¯·forkä¸€ä¸‹è¯¥è½¯ä»¶åŒ…ï¼ˆé¦–å…ˆä½ è¦æ³¨å†Œä¸€ä¸ªGitHubå¸å·ï¼‰ï¼Œç„¶åŽgit cloneåˆ°è‡ªå·±çš„ç”µè„‘åŽ»ï¼Œæ”¹è¿›å®Œä»£ç åŽï¼Œå¯ä»¥git pushä¸Šæ¥ï¼Œç„¶åŽå†åœ¨GitHubé‡Œé¢å‘ä¸€ä¸ªpull requestã€‚   
 
-> **ÐèÒªµÄ»ù±¾¼¼ÄÜºÍÖªÊ¶:**  
+> **éœ€è¦çš„åŸºæœ¬æŠ€èƒ½å’ŒçŸ¥è¯†:**  
 > 
->  - Èí¼þ±à³Ì£º 
+>  - è½¯ä»¶ç¼–ç¨‹ï¼š 
 > 	 - robot_code: ROS, C++    
-> 	 - gazebo_visual: ROS, C++, Gazebo²å¼þÒÔ¼°±à³ÌÊµÏÖ    
-> 	 - coach4sim:	 ROS, C++, Qt    ÅäÖÃÎÄ¼þ:	 
-> 	 - Linux bash»òÆäËû 
->  - ÆäËû·½Ãæ   
-> 	 - Ê¹ÓÃËµÃ÷:	 »á´ò×Ö£¬Ï¸ÐÄ 
-> 	 - Èí¼þÎÄµµ£º	 Doxygen»òÆäËû
+> 	 - gazebo_visual: ROS, C++, Gazeboæ’ä»¶ä»¥åŠç¼–ç¨‹å®žçŽ°    
+> 	 - coach4sim:	 ROS, C++, Qt    é…ç½®æ–‡ä»¶:	 
+> 	 - Linux bashæˆ–å…¶ä»– 
+>  - å…¶ä»–æ–¹é¢   
+> 	 - ä½¿ç”¨è¯´æ˜Ž:	 ä¼šæ‰“å­—ï¼Œç»†å¿ƒ 
+> 	 - è½¯ä»¶æ–‡æ¡£ï¼š	 Doxygenæˆ–å…¶ä»–
 
-## ÁªÏµ
-Èí¼þÎ¬»¤Õß(Maitainer): abcgarden@126.com
-Nubot¶ÓÎé(RoboCup team): nubot.nudt@outlook.com
+## è”ç³»
+è½¯ä»¶ç»´æŠ¤è€…(Maitainer): abcgarden@126.com    
+Nuboté˜Ÿä¼(RoboCup team): nubot.nudt@outlook.com
 
---------------------------
-# ÓÃ»§ÊÖ²á User manual
+# ç”¨æˆ·æ‰‹å†Œ User manual
 > **NOTE:** 
-> If you want to have a basic understanding of how Gazebo and ROS combines to work for robots, it is recommended to check out the repository 'single_nubot_gazebo'.
-> This contains how to configure the environment, how to run the simulation, and how the robot is simulated. You could run the ROS tool 'rqt_graph' to
+> If you want to have a basic understanding of how Gazebo and ROS combines to work for robots, it is recommended to check out the repository ['single_nubot_gazebo'](https://github.com/nubot-nudt/single_nubot_gazebo).
+> This contains how to configure the environment, how to run the simulation, and how the robot is simulated. You could run the ROS tool ['rqt_graph'](http://wiki.ros.org/rqt_graph) to
 > understand the basic messages and service flow. 
 
 ## Recommended Operating Environment
@@ -41,62 +40,60 @@ Nubot¶ÓÎé(RoboCup team): nubot.nudt@outlook.com
 4. gazebo_ros_pkgs; (please read the **NOTE** below for more information)  
 Other versions of Ubuntu, ROS or Gazebo may also work, but we have not tested yet.
 
-> **NOTE:** 
-> Concering how to install appropriate **gazebo_ros_pkgs**, please read the following according to your own situation:
-> 1. If you decide to use **ROS Indigo**, please read the following:
-> If you choose "desktop-full" install of ROS Indigo, there is a Gazebo 2.0 included initially. In order to install Gazebo 5.0/5.1, you should first remove Gazebo 2.0 by running:   
-(!Note!. The following command is dangerous; it might delete the whole ROS, so please do it carefully or you may find other ways to delete gazebo2)   
-` $ sudo apt-get remove gazebo2* `  
-> Then you should be able to install Gazebo 5.0 now. To install gazebo_ros_pkgs compatible with Gazebo
-> 5.0/5.1, run this command:  
-` $ sudo apt-get install ros-indigo-gazebo5-ros-pkgs ros-indigo-gazebo5-ros-control`
-> HOWEVER,   
-> It seems ` $ sudo apt-get install ros-indigo-gazebo5-ros-pkgs ros-indigo-gazebo5-ros-control` no longer works now.    
-> These packages may be moved to other places. You can checkout [gazebo_ros](https://github.com/ros-simulation/gazebo_ros_pkgs.git),   
-> and download and install the correct version.   
->   
-> 2. If you decide to use **ROS Jade** with **gazebo 5.0 or 5.1**, read the following
-> ROS Jade has gazebo_ros_pkgs with it; so you don't have to install gazebo_ros_pkgs again. 
-> However, you should do the following steps to fix some of the bugs in ROS Jade related to Gazebo:        
->    (a) `$ sudo gedit /opt/ros/jade/lib/gazebo_ros/gazebo`    
-> In this file, go to line 24 and delete the last '/'. So    
-> `setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo/`    
-> is changed to     
-> `setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo`    
->     You can read this link for more [information](http://answers.ros.org/question/215796/problem-for-install-gazebo_ros_package/)   
->    (b) Install Gazebo 5.     
->    `$ sudo apt-get install gazebo5`     
-> If this fails, try to run the 'gazebo5_install.sh'(obtained from Gazebo's official website) provided in this package.    
-> Read for more [information](http://answers.ros.org/question/217970/ros-jade-and-gazebo-50-migration-problem/)   
->   (c) Optional: copy resource files to the new gazebo folder.    
->    `$ sudo cp -r /usr/share/gazebo-5.0/* /usr/share/gazebo-5.1`     
->   
-> 3. If you decide to use **ROS Jade** with **gazebo 7.1**, read the following,
-> (1) Install gazebo 7.0 by running gazebo7_install.sh(obtained from Gazebo's official website) provided in this package;   
-> (2) Go to the github website and download the repository of gazebo_ros_pkgs on the branch 'kinetic-devel':   
-> `$ git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b kinetic-devel`   
-> (3) Go to gazebo_ros_pkgs and create src/, put all other files or folders inside src/.    
-> ` $ cd src/`   
-> ` $ catkin_init_workspace`   
-> (4) To install dependencies, run    
-> ` $ cd ../../`   
-> ` $ rosdep install --from-paths gazebo_ros_pkgs --ignore-src --rosdistro=jade'
-> (5) Then install all these files to /opt/ros/jade   
-> ` $ cd gazeo_ros_pkgs`   
-> ` $ catkin_make -DCMAKE_INSTALL_PREFIX=/opt/ros/jade install`   
-> You may encounter problems such as 'cannot copu _setup_util.py to /opt/ros/...', if that is the case, you are supposed
-> to run this command as the root. For example,    
-> ` $ sudo su`   
-> ` $ source /opt/ros/jade/setup.bash`   
-> ` $ rosdep install --from-paths gazebo_ros_pkgs --ignore-src --rosdistro=ROSDISTRO`   
-> ` $ cd gazeo_ros_pkgs`   
-> ` $ catkin_make -DCMAKE_INSTALL_PREFIX=/opt/ros/jade install`   
+**NOTE:** 
+Concering how to install appropriate **gazebo_ros_pkgs**, please read the following according to your own situation:   
+1.  If you decide to use **ROS Indigo**, please read the following:   
+If you choose "desktop-full" install of ROS Indigo, there is a Gazebo 2.0 included initially. In order to install Gazebo 5.0/5.1, you should first remove Gazebo 2.0 by running:   
+(**The following command is dangerous; it might delete the whole ROS, so please do it carefully or you may find other ways to delete gazebo2**)   
+` $ sudo apt-get remove gazebo2* `    
+Then you should be able to install Gazebo 5.0 now. To install gazebo_ros_pkgs compatible with Gazebo
+5.0/5.1, run this command:   
+` $ sudo apt-get install ros-indigo-gazebo5-ros-pkgs ros-indigo-gazebo5-ros-control`   
+HOWEVER,     
+It seems ` $ sudo apt-get install ros-indigo-gazebo5-ros-pkgs ros-indigo-gazebo5-ros-control` no longer works now.    
+These packages may be moved to other places. You can checkout [gazebo_ros](https://github.com/ros-simulation/gazebo_ros_pkgs.git),
+and download and install the correct version.   
+2. If you decide to use **ROS Jade** with **gazebo 5.0 or 5.1**, read the following   
+ROS Jade has gazebo_ros_pkgs with it; so you don't have to install gazebo_ros_pkgs again.  
+However, you should do the following steps to fix some of the bugs in ROS Jade related to Gazebo:        
+   (a) `$ sudo gedit /opt/ros/jade/lib/gazebo_ros/gazebo`    
+In this file, go to line 24 and delete the last '/'. So    
+`setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo/`    
+is changed to     
+`setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo`    
+You can read this link for more [information](http://answers.ros.org/question/215796/problem-for-install-gazebo_ros_package/)   
+   (b) Install Gazebo 5.     
+   `$ sudo apt-get install gazebo5`     
+If this fails, try to run the ['gazebo5_install.sh'](https://github.com/nubot-nudt/simatch/blob/master/gazebo5_install.sh)(obtained from Gazebo's official website) provided in this package.    
+Read for more [information](http://answers.ros.org/question/217970/ros-jade-and-gazebo-50-migration-problem/)   
+  (c) Optional: copy resource files to the new gazebo folder.    
+   `$ sudo cp -r /usr/share/gazebo-5.0/* /usr/share/gazebo-5.1`      
+3. If you decide to use **ROS Jade** with **gazebo 7.1**, read the following,    
+(1) Install gazebo 7.0 by running [gazebo7_install.sh](https://github.com/nubot-nudt/simatch/blob/master/gazebo7_install.sh)(obtained from Gazebo's official website) provided in this package;      
+(2) Go to the github website and download the repository of gazebo_ros_pkgs on the branch 'kinetic-devel':      
+`$ git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b kinetic-devel`     
+(3) Go to gazebo_ros_pkgs and create src/, put all other files or folders inside src/.    
+` $ cd src/`   
+` $ catkin_init_workspace`   
+(4) To install dependencies, run    
+` $ cd ../../`   
+` $ rosdep install --from-paths gazebo_ros_pkgs --ignore-src --rosdistro=jade`      
+(5) Then install all these files to /opt/ros/jade   
+` $ cd gazeo_ros_pkgs`   
+` $ catkin_make -DCMAKE_INSTALL_PREFIX=/opt/ros/jade install`    
+You may encounter problems such as 'cannot copu _setup_util.py to /opt/ros/...', if that is the case, you are supposed
+to run this command as the root. For example,      
+` $ sudo su`   
+` $ source /opt/ros/jade/setup.bash`   
+` $ rosdep install --from-paths gazebo_ros_pkgs --ignore-src --rosdistro=ROSDISTRO`   
+` $ cd gazeo_ros_pkgs`   
+` $ catkin_make -DCMAKE_INSTALL_PREFIX=/opt/ros/jade install`   
 
 ## Compile
 1. ` $ sudo chmod +x configure`
 2. ` $ ./configure`
 3. ` $ catkin_make --pkg nubot_common`
-4. ` $ catkin_make 
+4. ` $ catkin_make `
 
 --------------------------
 ## Run
@@ -104,7 +101,7 @@ Other versions of Ubuntu, ROS or Gazebo may also work, but we have not tested ye
   several computers to decrease the burden of one single computer.
 ### With one computer
 Assuming you are in the root directory of 'simatch',   
-If you want to run those modules in one launch, you could
+If you want to run those modules in one launch, you could   
 1 `$ source devel/setup.bash` 
 
 > You could write this line into ~/.bashrc file so that you don't have to source it every time you open a terminal. 
@@ -112,7 +109,7 @@ If you want to run those modules in one launch, you could
 2 `$ roslaunch simatch_cyan.launch` or `$ roslaunch simatch_magenta.launch`   
 
 
-If you want to run those modules seperatly, you could
+If you want to run those modules seperatly, you could   
 1 `$ source devel/setup.bash`   
 
 > You could write this line into ~/.bashrc file so that you don't have to source it every time you open a terminal.   
@@ -125,18 +122,19 @@ If you want to run those modules seperatly, you could
 `rosrun coach4sim cyan_coach.sh` or `rosrun coach4sim magenta_coach.sh`
 
 ### With several computers
+
 Configuration of computer A and computer B
->   The recommended way to run simulation is with two computers running nubot_ws and gazebo_visual seperately.   
-> For example,computer A runs gazebo_visual to display the movement of robots. Computer B runs nubot_ws to    
-> calculate and send  movement commands to robots. In addition, computer B should also run coach to send game    
-> command such as game start.    
->   The communication between computer A and computer B is via ROS master. The following is the configuration steps:   
-> 1. In computer A, add computer B's IP address in /etc/hosts; and in computer B, add computer A's IP address in /etc/hosts
-> e.g. In computer A, `$ sudo gedit /etc/hosts and add "Maggie 192.168.8.100"`
->      In computer B, `$ sudo gedit /etc/hosts and add "Bart   192.168.8.101"`
-> 2. In computer A, run gazebo_visual; In computer B, before you run nubot_ws, you should export ROS_MASTER_URI.
-> e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`
-> 3. In computer B, run coach and send game command
+  The recommended way to run simulation is with two computers running nubot_ws and gazebo_visual seperately.   
+For example,computer A runs gazebo_visual to display the movement of robots. Computer B runs nubot_ws to    
+calculate and send  movement commands to robots. In addition, computer B should also run coach to send game    
+command such as game start.    
+  The communication between computer A and computer B is via ROS master. The following is the configuration steps:   
+1. In computer A, add computer B's IP address in /etc/hosts; and in computer B, add computer A's IP address in /etc/hosts
+e.g. In computer A, `$ sudo gedit /etc/hosts and add "Maggie 192.168.8.100"`
+     In computer B, `$ sudo gedit /etc/hosts and add "Bart   192.168.8.101"`
+2. In computer A, run gazebo_visual; In computer B, before you run nubot_ws, you should export ROS_MASTER_URI.
+e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`
+3. In computer B, run coach and send game command
 
 > **NOTE:** 
 > You could change some parameters in sim_config file and relaunch all modules again.
@@ -147,3 +145,7 @@ Solution 1: Change all 'Eigen3' to 'Eigen' in CMakeLists.txt of world_model pack
 Solution 2: look at /usr/include/eigen3/Eigen, if this folder exists, it means you have already installed Eigen;    
 Input this command: $ sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen   
 2. if you come across other problems, you could refer to doc/ folder. 
+
+
+
+
