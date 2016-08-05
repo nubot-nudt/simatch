@@ -2,8 +2,8 @@
 # catkin/cmake/toplevel.cmake
 
 cmake_minimum_required(VERSION 2.8.3)
-
 set(CATKIN_TOPLEVEL TRUE)
+project("simatch")
 
 # search for catkin within the workspace
 set(_cmd "catkin_find_pkg" "catkin" "${CMAKE_SOURCE_DIR}")
