@@ -82,7 +82,7 @@ public:
         std::string  service1 = "Shoot";
         shoot_client_ = nh_->serviceClient<nubot_common::Shoot>(service1);
         worldmodelinfo_sub_ = nh_->subscribe("worldmodel/worldmodelinfo", 1, &NuBotControl::update_world_model_info,this);
-        ballinfo3d_sub1_    = nh_->subscribe("kinect/ballinfo",1, &NuBotControl::ballInfo3dCallback, this);
+        //ballinfo3d_sub1_    = nh_->subscribe("kinect/ballinfo",1, &NuBotControl::ballInfo3dCallback, this);
         control_timer_      = nh_->createTimer(ros::Duration(0.015),&NuBotControl::loopControl,this);
 
         dynamic_reconfigure::Server<nubot_control::nubotcontrolConfig> reconfigureServer_;

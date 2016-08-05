@@ -18,10 +18,10 @@
 >  - 软件编程： 
 > 	 - robot_code: ROS, C++    
 > 	 - gazebo_visual: ROS, C++, Gazebo插件以及编程实现    
-> 	 - coach4sim:	 ROS, C++, Qt    配置文件:	 
-> 	 - Linux bash或其他 
+> 	 - coach4sim:	 ROS, C++, Qt    
+>	 - 配置文件:	 Linux bash或其他     
 >  - 其他方面   
-> 	 - 使用说明:	  txt，Mardown 
+> 	 - 使用说明:	 txt，Markdown 
 > 	 - 软件文档：	 Doxygen或其他
 
 ## 联系
@@ -122,7 +122,8 @@ If you want to run those modules seperatly, you could
 `rosrun coach4sim cyan_coach.sh` or `rosrun coach4sim magenta_coach.sh`   
 
 > **NOTE:** 
-> You could change some parameters in sim_config file and relaunch all modules again.
+> 1. You could change some parameters in sim_config file and relaunch all modules again.
+> 2. You might not watch the robots doing anything because the movement part in 'nubot_control' package is removed. You might need to write some codes by yourself.
 
 ### With several computers
 

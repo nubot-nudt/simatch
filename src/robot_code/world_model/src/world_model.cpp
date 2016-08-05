@@ -38,9 +38,9 @@ nubot::World_Model::World_Model(int argc,char** argv,const char * name)
     /** 订阅全向视觉节点topic，所有的机器人*/
     omin_vision_sub_    =  nh->subscribe("omnivision/OmniVisionInfo", 1 , &nubot::World_Model::updateOminivision, this);
     /** 订阅前向视觉节点topic，一般的移动机器人*/
-    front_vision_sub_   =  nh->subscribe("front_vision/FrontBallInfo",1,&nubot::World_Model::updateFrontVision, this);
+    //front_vision_sub_   =  nh->subscribe("front_vision/FrontBallInfo",1,&nubot::World_Model::updateFrontVision, this);
     /** 订阅kinect节点topic，守门员移动机器人*/
-    kinect_vision_sub_  =  nh->subscribe("kinect/ballinfo",1,&nubot::World_Model::updateKinectBall, this);
+    //kinect_vision_sub_  =  nh->subscribe("kinect/ballinfo",1,&nubot::World_Model::updateKinectBall, this);
 
     /** 接收来自策略等节点的信息*/
     strategy_info_sub_  =  nh->subscribe( strategy_topic, 10 , &nubot::World_Model::updateStrategyinfo, this);
