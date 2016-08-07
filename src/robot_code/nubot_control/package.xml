@@ -14,7 +14,6 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>std_srvs</build_depend>
   <build_depend>message_generation</build_depend>
-  <build_depend>dynamic_reconfigure</build_depend>
   <build_depend>world_model</build_depend>
   <build_depend>cmake_modules</build_depend>
   <run_depend>cmake_modules</run_depend>
@@ -24,7 +23,6 @@
   <run_depend>std_msgs</run_depend>
   <run_depend>std_srvs</run_depend>
   <run_depend>message_generation</run_depend>
-  <run_depend>dynamic_reconfigure</run_depend>
   <run_depend>world_model</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->

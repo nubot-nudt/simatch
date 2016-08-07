@@ -13,7 +13,6 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 find_package(catkin REQUIRED COMPONENTS
   cmake_modules
   message_generation
-  dynamic_reconfigure
   roscpp
   rospy
   std_msgs
@@ -27,14 +26,12 @@ find_package(Eigen REQUIRED)
 add_message_files(FILES
    DebugInfo.msg
  )
-generate_dynamic_reconfigure_options(cfg/nubotcontrol.cfg)
 
 generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS message_generation
-                 dynamic_reconfigure
 	         roscpp 
 	         rospy  
 		 std_msgs 

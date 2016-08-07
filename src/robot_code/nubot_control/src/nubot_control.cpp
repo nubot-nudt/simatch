@@ -85,8 +85,6 @@ public:
         //ballinfo3d_sub1_    = nh_->subscribe("kinect/ballinfo",1, &NuBotControl::ballInfo3dCallback, this);
         control_timer_      = nh_->createTimer(ros::Duration(0.015),&NuBotControl::loopControl,this);
 
-        dynamic_reconfigure::Server<nubot_control::nubotcontrolConfig> reconfigureServer_;
-        reconfigureServer_.setCallback(boost::bind(&NuBotControl::configure, this, _1, _2));
         world_model_info_.AgentID_ = atoi(environment); /** 机器人标号*/
         world_model_info_.CoachInfo_.MatchMode = STOPROBOT;
         m_plan_.world_model_ =  & world_model_info_;
@@ -101,18 +99,6 @@ public:
         m_plan_.m_behaviour_.app_vy_ = 0;
         m_plan_.m_behaviour_.app_w_  = 0;
         setEthercatCommond();
-    }
-
-    void
-    configure(const nubot_control::nubotcontrolConfig & config, uint32_t level)
-    {/*
-       kp_ = config.kp;
-       kalpha_ = config.kalpha;
-       kbeta_  = config.kbeta;
-
-       m_strategy_.m_plan_.kp =  kp_;
-       m_strategy_.m_plan_.kalpha =  kalpha_;
-       m_strategy_.m_plan_.kbeta  =   kbeta_;*/
     }
 
     void
