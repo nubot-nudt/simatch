@@ -7,9 +7,6 @@
 #include <nubot_common/Shoot.h>
 #include <nubot_common/StrategyInfo.h>
 #include <nubot_common/TargetInfo.h>
-
-#include <nubot_control/nubotcontrolConfig.h>
-#include <dynamic_reconfigure/server.h>
 #include <std_msgs/Header.h>
 #include <std_msgs/String.h>
 
