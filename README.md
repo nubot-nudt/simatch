@@ -102,11 +102,11 @@ to run this command as the root. For example,
   + Solution 1:  You should first install Qt and then add the location to CMAKE_PREFIX_PATH. In this case, go to src/coach4sim/CMakeLists.txt and add the path to line 5. The final result would look like this:   
  `  set(CMAKE_PREFIX_PATH  ${CMAKE_PREFIX_PATH} "/opt/Qt5.3.2/5.3/gcc_64/lib/cmake/Qt5Widgets/") `    
   + Solution 2: In another terminal, input the following to send a game command:   
- ```    
- rostopic pub -r 1 /cyan/receive_from_coach  nubot_common/CoachInfo "
- MatchMode: 10
- MatchType: 0" 
- ```   
+```    
+rostopic pub -r 1 /cyan/receive_from_coach  nubot_common/CoachInfo "
+MatchMode: 10
+MatchType: 0" 
+```   
   Indeed, when you input until nubot_common/CoachInfo, you could press 'Tab' twice and then the whole definition of the message would show up. Then you could fill up the message. However, you only need to fill in two fields: 'MatchMode' and 'MatchType', where 'MatchMode' is the current game command, 'MatchType' is the previous game command. The coding of the game commands is in core.hpp. For quick reference:   
 ```   
 enum MatchMode {
@@ -132,7 +132,9 @@ enum MatchMode {
 2) When catkin_make, if it shows "fatal error: Eigen/Eigen: No such file or directory"   
   + Solution 1: Change all 'Eigen3' to 'Eigen' in CMakeLists.txt of world_model package in robot_code module  
   + Solution 2: look at /usr/include/eigen3/Eigen, if this folder exists, it means you have already installed Eigen;    
-Input this command: `$ sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen`    
+Input this command:    
+`$ sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen`    
+
 3) if you come across other problems, you could refer to doc/ folder.    
 
 --------------------------
