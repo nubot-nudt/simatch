@@ -97,43 +97,43 @@ to run this command as the root. For example,
 3. ` $ catkin_make `  
 
 **Compile Error Solution:**   
-1. Cannot find cmake file related to Qt and therefore cannot complie coach4sim.   
-Explanation: This means it cannot find the cmake file to Qt. Since coach4sim uses Qt to draw its GUI, we need Qt to compile the program successfully(solution 1). However, since the function of coach4sim is only to send game commands, you could do this manually by sending approriate ROS messages without using coach4sim(solution 2).   
-Solution 1:  You should first install Qt and then add the location to CMAKE_PREFIX_PATH. In this case, go to src/coach4sim/CMakeLists.txt and add the path to line 5. The final result would look like this:   
-`  set(CMAKE_PREFIX_PATH  ${CMAKE_PREFIX_PATH} "/opt/Qt5.3.2/5.3/gcc_64/lib/cmake/Qt5Widgets/") `    
-Solution 2: In another terminal, input the following to send a game command:   
-```    
-roopic pub -r 1 /cyan/receive_from_coach  nubot_common/CoachInfo "
-MatchMode: 10
-MatchType: 0" 
-```   
-Indeed, when you input until nubot_common/CoachInfo, you could press 'Tab' twice and then the whole definition of the message would show up. Then you could fill up the message. However, you only need to fill in two fields: 'MatchMode' and 'MatchType', where 'MatchMode' is the current game command, 'MatchType' is the previous game command. The coding of the game commands is in core.hpp. For quick reference:   
+1) Cannot find cmake file related to Qt and therefore cannot complie coach4sim.   
+  + Explanation: This means it cannot find the cmake file to Qt. Since coach4sim uses Qt to draw its GUI, we need Qt to compile the program successfully(solution 1). However, since the function of coach4sim is only to send game commands, you could do this manually by sending approriate ROS messages without using coach4sim(solution 2).   
+  + Solution 1:  You should first install Qt and then add the location to CMAKE_PREFIX_PATH. In this case, go to src/coach4sim/CMakeLists.txt and add the path to line 5. The final result would look like this:   
+ `  set(CMAKE_PREFIX_PATH  ${CMAKE_PREFIX_PATH} "/opt/Qt5.3.2/5.3/gcc_64/lib/cmake/Qt5Widgets/") `    
+  + Solution 2: In another terminal, input the following to send a game command:   
+ ```    
+ rostopic pub -r 1 /cyan/receive_from_coach  nubot_common/CoachInfo "
+ MatchMode: 10
+ MatchType: 0" 
+ ```   
+  Indeed, when you input until nubot_common/CoachInfo, you could press 'Tab' twice and then the whole definition of the message would show up. Then you could fill up the message. However, you only need to fill in two fields: 'MatchMode' and 'MatchType', where 'MatchMode' is the current game command, 'MatchType' is the previous game command. The coding of the game commands is in core.hpp. For quick reference:   
 ```   
 enum MatchMode {
-                 STOPROBOT  =  0,
-                 OUR_KICKOFF = 1,
-                 OPP_KICKOFF = 2,
-                 OUR_THROWIN = 3,
-                 OPP_THROWIN = 4,
-                 OUR_PENALTY = 5,
-                 OPP_PENALTY = 6,
-                 OUR_GOALKICK = 7 ,
-                 OPP_GOALKICK = 8,
-                 OUR_CORNERKICK = 9,
-                 OPP_CORNERKICK = 10,
-                 OUR_FREEKICK = 11,
-                 OPP_FREEKICK = 12,
-                 DROPBALL     = 13,
-                 STARTROBOT   = 15,
-                 PARKINGROBOT = 25,
-                 TEST = 27
-               };
+                  STOPROBOT  =  0,
+                  OUR_KICKOFF = 1,
+                  OPP_KICKOFF = 2,
+                  OUR_THROWIN = 3,
+                  OPP_THROWIN = 4,
+                  OUR_PENALTY = 5,
+                  OPP_PENALTY = 6,
+                  OUR_GOALKICK = 7 ,
+                  OPP_GOALKICK = 8,
+                  OUR_CORNERKICK = 9,
+                  OPP_CORNERKICK = 10,
+                  OUR_FREEKICK = 11,
+                  OPP_FREEKICK = 12,
+                  DROPBALL     = 13,
+                  STARTROBOT   = 15,
+                  PARKINGROBOT = 25,
+                  TEST = 27
+                };
 ```   
-2. When catkin_make, if it shows "fatal error: Eigen/Eigen: No such file or directory"   
-Solution 1: Change all 'Eigen3' to 'Eigen' in CMakeLists.txt of world_model package in robot_code module  
-Solution 2: look at /usr/include/eigen3/Eigen, if this folder exists, it means you have already installed Eigen;    
-Input this command: $ sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen   
-3. if you come across other problems, you could refer to doc/ folder. 
+2) When catkin_make, if it shows "fatal error: Eigen/Eigen: No such file or directory"   
+  + Solution 1: Change all 'Eigen3' to 'Eigen' in CMakeLists.txt of world_model package in robot_code module  
+  + Solution 2: look at /usr/include/eigen3/Eigen, if this folder exists, it means you have already installed Eigen;    
+Input this command: `$ sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen`    
+3) if you come across other problems, you could refer to doc/ folder.    
 
 --------------------------
 ## Run
