@@ -9,3 +9,4 @@ echo 'The following configuration if for Git. If you do NOT use Git, you could i
 git config core.fileMode false
 # let Git ignores the modification of some files
 git update-index --assume-unchanged src/gazebo_visual/nubot_gazebo/config/global_config.yaml
+# git update-index --no-assume-unchanged src/gazebo_visual/nubot_gazebo/config/global_config.yaml

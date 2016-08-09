@@ -4,12 +4,12 @@ general:
   dribble_angle_thres: 30.0             # kicking mechanism aligning with football; allowed maximum angle error in degrees
 
 cyan:
-  prefix: "nubot"             # Nubot name prefix. Linked with model name; don't change
-  num: 3
+  prefix: "cyan"             # Nubot name prefix. Linked with model name; don't change
+  num: 5
  
 magenta:
-  prefix: "rival"            # Rival name prefix. Linked with model name; don't change
-  num: 3
+  prefix: "magenta"            # Rival name prefix. Linked with model name; don't change
+  num: 5
 
 field:
   length: 18                     # Use integer!   used in spawn_model_script
