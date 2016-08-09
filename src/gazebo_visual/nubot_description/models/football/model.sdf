@@ -5,7 +5,8 @@
 
 <model name='football'>
       <static>0</static>
-      <link name='chassis'>  <!-- don't use pose here or ball position will vibrate -->
+      <pose>0 0 0 0 -0 0</pose>
+      <link name='chassis'>
         <inertial>
           <mass>0.41</mass>
           <inertia>
@@ -17,24 +18,40 @@
             <iyz>0</iyz>
           </inertia>
         </inertial>
+
         <collision name='collision'>
           <geometry>
             <sphere>
               <radius>0.11</radius>
             </sphere>
           </geometry>
+
           <surface>
+            <bounce>
+              <restitution_coefficient>0.05</restitution_coefficient>
+              <threshold>10</threshold>
+            </bounce>
+
             <friction>
+              <torsional>
+                <coefficient>1.0</coefficient>
+                <use_patch_radius>true</use_patch_radius>
+                <patch_radius>0.05</patch_radius>
+              </torsional>
               <ode>
-                <mu>0.1</mu>
-                <mu2>0.1</mu2>
+                <mu>1</mu>
+                <mu2>1</mu2>
               </ode>
             </friction>
+
             <contact>
-              <ode/>
+              <ode>
+                 <max_vel>5</max_vel>
+              </ode>
             </contact>
           </surface>
         </collision>
+
         <visual name='visual'>
           <geometry>
             <mesh>
@@ -43,12 +60,17 @@
             </mesh>
           </geometry>
         </visual>
-        <velocity_decay>
-          <linear>0</linear>
-          <angular>0</angular>
-        </velocity_decay>
-        <gravity>1</gravity>
+
+        <sensor name='contact' type='contact'>
+          <plugin name="contact" filename="libgazebo_ros_bumper.so" >
+	    <robotNamespace>football</robotNamespace>
+	  </plugin>
+	  
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
       </link>
-      <pose>0 0 0 0 -0 0</pose>
+    <plugin name="ball_gazebo" filename="libball_gazebo.so" />
     </model>
 </sdf>

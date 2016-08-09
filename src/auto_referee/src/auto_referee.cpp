@@ -2,28 +2,27 @@
 
 auto_referee::auto_referee()
 {
+    cyan_info_.name.reserve(5);
+    cyan_info_.pose.reserve(5);
+    cyan_info_.twist.reserve(5);
+    magenta_info_.name.reserve(5);
+    magenta_info_.pose.reserve(5);
+    magenta_info_.twist.reserve(5);
+
     rosnode_ = new ros::NodeHandle();
     rosnode_->param("/cyan/prefix",     cyan_prefix_,      std::string("nubot"));
     rosnode_->param("/magenta/prefix",  magenta_prefix_,   std::string("rival"));
+    rosnode_->param("/football/name",   ball_name_,          std::string("football") );
 
     cyan_pub_ = rosnode_->advertise<nubot_common::CoachInfo>("/"+cyan_prefix_+"/receive_from_coach", 100);
     magenta_pub_ = rosnode_->advertise<nubot_common::CoachInfo>("/"+magenta_prefix_+"/receive_from_coach", 100);
-    //bumper_sub_ = rosnode_->subscribe<gazebo_msgs::ContactsState>("/football/bumper_states", 2, &auto_referee::contactCallback, this);
-
-    ros::SubscribeOptions so = ros::SubscribeOptions::create<gazebo_msgs::ContactsState>(
-      "/football/bumper_states", 100, boost::bind( &auto_referee::contactCallback,this,_1),
-      ros::VoidPtr(), &message_queue_);
-    bumper_sub_  = rosnode_->subscribe(so);
-
-    message_callback_queue_thread_ = boost::thread( boost::bind( &auto_referee::message_queue_thread_fun,this ) );
+    bumper_sub_ = rosnode_->subscribe<gazebo_msgs::ContactsState>("/football/bumper_states", 2, &auto_referee::contactCallback, this);
+    gazebo_sub_ = rosnode_->subscribe<gazebo_msgs::ModelStates>("/gazebo/model_states", 1, &auto_referee::modelCallback, this);
 
 }
 
 auto_referee::~auto_referee()
 {
-    message_queue_.clear();
-    message_queue_.disable();
-    message_callback_queue_thread_.join();
     rosnode_->shutdown();
     delete rosnode_;
 }
@@ -90,31 +89,41 @@ void auto_referee::sendGameCommand(int id)
     magenta_pub_.publish(magenta_coach_info_);
 }
 
-void auto_referee::contactCallback(const gazebo_msgs::ContactsState::ConstPtr &contacts)
+void auto_referee::modelCallback(const gazebo_msgs::ModelStates::ConstPtr &states)
 {
-    msgCB_lock_.lock();
+    int num = states->name.size();
 
-    contacts_ = *contacts;
-
-    msgCB_lock_.unlock();
+    for(int i=0; i<num;i++)
+    {
+        std::string name = states->name[i];
+        if(name.find(cyan_prefix_) != std::string::npos)
+        {
+            cyan_info_.name.push_back(states->name[i]);
+            cyan_info_.pose.push_back(states->pose[i]);
+            cyan_info_.twist.push_back(states->twist[i]);
+        }
+        else if(name.find(magenta_prefix_) != std::string::npos)
+        {
+            magenta_info_.name.push_back(states->name[i]);
+            magenta_info_.pose.push_back(states->pose[i]);
+            magenta_info_.twist.push_back(states->twist[i]);
+        }
+        else if(name.find(ball_name_) != std::string::npos)
+        {
+            ball_state_.model_name = states->name[i];
+            ball_state_.pose = states->pose[i];
+            ball_state_.twist = states->twist[i];
+        }
+    }
 }
 
-void auto_referee::message_queue_thread_fun()
+void auto_referee::contactCallback(const gazebo_msgs::ContactsState::ConstPtr &contacts)
 {
-    static const double timeout = 0.01;
-    while (rosnode_->ok())
-    {
-      // Invoke all callbacks currently in the queue. If a callback was not ready to be called,
-      // pushes it back onto the queue. This version includes a timeout which lets you specify
-      // the amount of time to wait for a callback to be available before returning.
-      message_queue_.callAvailable(ros::WallDuration(timeout));
-    }
+    contacts_ = *contacts;
 }
 
 int auto_referee::whichCollidesBall()
 {
-    msgCB_lock_.lock();
-
     int which_team = 0;
     for(int i =0; i<contacts_.states.size();i++)
     {
@@ -136,8 +145,6 @@ int auto_referee::whichCollidesBall()
         ROS_INFO("not cyan or magenta");
 
     return which_team;
-
-    msgCB_lock_.unlock();
 }
 
 int main(int argc, char **argv)
