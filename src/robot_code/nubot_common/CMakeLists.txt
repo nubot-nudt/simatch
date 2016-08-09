@@ -29,9 +29,7 @@ BallInfo.msg
 BallInfo3d.msg
 ObstaclesInfo.msg
 OminiVisionInfo.msg
-
 currentCmd.msg
-
 VelCmd.msg
 OdoInfo.msg
 CoachInfo.msg

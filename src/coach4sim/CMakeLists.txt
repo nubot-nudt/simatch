@@ -7,6 +7,26 @@ set(CMAKE_PREFIX_PATH  ${CMAKE_PREFIX_PATH} "/opt/Qt5.3.2/5.3/gcc_64/lib/cmake/Q
 #set(CMAKE_AUTOMOC ON)
 #set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+if(NOT WIN32)
+  string(ASCII 27 Esc)
+  set(ColourReset "${Esc}[m")
+  set(ColourBold  "${Esc}[1m")
+  set(Red         "${Esc}[31m")
+  set(Green       "${Esc}[32m")
+  set(Yellow      "${Esc}[33m")
+  set(Blue        "${Esc}[34m")
+  set(Magenta     "${Esc}[35m")
+  set(Cyan        "${Esc}[36m")
+  set(White       "${Esc}[37m")
+  set(BoldRed     "${Esc}[1;31m")
+  set(BoldGreen   "${Esc}[1;32m")
+  set(BoldYellow  "${Esc}[1;33m")
+  set(BoldBlue    "${Esc}[1;34m")
+  set(BoldMagenta "${Esc}[1;35m")
+  set(BoldCyan    "${Esc}[1;36m")
+  set(BoldWhite   "${Esc}[1;37m")
+endif()
+
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   dynamic_reconfigure
@@ -28,6 +48,13 @@ find_package(Qt5Network)
 find_package(Qt5Xml)
 find_package(OpenCV REQUIRED)
 find_package(Boost REQUIRED)
+
+if(Qt5Widgets_FOUND)
+    message("${Green}I have found Qt5!${ColourReset}")
+else()
+    message("${Red}Cannot find QtWidgets. Please write its path to CMAKE_PREFIX_PATH here: ${PROJECT_SOURCE_DIR}/CMakeLists.txt.
+    ${ColourReset}")
+endif()
 
 catkin_package(
    INCLUDE_DIRS include
@@ -58,10 +85,9 @@ add_executable(nubot_coach_node
      ${coach_UIS}
      ${coach_MOCS}
 )
-
+add_dependencies(nubot_coach_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(nubot_coach_node
     ${catkin_LIBRARIES}
     ${OpenCV_LIBS}
 )
 qt5_use_modules(nubot_coach_node Widgets Network Xml)
- 
