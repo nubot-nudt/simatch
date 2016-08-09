@@ -4,7 +4,7 @@
 
  - robot_code: 机器人的感知、规划、运动控制等方面，由NuBot队伍的机器人代码改造而成,其中主要的策略等(在nubot_control软件包中)部分已经删除，选手应自行编写，其余部分可以直接沿用，也可随意改动。
  -  gazebo_visual: Gazebo仿真平台，除基本的设置（在sim_config文件中）外，不应做其他改动。最终使用版本以比赛时的版本为准。   
- - coach4sim: 用于仿真的coach，发送比赛开始、暂停、站位等指令。选手不必做改动。
+ - coach4sim: 用于仿真的coach，发送比赛开始、暂停、站位等指令。
  - common: 包含cmake、手柄驱动等。选手不必做改动。   
 
 > 请先学习ROS、C++，作为基本技能和知识，然后对机器人策略等方面有一定了解，再进行robot_code的多机器人协同程序的编写。
@@ -39,6 +39,7 @@ Nubot队伍(RoboCup team): nubot.nudt@outlook.com
 2. ROS Indigo or ROS Jade. (It is recommended to install ROS Jade)
 3. Gazebo 5.0 or 5.1 or 7.1;
 4. gazebo_ros_pkgs; (please read the **NOTE** below for more information)  
+5. If you decide to use coach4sim with a GUI, you should make sure you have installed Qt5. The recommended install place is /opt. 
 Other versions of Ubuntu, ROS or Gazebo may also work, but we have not tested yet.
 
 **NOTE:** 
@@ -93,8 +94,46 @@ to run this command as the root. For example,
 ## Compile
 1. ` $ sudo chmod +x configure`
 2. ` $ ./configure`
-3. ` $ catkin_make --pkg nubot_common`
-4. ` $ catkin_make `
+3. ` $ catkin_make `  
+
+**Compile Error Solution:**   
+1. Cannot find cmake file related to Qt and therefore cannot complie coach4sim.   
+Explanation: This means it cannot find the cmake file to Qt. Since coach4sim uses Qt to draw its GUI, we need Qt to compile the program successfully(solution 1). However, since the function of coach4sim is only to send game commands, you could do this manually by sending approriate ROS messages without using coach4sim(solution 2).   
+Solution 1:  You should first install Qt and then add the location to CMAKE_PREFIX_PATH. In this case, go to src/coach4sim/CMakeLists.txt and add the path to line 5. The final result would look like this:   
+`  set(CMAKE_PREFIX_PATH  ${CMAKE_PREFIX_PATH} "/opt/Qt5.3.2/5.3/gcc_64/lib/cmake/Qt5Widgets/") `    
+Solution 2: In another terminal, input the following to send a game command:   
+```    
+roopic pub -r 1 /cyan/receive_from_coach  nubot_common/CoachInfo "
+MatchMode: 10
+MatchType: 0" 
+```   
+Indeed, when you input until nubot_common/CoachInfo, you could press 'Tab' twice and then the whole definition of the message would show up. Then you could fill up the message. However, you only need to fill in two fields: 'MatchMode' and 'MatchType', where 'MatchMode' is the current game command, 'MatchType' is the previous game command. The coding of the game commands is in core.hpp. For quick reference:   
+```   
+enum MatchMode {
+                 STOPROBOT  =  0,
+                 OUR_KICKOFF = 1,
+                 OPP_KICKOFF = 2,
+                 OUR_THROWIN = 3,
+                 OPP_THROWIN = 4,
+                 OUR_PENALTY = 5,
+                 OPP_PENALTY = 6,
+                 OUR_GOALKICK = 7 ,
+                 OPP_GOALKICK = 8,
+                 OUR_CORNERKICK = 9,
+                 OPP_CORNERKICK = 10,
+                 OUR_FREEKICK = 11,
+                 OPP_FREEKICK = 12,
+                 DROPBALL     = 13,
+                 STARTROBOT   = 15,
+                 PARKINGROBOT = 25,
+                 TEST = 27
+               };
+```   
+2. When catkin_make, if it shows "fatal error: Eigen/Eigen: No such file or directory"   
+Solution 1: Change all 'Eigen3' to 'Eigen' in CMakeLists.txt of world_model package in robot_code module  
+Solution 2: look at /usr/include/eigen3/Eigen, if this folder exists, it means you have already installed Eigen;    
+Input this command: $ sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen   
+3. if you come across other problems, you could refer to doc/ folder. 
 
 --------------------------
 ## Run
@@ -141,13 +180,6 @@ command such as game start.
 > e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`   
 > 3. In computer B, run coach and send game command   
 
-## Build error fix:
-1. When catkin_make, if it shows "fatal error: Eigen/Eigen: No such file or directory"   
-Solution 1: Change all 'Eigen3' to 'Eigen' in CMakeLists.txt of world_model package in robot_code module  
-Solution 2: look at /usr/include/eigen3/Eigen, if this folder exists, it means you have already installed Eigen;    
-Input this command: $ sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen   
-2. if you come across other problems, you could refer to doc/ folder. 
-
-
-
-
+--------------------------
+## Question
+You may encounter some other problems, please contact us with the contact information provided in the beginning of this ducumentation.
