@@ -13,7 +13,10 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Boost REQUIRED COMPONENTS system)
 
-include_directories(${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIR}
+                    ${catkin_INCLUDE_DIRS}
+#                    ${nubot_control_includes}
+)
 
 catkin_package(
   CATKIN_DEPENDS 
@@ -21,5 +24,8 @@ catkin_package(
     roscpp
 )				
 
-add_executable(auto_referee src/auto_referee.cpp)
+add_executable(auto_referee src/auto_referee.cpp
+#			    ${nubot_control_src}/fieldinformation.cpp
+)
+add_dependencies(auto_referee ${catkin_EXPORTED_TARGETS})
 target_link_libraries(auto_referee ${catkin_LIBRARIES})

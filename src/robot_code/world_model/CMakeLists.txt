@@ -23,7 +23,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Eigen REQUIRED)
 find_package(Boost REQUIRED)
-
 find_package(Threads)
 
 set(world_model_includes
@@ -44,7 +43,7 @@ add_library(world_model  STATIC
                          src/MTTracker.cpp
                          src/iAuction.cpp
 )
-
+add_dependencies(world_model ${catkin_EXPORTED_TARGETS})
 target_link_libraries(world_model
     ${catkin_LIBRARIES}
 )
@@ -61,6 +60,7 @@ add_executable(world_model_node
                src/main.cpp
                src/world_model.cpp
 )
+add_dependencies(world_model_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(world_model_node
     ${catkin_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}

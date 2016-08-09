@@ -12,7 +12,6 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 
 find_package(catkin REQUIRED COMPONENTS
   cmake_modules
-  message_generation
   roscpp
   rospy
   std_msgs
@@ -23,29 +22,22 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Eigen REQUIRED)
 
-add_message_files(FILES
-   DebugInfo.msg
- )
-
-generate_messages(DEPENDENCIES std_msgs)
-
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS message_generation
-	         roscpp 
+  CATKIN_DEPENDS roscpp
 	         rospy  
 		 std_msgs 
-		 std_srvs 
-		 DEPENDS
+                 std_srvs
 )
 
 set(nubot_control_includes
                ${catkin_INCLUDE_DIRS}
                ${EIGEN_INCLUDE_DIRS}
-               ${PROJECT_SOURCE_DIR}/include
+               ${PROJECT_SOURCE_DIR}/include #CACHE STRING ""
 )
 
 include_directories(${nubot_control_includes})
+#set(nubot_control_src ${PROJECT_SOURCE_DIR}/src CACHE STRING "")
 
 add_executable(nubot_control_node src/nubot_control.cpp
                                   src/role_assignment.cpp
@@ -62,7 +54,7 @@ add_executable(nubot_control_node src/nubot_control.cpp
                                   src/passiverole.cpp
                                   src/staticpass.cpp
 )
-
+add_dependencies(nubot_control_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(nubot_control_node
    ${catkin_LIBRARIES}
  )

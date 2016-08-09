@@ -14,7 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
 )
 find_package(Eigen REQUIRED)
 find_package(Boost REQUIRED)
-
 find_package(Threads)
 
 set(simulation_interface_includes
@@ -44,5 +43,6 @@ catkin_package(
 #                                                  world_model)
 
 add_executable(strategy_pub_node src/strategy_info.cpp)
+add_dependencies(strategy_pub_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(strategy_pub_node ${catkin_LIBRARIES})
 
