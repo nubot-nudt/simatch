@@ -40,10 +40,6 @@ add_dependencies(nubot_gazebo ${PROJECT_NAME}_gencfg)
 add_dependencies(nubot_gazebo  ${catkin_EXPORTED_TARGETS})
 target_link_libraries(nubot_gazebo ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF_LIBRARIES} pthread)
 
-add_library(rival_gazebo src/rival_gazebo.cc)
-add_dependencies(rival_gazebo  ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rival_gazebo ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF_LIBRARIES} pthread)
-
 add_library(ball_gazebo src/ball_gazebo.cc)
 add_dependencies(ball_gazebo ${catkin_EXPORTED_TARGETS})
 target_link_libraries(ball_gazebo ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})

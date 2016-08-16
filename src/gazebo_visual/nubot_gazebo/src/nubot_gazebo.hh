@@ -8,6 +8,7 @@
 // #include <gazebo/transport/TransportTypes.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/common/Events.hh>
+#include <sdf/sdf.hh>
 
 #include <ros/callback_queue.h>         // Custom Callback Queue
 #include <ros/subscribe_options.h>
@@ -49,7 +50,7 @@ namespace gazebo{
    struct Pose
    {
        math::Vector3    position;
-       math::Quaternion orientation;
+       math::Quaternion orient;
    };
    struct Twist
    {
@@ -67,8 +68,8 @@ namespace gazebo{
                                             // use these structs for easy handling of model states.
    struct Obstacles
    {
-       std::vector<nubot::PPoint> real_obstacles_;
-       std::vector<nubot::DPoint> world_obstacles_;
+       std::vector<nubot::PPoint> real_obs_;
+       std::vector<nubot::DPoint> world_obs_;
    };
 
   class NubotGazebo : public ModelPlugin
@@ -76,9 +77,9 @@ namespace gazebo{
     private: 
 
         physics::WorldPtr           world_;             // A pointer to the gazebo world.
-        physics::ModelPtr           nubot_model_;       // Pointer to the model
-        physics::ModelPtr           football_model_;    // Pointer to the football
-        physics::LinkPtr            football_link_;     //Pointer to the football link
+        physics::ModelPtr           robot_model_;       // Pointer to the model
+        physics::ModelPtr           ball_model_;    // Pointer to the football
+        physics::LinkPtr            ball_link_;     //Pointer to the football link
         
         ros::NodeHandle*            rosnode_;           // A pointer to the ROS node. 
         ros::Subscriber             ModelStates_sub_;
@@ -96,31 +97,31 @@ namespace gazebo{
         ros::CallbackQueue          service_queue_;     // Custom Callback Queue
         event::ConnectionPtr        update_connection_;         // Pointer to the update event connection
         
-        gazebo_msgs::ModelStates    model_states_msg_;          // Container for the ModelStates msg      
-        model_state                 nubot_state_;
-        model_state                 football_state_;
+        gazebo_msgs::ModelStates    model_states_;          // Container for the ModelStates msg
+        model_state                 robot_state_;
+        model_state                 ball_state_;
         nubot_common::BallInfo        ball_info_;
-        nubot_common::RobotInfo       robot_info_;
+        nubot_common::RobotInfo       teamate_info_;
         nubot_common::ObstaclesInfo   obstacles_info_;
-        nubot_common::OminiVisionInfo omin_vision_info_;
+        nubot_common::OminiVisionInfo omni_info_;
         //common::Time                  receive_sim_time_;
         std_msgs::Float64MultiArray   debug_msgs_;
 
         math::Vector3               desired_rot_vector_;
         math::Vector3               desired_trans_vector_;
-        math::Vector3               nubot_football_vector_;
+        math::Vector3               nubot_ball_vec_;
         math::Vector3               kick_vector_world_;
         math::Rand                  rand_;
         std::string                 robot_namespace_;   // robot namespace. Not used yet.
         std::string                 model_name_;
-        std::string                 football_name_;
-        std::string                 football_chassis_;
-        std::string                 nubot_prefix_;
-        std::string                 rival_prefix_;
-        unsigned int                football_index_;
-        unsigned int                nubot_index_;
+        std::string                 ball_name_;
+        std::string                 ball_chassis_;
+        std::string                 cyan_pre_;
+        std::string                 mag_pre_;
+        unsigned int                ball_index_;
+        unsigned int                robot_index_;
 
-        double                      nubot_football_vector_length_;
+        double                      nubot_ball_vec_len_;
         double                      dribble_distance_thres_;
         double                      dribble_angle_thres_;
         double                      Vx_cmd_;
@@ -135,6 +136,8 @@ namespace gazebo{
         double                      field_length_;
         double                      field_width_;
         double                      angle_error_degree_;
+        double                      noise_scale_;               // scale of gaussian noise
+        double                      noise_rate_;                // how frequent the noise generates
         int                         mode_;                      //kick ball mode
         int                         nubot_num_;
         
@@ -146,12 +149,13 @@ namespace gazebo{
         bool                        is_kick_;
         bool                        is_hold_ball_;
         bool                        ball_decay_flag_;
+        bool                        flip_cord_;                 // flip the coordinate frame
 
         int                         AgentID_;
 
         nubot_state                 state_;
         nubot_substate              sub_state_;
-        Obstacles                   *obstacles_;
+        Obstacles                   *obs_;
         dynamic_reconfigure::Server<nubot_gazebo::NubotGazeboConfig> *reconfigureServer_;
 
         /// \brief ModelStates message CallBack function

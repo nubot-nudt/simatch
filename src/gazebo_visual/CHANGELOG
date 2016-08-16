@@ -1,0 +1,4 @@
+* 2016.8.16 v16.07
+	** add flip_cord in rival models and remove rival_gazebo plugin; now all use nubot_gazebo plugin
+	** noise parameters(scale and rate) are stored in the yaml file; can add/remove, increase/decrease noise on the fly	
+	** fix bug of deleting models error
