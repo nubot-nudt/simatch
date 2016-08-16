@@ -23,7 +23,7 @@ sleep 1
 ### spawn cyan robots
 for ((i=1; i<=cyan_num; ++i))
 do
-    rosrun gazebo_ros spawn_model -file $(rospack find nubot_description)/models/${cyan_prefix}${i}/model.sdf -sdf \
+    rosrun gazebo_ros spawn_model -file $(rospack find nubot_description)/models/nubot${i}/model.sdf -sdf \
                                   -model ${cyan_prefix}${i} \
                                   -x ${cyan_x[$i]} -y ${cyan_y[$i]} -z 0.0 &
     sleep 0.5
@@ -32,7 +32,7 @@ done
 ### spawn magenta robots
 for ((i=1; i<=magenta_num; ++i))
 do
-    rosrun gazebo_ros spawn_model -file $(rospack find nubot_description)/models/${magenta_prefix}${i}/model.sdf -sdf \
+    rosrun gazebo_ros spawn_model -file $(rospack find nubot_description)/models/rival${i}/model.sdf -sdf \
                                   -model ${magenta_prefix}${i} \
                                   -x ${magenta_x[$i]} -y ${magenta_y[$i]} -z 0.0 &
     sleep 0.5

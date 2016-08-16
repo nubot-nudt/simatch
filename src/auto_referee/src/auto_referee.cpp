@@ -1,13 +1,10 @@
 #include "auto_referee.h"
+#include <stdio.h>
 
 auto_referee::auto_referee()
 {
-    cyan_info_.name.reserve(5);
-    cyan_info_.pose.reserve(5);
-    cyan_info_.twist.reserve(5);
-    magenta_info_.name.reserve(5);
-    magenta_info_.pose.reserve(5);
-    magenta_info_.twist.reserve(5);
+    cyan_info_.reserve(OUR_TEAM);
+    magenta_info_.reserve(OUR_TEAM);
 
     rosnode_ = new ros::NodeHandle();
     rosnode_->param("/cyan/prefix",     cyan_prefix_,      std::string("nubot"));
@@ -91,28 +88,35 @@ void auto_referee::sendGameCommand(int id)
 void auto_referee::modelCallback(const gazebo_msgs::ModelStates::ConstPtr &states)
 {
     int num = states->name.size();
+    cyan_info_.clear();
+    magenta_info_.clear();
 
     for(int i=0; i<num;i++)
     {
         std::string name = states->name[i];
+        gazebo::math::Quaternion    qua(states->pose[i].orientation.w, states->pose[i].orientation.x,
+                                        states->pose[i].orientation.y, states->pose[i].orientation.z);
+        ModelState  ms;
+        ms.name = states->name[i];
+        ms.pos.x_ = states->pose[i].position.x * M2CM_CONVERSION;
+        ms.pos.y_ = states->pose[i].position.y * M2CM_CONVERSION;
+        ms.ori    = qua.GetYaw();
+        ms.vel.x_ = states->twist[i].linear.x * M2CM_CONVERSION;
+        ms.vel.y_ = states->twist[i].linear.y * M2CM_CONVERSION;
+        ms.w      = states->twist[i].angular.z;
+
         if(name.find(cyan_prefix_) != std::string::npos)
         {
-            cyan_info_.name.push_back(states->name[i]);
-            cyan_info_.pose.push_back(states->pose[i]);
-            cyan_info_.twist.push_back(states->twist[i]);
+            ms.id = atoi( ms.name.substr(cyan_prefix_.size()).c_str() );
+            cyan_info_.push_back(ms);
         }
         else if(name.find(magenta_prefix_) != std::string::npos)
         {
-            magenta_info_.name.push_back(states->name[i]);
-            magenta_info_.pose.push_back(states->pose[i]);
-            magenta_info_.twist.push_back(states->twist[i]);
+            ms.id = atoi( ms.name.substr(magenta_prefix_.size()).c_str() );
+            magenta_info_.push_back(ms);
         }
         else if(name.find(ball_name_) != std::string::npos)
-        {
-            ball_state_.model_name = states->name[i];
-            ball_state_.pose = states->pose[i];
-            ball_state_.twist = states->twist[i];
-        }
+            ball_state_ = ms;
     }
 }
 
@@ -146,13 +150,30 @@ int auto_referee::whichCollidesBall()
     return which_team;
 }
 
+void auto_referee::test()
+{
+    for(ModelState ms : cyan_info_)
+        printf("cyan_info:\n\tname:%s,\t id:%d\n \tpos:[%.0f, %.0f](cm), ori:%.0f(deg)\n \tvel:[%.0f,%.0f](cm/s), w:%.0f(deg/s)\n",
+               ms.name.c_str(), ms.id, ms.pos.x_, ms.pos.y_, ms.ori*RAD2DEG, ms.vel.x_, ms.vel.y_, ms.w*RAD2DEG);
+    for(ModelState ms : magenta_info_)
+        printf("magenta_info:\n\tname:%s,\t id:%d\n \tpos:[%.0f, %.0f](cm), ori:%.0f(deg)\n \tvel:[%.0f,%.0f](cm/s), w:%.0f(deg/s)\n",
+               ms.name.c_str(), ms.id, ms.pos.x_, ms.pos.y_, ms.ori*RAD2DEG, ms.vel.x_, ms.vel.y_, ms.w*RAD2DEG);
+}
+
 int main(int argc, char **argv)
 {
     ros::init(argc,argv,"auto_referee");
     ros::Time::init();
     ROS_INFO("start auto referee");
     auto_referee ref;
-    ros::spin();
+    ros::Rate loop_rate(10);
+
+    while(ros::ok())
+    {
+        ref.test();
+        ros::spinOnce();
+        loop_rate.sleep();
+    }
     return 0;
 }
 

@@ -5,17 +5,43 @@
 #include <ros/subscribe_options.h>
 #include "nubot/core/core.hpp"
 #include "nubot_common/CoachInfo.h"
-//#include "nubot/nubot_control/fieldinformation.h"
+#include "nubot_common/Point2d.h"
+#include "nubot/nubot_control/fieldinformation.h"
 #include <gazebo_msgs/ContactState.h>
 #include <gazebo_msgs/ContactsState.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <gazebo_msgs/ModelState.h>
-#include <boost/thread.hpp>
-#include <boost/thread/mutex.hpp>
+#include "Quaternion.hh"
 #include <boost/bind.hpp>
 
 #define CYAN_TEAM       -1
 #define MAGENTA_TEAM    1
+#define CM2M_CONVERSION 0.01
+#define M2CM_CONVERSION 100
+const double RAD2DEG = 180.0/M_PI;
+
+using namespace nubot_common;
+using namespace nubot;
+
+struct ModelState
+{
+    std::string name;
+    int         id;
+    DPoint      pos;
+    double      ori;
+    DPoint      vel;
+    double      w;
+
+    ModelState()
+    {
+        name = "";
+        id = -1;
+        pos = DPoint(-1000.0,1000.0);
+        ori = 0.0;
+        vel = DPoint(0.0,0.0);
+        w   = 0.0;
+    }
+};
 
 class auto_referee
 {
@@ -36,6 +62,9 @@ public:
     /// \return CYAN_TEAM or MAGENTA_TEAM
     int whichCollidesBall();
 
+    /// \brief auto_referee test function
+    void test();
+
 private:
     ros::NodeHandle*            rosnode_;
     ros::Publisher              cyan_pub_;
@@ -45,14 +74,13 @@ private:
     std::string                 cyan_prefix_;
     std::string                 magenta_prefix_;
     std::string                 ball_name_;
-    nubot_common::CoachInfo     cyan_coach_info_;
-    nubot_common::CoachInfo     magenta_coach_info_;
+    CoachInfo                   cyan_coach_info_;
+    CoachInfo                   magenta_coach_info_;
     gazebo_msgs::ContactsState  contacts_;
-    gazebo_msgs::ModelStates    cyan_info_;
-    gazebo_msgs::ModelStates    magenta_info_;
-    gazebo_msgs::ModelState     ball_state_;
-    //nubot::FieldInformation     fieldinfo_;
-
+    std::vector<ModelState>     cyan_info_;
+    std::vector<ModelState>     magenta_info_;
+    ModelState                  ball_state_;
+    FieldInformation            fieldinfo_;
 
 };
 

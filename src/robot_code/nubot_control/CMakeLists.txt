@@ -31,14 +31,13 @@ catkin_package(
 )
 
 set(nubot_control_includes
+               ${PROJECT_SOURCE_DIR}/include
                ${catkin_INCLUDE_DIRS}
                ${EIGEN_INCLUDE_DIRS}
-               ${PROJECT_SOURCE_DIR}/include CACHE STRING ""
 )
+set(nubot_control_src ${PROJECT_SOURCE_DIR}/src CACHE STRING "")        # To be used in other places
 
 include_directories(${nubot_control_includes})
-set(nubot_control_src ${PROJECT_SOURCE_DIR}/src CACHE STRING "")
-
 add_executable(nubot_control_node src/nubot_control.cpp
                                   src/role_assignment.cpp
                                   src/activerole.cpp
