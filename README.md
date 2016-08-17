@@ -34,6 +34,15 @@ Nubot队伍(RoboCup team): nubot.nudt@outlook.com
 > This contains how to configure the environment, how to run the simulation, and how the robot is simulated. You could run the ROS tool ['rqt_graph'](http://wiki.ros.org/rqt_graph) to
 > understand the basic messages and service flow. 
 
+## Package Summary   
+   
+- Maintainer status: maintained
+- Maintainer: Weijia Yao <abcgarden@126.com>
+- Author: [NuBot Team](https://www.trustie.net/organizations/23?org_subfield_id=108)
+- License: Apache
+- Bug / feature tracker: https://github.com/nubot-nudt/simatch/issues   
+- Source: git https://github.com/nubot-nudt/simatch (branch: master)   
+
 ## Recommended Operating Environment
 1. Ubuntu 14.04; 
 2. ROS Indigo or ROS Jade. (It is recommended to install ROS Jade)
