@@ -12,7 +12,7 @@ cyan_num=$(rosparam get /cyan/num)
 kill_num=0                                  
 
 ### spawn cyan robots
-for ((i=2; i<=cyan_num; ++i))
+for ((i=1; i<=cyan_num; ++i))
 do
 
     rosrun world_model      world_model_node   ${cyan_prefix}${i}    __name:=${cyan_prefix}_world_model${i} &

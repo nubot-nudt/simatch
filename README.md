@@ -112,7 +112,7 @@ to run this command as the root. For example,
  `  set(CMAKE_PREFIX_PATH  ${CMAKE_PREFIX_PATH} "/opt/Qt5.3.2/5.3/gcc_64/lib/cmake/Qt5Widgets/") `    
   + Solution 2: In another terminal, input the following to send a game command:   
 ```    
-rostopic pub -r 1 /cyan/receive_from_coach  nubot_common/CoachInfo "
+rostopic pub -r 1 /nubot/receive_from_coach  nubot_common/CoachInfo "
 MatchMode: 10
 MatchType: 0" 
 ```   

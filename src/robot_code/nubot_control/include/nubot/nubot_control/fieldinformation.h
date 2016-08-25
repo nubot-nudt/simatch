@@ -25,14 +25,16 @@ public:
     FieldInformation();
     FieldInformation(string infopath);
 
-    bool isInInterRect(DPoint world_pt,double shrink=0);
-    bool isInOuterRect(DPoint world_pt,double shrink=0);
+    bool isInInterField(DPoint world_pt, double expand_len=0);
+    bool isInInterField2(DPoint world_pt, double expand_len=0, double expand_width=0);   // len只对场地的长度作限制
+    bool isInOuterField(DPoint world_pt, double expand_len=0);
     bool isOppField(DPoint world_pt);
     bool isOurField(DPoint world_pt);
     bool isOppPenalty(DPoint world_pt);     //是否在我方（对方）大禁区
     bool isOurPenalty(DPoint world_pt);
-    bool isOurArea(DPoint world_pt);        //是否在我方（对方）小禁区
-    bool isOppArea(DPoint world_pt);
+    bool isOurGoal(DPoint world_pt);        //是否在我方（对方）小禁区
+    bool isOppGoal(DPoint world_pt);
+    bool isOutBorder(Border id, DPoint world_pt, double expand_len=0);   // 是否超出边界
 
     std::vector<int> xline_;
     std::vector<int> yline_;
@@ -44,6 +46,10 @@ public:
     DPoint oppGoal_[5]; /** 5 the number of GoalLocation */
     DPoint ourGoal_[5];
     Circle centercircle_;
+    DPoint ourPenaltyPt_;              // 罚球点
+    DPoint oppPenaltyPt_;
+    LineSegment  ourPenaltyLine_[3];
+    LineSegment  oppPenaltyLine_[3];
 
     DPoint opp_penaltyarea_[4];        //大禁区四个角点
     DPoint our_penaltyarea_[4];

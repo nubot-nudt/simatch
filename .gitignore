@@ -1,6 +1,7 @@
 ## Ignore build files
 build/
 devel/
+record/
 
 *.jpg
 *.bmp

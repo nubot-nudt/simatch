@@ -41,7 +41,7 @@ FrontBallInfo.msg
 simulation_strategy.msg
 )
 
-add_service_files(DIRECTORY srv FILES BallHandle.srv Shoot.srv)
+add_service_files(DIRECTORY srv FILES BallHandle.srv Shoot.srv DribbleId.srv)
 
 generate_messages(DEPENDENCIES std_msgs)
 

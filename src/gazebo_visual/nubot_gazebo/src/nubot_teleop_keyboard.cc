@@ -224,7 +224,7 @@ int main(int argc, char** argv)
   cout<<"Input robot number"<<endl;
   cin>>robot_num;
 
-  ros::init(argc, argv, "teleop_nubot");
+  ros::init(argc, argv, "teleop_nubot", ros::InitOption::AnonymousName);
   NubotTeleopKey teleop_nubot;
 
   signal(SIGINT,quit);

@@ -63,6 +63,13 @@ const int FIELD_YLINE6 = -400; // -600
 const int FIELD_CENTER_RADIUS = 150;
 const int FIELD_POST_RADIUS = 0;
 const int LOCATIONERROR = 30;
+
+/** 场地边界 **/
+enum Border{LEFTBORDER = 0,
+            RIGHTBORDER = 1,
+            UPBORDER = 2,
+            DOWNBORDER = 3};
+
 /** 比赛模式的一些定义，*/
 enum Roles{GOALIE = 0 ,
            ACTIVE = 1,

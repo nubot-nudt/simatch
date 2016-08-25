@@ -6,6 +6,7 @@
       <static>0</static>
       <pose>0 0 0 0 -0 0</pose>
       <link name="chassis">
+         <self_collide>0</self_collide>
          <inertial>
             <mass>0.41</mass>
             <inertia>

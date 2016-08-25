@@ -55,7 +55,7 @@ void BallGazebo::UpdateChild()
 {
     static math::Vector3 ball_vel(0, 0, 0);
 
-    detect_ball_out();
+    // detect_ball_out();
     if(std::sqrt(vel_x_*vel_x_+vel_y_*vel_y_)>1)
     {
       ball_vel.Set(vel_x_, vel_y_, 0);

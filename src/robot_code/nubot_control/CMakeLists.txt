@@ -38,6 +38,7 @@ set(nubot_control_includes
 set(nubot_control_src ${PROJECT_SOURCE_DIR}/src CACHE STRING "")        # To be used in other places
 
 include_directories(${nubot_control_includes})
+
 add_executable(nubot_control_node src/nubot_control.cpp
                                   src/role_assignment.cpp
                                   src/activerole.cpp

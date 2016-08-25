@@ -18,6 +18,7 @@
 #include "nubot_common/VelCmd.h"
 #include "nubot_common/Shoot.h"
 #include "nubot_common/BallHandle.h"
+#include "nubot_common/DribbleId.h"
 #include <std_msgs/Float64MultiArray.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
@@ -73,21 +74,22 @@ namespace gazebo{
    };
 
   class NubotGazebo : public ModelPlugin
-  {      
-    private: 
+  {
+    private:
 
         physics::WorldPtr           world_;             // A pointer to the gazebo world.
         physics::ModelPtr           robot_model_;       // Pointer to the model
         physics::ModelPtr           ball_model_;    // Pointer to the football
         physics::LinkPtr            ball_link_;     //Pointer to the football link
-        
-        ros::NodeHandle*            rosnode_;           // A pointer to the ROS node. 
+
+        ros::NodeHandle*            rosnode_;           // A pointer to the ROS node.
         ros::Subscriber             ModelStates_sub_;
         ros::Subscriber             Velcmd_sub_;
         ros::Publisher              omin_vision_pub_;      /* four publishers cooresponding to those in world_model.cpp */
         ros::Publisher              debug_pub_;
         ros::ServiceServer          ballhandle_server_;
         ros::ServiceServer          shoot_server_;
+        ros::ServiceClient          dribbleId_client_;
 
         boost::thread               message_callback_queue_thread_;     // Thead object for the running callback Thread.
         boost::thread               service_callback_queue_thread_;
@@ -96,7 +98,7 @@ namespace gazebo{
         ros::CallbackQueue          message_queue_;     // Custom Callback Queue. Details see http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning
         ros::CallbackQueue          service_queue_;     // Custom Callback Queue
         event::ConnectionPtr        update_connection_;         // Pointer to the update event connection
-        
+
         gazebo_msgs::ModelStates    model_states_;          // Container for the ModelStates msg
         model_state                 robot_state_;
         model_state                 ball_state_;
@@ -140,15 +142,14 @@ namespace gazebo{
         double                      noise_rate_;                // how frequent the noise generates
         int                         mode_;                      //kick ball mode
         int                         nubot_num_;
-        
+
         unsigned int                model_count_;                // Number of models
-        bool                        dribble_flag_;
-        bool                        shot_flag_;
+        bool                        dribble_req_;
+        bool                        shot_req_;
         bool                        ModelStatesCB_flag_;         // Indicate receiving messages
         bool                        judge_nubot_stuck_;          // decide when to judge
         bool                        is_kick_;
-        bool                        is_hold_ball_;
-        bool                        ball_decay_flag_;
+        bool                        is_dribble_;                // flag to indicate dribbling
         bool                        flip_cord_;                 // flip the coordinate frame
 
         int                         AgentID_;
@@ -233,14 +234,14 @@ namespace gazebo{
         /// \param[in] probability      the probability of generating noise, probability should be in [0,1]
         double  noise(double scale, double probability=0.01);
 
-    public:        
+    public:
         /// \brief Constructor. Will be called firstly
         NubotGazebo();
 
         /// \brief Destructor
         virtual ~NubotGazebo();
-    
-    protected:   
+
+    protected:
         /// \brief Load the controller.
         /// Required by model plugin. Will be called secondly
         void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/) ;

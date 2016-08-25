@@ -1,17 +1,17 @@
 # Uses ISO units. For example, use 'm' for length.
 general:
-  dribble_distance_thres: 0.50           # theshold distance between nubot and football below which dribble ball
-  dribble_angle_thres: 30.0             # kicking mechanism aligning with football; allowed maximum angle error in degrees
+  dribble_distance_thres: 0.47           # theshold distance between nubot and football below which dribble ball
+  dribble_angle_thres: 15.0             # kicking mechanism aligning with football; allowed maximum angle error in degrees
   noise_scale: 0.00                     # the scale of gaussian noise (m)
   noise_rate: 0.01                       # how frequent the noise generates
 
 cyan:
-  prefix: "cyan"             # Nubot name prefix. Linked with model name; don't change
-  num: 2
+  prefix: "nubot"             # Nubot name prefix. Linked with model name; don't change
+  num: 3
  
 magenta:
-  prefix: "magenta"            # Rival name prefix. Linked with model name; don't change
-  num: 2
+  prefix: "rival"            # Rival name prefix. Linked with model name; don't change
+  num: 3
 
 field:
   length: 18                     # Use integer!   used in spawn_model_script

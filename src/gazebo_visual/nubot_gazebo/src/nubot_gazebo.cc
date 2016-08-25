@@ -19,7 +19,7 @@
 
 enum {NOTSEEBALL = 0, SEEBALLBYOWN = 1,SEEBALLBYOTHERS = 2};
 const math::Vector3 kick_vector_robot(1,0,0);    // assume the normalized vector from origin to kicking mechanism in robot refercence frame
-// is in x-axis direction
+                                                 // is in x-axis direction
 const double goal_x = 9.0;
 const double goal_height = 1.0;
 const double        g = 9.8;
@@ -42,13 +42,12 @@ NubotGazebo::NubotGazebo()
     force_ = 0.0; mode_=1;
 
     model_count_ = 0;
-    dribble_flag_ = false;
-    shot_flag_ = false;
+    dribble_req_ = false;
+    is_dribble_ = false;
+    shot_req_ = false;
     ModelStatesCB_flag_ = false;
     judge_nubot_stuck_ = false;
     is_kick_ = false;
-    is_hold_ball_ = false;
-    ball_decay_flag_=false;
     flip_cord_ = false;
     AgentID_ = 0;
     noise_scale_ = 0.0;
@@ -99,16 +98,16 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
         return;
     }
     rosnode_ = new ros::NodeHandle(robot_namespace_);
-    rosnode_->param("/football/name",                   ball_name_,             std::string("football") );
-    rosnode_->param("/football/chassis_link",           ball_chassis_,          std::string("football::ball") );
-    rosnode_->param("/cyan/prefix",                     cyan_pre_,              std::string("nubot"));
-    rosnode_->param("/magenta/prefix",                  mag_pre_,              std::string("rival"));
-    rosnode_->param("/general/dribble_distance_thres",  dribble_distance_thres_,    0.50);
-    rosnode_->param("/general/dribble_angle_thres",     dribble_angle_thres_,       30.0);
-    rosnode_->param("/field/length",                    field_length_,              18.0);
-    rosnode_->param("/field/width",                     field_width_,               12.0);
-    rosnode_->param("/general/noise_scale",             noise_scale_,               0.10);
-    rosnode_->param("/general/noise_rate",              noise_rate_,                0.01);
+    rosnode_->param<std::string>("/football/name",                   ball_name_,             std::string("football") );
+    rosnode_->param<std::string>("/football/chassis_link",           ball_chassis_,          std::string("football::ball") );
+    rosnode_->param<std::string>("/cyan/prefix",                     cyan_pre_,              std::string("nubot"));
+    rosnode_->param<std::string>("/magenta/prefix",                  mag_pre_,              std::string("rival"));
+    rosnode_->param<double>("/general/dribble_distance_thres",  dribble_distance_thres_,    0.50);
+    rosnode_->param<double>("/general/dribble_angle_thres",     dribble_angle_thres_,       30.0);
+    rosnode_->param<double>("/field/length",                    field_length_,              18.0);
+    rosnode_->param<double>("/field/width",                     field_width_,               12.0);
+    rosnode_->param<double>("/general/noise_scale",             noise_scale_,               0.10);
+    rosnode_->param<double>("/general/noise_rate",              noise_rate_,                0.01);
 
     if(!_sdf->HasElement("flip_cord"))
     {
@@ -146,7 +145,7 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
                 ros::VoidPtr(), &message_queue_);
     Velcmd_sub_ = rosnode_->subscribe(so2);
 
-    // Service Servers
+    // Service Servers & clients
     ros::AdvertiseServiceOptions aso1 = ros::AdvertiseServiceOptions::create<nubot_common::BallHandle>(
                 "BallHandle", boost::bind(&NubotGazebo::ball_handle_control_service, this, _1, _2),
                 ros::VoidPtr(), &service_queue_);
@@ -156,6 +155,7 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
                 "Shoot", boost::bind(&NubotGazebo::shoot_control_servive, this, _1, _2),
                 ros::VoidPtr(), &service_queue_);
     shoot_server_ =   rosnode_->advertiseService(aso2);
+    dribbleId_client_ = rosnode_->serviceClient<nubot_common::DribbleId>("/DribbleId");
 
 #if 0
     reconfigureServer_ = new dynamic_reconfigure::Server<nubot_gazebo::NubotGazeboConfig>(*rosnode_);
@@ -186,19 +186,15 @@ void NubotGazebo::Reset()
     nubot_ball_vec_ = math::Vector3(1,0,0);
     kick_vector_world_ = kick_vector_robot;
     nubot_ball_vec_len_ = 1;
-    ball_index_=robot_index_=0;
     Vx_cmd_=Vy_cmd_=w_cmd_=0;
     force_ = 0.0; mode_=1;
 
-    model_count_ = 0;
-    dribble_flag_ = false;
-    shot_flag_ = false;
+    dribble_req_ = false;
+    is_dribble_ = false;
+    shot_req_ = false;
     ModelStatesCB_flag_ = false;
     judge_nubot_stuck_ = false;
     is_kick_ = false;
-    is_hold_ball_ = false;
-    ball_decay_flag_=false;
-    AgentID_ = 0;
     state_ = CHASE_BALL;
     sub_state_ = MOVE_BALL;
 
@@ -238,11 +234,8 @@ void NubotGazebo::model_states_CB(const gazebo_msgs::ModelStates::ConstPtr& _msg
 {
     msgCB_lock_.lock();
 
-    rosnode_->param("/general/noise_scale",             noise_scale_,               0.10);
-    rosnode_->param("/general/noise_rate",              noise_rate_,                0.01);
     ModelStatesCB_flag_ = true;
     model_count_ = 0;
-
     model_states_.name.clear();
     model_states_.pose.clear();
     model_states_.twist.clear();
@@ -292,9 +285,6 @@ void NubotGazebo::model_states_CB(const gazebo_msgs::ModelStates::ConstPtr& _msg
 
 bool NubotGazebo::update_model_info(void)
 {
-    rosnode_->param("/general/dribble_distance_thres",    dribble_distance_thres_,    0.50);
-    rosnode_->param("/general/dribble_angle_thres",      dribble_angle_thres_,      30.0);
-
     if(ModelStatesCB_flag_)
     {
         // Get football and nubot's pose and twist
@@ -504,27 +494,8 @@ bool NubotGazebo::ball_handle_control_service(nubot_common::BallHandle::Request 
 {
     srvCB_lock_.lock();
 
-    dribble_flag_ = req.enable ? 1 : 0;         // FIXME. when robot is stucked, req.enable=2
-    if(dribble_flag_)
-    {
-        if(!get_is_hold_ball())     // when dribble_flag is true, it does not necessarily mean that I can dribble it now.
-        {                           // it just means the dribble ball mechanism is working.
-            dribble_flag_ = false;
-            res.BallIsHolding = false;
-            //ROS_INFO("%s dribble_service: Cannot dribble ball. angle error:%f distance error: %f",
-            //                              model_name_.c_str(), angle_error_degree_, nubot_football_vector_length_);
-        }
-        else
-        {
-            //ROS_INFO("%s dribble_service: dribbling ball now", model_name_.c_str());
-            dribble_flag_  = true;
-            res.BallIsHolding = true;
-        }
-    }
-    else
-    {
-        res.BallIsHolding = get_is_hold_ball();
-    }
+    dribble_req_ = req.enable ? 1 : 0;         // FIXME. when robot is stucked, req.enable=2
+    res.BallIsHolding = get_is_hold_ball();
 
     // ROS_FATAL("%s dribble:[enable holding]:[%d %d]",model_name_.c_str(), (int)req.enable, (int)res.BallIsHolding);
     srvCB_lock_.unlock();
@@ -547,14 +518,14 @@ bool NubotGazebo::shoot_control_servive( nubot_common::Shoot::Request  &req,
     {
         if(get_is_hold_ball())
         {
-            dribble_flag_ = false;
-            shot_flag_ = true;
+            dribble_req_ = false;
+            shot_req_ = true;
             //ROS_INFO("%s shoot_service: ShootPos:%d strength:%f",model_name_.c_str(), mode_, force_);
             res.ShootIsDone = 1;
         }
         else
         {
-            shot_flag_ = false;
+            shot_req_ = false;
             res.ShootIsDone = 0;
             //ROS_INFO("%s shoot_service(): Cannot kick ball. angle error:%f distance error: %f. ",
             //                            model_name_.c_str(), angle_error_degree_, nubot_football_vector_length_);
@@ -562,7 +533,7 @@ bool NubotGazebo::shoot_control_servive( nubot_common::Shoot::Request  &req,
     }
     else
     {
-        shot_flag_ = false;
+        shot_req_ = false;
         res.ShootIsDone = 1;
         //ROS_ERROR("%s shoot_control_service(): Kick-mechanism charging complete!",model_name_.c_str());
     }
@@ -781,24 +752,38 @@ void NubotGazebo::update_child()
 
 void NubotGazebo::nubot_be_control(void)
 {
-    static int count=0;
-    if(robot_state_.pose.position.z < 0.2)      // not in the air
+    static nubot_common::DribbleId di;
+    if(robot_state_.pose.position.z < 0.2)          // not in the air
     {
-        //if(dribble_flag_)                       // dribble_flag_ is set by BallHandle service
-        //{
-        //    if(get_is_hold_ball())
-        //        dribble_ball();
-        //    else
-        //        dribble_flag_ = false;
-        //}
-
-        if(dribble_flag_ && get_is_hold_ball())                       // dribble_flag_ is set by BallHandle service
+        if(dribble_req_ && get_is_hold_ball())
+        {
             dribble_ball();
+            if(dribbleId_client_.exists())
+            {
+                if(!flip_cord_)
+                    di.request.AgentId = AgentID_;      // cyan robots
+                else
+                    di.request.AgentId = AgentID_ + 5;  // magenta robots
+                if(dribbleId_client_.call(di))
+                    ROS_INFO("request id:%d", di.request.AgentId);
+            }
+            is_dribble_ = true;
+        }
+        else if(is_dribble_ == true)                    // it means this time the robot could not dribble the ball
+        {
+            if(dribbleId_client_.exists())
+            {
+                di.request.AgentId = -1;                // clear the dribble robot id
+                if(dribbleId_client_.call(di))
+                    ROS_INFO("clear dribble robot id");
+            }
+            is_dribble_ = false;
+        }
 
-        if(shot_flag_)
+        if(shot_req_)
         {
             kick_ball(mode_, force_);
-            shot_flag_ = false;
+            shot_req_ = false;
         }
     }
     else
