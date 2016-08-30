@@ -88,6 +88,7 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
         {
             isDribbleFault();
             R3_detectBallOut();
+            R5_isOppGoal_PenaltyArea();
         }
         else
         {
@@ -183,15 +184,9 @@ bool auto_referee::dribbleService(nubot_common::DribbleId::Request &req,
 
     dribble_id_ = req.AgentId;
     if(dribble_id_ <= 5)
-    {
-        // ROS_INFO("Cyan robot [%d] dribbling!", dribble_id_);
         which_team_ = CYAN_TEAM;
-    }
     else
-    {
-        // ROS_INFO("Magenta robot [%d] dribbling!", dribble_id_-5);
         which_team_ = MAGENTA_TEAM;
-    }
 
     srvCB_lock_.unlock();
     return true;
@@ -286,6 +281,58 @@ bool auto_referee::R2_isDribbleCrossField()
     }
     else
         return false;
+}
+
+bool auto_referee::R5_isOppGoal_PenaltyArea()
+{
+    int cyan_num=0, magen_num=0;
+
+    for(ModelState ms : cyan_info_)
+    {
+        if(fieldinfo_.isOppGoal(ms.pos))
+        {
+            ball_resetpos_ = DPoint(0.0,0.0);
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OPP_FREEKICK;
+            writeRecord(ms.name+" in opp goal area!");
+            return true;
+        }
+        else if(fieldinfo_.isOppPenalty(ms.pos))
+            cyan_num++;
+
+        if(cyan_num >=2)
+        {
+            ball_resetpos_ = DPoint(0.0,0.0);
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OPP_FREEKICK;
+            writeRecord("two cyan robots in opp penalty area!");
+            return true;
+        }
+    }
+
+    for(ModelState ms : magenta_info_)
+    {
+        if(fieldinfo_.isOurGoal(ms.pos))
+        {
+            ball_resetpos_ = DPoint(0.0,0.0);
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OUR_FREEKICK;
+            writeRecord(ms.name+" in opp goal area!");
+            return true;
+        }
+        else if(fieldinfo_.isOppPenalty(ms.pos))
+            magen_num++;
+
+        if(magen_num >=2)
+        {
+            ball_resetpos_ = DPoint(0.0,0.0);
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OUR_FREEKICK;
+            writeRecord("two magenta robots in opp penalty area!");
+            return true;
+        }
+    }
+    return false;
 }
 
 bool auto_referee::R3_detectBallOut()

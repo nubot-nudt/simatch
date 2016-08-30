@@ -93,6 +93,8 @@ public:
 
     bool R2_isDribbleCrossField();
 
+    bool R5_isOppGoal_PenaltyArea();
+
     bool isGameStart();
 
     /// \brief set ball position
