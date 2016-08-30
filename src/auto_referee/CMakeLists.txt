@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(auto_referee)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+SET(CMAKE_BUILD_TYPE "Debug")
 
 # Load catkin and all dependencies required for this package
 find_package(catkin REQUIRED COMPONENTS 
@@ -9,12 +10,12 @@ find_package(catkin REQUIRED COMPONENTS
   nubot_control
   gazebo_msgs
 )
-#find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
 include_directories(${catkin_INCLUDE_DIRS}
                     ${GAZEBO_INCLUDE_DIRS}
-                    #${Boost_INCLUDE_DIR}
+                    ${Boost_INCLUDE_DIR}
 )
 
 catkin_package(

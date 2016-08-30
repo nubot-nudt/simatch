@@ -19,6 +19,7 @@
 #include "nubot_common/Shoot.h"
 #include "nubot_common/BallHandle.h"
 #include "nubot_common/DribbleId.h"
+#include "nubot_common/CoachInfo.h"
 #include <std_msgs/Float64MultiArray.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
@@ -85,6 +86,7 @@ namespace gazebo{
         ros::NodeHandle*            rosnode_;           // A pointer to the ROS node.
         ros::Subscriber             ModelStates_sub_;
         ros::Subscriber             Velcmd_sub_;
+        ros::Subscriber             CoachInfo_sub_;
         ros::Publisher              omin_vision_pub_;      /* four publishers cooresponding to those in world_model.cpp */
         ros::Publisher              debug_pub_;
         ros::ServiceServer          ballhandle_server_;
@@ -142,6 +144,7 @@ namespace gazebo{
         double                      noise_rate_;                // how frequent the noise generates
         int                         mode_;                      //kick ball mode
         int                         nubot_num_;
+        char                        match_mode_;
 
         unsigned int                model_count_;                // Number of models
         bool                        dribble_req_;
@@ -151,6 +154,7 @@ namespace gazebo{
         bool                        is_kick_;
         bool                        is_dribble_;                // flag to indicate dribbling
         bool                        flip_cord_;                 // flip the coordinate frame
+        bool                        can_move_;
 
         int                         AgentID_;
 
@@ -166,6 +170,10 @@ namespace gazebo{
         /// \brief VelCmd message CallBack function
         /// \param[in] cmd VelCmd msg shared pointer
         void vel_cmd_CB(const nubot_common::VelCmd::ConstPtr& cmd);
+
+        /// \brief coach info CallBack function
+        /// \param[in] cmd coach info msg shared pointer
+        void coachinfo_CB(const nubot_common::CoachInfo::ConstPtr& cmd);
 
         /// \brief Ball handling service
         /// \param[in] req ball handle service request

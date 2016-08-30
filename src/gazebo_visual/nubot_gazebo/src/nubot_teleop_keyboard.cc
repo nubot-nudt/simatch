@@ -178,6 +178,7 @@ void NubotTeleopKey::keyLoop()
             nubot_common::BallHandle b;
             b.request.enable = dribble_flag_;
             ballhandle_client_.call(b);
+            ROS_INFO("I am calling dribble service");
             if(dribble_flag_)
             {
                 if(b.response.BallIsHolding)

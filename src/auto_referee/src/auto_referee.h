@@ -2,23 +2,40 @@
 #define AUTO_REFEREE_H
 
 #include <ros/ros.h>
+#include <ros/callback_queue.h>         // Custom Callback Queue
 #include <ros/subscribe_options.h>
 #include "nubot/core/core.hpp"
 #include "nubot_common/CoachInfo.h"
 #include "nubot_common/Point2d.h"
+#include "nubot_common/DribbleId.h"
 #include "nubot/nubot_control/fieldinformation.h"
 #include <gazebo_msgs/ContactState.h>
 #include <gazebo_msgs/ContactsState.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <gazebo_msgs/ModelState.h>
+#include <gazebo_msgs/SetModelState.h>
 #include "Quaternion.hh"
-#include <boost/bind.hpp>
 
-#define CYAN_TEAM       -1
-#define MAGENTA_TEAM    1
+#include <boost/bind.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
+
+#include <time.h>
+#include <string>
+#include <fstream>
+
+// Unit -- length: cm, velocity: cm/s, ori: rad, w: rad/s
+
 #define CM2M_CONVERSION 0.01
 #define M2CM_CONVERSION 100
+
+const int CYAN_TEAM = -1;
+const int MAGENTA_TEAM = 1;
+const int NONE_TEAM = 0;
 const double RAD2DEG = 180.0/M_PI;
+const double LOOP_PERIOD = 0.005;
+const double BALL_RADIUS = 11.0;   // cm
 
 using namespace nubot_common;
 using namespace nubot;
@@ -28,6 +45,7 @@ struct ModelState
     std::string name;
     int         id;
     DPoint      pos;
+    double      pos_z;      // z-axis pos; only useful for ball info
     double      ori;
     DPoint      vel;
     double      w;
@@ -37,6 +55,7 @@ struct ModelState
         name = "";
         id = -1;
         pos = DPoint(-1000.0,1000.0);
+        pos_z   = 0.0;
         ori = 0.0;
         vel = DPoint(0.0,0.0);
         w   = 0.0;
@@ -46,41 +65,104 @@ struct ModelState
 class auto_referee
 {
 public:
-    auto_referee();
+    auto_referee(int start_id);
     ~auto_referee();
 
     /// \brief send game commands to two teams of robots
+    ///  \param]in] id -- game command ID based on CYAN team
     void sendGameCommand(int id);
 
     /// \brief contact sensor callback function
-    void contactCallback(const gazebo_msgs::ContactsState::ConstPtr& contacts);
+    void contactCallback(const gazebo_msgs::ContactsState::ConstPtr& msg);
 
     /// \brief gazebo model states callback function
-    void modelCallback(const gazebo_msgs::ModelStates::ConstPtr& states);
+    void msCallback(const gazebo_msgs::ModelStates::ConstPtr& msg);
 
-    /// \brief determine which team collides with the football
+    bool dribbleService(nubot_common::DribbleId::Request& req, nubot_common::DribbleId::Response& res);
+
+    /// \brief detect ball out of the field
     /// \return CYAN_TEAM or MAGENTA_TEAM
-    int whichCollidesBall();
+    bool R3_detectBallOut();
+
+    /// \brief detect goal;
+    bool R4_detectGoal();
+
+    int isDribbleFault();
+
+    bool R1_isDribble3m();
+
+    bool R2_isDribbleCrossField();
+
+    bool isGameStart();
+
+    /// \brief set ball position
+    /// \param[in] x,y -- x and y position
+    /// \return 1 -- sucess; 0 -- fail
+    bool setBallPos(double x, double y);
+
+    void loopControl(const ros::TimerEvent& event);
+
+    bool getModelState(int which_team, int id, ModelState& ms);
+
+    bool createRecord();
+
+    std::string getSysTime(std::string format=string("%F %R"));
+
+    void writeRecord(std::string s);
+
+    int sgn(double x);
+
+    bool waittime(double sec);
+
+    /// \brief Custom service callback queue thread
+    void service_queue_thread();
+
+    /// \brief Custom message callback queue thread
+    void message_queue_thread();
 
     /// \brief auto_referee test function
     void test();
 
 private:
     ros::NodeHandle*            rosnode_;
+    ros::Timer                  loop_timer_;
     ros::Publisher              cyan_pub_;
     ros::Publisher              magenta_pub_;
     ros::Subscriber             bumper_sub_;
     ros::Subscriber             gazebo_sub_;
+    ros::ServiceClient          ms_client_;
+    ros::ServiceServer          dribble_server_;
     std::string                 cyan_prefix_;
     std::string                 magenta_prefix_;
     std::string                 ball_name_;
     CoachInfo                   cyan_coach_info_;
-    CoachInfo                   magenta_coach_info_;
+    CoachInfo                   magenta_gameCmd_;
     gazebo_msgs::ContactsState  contacts_;
     std::vector<ModelState>     cyan_info_;
     std::vector<ModelState>     magenta_info_;
     ModelState                  ball_state_;
+    ModelState                  track_ms_;          // model state that is being tracked if it violates rules
     FieldInformation            fieldinfo_;
+    DPoint                      ball_initpos_;      // the initial pos of dribble
+    DPoint                      ball_resetpos_;     // ball reset point
+    int                         which_team_;        // which team last contacts with the ball
+    int                         cyan_score_;
+    int                         magenta_score_;
+    int                         currentCmd_;          // next game command
+    int                         nextCmd_;
+    int                         dribble_id_;
+    int                         last_dribble_id_;
+    int                         start_team_;                    // team id when game starts at the very beginning
+    bool                        ModelStatesCB_flag_;         // Indicate receiving messages
+    bool                        kickoff_flg_;                // when kickoff cmd sends, this is true;
+    std::ofstream               record_;
+
+    boost::thread               message_callback_queue_thread_;     // Thead object for the running callback Thread.
+    boost::thread               service_callback_queue_thread_;
+    boost::mutex                msgCB_lock_;        // A mutex to lock access to fields that are used in ROS message callbacks
+    boost::mutex                srvCB_lock_;        // A mutex to lock access to fields that are used in ROS service callbacks
+    ros::CallbackQueue          message_queue_;     // Custom Callback Queue. Details see http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning
+    ros::CallbackQueue          service_queue_;     // Custom Callback Queue
 
 };
 

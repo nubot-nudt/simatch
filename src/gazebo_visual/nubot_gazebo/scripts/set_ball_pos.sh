@@ -30,7 +30,7 @@ do
                 position:
                   x: -6.0
                   y: 3.0
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;
         2)
@@ -40,7 +40,7 @@ do
                 position:
                   x: -6.0
                   y: 0.0
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;
         3)
@@ -50,7 +50,7 @@ do
                 position:
                   x: -6.0
                   y: -3.0
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;   
         4)
@@ -60,7 +60,7 @@ do
                 position:
                   x: 0.0
                   y: 3.0
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;                       
         5)
@@ -70,7 +70,7 @@ do
                 position:
                   x: 0.0
                   y: 0.0
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;  
         6)
@@ -80,7 +80,7 @@ do
                 position:
                   x: 0.0
                   y: -3.0
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;   
         7)
@@ -90,7 +90,7 @@ do
                 position:
                   x: 6.0
                   y: 3.0
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;   
         8)
@@ -100,7 +100,7 @@ do
                 position:
                   x: 6.0
                   y: 0.0
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;   
         9)
@@ -110,7 +110,7 @@ do
                 position:
                   x: 6.0
                   y: -3.0
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;   
         c1)
@@ -120,7 +120,7 @@ do
                 position:
                   x: -8.8
                   y: 5.8
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;   
         c2)
@@ -130,7 +130,7 @@ do
                 position:
                   x: -8.8
                   y: -5.8
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;; 
         c3)
@@ -140,7 +140,7 @@ do
                 position:
                   x: 8.8
                   y: 5.8
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;; 
         c4)
@@ -150,7 +150,7 @@ do
                 position:
                   x: 8.8
                   y: -5.8
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;   
         *)
@@ -160,7 +160,7 @@ do
                 position:
                   x: $(rand -8 8)
                   y: $(rand -5 5)
-                  z: 0.0
+                  z: 0.12
               reference_frame: ''"
               ;;                                                                                               
     esac

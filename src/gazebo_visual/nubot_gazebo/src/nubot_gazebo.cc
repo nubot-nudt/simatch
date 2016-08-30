@@ -40,6 +40,8 @@ NubotGazebo::NubotGazebo()
     ball_index_=robot_index_=0;
     Vx_cmd_=Vy_cmd_=w_cmd_=0;
     force_ = 0.0; mode_=1;
+    match_mode_ = STARTROBOT;
+    can_move_ = true;
 
     model_count_ = 0;
     dribble_req_ = false;
@@ -145,6 +147,11 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
                 ros::VoidPtr(), &message_queue_);
     Velcmd_sub_ = rosnode_->subscribe(so2);
 
+    ros::SubscribeOptions so3 = ros::SubscribeOptions::create<nubot_common::CoachInfo>(
+                "/"+cyan_pre_+"/receive_from_coach", 100, boost::bind( &NubotGazebo::coachinfo_CB,this,_1),
+                ros::VoidPtr(), &message_queue_);
+    CoachInfo_sub_ = rosnode_->subscribe(so3);
+
     // Service Servers & clients
     ros::AdvertiseServiceOptions aso1 = ros::AdvertiseServiceOptions::create<nubot_common::BallHandle>(
                 "BallHandle", boost::bind(&NubotGazebo::ball_handle_control_service, this, _1, _2),
@@ -188,6 +195,8 @@ void NubotGazebo::Reset()
     nubot_ball_vec_len_ = 1;
     Vx_cmd_=Vy_cmd_=w_cmd_=0;
     force_ = 0.0; mode_=1;
+    match_mode_ = STARTROBOT;
+    can_move_ = true;
 
     dribble_req_ = false;
     is_dribble_ = false;
@@ -484,8 +493,16 @@ void NubotGazebo::vel_cmd_CB(const nubot_common::VelCmd::ConstPtr& cmd)
 
     //    ROS_FATAL("%s vel_cmd_CB():linear_vector:%f %f %f angular_vector:0 0 %f",model_name_.c_str(),
     //                    linear_vector.x, linear_vector.y, linear_vector.z, angular_vector.z);
-    nubot_locomotion(linear_vector, angular_vector);
+    if(can_move_)
+        nubot_locomotion(linear_vector, angular_vector);
 
+    msgCB_lock_.unlock();
+}
+
+void NubotGazebo::coachinfo_CB(const nubot_common::CoachInfo::ConstPtr &cmd)
+{
+    msgCB_lock_.lock();
+    match_mode_ = cmd->MatchMode;
     msgCB_lock_.unlock();
 }
 
@@ -755,21 +772,28 @@ void NubotGazebo::nubot_be_control(void)
     static nubot_common::DribbleId di;
     if(robot_state_.pose.position.z < 0.2)          // not in the air
     {
-        if(dribble_req_ && get_is_hold_ball())
+        can_move_ = true;
+        if(dribble_req_ && get_is_hold_ball() && match_mode_ != STOPROBOT)
         {
             dribble_ball();
-            if(dribbleId_client_.exists())
+            if(!is_dribble_)                         // only send once
             {
-                if(!flip_cord_)
-                    di.request.AgentId = AgentID_;      // cyan robots
-                else
-                    di.request.AgentId = AgentID_ + 5;  // magenta robots
-                if(dribbleId_client_.call(di))
-                    ROS_INFO("request id:%d", di.request.AgentId);
+                if(dribbleId_client_.exists())
+                {
+                    if(!flip_cord_)
+                        di.request.AgentId = AgentID_;      // cyan robots
+                    else
+                        di.request.AgentId = AgentID_ + 5;  // magenta robots
+
+                    if(dribbleId_client_.call(di))
+                    {
+                        is_dribble_ = true;
+                        ROS_INFO("request id:%d", di.request.AgentId);
+                    }
+                }
             }
-            is_dribble_ = true;
         }
-        else if(is_dribble_ == true)                    // it means this time the robot could not dribble the ball
+        else if(is_dribble_ == true)                    // it means initially the robot dribbled but then could not dribble again
         {
             if(dribbleId_client_.exists())
             {
@@ -780,14 +804,17 @@ void NubotGazebo::nubot_be_control(void)
             is_dribble_ = false;
         }
 
-        if(shot_req_)
+        if(shot_req_ && get_is_hold_ball() && match_mode_ != STOPROBOT)
         {
             kick_ball(mode_, force_);
             shot_req_ = false;
         }
     }
     else
+    {
         ROS_FATAL("%s in the air!",model_name_.c_str());
+        can_move_ = false;
+    }
 
     message_publish();                          // publish message to world_model node
 }
