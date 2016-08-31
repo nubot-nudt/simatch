@@ -84,13 +84,7 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
     if(ros::ok() && ModelStatesCB_flag_)        // available to get the model states
     {
         isGameStart();
-        if(currentCmd_!=STOPROBOT)
-        {
-            isDribbleFault();
-            R3_detectBallOut();
-            R5_isOppGoal_PenaltyArea();
-        }
-        else
+        if(currentCmd_ == STOPROBOT)
         {
 #if 0
             if(waittime(2))
@@ -104,6 +98,15 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
                 sendGameCommand(nextCmd_);
             }
 #endif
+        }
+        else
+        {
+            if(currentCmd_ == STARTROBOT)
+            {
+                isDribbleFault();
+                R3_detectBallOut();
+                R5_isOppGoal_PenaltyArea();
+            }
         }
 
         //sendGameCommand(currentCmd_);       // send every time to make sure game cmds are received
@@ -230,7 +233,7 @@ int auto_referee::isDribbleFault()
         if(last_dribble_id_ != dribble_id_)
         {
             ball_initpos_ = ball_state_.pos;
-            ROS_INFO("ball init pos:[%.1f, %.1f]", ball_initpos_.x_, ball_initpos_.y_);
+            //ROS_INFO("ball init pos:[%.1f, %.1f]", ball_initpos_.x_, ball_initpos_.y_);
         }
 
         if(R1_isDribble3m())
@@ -247,12 +250,12 @@ bool auto_referee::R1_isDribble3m()
 {
     if(ball_initpos_.distance(ball_state_.pos) > 300)
     {
-        ball_resetpos_ = ball_state_.pos;
+        ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
         sendGameCommand(STOPROBOT);
         nextCmd_ = (which_team_==CYAN_TEAM)? OPP_FREEKICK : OUR_FREEKICK;
         writeRecord(track_ms_.name+" dribbles more than 300 cm");
-        ROS_INFO("ball init pos:[%.1f, %.1f], pos:[%.1f, %.1f]", ball_initpos_.x_, ball_initpos_.y_,
-                                                                 ball_state_.pos.x_, ball_state_.pos.y_);
+        //ROS_INFO("ball init pos:[%.1f, %.1f], pos:[%.1f, %.1f]", ball_initpos_.x_, ball_initpos_.y_,
+        //                                                         ball_state_.pos.x_, ball_state_.pos.y_);
         return true;
     }
     else
@@ -291,18 +294,18 @@ bool auto_referee::R5_isOppGoal_PenaltyArea()
     {
         if(fieldinfo_.isOppGoal(ms.pos))
         {
-            ball_resetpos_ = DPoint(0.0,0.0);
+            ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
             sendGameCommand(STOPROBOT);
             nextCmd_ = OPP_FREEKICK;
             writeRecord(ms.name+" in opp goal area!");
             return true;
         }
-        else if(fieldinfo_.isOppPenalty(ms.pos))
+        else if(fieldinfo_.isOppPenalty(ms.pos) && ms.id != 1)
             cyan_num++;
 
         if(cyan_num >=2)
         {
-            ball_resetpos_ = DPoint(0.0,0.0);
+            ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
             sendGameCommand(STOPROBOT);
             nextCmd_ = OPP_FREEKICK;
             writeRecord("two cyan robots in opp penalty area!");
@@ -314,18 +317,18 @@ bool auto_referee::R5_isOppGoal_PenaltyArea()
     {
         if(fieldinfo_.isOurGoal(ms.pos))
         {
-            ball_resetpos_ = DPoint(0.0,0.0);
+            ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
             sendGameCommand(STOPROBOT);
             nextCmd_ = OUR_FREEKICK;
             writeRecord(ms.name+" in opp goal area!");
             return true;
         }
-        else if(fieldinfo_.isOppPenalty(ms.pos))
+        else if(fieldinfo_.isOppPenalty(ms.pos) && ms.id != 1)
             magen_num++;
 
         if(magen_num >=2)
         {
-            ball_resetpos_ = DPoint(0.0,0.0);
+            ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
             sendGameCommand(STOPROBOT);
             nextCmd_ = OUR_FREEKICK;
             writeRecord("two magenta robots in opp penalty area!");
@@ -337,8 +340,7 @@ bool auto_referee::R5_isOppGoal_PenaltyArea()
 
 bool auto_referee::R3_detectBallOut()
 {
-    if( fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) || fieldinfo_.isOutBorder(RIGHTBORDER, ball_state_.pos) ||
-            fieldinfo_.isOutBorder(UPBORDER, ball_state_.pos) || fieldinfo_.isOutBorder(DOWNBORDER, ball_state_.pos) )
+    if( fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) )
     {
         ROS_INFO("ball out pos:%f %f",ball_state_.pos.x_, ball_state_.pos.y_);
         if(!R4_detectGoal())
@@ -346,15 +348,17 @@ bool auto_referee::R3_detectBallOut()
             if(which_team_ == CYAN_TEAM)
             {
                 sendGameCommand(STOPROBOT);
-                nextCmd_ = OPP_THROWIN;
-                ball_resetpos_ = DPoint(0.0, 0.0);
+                nextCmd_ = OPP_CORNERKICK;
+                ball_resetpos_ = (ball_state_.pos.distance(lu_corner) < ball_state_.pos.distance(ld_corner))?
+                                 lu_corner : ld_corner;
                 writeRecord("Cyan collides ball out");
             }
             else if(which_team_ == MAGENTA_TEAM)
             {
                 sendGameCommand(STOPROBOT);
-                nextCmd_ = OUR_THROWIN;
-                ball_resetpos_ = DPoint(0.0, 0.0);
+                nextCmd_ = OUR_GOALKICK;
+                ball_resetpos_ = (ball_state_.pos.distance(lu_rstpt) < ball_state_.pos.distance(ld_rstpt))?
+                            lu_rstpt : ld_rstpt;
                 writeRecord("Magenta collides ball out");
             }
             else
@@ -366,6 +370,81 @@ bool auto_referee::R3_detectBallOut()
             }
             return true;
         }
+    }
+    else if(fieldinfo_.isOutBorder(RIGHTBORDER, ball_state_.pos))
+    {
+        if(which_team_ == CYAN_TEAM)
+        {
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OPP_GOALKICK;
+            ball_resetpos_ = (ball_state_.pos.distance(ru_rstpt) < ball_state_.pos.distance(rd_rstpt))?
+                              ru_rstpt : rd_rstpt;
+            writeRecord("Cyan collides ball out");
+        }
+        else if(which_team_ == MAGENTA_TEAM)
+        {
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OUR_CORNERKICK;
+            ball_resetpos_ = (ball_state_.pos.distance(ru_corner) < ball_state_.pos.distance(rd_corner))?
+                              ru_corner : rd_corner;
+            writeRecord("Magenta collides ball out");
+        }
+        else
+        {
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = DROPBALL;
+            ball_resetpos_ = DPoint(0.0, 0.0);
+            writeRecord("Cannot determine cyan or magenta collides ball out");
+        }
+        return true;
+    }
+    else if(fieldinfo_.isOutBorder(UPBORDER, ball_state_.pos))
+    {
+        ball_resetpos_ = DPoint(ball_state_.pos.x_, fieldinfo_.yline_[0]-30.0);
+        ROS_INFO("ball out pos:%f %f",ball_state_.pos.x_, ball_state_.pos.y_);
+        if(which_team_ == CYAN_TEAM)
+        {
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OPP_THROWIN;
+            writeRecord("Cyan collides ball out");
+        }
+        else if(which_team_ == MAGENTA_TEAM)
+        {
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OUR_THROWIN;
+            writeRecord("Magenta collides ball out");
+        }
+        else
+        {
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = DROPBALL;
+            writeRecord("Cannot determine cyan or magenta collides ball out");
+        }
+        return true;
+    }
+    else if(fieldinfo_.isOutBorder(DOWNBORDER, ball_state_.pos))
+    {
+        ball_resetpos_ = DPoint(ball_state_.pos.x_, fieldinfo_.yline_[5]+30.0);
+        ROS_INFO("ball out pos:%f %f",ball_state_.pos.x_, ball_state_.pos.y_);
+        if(which_team_ == CYAN_TEAM)
+        {
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OPP_THROWIN;
+            writeRecord("Cyan collides ball out");
+        }
+        else if(which_team_ == MAGENTA_TEAM)
+        {
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = OUR_THROWIN;
+            writeRecord("Magenta collides ball out");
+        }
+        else
+        {
+            sendGameCommand(STOPROBOT);
+            nextCmd_ = DROPBALL;
+            writeRecord("Cannot determine cyan or magenta collides ball out");
+        }
+        return true;
     }
 
     return false;
@@ -423,6 +502,18 @@ bool auto_referee::setBallPos(double x, double y)
         return true;
     else
         return false;
+}
+
+DPoint auto_referee::getBallRstPtNotInPenalty(DPoint ball_pos)
+{
+    if(!fieldinfo_.isOppPenalty(ball_pos) && !fieldinfo_.isOurPenalty(ball_pos))
+        return ball_pos;
+    else if(fieldinfo_.isOppPenalty(ball_pos))
+        return (ball_pos.distance(ru_rstpt) < ball_pos.distance(rd_rstpt))?
+                ru_rstpt : rd_rstpt;
+    else if(fieldinfo_.isOurPenalty(ball_pos))
+        return (ball_pos.distance(lu_rstpt) < ball_pos.distance(ld_rstpt))?
+                lu_rstpt : ld_rstpt;
 }
 
 bool auto_referee::getModelState(int which_team, int id, ModelState &ms)

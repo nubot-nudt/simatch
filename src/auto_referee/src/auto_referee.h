@@ -30,12 +30,26 @@
 #define CM2M_CONVERSION 0.01
 #define M2CM_CONVERSION 100
 
+using namespace nubot;
 const int CYAN_TEAM = -1;
 const int MAGENTA_TEAM = 1;
 const int NONE_TEAM = 0;
 const double RAD2DEG = 180.0/M_PI;
 const double LOOP_PERIOD = 0.005;
 const double BALL_RADIUS = 11.0;   // cm
+
+const double corner_x = 900.0 - 30.0;
+const double corner_y = 600.0 - 30.0;
+const double rstpt_x  = 600.0;
+const double rstpt_y  = 300.0;
+const DPoint ru_corner(corner_x, corner_y);   // right up corner point
+const DPoint rd_corner(corner_x, -corner_y);
+const DPoint lu_corner(-corner_x, corner_y);
+const DPoint ld_corner(-corner_x, -corner_y);
+const DPoint ru_rstpt(rstpt_x, rstpt_y);     // right up restart point
+const DPoint rd_rstpt(rstpt_x, -rstpt_y);
+const DPoint lu_rstpt(-rstpt_x, rstpt_y);
+const DPoint ld_rstpt(-rstpt_x, -rstpt_y);
 
 using namespace nubot_common;
 using namespace nubot;
@@ -101,6 +115,10 @@ public:
     /// \param[in] x,y -- x and y position
     /// \return 1 -- sucess; 0 -- fail
     bool setBallPos(double x, double y);
+
+    /// \brief if ball_pos is not in any penalty areas, then return ball_pos;
+    ///  else return the nearest restart point
+    DPoint getBallRstPtNotInPenalty(DPoint ball_pos);
 
     void loopControl(const ros::TimerEvent& event);
 
