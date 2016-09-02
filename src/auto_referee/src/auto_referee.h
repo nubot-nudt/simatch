@@ -148,9 +148,10 @@ private:
     ros::Timer                  loop_timer_;
     ros::Publisher              cyan_pub_;
     ros::Publisher              magenta_pub_;
+    ros::Publisher              setMS_pub_;            // set model state publisher
     ros::Subscriber             bumper_sub_;
     ros::Subscriber             gazebo_sub_;
-    ros::ServiceClient          ms_client_;
+    ros::ServiceClient          setMS_client_;          // set model state service client
     ros::ServiceServer          dribble_server_;
     std::string                 cyan_prefix_;
     std::string                 magenta_prefix_;

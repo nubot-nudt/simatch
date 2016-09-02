@@ -31,6 +31,7 @@ auto_referee::auto_referee(int start_id)
     /** ROS publishers **/
     cyan_pub_ = rosnode_->advertise<nubot_common::CoachInfo>("/"+cyan_prefix_+"/receive_from_coach", 100);
     magenta_pub_ = rosnode_->advertise<nubot_common::CoachInfo>("/"+magenta_prefix_+"/receive_from_coach", 100);
+    setMS_pub_ = rosnode_->advertise<gazebo_msgs::ModelState>("/gazebo/set_model_state", 100);
 
     /** ROS subscribers using custom callback queues and a thread **/
     ros::SubscribeOptions so1 = ros::SubscribeOptions::create<gazebo_msgs::ContactsState>(
@@ -45,7 +46,7 @@ auto_referee::auto_referee(int start_id)
 //    gazebo_sub_ = rosnode_->subscribe("/gazebo/model_states", 10, &auto_referee::msCallback, this);
 
     /** ROS sercice client **/
-    ms_client_ = rosnode_->serviceClient<gazebo_msgs::SetModelState>("/gazebo/set_model_state");
+   // setMS_client_ = rosnode_->serviceClient<gazebo_msgs::SetModelState>("/gazebo/set_model_state");
 
     /** ROS service server using custom callback queues and a thread **/
     /** IMPORTATN: use a custom queue and a thread to process service calls to avoid deadlock **/
@@ -108,8 +109,6 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
                 R5_isOppGoal_PenaltyArea();
             }
         }
-
-        //sendGameCommand(currentCmd_);       // send every time to make sure game cmds are received
     }
 
     srvCB_lock_.unlock();
@@ -487,6 +486,7 @@ bool auto_referee::R4_detectGoal()
 
 bool auto_referee::setBallPos(double x, double y)
 {
+#if 0
     gazebo_msgs::SetModelState  ms;
     ms.request.model_state.model_name = ball_name_;
     ms.request.model_state.pose.position.x = x * CM2M_CONVERSION;
@@ -498,10 +498,19 @@ bool auto_referee::setBallPos(double x, double y)
     ms.request.model_state.twist.angular.x = 0.0;
     ms.request.model_state.twist.angular.y = 0.0;
     ms.request.model_state.twist.angular.z = 0.0;
-    if(ms_client_.call(ms))
+    if(setMS_client_.call(ms))
         return true;
     else
         return false;
+#else
+    gazebo_msgs::ModelState ms;
+    ms.model_name = ball_name_;
+    ms.pose.position.x = x * CM2M_CONVERSION;
+    ms.pose.position.y = y * CM2M_CONVERSION;
+    ms.pose.position.z = 0.12;
+    for(int i=0; i<2; i++)          // send serveral times to make sure the message is received
+        setMS_pub_.publish(ms);
+#endif
 }
 
 DPoint auto_referee::getBallRstPtNotInPenalty(DPoint ball_pos)
@@ -621,8 +630,11 @@ void auto_referee::sendGameCommand(int id)
     PreMagentaMode = magenta_gameCmd_.MatchMode;
     currentCmd_ = id;
 
-    cyan_pub_.publish(cyan_coach_info_);
-    magenta_pub_.publish(magenta_gameCmd_);
+    for(int i=0; i<5; i++)                      // send serveral times to make sure the message is received
+    {
+        cyan_pub_.publish(cyan_coach_info_);
+        magenta_pub_.publish(magenta_gameCmd_);
+    }
 }
 
 bool auto_referee::createRecord()
