@@ -194,22 +194,18 @@ public:
     {
         nubot_common::VelCmd command;  // 最后是解算出来的结果
         float vx,vy,w;
-        bool  isturn;
         vx = m_plan_.m_behaviour_.app_vx_;
         vy = m_plan_.m_behaviour_.app_vy_;
         w  = m_plan_.m_behaviour_.app_w_;
-        isturn = m_plan_.m_behaviour_.isTurn_;
         m_plan_.m_behaviour_.last_app_vx_ = m_plan_.m_behaviour_.app_vx_;
         m_plan_.m_behaviour_.last_app_vy_ = m_plan_.m_behaviour_.app_vy_;
         m_plan_.m_behaviour_.last_app_w_  = m_plan_.m_behaviour_.app_w_;
         m_plan_.m_behaviour_.app_vx_ = 0;
         m_plan_.m_behaviour_.app_vy_ = 0;
         m_plan_.m_behaviour_.app_w_  = 0;
-        m_plan_.m_behaviour_.isTurn_ = false;
         command.Vx = vx ;
         command.Vy = vy ;
         command.w  = w  ;
-        command.isTurn = isturn;
         motor_cmd_pub_.publish(command);
     }
     //! 中场于助攻在机器人动态传球时会出现穿过传球线的现象，在此矫正传球时候，中场与助攻的跑位点，防止传球失败
