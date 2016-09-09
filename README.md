@@ -9,6 +9,10 @@
 
 > 请先学习ROS、C++，作为基本技能和知识，然后对机器人策略等方面有一定了解，再进行robot_code的多机器人协同程序的编写。
    
+## 可能增加或改变的规则(最终以比赛时为准)
+1. 比赛不分上下半场，一共15分钟左右；
+2. 任何利用自动裁判盒的漏洞获取比赛中的优势将视为作弊行为，比赛成绩无效;   
+
 ## 共同开发
 欢迎大家积极共同完善该仿真平台，我们将感谢每一个人的贡献。   
 本软件使用git作为版本控制，托管于GitHub网站。如果想共同开发该软件包，请fork一下该软件包（首先你要注册一个GitHub帐号），然后git clone到自己的电脑去，改进完代码后，可以git push上来，然后再在GitHub里面发一个pull request。   
@@ -24,14 +28,19 @@
 > 	 - 使用说明:	 txt，Markdown 
 > 	 - 软件文档：	 Doxygen或其他
 
-## 可能增加或改变的规则(最终以比赛时为准)
-1. 比赛不分上下半场，一共15分钟左右；
-2. 任何利用自动裁判盒的漏洞获取比赛中的优势将视为作弊行为，比赛成绩无效;
+1. 为了方便大家交流，请大家把遇到的问题发到这里https://github.com/nubot-nudt/simatch/issues，我会抽时间回答，别人能回答的话也帮忙回答。谢谢。
+2. 建议所有人都注册一个github帐号，对这个simatch版本库fork一下。fork的目的在于你对它的修改可以提交给我，然后我审批过后就可以融合进来。目前希望大家能够将自己在使用过程终于遇到的问题以及解决办法写到README.md文件，然后提交给我。如果有参考价值，那么我就把它融合进来，这样所有人都能看到，也是对这个软件的一个贡献。
+
+按图片中的fork就行了（前提是你已经登陆了github帐号），这样在你的帐号里就有了simatch。
+然后点进README.md文件，就可以编辑了。
+写到这里questions & answers
 
 ## 联系
-软件维护者(Maitainer): abcgarden@126.com    
-Nubot队伍(RoboCup team): nubot.nudt@outlook.com
+软件维护者(Maitainer): abcgarden@126.com   
+Nubot队伍(RoboCup team): nubot.nudt@outlook.com   
 
+-------------------------------------------------
+-------------------------------------------------
 # 用户手册 User manual
 > **NOTE:** 
 > If you want to have a basic understanding of how Gazebo and ROS combines to work for robots, it is recommended to check out the repository ['single_nubot_gazebo'](https://github.com/nubot-nudt/single_nubot_gazebo).
