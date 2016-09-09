@@ -195,6 +195,73 @@ For the definition of /BallHandle service, when "enable" equals to a non-zero nu
    
 For the definition of /Shoot service, when "ShootPos" equals to -1, this is a ground pass. In this case, "strength" is the inital speed you would like the soccer ball to have. When "ShootPos" equals to 1, this is a lob shot. In this case, "strength" is useless since the strength is calculated by the Gazebo plugin automatically and the soccer ball would follow a parabola path to enter the goal area. If the robot successfully kicks the ball out even if it failed to goal, the service response "ShootIsDone" is true.   
 
+For the definition of the "**omnivision/OmniVisionInfo**" topic, there are three new message types: "BallInfo", "ObstaclesInfo" and "RoboInfo". The field "robotinfo" is a vector. Before introducing the format of these new messages, three other message types "Point2d", "PPoint" and "Angle" are used in their definitions:   
+```
+# Point2d.msg, reperesenting a 2-D point.
+float32 x				# x component
+float32 y				# y component
+```
+   
+```
+# PPoint.msg, representing a 2-D point in polar coordinates.
+float32 angle				# angle against polar axis
+float32 radius				# distance from the origin
+```
+
+```
+# Angle.msg, representing the angle
+float32 theta				# angle of rotation
+```
+-----------------------------------   
+   
+```
+# BallInfo.msg, representing the information about the ball
+Header header                           # a ROS header message defined by ROS package std_msgs
+int32     ballinfostate	                # the state of the ball information; 
+Point2d   pos                           # ball position in global reference frame; the origin of the frame is the center of
+                                        # the soccer field; x-axis pointed horizentally towards the opponet's center of the
+                                        # goal area and y-axis vertiacal to the x-axis using the right-hand rule
+PPoint    real_pos                      # ball relative position in robot body frame; the origin of the body frame is the
+                                        # center of the robot base; x-axis along the kicking-mechanism and y-axis vertical
+                                        # to the x-axis using the right-hand rule
+Point2d   velocity                      # ball velocity in global reference frame
+bool      pos_known                     # ball position is known(1) or not(0)
+bool      velocity_known                # ball velocity is known(1) or not(0)
+```
+
+```
+# ObstaclesInfo.msg, representing the information about obstacles
+Header header                           # a ROS header message defined by ROS package std_msgs
+Point2d[] pos                           # obstacle position in global reference frame
+PPoint[] polar_pos                      # obstable position in the polar frame of which the origin is the center of the
+                                        # robot and the polar axis is along the kicking mechanism
+```
+   
+```
+# RobotInfo.msg, representing teammates' information
+Header header                           # a ROS header message defined by ROS package std_msgs
+int32    AgentID                        # ID of the robot
+int32    targetNum1                     # robot ID to be assigned target position 1
+int32    targetNum2                     # robot ID to be assigned target position 2
+int32    targetNum3                     # robot ID to be assigned target position 3
+int32    targetNum4                     # robot ID to be assigned target position 4
+int32    staticpassNum                  # in static pass, the passer's ID
+int32    staticcatchNum                 # in static pass, the catcher's ID
+Point2d  pos                            # robot position in global reference frame
+Angle    heading                        # robot heading in global reference frame
+float32  vrot                           # the rotational velcoity in global reference frame
+Point2d  vtrans                         # the linear velocity in global reference frame
+bool     iskick                         # robot kicks the ball(1) or not(0)
+bool     isvalid                        # robot is valid(1) or not(0)
+bool     isstuck                        # robot is stuck(1) or not(0)
+bool     isdribble                      # robot dribbles the ball(1) or not(0)
+char     current_role                   # the current role
+float32  role_time                      # time that the robot keeps the role unchanged
+Point2d  target	                        # target position
+```
+   
+The units of these elements are cm, cm/s, rad and rad/s.    
+   
 ### Code samples
 **Working...... :)**
 --------------------------
