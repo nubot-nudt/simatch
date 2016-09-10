@@ -3,8 +3,6 @@ build/
 devel/
 record/
 
-*.jpg
-*.bmp
 CMakeLists.txt.*
 *~
 *.tar.gz
