@@ -1,4 +1,5 @@
 # 中国机器人大赛中型组仿真比赛
+![simatch][pic1]
 ## 说明
 该软件包包括了robot_code模块，gazebo_visual模块，coach4sim模块和common模块，其中，参赛选手主要注重robot_code模块，里面包含的是控制机器人运动的相关程序。各个模块的介绍如下：   
 
@@ -28,13 +29,16 @@
 > 	 - 使用说明:	 txt，Markdown 
 > 	 - 软件文档：	 Doxygen或其他
 
-1. 为了方便大家交流，请大家把遇到的问题发到这里https://github.com/nubot-nudt/simatch/issues，我会抽时间回答，别人能回答的话也帮忙回答。谢谢。
-2. 建议所有人都注册一个github帐号，对这个simatch版本库fork一下。fork的目的在于你对它的修改可以提交给我，然后我审批过后就可以融合进来。目前希望大家能够将自己在使用过程终于遇到的问题以及解决办法写到README.md文件，然后提交给我。如果有参考价值，那么我就把它融合进来，这样所有人都能看到，也是对这个软件的一个贡献。
+为了方便大家交流，请大家把遇到的问题发到这里<https://github.com/nubot-nudt/simatch/issues>，我会抽时间回答，别人能回答的话也帮忙回答。建议所有人都注册一个github帐号，对这个simatch版本库fork一下。fork的目的在于你对它的修改可以提交给我，然后我审批过后就可以融合进来。目前希望大家能够将自己在使用过程终于遇到的问题以及解决办法写到README.md文件，然后提交给我。如果有参考价值，那么我就把它融合进来，这样所有人都能看到，也是对这个软件的一个贡献。    
 
-按图片中的fork就行了（前提是你已经登陆了github帐号），这样在你的帐号里就有了simatch。
-然后点进README.md文件，就可以编辑了。
-写到这里questions & answers
-
+**步骤**   
+1. 按下图中的fork就行了（前提是你已经登陆了github帐号），这样在你的帐号里就有了simatch。   
+![fork][pic4]   
+2. 然后点进README.md文件，就可以编辑了。把自己遇到的问题和解决部分写在这里questions & answers如下图：   
+![q&a][pic5]   
+3. 最后创建一个pull request如下图所示，这样我就能够审批通过你的编辑了   
+![pull][pic6]   
+   
 ## 联系
 软件维护者(Maitainer): abcgarden@126.com   
 Nubot队伍(RoboCup team): nubot.nudt@outlook.com   
@@ -43,8 +47,8 @@ Nubot队伍(RoboCup team): nubot.nudt@outlook.com
 -------------------------------------------------
 # 用户手册 User manual
 > **NOTE:** 
-> If you want to have a basic understanding of how Gazebo and ROS combines to work for robots, it is recommended to check out the repository ['single_nubot_gazebo'](https://github.com/nubot-nudt/single_nubot_gazebo).
-> This contains how to configure the environment, how to run the simulation, and how the robot is simulated. You could run the ROS tool ['rqt_graph'](http://wiki.ros.org/rqt_graph) to
+> If you want to have a basic understanding of how Gazebo and ROS combines to work for robots, it is recommended to check out the repository ['single_nubot_gazebo'][1].
+> This contains how to configure the environment, how to run the simulation, and how the robot is simulated. You could run the ROS tool ['rqt_graph'][2] to
 > understand the basic messages and service flow. 
 
 ## Package Summary   
@@ -73,7 +77,7 @@ If you choose "desktop-full" install of ROS Indigo, there is a Gazebo 2.0 includ
 Then you should be able to install Gazebo 5.0 now. To install gazebo_ros_pkgs compatible with Gazebo
 5.0/5.1, run this command:   
 ` $ sudo apt-get install ros-indigo-gazebo5-ros-pkgs ros-indigo-gazebo5-ros-control`   
-HOWEVER,    if the above command does now work, these packages may be moved to other places. You can check out [gazebo_ros](https://github.com/ros-simulation/gazebo_ros_pkgs.git) and download and install the correct version.   
+HOWEVER,    if the above command does now work, these packages may be moved to other places. You can check out [gazebo_ros][3] and download and install the correct version.   
  - 2. If you decide to use **ROS Jade** with **gazebo 5.0 or 5.1**, read the following   
 ROS Jade has gazebo_ros_pkgs with it; so you don't have to install gazebo_ros_pkgs again.  
 However, you should do the following steps to fix some of the bugs in ROS Jade related to Gazebo:        
@@ -82,15 +86,15 @@ In this file, go to line 24 and delete the last '/'. So
 `setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo/`    
 is changed to     
 `setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo`    
-You can read this link for more [information](http://answers.ros.org/question/215796/problem-for-install-gazebo_ros_package/)   
+You can read this link for more [information][4]
   -  (b) Install Gazebo 5.     
    `$ sudo apt-get install gazebo5`     
-If this fails, try to run the ['gazebo5_install.sh'](https://github.com/nubot-nudt/simatch/blob/master/gazebo5_install.sh)(obtained from Gazebo's official website).    
-Read for more [information](http://answers.ros.org/question/217970/ros-jade-and-gazebo-50-migration-problem/)   
+If this fails, try to run the ['gazebo5_install.sh'][5](obtained from Gazebo's official website).    
+Read for more [information][6]   
   -  (c) Optional: copy resource files to the new gazebo folder.    
    `$ sudo cp -r /usr/share/gazebo-5.0/* /usr/share/gazebo-5.1`      
  - 3. If you decide to use **ROS Jade** with **gazebo 7.1**, read the following,    
-  -  (1) Install gazebo 7.0 by running [gazebo7_install.sh](https://github.com/nubot-nudt/simatch/blob/master/gazebo7_install.sh)(obtained from Gazebo's official website);      
+  -  (1) Install gazebo 7.0 by running [gazebo7_install.sh][7](obtained from Gazebo's official website);      
   -  (2) Then run this in the terminal:   
   -  ` $ sudo apt-get install ros-jade-gazebo7-ros-pkgs`   
 
@@ -171,7 +175,8 @@ If you want to run those modules seperatly, you could
 
 ### With several computers
 
-Configuration of computer A and computer B
+**Configuration of computer A and computer B**   
+![multi-computers][pic3]
   The recommended way to run simulation is with two computers running nubot_ws and gazebo_visual seperately.   
 For example,computer A runs gazebo_visual to display the movement of robots. Computer B runs nubot_ws to    
 calculate and send  movement commands to robots. In addition, computer B should also run coach to send game    
@@ -188,6 +193,7 @@ command such as game start.
 ## Tutorial
 ### ROS topics, messages and services
 The robot movement is realized by a Gazebo model plugin which is called "NubotGazebo" generated by source files "nubot_gazebo.cc" and "nubot_gazebo.hh". Basically the essential part of the plugin is realizing basic motions: omnidirectional locomotion, ball-dribbling and ball-kicking.    
+![rosgraph][pic2]
    
 The gazebo plugin subscribes to topic **"nubotcontrol/velcmd"** for omnidirecitonal movement and **"omnivision/OmniVisionInfo"** which contains messages about the soccer ball and all the robots' information such as position, velocity and etc. like the functions of an omnivision camera. For services, it subscribes to service **"BallHandle"** and **"Shoot"** for ball-dribbling and ball-kicking respectively.  Since there may be multiple robots, these topics or services names should be prefixed with the robot model names in order to distinguish between each other. For example, if your robot model's name is "nubot1", then the topic names are **"/nubot1/nubotcontrol/velcmd"** and **"/nubot1/omnivision/OmniVisionInfo"** and the service names would be changed to **"/nubot1/BallHandle"** and **"/nubot1/Shoot"** accordingly. You can customize this code for your robot based on these messages and services as a convenient interface. The types and definitions of the topics and servivces are listed in the following table:    
 
@@ -195,7 +201,7 @@ The gazebo plugin subscribes to topic **"nubotcontrol/velcmd"** for omnidirecito
 Topic/Service	|	Type	|	Definition |
 :-------------: |:-------:|:------------|
 **/nubot1/nubotcontrol/velcmd**	|	nubot_common/VelCmd 	|	float32 Vx <br> float32 Vy <br>  float32 w   |
-**/nubot1/omnivision/OmniVisionInfo** | ubot_common/OminiVisionInfo | Header header <br> [BallInfo](https://github.com/nubot-nudt/simatch/tree/master/src/robot_code/nubot_common/msgs/BallInfo.msg) ballinfo <br> [ObstaclesInfo](https://github.com/nubot-nudt/simatch/tree/master/src/robot_code/nubot_common/msgs/ObstaclesInfo.msg) obstacleinfo <br> [RobotInfo](https://github.com/nubot-nudt/simatch/tree/master/src/robot_code/nubot_common/msgs/RobotInfo.msg)[]  robotinfo |
+**/nubot1/omnivision/OmniVisionInfo** | ubot_common/OminiVisionInfo | Header header <br> [BallInfo][8] ballinfo <br> [ObstaclesInfo][9] obstacleinfo <br> [RobotInfo][10][]  robotinfo |
 **/nubot1/BallHandle**   |  nubot_common/BallHandle       |  int64 enable <br> --- <br>  int64 BallIsHolding |
 **/nubot1/Shoot**        |  nubot_common/Shoot            | int64 strength <br> int64 ShootPos <br>  --- <br> int64 ShootIsDone |   
    
@@ -205,25 +211,25 @@ For the definition of /BallHandle service, when "enable" equals to a non-zero nu
 For the definition of /Shoot service, when "ShootPos" equals to -1, this is a ground pass. In this case, "strength" is the inital speed you would like the soccer ball to have. When "ShootPos" equals to 1, this is a lob shot. In this case, "strength" is useless since the strength is calculated by the Gazebo plugin automatically and the soccer ball would follow a parabola path to enter the goal area. If the robot successfully kicks the ball out even if it failed to goal, the service response "ShootIsDone" is true.   
 
 For the definition of the "**omnivision/OmniVisionInfo**" topic, there are three new message types: "BallInfo", "ObstaclesInfo" and "RoboInfo". The field "robotinfo" is a vector. Before introducing the format of these new messages, three other message types "Point2d", "PPoint" and "Angle" are used in their definitions:   
-```
+```bash
 # Point2d.msg, reperesenting a 2-D point.
 float32 x				# x component
 float32 y				# y component
 ```
    
-```
+```bash
 # PPoint.msg, representing a 2-D point in polar coordinates.
 float32 angle				# angle against polar axis
 float32 radius				# distance from the origin
 ```
 
-```
+```bash
 # Angle.msg, representing the angle
 float32 theta				# angle of rotation
 ```
 -----------------------------------   
    
-```
+```bash
 # BallInfo.msg, representing the information about the ball
 Header header                           # a ROS header message defined by ROS package std_msgs
 int32     ballinfostate	                # the state of the ball information; 
@@ -238,7 +244,7 @@ bool      pos_known                     # ball position is known(1) or not(0)
 bool      velocity_known                # ball velocity is known(1) or not(0)
 ```
 
-```
+```bash
 # ObstaclesInfo.msg, representing the information about obstacles
 Header header                           # a ROS header message defined by ROS package std_msgs
 Point2d[] pos                           # obstacle position in global reference frame
@@ -246,7 +252,7 @@ PPoint[] polar_pos                      # obstable position in the polar frame o
                                         # robot and the polar axis is along the kicking mechanism
 ```
    
-```
+```bash
 # RobotInfo.msg, representing teammates' information
 Header header                           # a ROS header message defined by ROS package std_msgs
 int32    AgentID                        # ID of the robot
@@ -281,4 +287,19 @@ The units of these elements are cm, cm/s, rad and rad/s.
 2. 问题：
 解决办法：
 
-
+[1]: https://github.com/nubot-nudt/single_nubot_gazebo
+[2]: http://wiki.ros.org/rqt_graph
+[3]: https://github.com/ros-simulation/gazebo_ros_pkgs.git
+[4]: http://answers.ros.org/question/215796/problem-for-install-gazebo_ros_package/
+[5]: gazebo5_install.sh
+[6]: http://answers.ros.org/question/217970/ros-jade-and-gazebo-50-migration-problem/
+[7]: gazebo7_install.sh
+[8]: src/robot_code/nubot_common/msgs/BallInfo.msg
+[9]: src/robot_code/nubot_common/msgs/ObstaclesInfo.msg
+[10]: src/robot_code/nubot_common/msgs/RobotInfo.msg
+[pic1]: pics/simatch.png
+[pic2]: pics/rosgraph_single_robot.png
+[pic3]: pics/multi-computers.png
+[pic4]: pics/fork.jpg
+[pic5]: pics/q&a.jpg
+[pic6]: pics/pull_request.png
