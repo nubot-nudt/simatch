@@ -177,18 +177,18 @@ If you want to run those modules seperatly, you could
 
 **Configuration of computer A and computer B**   
 ![multi-computers][pic3]
-  The recommended way to run simulation is with two computers running nubot_ws and gazebo_visual seperately.   
-For example,computer A runs gazebo_visual to display the movement of robots. Computer B runs nubot_ws to    
-calculate and send  movement commands to robots. In addition, computer B should also run coach to send game    
-command such as game start.    
-  The communication between computer A and computer B is via ROS master. 
-  The following is the configuration steps:   
-> 1. In computer A, add computer B's IP address in /etc/hosts; and in computer B, add computer A's IP address in /etc/hosts >  
-> e.g. In computer A, `$ sudo gedit /etc/hosts and add "Maggie 192.168.8.100"`   
->     In computer B, `$ sudo gedit /etc/hosts and add "Bart   192.168.8.101"`   
-> 2. In computer A, run gazebo_visual; In computer B, before you run nubot_ws, you should export ROS_MASTER_URI.   
-> e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`   
-> 3. In computer B, run coach and send game command   
+>   The recommended way to run simulation is with two computers running nubot_ws and gazebo_visual seperately.
+
+> For example,computer A runs gazebo_visual to display the movement of robots. Computer B runs nubot_ws to calculate and send  movement commands to robots. In addition, computer B should also run coach to send game command such as game start. 
+
+>   The communication between computer A and computer B is via ROS master. The following is the configuration steps:
+    
+1. In computer A, add computer B's IP address in /etc/hosts; and in computer B, add computer A's IP address in /etc/hosts
+e.g. In computer A, `$ sudo gedit /etc/hosts and add "Maggie 192.168.8.100"`
+     In computer B, `$ sudo gedit /etc/hosts and add "Bart   192.168.8.101"`
+2. In computer A, run gazebo_visual; In computer B, before you run nubot_ws, you should export ROS_MASTER_URI.
+e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`
+3. In computer B, run coach and send game command
 
 ## Tutorial
 ### ROS topics, messages and services
