@@ -278,7 +278,262 @@ Point2d  target	                        # target position
 The units of these elements are cm, cm/s, rad and rad/s.    
    
 ### Code samples
-**Working...... :)**
+
+#### Basic motion flow
+This is a sample code from [nubot_control.cpp][11]. It realizes basic functions such as moving to a target position or a target orientation, dribbling the ball and shooting the goal. It is almost the simpliest version without any use of PID control or other control methods. Anyone should try to improve this code instead of using it directly.    
+
+However, the code related to receiving game comamnds and doing corresponding actions should be kept. For example, your code should be able to judge what to do when receiving different game commands such as 'START', 'FREEKICK' or 'PARKING'.
+```c++
+/** 主要的控制框架位于这里*/
+    void
+    loopControl(const ros::TimerEvent& event)
+    {
+        match_mode_ = world_model_info_.CoachInfo_.MatchMode;               //! 当前比赛模式
+        pre_match_mode_ = world_model_info_.CoachInfo_.MatchType;           //! 上一个比赛模式
+        robot_pos_  = world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getLocation();
+        robot_ori_  = world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getHead();
+        ball_pos_   = world_model_info_.BallInfo_[world_model_info_.AgentID_-1].getGlobalLocation();
+        ball_vel_   = world_model_info_.BallInfo_[world_model_info_.AgentID_-1].getVelocity();
+        nubot_common::VelCmd        vel;
+        nubot_common::Shoot         shoot;
+        nubot_common::BallHandle    dribble;
+
+        if(match_mode_ == STOPROBOT )
+        {
+            vel.Vx = 0;
+            vel.Vy = 0;
+            vel.w  = 0;
+            motor_cmd_pub_.publish(vel);
+            shoot.request.strength = 0;
+            shoot_client_.call(shoot);
+            dribble.request.enable = 0;
+            ballhandle_client_.call(dribble);
+        }
+        /** 机器人在开始之前的跑位. 开始静态传接球的目标点计算*/
+        else if(match_mode_ > STOPROBOT && match_mode_ <= DROPBALL)
+            positioning();
+        else if(match_mode_==PARKINGROBOT)
+            parking();
+        else// 机器人正式比赛了，进入start之后的机器人状态
+        {
+            normalGame();
+        } // start部分结束
+
+        pubStrategyInfo();  // 发送策略消息让其他机器人看到，这一部分一般用于多机器人之间的协同
+    }
+
+
+    void positioning()
+    {
+        DPoint br = ball_pos_ - robot_pos_;
+        switch(world_model_info_.AgentID_)  // 十分简单的实现，固定的站位，建议动态调整站位，写入staticpass.cpp中
+        {                                   // 站位还需要考虑是否犯规，但是现在这个程序没有考虑。
+            case 1:
+                if(move2target(DPoint(-850.0, 0.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 2:
+                if(move2target(DPoint(-150.0, 100.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 3:
+                if(move2target(DPoint(-150.0, -100.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 4:
+                if(move2target(DPoint(-450.0, 200.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 5:
+                if(move2target(DPoint(-450.0, -200.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+        }
+    }
+
+    void parking()
+    {
+        static double parking_y=-580.0;
+        cout<<"PARKINGROBOT"<<endl;
+
+        DPoint parking_target;
+        float tar_ori = SINGLEPI_CONSTANT/2.0;
+        parking_target.x_= -120.0 * world_model_info_.AgentID_;
+        if(world_model_info_.AgentID_ == 1)
+            parking_target.x_ = -700;//守门员站在离球门最近的地方
+        parking_target.y_ = parking_y;
+
+        if(move2target(parking_target, robot_pos_))    //停到目标点10cm附近就不用动了，只需调整朝向
+            move2ori(tar_ori, robot_ori_.radian_);
+    }
+
+    void normalGame()
+    {
+        if(world_model_info_.AgentID_ != 1 && isNearestRobot())
+        {
+            nubot_common::BallHandle    dribble;
+            DPoint br = ball_pos_ - robot_pos_;
+
+            if(move2ori(br.angle().radian_, robot_ori_.radian_))        // 先往足球靠近
+            {
+                if(move2target(ball_pos_, robot_pos_, 50.0))
+                {
+                    dribble.request.enable = 1;
+                    ballhandle_client_.call(dribble);
+                    if(dribble.response.BallIsHolding != true)
+                    {
+                        if(move2target(ball_pos_, robot_pos_, 40.0))
+                            move2ori(br.angle().radian_, robot_ori_.radian_);
+                    }
+                    else        // 带上球了
+                    {
+                        DPoint tmp(200.0,300.0);
+                        DPoint dirc = DPoint(900.0 ,0.0) - tmp;         // 对准 (900.0 ,0.0)
+                        if(move2target(tmp, robot_pos_) &&
+                           move2ori(dirc.angle().radian_, robot_ori_.radian_, 5.0*DEG2RAD))  // 跑到位以及转到位
+                        {
+                            nubot_common::Shoot shoot;
+                            shoot.request.ShootPos = FLY;
+                            shoot.request.strength = 1.0;   // 在FLY模式下，strength不重要,只要非零就行
+                            shoot_client_.call(shoot);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    bool isNearestRobot()         //找到距离足球最近的机器人
+    {
+        float distance_min = 2000.0;
+        float distance = distance_min;
+        int robot_id = -1;
+
+        for(int i=1;i<OUR_TEAM;i++)     // 排除守门员
+            if(world_model_info_.RobotInfo_[i].isValid())
+            {
+                distance = ball_pos_.distance(world_model_info_.RobotInfo_[i].getLocation());
+                if(distance < distance_min)
+                {
+                    distance_min=distance;
+                    robot_id = i;
+                }
+            }
+        if(robot_id+1 == world_model_info_.AgentID_)
+            return true;
+        else
+            return false;
+    }
+
+    bool move2target(DPoint target, DPoint pos, double distance_thres=10.0)     // 一个十分简单的实现，可以用PID
+    {
+        static nubot_common::VelCmd        vel;
+        DPoint tmp = target - pos;
+        float tar_theta = tmp.angle().radian_;
+
+        if(tmp.norm() > distance_thres)
+        {
+            vel.Vx = tmp.norm()*0.7*cos(tar_theta - robot_ori_.radian_);    // 注意将全局坐标系下的期望速度转换为在机器人体坐标系下
+            vel.Vy = tmp.norm()*0.7*sin(tar_theta - robot_ori_.radian_);
+            vel.w = 0;
+            motor_cmd_pub_.publish(vel);
+            return false;
+        }
+        else
+        {
+            vel.Vx = 0.0;
+            vel.Vy = 0.0;
+            vel.w = 0;
+            motor_cmd_pub_.publish(vel);
+            return true;
+        }
+    }
+
+    bool move2ori(double target, double angle, double angle_thres = 8.0*DEG2RAD)  // 一个十分简单的实现，可以用PID
+    {
+        static nubot_common::VelCmd        vel;
+        double tmp = target - angle;
+        if(fabs(tmp) > angle_thres)        // 容许误差为5度
+        {
+            vel.Vx = 0;
+            vel.Vy = 0;
+            vel.w = tmp;
+            motor_cmd_pub_.publish(vel);
+            return false;
+        }
+        else
+        {
+            vel.Vx = 0.0;
+            vel.Vy = 0.0;
+            vel.w = 0;
+            motor_cmd_pub_.publish(vel);
+            return true;
+        }
+    }
+
+    void pubStrategyInfo()
+    {
+        nubot_common::StrategyInfo strategy_info;       // 这个消息的定义可以根据个人需要进行修改
+        strategy_info.header.stamp = ros::Time::now();
+        strategy_info.AgentID     = world_model_info_.AgentID_;
+
+        strategy_info_pub_.publish(strategy_info);
+    }
+```
+#### Multi-robot communication and collaboration
+Basically, robot communicates via topic **"nubotcontrol/strategy"**. So you could change the message file [StrategyInfo.msg][12] and add anything you want to share among robots. Then you could fill thoes fields in the functino pubStrategyInfo() from [nubot_control.cpp][11]:   
+```c++
+    void pubStrategyInfo()
+    {
+        nubot_common::StrategyInfo strategy_info;       // 这个消息的定义可以根据个人需要进行修改
+        strategy_info.header.stamp = ros::Time::now();
+        strategy_info.AgentID     = world_model_info_.AgentID_;
+
+        strategy_info_pub_.publish(strategy_info);
+    }
+```
+The messages flow is as follows:
+![strategyInfo][pic7]
+Here, nubot_strategy_pub subscribes to all strategy infomation from all robots such as nubot1~nubot5, and then combines these messages and publishes messages on a new topic named **"/nubot/nubotcontrol/strategy"**. If you robot prefix is not "nubot" but "something" for example, this node would publish messages on a new topic named "/somthing/nubotcontrol/strategy". And then [world_model.cpp][13] receives and processes these messages, for example:
+```c++
+/**  仿真程序更新所有的机器人的策略信息，在实际比赛中通过RTDB进行传输，现在采用topic传输*/
+void
+nubot::World_Model::updateStrategyinfo(const nubot_common::simulation_strategy &_strategyinfo)
+{
+    int nums_robots = _strategyinfo.strategy_msgs.size();
+    for(int i =0 ; i < nums_robots; i++)
+    {
+        nubot_common::StrategyInfo strategyinfo = _strategyinfo.strategy_msgs[i];
+        int AgentId = strategyinfo.AgentID;
+        if(AgentId < 1 || AgentId >OUR_TEAM)
+            continue;
+        PassCommands & pass_cmd_  = teammatesinfo_[AgentId-1].pass_cmds_;
+        pass_cmd_.catchrobot_id   = strategyinfo.pass_cmd.catch_id;
+        pass_cmd_.passrobot_id    = strategyinfo.pass_cmd.pass_id;
+        pass_cmd_.is_dynamic_pass = strategyinfo.pass_cmd.is_dynamic_pass;
+        pass_cmd_.is_static_pass  = strategyinfo.pass_cmd.is_static_pass;
+        pass_cmd_.is_passout = strategyinfo.pass_cmd.is_passout;
+        pass_cmd_.pass_pt    = DPoint(strategyinfo.pass_cmd.pass_pt.x,strategyinfo.pass_cmd.pass_pt.y);
+        pass_cmd_.catch_pt   = DPoint(strategyinfo.pass_cmd.catch_pt.x,strategyinfo.pass_cmd.catch_pt.y);
+        pass_cmd_.isvalid    = strategyinfo.pass_cmd.is_valid;
+        teammatesinfo_[AgentId-1].robot_info_.setRolePreserveTime(strategyinfo.role_time);
+        teammatesinfo_[AgentId-1].robot_info_.setCurrentRole(strategyinfo.role);
+        teammatesinfo_[AgentId-1].robot_info_.setDribbleState(strategyinfo.is_dribble);
+        teammatesinfo_[AgentId-1].robot_info_.setCurrentAction(strategyinfo.action);
+
+        teammatesinfo_[AgentId-1].robot_info_.setTargetNum(1,strategyinfo.targetNum1);
+        teammatesinfo_[AgentId-1].robot_info_.setTargetNum(2,strategyinfo.targetNum2);
+        teammatesinfo_[AgentId-1].robot_info_.setTargetNum(3,strategyinfo.targetNum3);
+        teammatesinfo_[AgentId-1].robot_info_.setTargetNum(4,strategyinfo.targetNum4);
+
+        teammatesinfo_[AgentId-1].robot_info_.setcatchNum(strategyinfo.staticcatchNum);
+        teammatesinfo_[AgentId-1].robot_info_.setpassNum(strategyinfo.staticpassNum);
+    }
+}
+```
+
+So you should also write some code to [world_model.cpp][13].
+
 --------------------------
 ## Questions & Answers
 1. 问题：使用run教程里提供第一种方法运行所有的模块，没有在终端看到robot_code里的main()函数里的初始化输出信息**ROS_INFO("start control process")**，这关系到我们如何看到自己添加的调试信息。   
@@ -296,9 +551,14 @@ The units of these elements are cm, cm/s, rad and rad/s.
 [8]: src/robot_code/nubot_common/msgs/BallInfo.msg
 [9]: src/robot_code/nubot_common/msgs/ObstaclesInfo.msg
 [10]: src/robot_code/nubot_common/msgs/RobotInfo.msg
+[11]: src/robot_code/nubot_control/src/nubot_control.cpp
+[12]: src/robot_code/nubot_common/msgs/StrategyInfo.msg
+[13]: src/robot_code/world_model/src/world_model.cpp
+
 [pic1]: pics/simatch.png
 [pic2]: pics/rosgraph_single_robot.png
 [pic3]: pics/multi-computers.png
 [pic4]: pics/fork.jpg
 [pic5]: pics/q&a.jpg
 [pic6]: pics/pull_request.png
+[pic7]: pics/strategyInfo.png
