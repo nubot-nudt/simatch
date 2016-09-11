@@ -23,25 +23,17 @@ public:
     StaticPass();
     ~StaticPass();
 
-    bool fuseBall_();                            //球位置的融合
-    bool islargestNum_();                         //编号最大的机器人
-    int  getNearestRobot_(DPoint Pt);             //找到距离该点最近的机器人
-    void targetAllocation_();                    //合理的分配target
-    DPoint targetAdjust_(DPoint tmp);            //调整出界的站位点
-    DPoint collisionAvoid_(DPoint tmp);                       //避免机器人的碰撞
+    void    targetInitialize();                     // 目标点初始化
+    void    staticReady_();                         //准备站位
 
-    void staticReady_();                         //准备站位
-    void defaultReady_();
-    void defaultAntiReady_();
+    void    OurDefaultReady_();
+    void    OppDefaultReady_();
+    void    OurPenaltyReady_();
+    void    OppPenaltyReady_();
+    void    OurkickoffReady_();
+    void    OppkickoffReady_();
+    void    DropBallReady_();
 
-    void penaltyReady_();
-    void penaltyAntiReady_();
-
-    void kickoffReady_();
-    void kickoffAntiReady_();
-
-    void dropballReady_();
-    
 public:
 
     World_Model_Info * world_model_;

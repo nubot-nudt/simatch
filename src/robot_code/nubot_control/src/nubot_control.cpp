@@ -19,6 +19,10 @@
 #include <nubot/nubot_control/plan.h>
 #include <nubot/nubot_control/staticpass.h>
 
+#define RUN 1
+#define FLY -1
+const double DEG2RAD = 1.0/180.0*SINGLEPI_CONSTANT;     // 角度到弧度的转换
+
 using namespace std;
 namespace nubot{
 
@@ -48,6 +52,12 @@ public:
     double kp_;
     double kalpha_;
     double kbeta_;
+    char    match_mode_;
+    char    pre_match_mode_;
+    DPoint  robot_pos_;
+    Angle  robot_ori_;
+    DPoint  ball_pos_;
+    DPoint  ball_vel_;
 
 
 public:
@@ -95,7 +105,6 @@ public:
         m_plan_.m_behaviour_.app_vx_ = 0;
         m_plan_.m_behaviour_.app_vy_ = 0;
         m_plan_.m_behaviour_.app_w_  = 0;
-        setEthercatCommond();
     }
 
     void
@@ -184,134 +193,197 @@ public:
     void
     loopControl(const ros::TimerEvent& event)
     {
-          // 多机器人策略部分........
+        match_mode_ = world_model_info_.CoachInfo_.MatchMode;               //! 当前比赛模式
+        pre_match_mode_ = world_model_info_.CoachInfo_.MatchType;           //! 上一个比赛模式
+        robot_pos_  = world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getLocation();
+        robot_ori_  = world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getHead();
+        ball_pos_   = world_model_info_.BallInfo_[world_model_info_.AgentID_-1].getGlobalLocation();
+        ball_vel_   = world_model_info_.BallInfo_[world_model_info_.AgentID_-1].getVelocity();
+        nubot_common::VelCmd        vel;
+        nubot_common::Shoot         shoot;
+        nubot_common::BallHandle    dribble;
+
+        if(match_mode_ == STOPROBOT )
+        {
+            vel.Vx = 0;
+            vel.Vy = 0;
+            vel.w  = 0;
+            motor_cmd_pub_.publish(vel);
+            shoot.request.strength = 0;
+            shoot_client_.call(shoot);
+            dribble.request.enable = 0;
+            ballhandle_client_.call(dribble);
+        }
+        /** 机器人在开始之前的跑位. 开始静态传接球的目标点计算*/
+        else if(match_mode_ > STOPROBOT && match_mode_ <= DROPBALL)
+            positioning();
+        else if(match_mode_==PARKINGROBOT)
+            parking();
+        else// 机器人正式比赛了，进入start之后的机器人状态
+        {
+            normalGame();
+        } // start部分结束
+
+        pubStrategyInfo();  // 发送策略消息让其他机器人看到，这一部分一般用于多机器人之间的协同
     }
 
 
-
-
-    void setEthercatCommond()
+    void positioning()
     {
-        nubot_common::VelCmd command;  // 最后是解算出来的结果
-        float vx,vy,w;
-        vx = m_plan_.m_behaviour_.app_vx_;
-        vy = m_plan_.m_behaviour_.app_vy_;
-        w  = m_plan_.m_behaviour_.app_w_;
-        m_plan_.m_behaviour_.last_app_vx_ = m_plan_.m_behaviour_.app_vx_;
-        m_plan_.m_behaviour_.last_app_vy_ = m_plan_.m_behaviour_.app_vy_;
-        m_plan_.m_behaviour_.last_app_w_  = m_plan_.m_behaviour_.app_w_;
-        m_plan_.m_behaviour_.app_vx_ = 0;
-        m_plan_.m_behaviour_.app_vy_ = 0;
-        m_plan_.m_behaviour_.app_w_  = 0;
-        command.Vx = vx ;
-        command.Vy = vy ;
-        command.w  = w  ;
-        motor_cmd_pub_.publish(command);
+        DPoint br = ball_pos_ - robot_pos_;
+        switch(world_model_info_.AgentID_)  // 十分简单的实现，固定的站位，建议动态调整站位，写入staticpass.cpp中
+        {                                   // 站位还需要考虑是否犯规，但是现在这个程序没有考虑。
+            case 1:
+                if(move2target(DPoint(-850.0, 0.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 2:
+                if(move2target(DPoint(-150.0, 100.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 3:
+                if(move2target(DPoint(-150.0, -100.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 4:
+                if(move2target(DPoint(-450.0, 200.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 5:
+                if(move2target(DPoint(-450.0, -200.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+        }
     }
-    //! 中场于助攻在机器人动态传球时会出现穿过传球线的现象，在此矫正传球时候，中场与助攻的跑位点，防止传球失败
-    void coorrect_target(const DPoint & start_pt, const DPoint & end_pt, const DPoint & robot_pos, DPoint & target)
+
+    void parking()
     {
-        std::vector < DPoint> pts;
-        pts.reserve(10);
-        double max_y(start_pt.y_),min_y(end_pt.y_);
-        if(start_pt.y_ < end_pt.y_)
+        static double parking_y=-580.0;
+        cout<<"PARKINGROBOT"<<endl;
+
+        DPoint parking_target;
+        float tar_ori = SINGLEPI_CONSTANT/2.0;
+        parking_target.x_= -120.0 * world_model_info_.AgentID_;
+        if(world_model_info_.AgentID_ == 1)
+            parking_target.x_ = -700;//守门员站在离球门最近的地方
+        parking_target.y_ = parking_y;
+
+        if(move2target(parking_target, robot_pos_))    //停到目标点10cm附近就不用动了，只需调整朝向
+            move2ori(tar_ori, robot_ori_.radian_);
+    }
+
+    void normalGame()
+    {
+        if(world_model_info_.AgentID_ != 1 && isNearestRobot())
         {
-            max_y = end_pt.y_;
-            min_y = start_pt.y_;
-        }
-        DPoint upper_pt =  start_pt;
-        DPoint down_pt  =  end_pt;
-        if( start_pt.x_ < end_pt.x_)
-        {
-            upper_pt = end_pt;
-            down_pt  = start_pt;
-        }
-        pts.push_back(down_pt);
-        pts.push_back(upper_pt);
-        pts.push_back(DPoint(900.0,upper_pt.y_));
-        pts.push_back(DPoint(900,600));
-        pts.push_back(DPoint(-900,600));
-        pts.push_back(DPoint(-900.0,down_pt.y_));
-        if(pnpoly(pts,robot_pos)) //表示机器人要向y600方向运动；
-        {
-            target.x_ =robot_pos.x_;
-            if(robot_pos.x_ >upper_pt.x_ && robot_pos.x_ < upper_pt.x_ +100)
-                target.x_ = upper_pt.x_+100;
-            else if(robot_pos.x_ < down_pt.x_ && robot_pos.x_ > down_pt.x_ -100)
-                target.x_ = down_pt.x_-100;
-            else
+            nubot_common::BallHandle    dribble;
+            DPoint br = ball_pos_ - robot_pos_;
+
+            if(move2ori(br.angle().radian_, robot_ori_.radian_))        // 先往足球靠近
             {
-                Angle delta_ang = DPoint(upper_pt.x_ -down_pt.x_,upper_pt.y_ -down_pt.y_).angle();
-                if(delta_ang.radian_ > 0)
-                    target.x_ = down_pt.x_ -100;
-                else
-                    target.x_ = upper_pt.x_+100;
+                if(move2target(ball_pos_, robot_pos_, 50.0))
+                {
+                    dribble.request.enable = 1;
+                    ballhandle_client_.call(dribble);
+                    if(dribble.response.BallIsHolding != true)
+                    {
+                        if(move2target(ball_pos_, robot_pos_, 40.0))
+                            move2ori(br.angle().radian_, robot_ori_.radian_);
+                    }
+                    else        // 带上球了
+                    {
+                        DPoint tmp(200.0,300.0);
+                        DPoint dirc = DPoint(900.0 ,0.0) - tmp;         // 对准 (900.0 ,0.0)
+                        if(move2target(tmp, robot_pos_) &&
+                           move2ori(dirc.angle().radian_, robot_ori_.radian_, 5.0*DEG2RAD))  // 跑到位以及转到位
+                        {
+                            nubot_common::Shoot shoot;
+                            shoot.request.ShootPos = FLY;
+                            shoot.request.strength = 1.0;   // 在FLY模式下，strength不重要,只要非零就行
+                            shoot_client_.call(shoot);
+                        }
+                    }
+                }
             }
-            if(fabs(target.x_) > 650 *WIDTH_RATIO)
-                target.x_ = 650.0*target.x_/fabs(target.x_);
+        }
+    }
 
-            target.y_ = max_y+200;
-            if(fabs(target.y_) > 500 *WIDTH_RATIO)
-                target.y_ = 500.0*WIDTH_RATIO;
-            if(fabs(target.y_) < 400 *WIDTH_RATIO)
-                target.y_ = 400.0*WIDTH_RATIO;
+    bool isNearestRobot()         //找到距离足球最近的机器人
+    {
+        float distance_min = 2000.0;
+        float distance = distance_min;
+        int robot_id = -1;
+
+        for(int i=1;i<OUR_TEAM;i++)     // 排除守门员
+            if(world_model_info_.RobotInfo_[i].isValid())
+            {
+                distance = ball_pos_.distance(world_model_info_.RobotInfo_[i].getLocation());
+                if(distance < distance_min)
+                {
+                    distance_min=distance;
+                    robot_id = i;
+                }
+            }
+        if(robot_id+1 == world_model_info_.AgentID_)
+            return true;
+        else
+            return false;
+    }
+
+    bool move2target(DPoint target, DPoint pos, double distance_thres=10.0)     // 一个十分简单的实现，可以用PID
+    {
+        static nubot_common::VelCmd        vel;
+        DPoint tmp = target - pos;
+        float tar_theta = tmp.angle().radian_;
+
+        if(tmp.norm() > distance_thres)
+        {
+            vel.Vx = tmp.norm()*0.7*cos(tar_theta - robot_ori_.radian_);    // 注意将全局坐标系下的期望速度转换为在机器人体坐标系下
+            vel.Vy = tmp.norm()*0.7*sin(tar_theta - robot_ori_.radian_);
+            vel.w = 0;
+            motor_cmd_pub_.publish(vel);
+            return false;
         }
         else
         {
-            target.x_ =robot_pos.x_;
-            if(robot_pos.x_ >upper_pt.x_ && robot_pos.x_ < upper_pt.x_ +100)
-                target.x_ = upper_pt.x_+100;
-            else if(robot_pos.x_ < down_pt.x_ && robot_pos.x_ > down_pt.x_ -100)
-                target.x_ = down_pt.x_-100;
-            else
-            {
-                Angle delta_ang = DPoint(upper_pt.x_ -down_pt.x_,upper_pt.y_ -down_pt.y_).angle();
-                if(delta_ang.radian_ > 0)
-                    target.x_ = upper_pt.x_ +100;
-                else
-                    target.x_ = down_pt.x_-100;
-            }
-            if(fabs(target.x_) > 650 *WIDTH_RATIO)
-                target.x_ = 650.0*target.x_/fabs(target.x_);
-
-            target.y_ = min_y-200;
-            if(fabs(target.y_) > 500 *WIDTH_RATIO)
-                target.y_ = -500.0*WIDTH_RATIO;
-            if(fabs(target.y_) < 400 *WIDTH_RATIO)
-                target.y_ = -400.0*WIDTH_RATIO;
+            vel.Vx = 0.0;
+            vel.Vy = 0.0;
+            vel.w = 0;
+            motor_cmd_pub_.publish(vel);
+            return true;
         }
     }
 
-    bool pnpoly(const std::vector<DPoint> & pts, const DPoint & test_pt)
+    bool move2ori(double target, double angle, double angle_thres = 8.0*DEG2RAD)  // 一个十分简单的实现，可以用PID
     {
-        int nvert=pts.size();
-        int minX(100000),maxX((-100000)),maxY(-100000),minY((100000));
-        for(std::size_t i = 0; i <nvert ;i++)
+        static nubot_common::VelCmd        vel;
+        double tmp = target - angle;
+        if(fabs(tmp) > angle_thres)        // 容许误差为5度
         {
-            if(pts[i].x_<minX)
-                minX=pts[i].x_;
-            if(pts[i].x_>maxX)
-                maxX=pts[i].x_;
-            if(pts[i].y_<minY)
-                minY=pts[i].y_;
-            if(pts[i].y_>maxY)
-                maxY=pts[i].y_;
-        }
-
-        if (test_pt.x_ < minX || test_pt.x_ > maxX || test_pt.y_< minY || test_pt.y_ > maxY)
+            vel.Vx = 0;
+            vel.Vy = 0;
+            vel.w = tmp;
+            motor_cmd_pub_.publish(vel);
             return false;
-
-        int i, j;
-        bool c = false;
-        for (i = 0, j = nvert-1; i < nvert; j = i++)
-        {
-            if ( ( (pts[i].y_>test_pt.y_) != (pts[j].y_>test_pt.y_) ) &&
-                 (test_pt.x_ < (pts[j].x_-pts[i].x_) * (test_pt.y_-pts[i].y_)/double((pts[j].y_-pts[i].y_))+ pts[i].x_) )
-                c = !c;
         }
-        return c;
+        else
+        {
+            vel.Vx = 0.0;
+            vel.Vy = 0.0;
+            vel.w = 0;
+            motor_cmd_pub_.publish(vel);
+            return true;
+        }
     }
 
+    void pubStrategyInfo()
+    {
+        nubot_common::StrategyInfo strategy_info;       // 这个消息的定义可以根据个人需要进行修改
+        strategy_info.header.stamp = ros::Time::now();
+        strategy_info.AgentID     = world_model_info_.AgentID_;
+
+        strategy_info_pub_.publish(strategy_info);
+    }
 };
 
 }
