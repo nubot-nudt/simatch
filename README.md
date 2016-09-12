@@ -288,8 +288,8 @@ This is a sample code from [nubot_control.cpp][11]. It realizes basic functions 
 However, the code related to receiving game comamnds and doing corresponding actions should be kept. For example, your code should be able to judge what to do when receiving different game commands such as 'START', 'FREEKICK' or 'PARKING'.   
 
 **Note**: Please take care of the transformation between the **global reference frame** and the **robot body reference frame**!   
-    - *Global reference frame*: origin is the center of the field; x-axis pointing horizontally towards the goal center of the megenta side; z-axis pointing vertically towards the sky; y-axis using right-hand rule to determine.   
-    - *Robot body reference frame*: origin is the center of the robot base; x-axis points from the origin to the kicking-mechanism; z-axis pointing veritcally towards the sky; y-axis using right-hand rule to determine.   
+- **_Global reference frame_**: origin is the center of the field; x-axis pointing horizontally towards the goal center of the megenta side; z-axis pointing vertically towards the sky; y-axis using right-hand rule to determine.   
+- **_Robot body reference frame_**: origin is the center of the robot base; x-axis points from the origin to the kicking-mechanism; z-axis pointing veritcally towards the sky; y-axis using right-hand rule to determine.   
 ```c++
 /** 主要的控制框架位于这里*/
     void
