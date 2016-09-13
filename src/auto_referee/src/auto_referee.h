@@ -94,22 +94,26 @@ public:
 
     bool dribbleService(nubot_common::DribbleId::Request& req, nubot_common::DribbleId::Response& res);
 
-    /// \brief detect ball out of the field
-    /// \return CYAN_TEAM or MAGENTA_TEAM
-    bool R3_detectBallOut();
+    int R1and2_isDribbleFault();
 
-    /// \brief detect goal;
-    bool R4_detectGoal();
-
-    int isDribbleFault();
-
+    /// \brief Does the robot dribble the ball for 3 meters?
     bool R1_isDribble3m();
 
+    /// \brief Does robot dribble the ball across the field?
     bool R2_isDribbleCrossField();
 
-    bool R5_isOppGoal_PenaltyArea();
+    /// \brief Is the ball out of the field or a goal?
+    /// \return CYAN_TEAM or MAGENTA_TEAM
+    bool R3_isBallOutOrGoal();
 
-    bool isGameStart();
+    /// \brief is a goal?
+    bool isGoal();
+
+    /// \brief Is two robots in the penalty area or one robot in goal area?
+    bool R4_isOppGoalOrPenaltyArea();
+
+    /// \brief Are robots too close to the ball when game commands sent?
+    bool R5_isTooCloseToBall();
 
     /// \brief set ball position
     /// \param[in] x,y -- x and y position

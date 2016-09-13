@@ -61,7 +61,15 @@ auto_referee::auto_referee(int start_id)
 
     /** timer process **/
     loop_timer_ = rosnode_->createTimer(ros::Duration(LOOP_PERIOD), &auto_referee::loopControl, this);
+
     createRecord();
+    // send the first game start command
+    if(start_team_ == CYAN_TEAM || start_team_ == MAGENTA_TEAM)
+    {
+        sendGameCommand(STOPROBOT);
+        nextCmd_ = (start_team_==CYAN_TEAM) ? OUR_KICKOFF : OPP_KICKOFF;
+        kickoff_flg_ = true;
+    }
 }
 
 auto_referee::~auto_referee()
@@ -81,36 +89,37 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
 {
     msgCB_lock_.lock();
     srvCB_lock_.lock();
-
+#if 1
     if(ros::ok() && ModelStatesCB_flag_)        // available to get the model states
     {
-        isGameStart();
         if(currentCmd_ == STOPROBOT)
         {
-#if 0
-            if(waittime(2))
-                sendGameCommand(nextCmd_);
-            else if(dribble_id_ == -1)      // dribble request is received
-                setBallPos(ball_resetpos_.x_, ball_resetpos_.y_);
-#else
             if(waittime(2))
             {
                 setBallPos(ball_resetpos_.x_, ball_resetpos_.y_);
                 sendGameCommand(nextCmd_);
             }
-#endif
         }
-        else
+        else if(currentCmd_ == STARTROBOT)
         {
-            if(currentCmd_ == STARTROBOT)
+            // detect in-play faults
+            R1and2_isDribbleFault();
+            R3_isBallOutOrGoal();
+            R4_isOppGoalOrPenaltyArea();
+        }
+        else if( currentCmd_!=PARKINGROBOT) // set play commands
+        {
+            // detect set-play faults
+            if(waittime(4))
             {
-                isDribbleFault();
-                R3_detectBallOut();
-                R5_isOppGoal_PenaltyArea();
+                //if(!R5_isTooCloseToBall())
+                    sendGameCommand(STARTROBOT);
             }
         }
     }
-
+#else
+    test();
+#endif
     srvCB_lock_.unlock();
     msgCB_lock_.unlock();
 }
@@ -194,31 +203,7 @@ bool auto_referee::dribbleService(nubot_common::DribbleId::Request &req,
     return true;
 }
 
-bool auto_referee::isGameStart()
-{
-    static bool once = true;
-
-    if(once)       // only run at the beginning of the match
-    {
-        if(start_team_ == CYAN_TEAM || start_team_ == MAGENTA_TEAM)
-        {
-            sendGameCommand(STOPROBOT);
-            nextCmd_ = (start_team_==CYAN_TEAM) ? OUR_KICKOFF : OPP_KICKOFF;
-            kickoff_flg_ = true;
-            once = false;
-        }
-    }
-    else if( (currentCmd_!=PARKINGROBOT) && (currentCmd_!=STOPROBOT) && (currentCmd_!=STARTROBOT))    // start game
-    {
-        if(waittime(3))
-            sendGameCommand(STARTROBOT);
-        return true;
-    }
-
-    return false;
-}
-
-int auto_referee::isDribbleFault()
+int auto_referee::R1and2_isDribbleFault()
 {
     int rtnv = 0;  // return value
 
@@ -285,13 +270,13 @@ bool auto_referee::R2_isDribbleCrossField()
         return false;
 }
 
-bool auto_referee::R5_isOppGoal_PenaltyArea()
+bool auto_referee::R4_isOppGoalOrPenaltyArea()
 {
     int cyan_num=0, magen_num=0;
 
     for(ModelState ms : cyan_info_)
     {
-        if(fieldinfo_.isOppGoal(ms.pos))
+        if(fieldinfo_.isOppGoal(ms.pos))            // FIXME: can I in my own goal area?
         {
             ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
             sendGameCommand(STOPROBOT);
@@ -337,12 +322,196 @@ bool auto_referee::R5_isOppGoal_PenaltyArea()
     return false;
 }
 
-bool auto_referee::R3_detectBallOut()
+bool auto_referee::R5_isTooCloseToBall()
+{
+    if(currentCmd_ == OUR_THROWIN || currentCmd_ == OUR_GOALKICK || currentCmd_ == OUR_CORNERKICK || currentCmd_ == OUR_FREEKICK)   // refered as 4-type-kick
+    {
+        int count=0;
+        for(ModelState ms : magenta_info_)
+        {
+            if( !fieldinfo_.isOppPenalty(ms.pos) && ball_state_.pos.distance(ms.pos)<300.0)
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("magenta violates the 4-type-kick positioning rule");
+                return true;
+            }
+        }
+        for(ModelState ms : cyan_info_)
+        {
+            if(ball_state_.pos.distance(ms.pos)<200.0)
+                count++;
+            if(count>1)
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("cyan violates the 4-type-kick positioning rule");
+                return true;
+            }
+        }
+    }
+    else if(currentCmd_ == OPP_THROWIN || currentCmd_ == OPP_GOALKICK || currentCmd_ == OPP_CORNERKICK || currentCmd_ == OPP_FREEKICK)
+    {
+        int count=0;
+        for(ModelState ms : cyan_info_)
+        {
+            if( !fieldinfo_.isOurPenalty(ms.pos) && ball_state_.pos.distance(ms.pos)<300.0)
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("cyan violates the 4-type-kick positioning rule");
+                return true;
+            }
+        }
+        for(ModelState ms : magenta_info_)
+        {
+            if(ball_state_.pos.distance(ms.pos)<200.0)
+                count++;
+            if(count>1)
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("magenta violates the 4-type-kick positioning rule");
+                return true;
+            }
+        }
+    }
+    else if(currentCmd_ == OUR_KICKOFF)
+    {
+        int count=0;
+        for(ModelState ms : cyan_info_)
+        {
+            if( !(fieldinfo_.isOurField(ms.pos) && ball_state_.pos.distance(ms.pos)>200.0) )
+                count++;
+            if(count > 1)       // only the robot taking the kcik could violate the rule; but now more than 1 robot violate the rule;
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("cyan violates the kick-off positioning rule");
+                return true;
+            }
+        }
+        for(ModelState ms : magenta_info_)
+        {
+            if( !(fieldinfo_.isOppField(ms.pos) && ball_state_.pos.distance(ms.pos)>300.0) )
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("magenta violates the kick-off positioning rule");
+                return true;
+            }
+        }
+    }
+    else if(currentCmd_ == OPP_KICKOFF)
+    {
+        int count=0;
+        for(ModelState ms : magenta_info_)
+        {
+            if( !(fieldinfo_.isOurField(ms.pos) && ball_state_.pos.distance(ms.pos)>200.0) )
+                count++;
+            if(count > 1)       // only the robot taking the kcik could violate the rule; but now more than 1 robot violate the rule;
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("magenta violates the kick-off positioning rule");
+                return true;
+            }
+        }
+        for(ModelState ms : cyan_info_)
+        {
+            if( !(fieldinfo_.isOppField(ms.pos) && ball_state_.pos.distance(ms.pos)>300.0) )
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("cyan violates the kick-off positioning rule");
+                return true;
+            }
+        }
+    }
+    else if(currentCmd_ == DROPBALL)
+    {
+        for(ModelState ms : magenta_info_)
+        {
+            if( !fieldinfo_.isOppPenalty(ms.pos) && ball_state_.pos.distance(ms.pos)<100.0)
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("magenta violates the drop-ball positioning rule");
+                return true;
+            }
+        }
+        for(ModelState ms : cyan_info_)
+        {
+            if( !fieldinfo_.isOurPenalty(ms.pos) && ball_state_.pos.distance(ms.pos)<100.0)
+            {
+                sendGameCommand(STOPROBOT);
+                writeRecord("cyan violates the drop-ball positioning rule");
+                return true;
+            }
+        }
+    }
+    else if(currentCmd_ == OUR_PENALTY )
+    {
+        int count=0;
+        for(ModelState ms : magenta_info_)
+        {
+            if(ms.id != 1)
+            {
+                if( fieldinfo_.isOppPenalty(ms.pos) || fieldinfo_.isOurPenalty(ms.pos) ||  ball_state_.pos.distance(ms.pos)<300.0)
+                {
+                    sendGameCommand(STOPROBOT);
+                    writeRecord("magenta violates the penalty-kick positioning rule");
+                    return true;
+                }
+            }
+        }
+        for(ModelState ms : cyan_info_)
+        {
+            if(ms.id != 1)
+            {
+                if(ball_state_.pos.distance(ms.pos)<300.0)
+                    count++;
+                if(fieldinfo_.isOppPenalty(ms.pos) || fieldinfo_.isOurPenalty(ms.pos) || count>1)
+                {
+                    sendGameCommand(STOPROBOT);
+                    writeRecord("cyan violates the penalty-kick positioning rule");
+                    return true;
+                }
+            }
+        }
+    }
+    else if(currentCmd_ == OPP_PENALTY)
+    {
+        int count=0;
+        for(ModelState ms : cyan_info_)
+        {
+            if(ms.id != 1)
+            {
+                if( fieldinfo_.isOppPenalty(ms.pos) || fieldinfo_.isOurPenalty(ms.pos) ||  ball_state_.pos.distance(ms.pos)<300.0)
+                {
+                    sendGameCommand(STOPROBOT);
+                    writeRecord("cyan violates the penalty-kick positioning rule");
+                    return true;
+                }
+            }
+        }
+        for(ModelState ms : magenta_info_)
+        {
+            if(ms.id != 1)
+            {
+                if(ball_state_.pos.distance(ms.pos)<300.0)
+                    count++;
+                if(fieldinfo_.isOppPenalty(ms.pos) || fieldinfo_.isOurPenalty(ms.pos) || count>1)
+                {
+                    sendGameCommand(STOPROBOT);
+                    writeRecord("magenta violates the penalty-kick positioning rule");
+                    return true;
+                }
+            }
+        }
+    }
+
+    R4_isOppGoalOrPenaltyArea();        // check if violates rule 5
+    return false;
+}
+
+bool auto_referee::R3_isBallOutOrGoal()
 {
     if( fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) )
     {
         ROS_INFO("ball out pos:%f %f",ball_state_.pos.x_, ball_state_.pos.y_);
-        if(!R4_detectGoal())
+        if(!isGoal())
         {
             if(which_team_ == CYAN_TEAM)
             {
@@ -449,7 +618,7 @@ bool auto_referee::R3_detectBallOut()
     return false;
 }
 
-bool auto_referee::R4_detectGoal()
+bool auto_referee::isGoal()
 {
     static std::string s;
     if(fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) && fabs(ball_state_.pos.y_) < 100.0-BALL_RADIUS
@@ -562,10 +731,6 @@ void auto_referee::sendGameCommand(int id)
             magenta_gameCmd_.MatchMode = id;
             writeRecord("(cmd) START");
             break;
-        case DROPBALL:
-            magenta_gameCmd_.MatchMode = id;
-            writeRecord("(cmd) DROPBALL");
-            break;
         case PARKINGROBOT:
             magenta_gameCmd_.MatchMode = id;
             writeRecord("(cmd) PARKING");
@@ -585,14 +750,6 @@ void auto_referee::sendGameCommand(int id)
         case OPP_THROWIN:
             magenta_gameCmd_.MatchMode = OUR_THROWIN;
             writeRecord("(cmd) MAGENTA THROWIN");
-            break;
-        case OUR_PENALTY:
-            writeRecord("(cmd) CYAN PENALTY");
-            magenta_gameCmd_.MatchMode = OPP_PENALTY;
-            break;
-        case OPP_PENALTY:
-            magenta_gameCmd_.MatchMode = OUR_PENALTY;
-            writeRecord("(cmd) MAGENTA PENALTY");
             break;
         case OUR_GOALKICK:
             magenta_gameCmd_.MatchMode = OPP_GOALKICK;
@@ -617,6 +774,18 @@ void auto_referee::sendGameCommand(int id)
         case OPP_FREEKICK:
             magenta_gameCmd_.MatchMode = OUR_FREEKICK;
             writeRecord("(cmd) MAGENTA FREEKICK");
+            break;
+        case OUR_PENALTY:
+            writeRecord("(cmd) CYAN PENALTY");
+            magenta_gameCmd_.MatchMode = OPP_PENALTY;
+            break;
+        case OPP_PENALTY:
+            magenta_gameCmd_.MatchMode = OUR_PENALTY;
+            writeRecord("(cmd) MAGENTA PENALTY");
+            break;
+        case DROPBALL:
+            magenta_gameCmd_.MatchMode = id;
+            writeRecord("(cmd) DROPBALL");
             break;
         default:
             magenta_gameCmd_.MatchMode = STOPROBOT;
@@ -721,7 +890,7 @@ void auto_referee::message_queue_thread()
 
 void auto_referee::test()
 {
-#if 1
+#if 0
     for(ModelState ms : cyan_info_)
         ROS_INFO("cyan_info:\n\tname:%s,\t id:%d\n \tpos:[%.0f, %.0f](cm), ori:%.0f(deg)\n \tvel:[%.0f,%.0f](cm/s), w:%.0f(deg/s)\n",
                ms.name.c_str(), ms.id, ms.pos.x_, ms.pos.y_, ms.ori*RAD2DEG, ms.vel.x_, ms.vel.y_, ms.w*RAD2DEG);
@@ -732,6 +901,10 @@ void auto_referee::test()
 #if 0
         //detectBallOut();
         detectGoal();
+#endif
+#if 1
+    sendGameCommand(OUR_PENALTY);
+    R5_isTooCloseToBall();
 #endif
 }
 
