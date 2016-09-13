@@ -1,3 +1,6 @@
 Welcome anyone to add somthing to this list or pick some items from it and contribute to this code.
 
 1. create prebuit binaries for this repository so that anyone could use it as soon as possible without the need to configure everything.
+2. auto_referee: add munual interrupt, conitune, sending command, setting ball pose etc.
+3. auto_referee: add a GUI
+4. auto_referee: add a system timer to determine time
