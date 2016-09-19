@@ -483,7 +483,7 @@ However, the code related to receiving game comamnds and doing corresponding act
         }
     }
 ```
-```c+
+```c++
     void pubStrategyInfo()
     {
         nubot_common::StrategyInfo strategy_info;       // 这个消息的定义可以根据个人需要进行修改
