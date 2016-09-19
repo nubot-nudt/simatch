@@ -136,8 +136,6 @@ public:
 
     int sgn(double x);
 
-    bool waittime(double sec);
-
     /// \brief Custom service callback queue thread
     void service_queue_thread();
 

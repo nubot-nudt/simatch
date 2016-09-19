@@ -94,7 +94,8 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
     {
         if(currentCmd_ == STOPROBOT)
         {
-            if(waittime(2))
+            ros::Duration dur(3);
+            if(dur.sleep())
             {
                 setBallPos(ball_resetpos_.x_, ball_resetpos_.y_);
                 sendGameCommand(nextCmd_);
@@ -110,7 +111,8 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
         else if( currentCmd_!=PARKINGROBOT) // set play commands
         {
             // detect set-play faults
-            if(waittime(4))
+            ros::Duration dur(4);
+            if(dur.sleep())
             {
                 //if(!R5_isTooCloseToBall())
                     sendGameCommand(STARTROBOT);
@@ -857,21 +859,6 @@ int auto_referee::sgn(double x)
         return -1;
     else
         return 1;
-}
-
-bool auto_referee::waittime(double sec)
-{
-    static int count=0;
-    if(count < sec/LOOP_PERIOD)     // wait 5 secs
-    {
-        count++;
-        return false;
-    }
-    else
-    {
-        count = 0;
-        return true;
-    }
 }
 
 void auto_referee::service_queue_thread()
