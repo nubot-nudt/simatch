@@ -328,8 +328,8 @@ However, the code related to receiving game comamnds and doing corresponding act
 
         pubStrategyInfo();  // 发送策略消息让其他机器人看到，这一部分一般用于多机器人之间的协同
     }
-
-
+```
+```c++
     void positioning()
     {
         DPoint br = ball_pos_ - robot_pos_;
@@ -357,7 +357,8 @@ However, the code related to receiving game comamnds and doing corresponding act
             break;
         }
     }
-
+```
+```c++
     void parking()
     {
         static double parking_y=-580.0;
@@ -373,7 +374,8 @@ However, the code related to receiving game comamnds and doing corresponding act
         if(move2target(parking_target, robot_pos_))    //停到目标点10cm附近就不用动了，只需调整朝向
             move2ori(tar_ori, robot_ori_.radian_);
     }
-
+```
+```c++
     void normalGame()
     {
         if(world_model_info_.AgentID_ != 1 && isNearestRobot())
@@ -409,7 +411,8 @@ However, the code related to receiving game comamnds and doing corresponding act
             }
         }
     }
-
+```
+```c++
     bool isNearestRobot()         //找到距离足球最近的机器人
     {
         float distance_min = 2000.0;
@@ -431,7 +434,8 @@ However, the code related to receiving game comamnds and doing corresponding act
         else
             return false;
     }
-
+```
+```c++
     bool move2target(DPoint target, DPoint pos, double distance_thres=10.0)     // 一个十分简单的实现，可以用PID
     {
         static nubot_common::VelCmd        vel;
@@ -455,7 +459,8 @@ However, the code related to receiving game comamnds and doing corresponding act
             return true;
         }
     }
-
+```
+```c++
     bool move2ori(double target, double angle, double angle_thres = 8.0*DEG2RAD)  // 一个十分简单的实现，可以用PID
     {
         static nubot_common::VelCmd        vel;
@@ -477,7 +482,8 @@ However, the code related to receiving game comamnds and doing corresponding act
             return true;
         }
     }
-
+```
+```c+
     void pubStrategyInfo()
     {
         nubot_common::StrategyInfo strategy_info;       // 这个消息的定义可以根据个人需要进行修改
