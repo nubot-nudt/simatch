@@ -1,5 +1,6 @@
 #include "auto_referee.h"
 #include <iostream>
+#include <cstdio>
 using namespace std;
 
 // Model info in world reference frame;
@@ -57,7 +58,8 @@ auto_referee::auto_referee(int start_id)
 
     /** Custom Callback Queue Thread. Use threads to process message and service callback queue **/
     service_callback_queue_thread_ = boost::thread(boost::bind(&auto_referee::service_queue_thread, this));
-    message_callback_queue_thread_ = boost::thread( boost::bind( &auto_referee::message_queue_thread,this ) );
+    message_callback_queue_thread_ = boost::thread(boost::bind( &auto_referee::message_queue_thread,this ));
+    input_thread_ = boost::thread( boost::bind(&auto_referee::inputThread, this));
 
     /** timer process **/
     loop_timer_ = rosnode_->createTimer(ros::Duration(LOOP_PERIOD), &auto_referee::loopControl, this);
@@ -83,6 +85,26 @@ auto_referee::~auto_referee()
     service_callback_queue_thread_.join();
     record_.close();
     delete rosnode_;
+}
+
+void auto_referee::inputThread()
+{
+    char ch;
+
+    while( (ch=cin.get())!= EOF )
+    {
+        switch(ch)
+        {
+        case 'h':
+            cout<<"help"<<endl;
+            break;
+        case 's':
+            cout<<"stop"<<endl;
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void auto_referee::loopControl(const ros::TimerEvent &event)
