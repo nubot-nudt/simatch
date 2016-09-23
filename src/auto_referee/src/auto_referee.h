@@ -126,6 +126,10 @@ public:
 
     void loopControl(const ros::TimerEvent& event);
 
+    bool isManualControl();
+
+    void printManualHelp();
+
     bool getModelState(int which_team, int id, ModelState& ms);
 
     bool createRecord();
@@ -177,7 +181,7 @@ private:
     int                         nextCmd_;
     int                         dribble_id_;
     int                         last_dribble_id_;
-    int                         start_team_;                    // team id when game starts at the very beginning
+    int                         start_team_;                 // team id when game starts at the very beginning
     bool                        ModelStatesCB_flag_;         // Indicate receiving messages
     bool                        kickoff_flg_;                // when kickoff cmd sends, this is true;
     std::ofstream               record_;
