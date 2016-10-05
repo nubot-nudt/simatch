@@ -1,18 +1,44 @@
 # 中国机器人大赛中型组仿真比赛
 ![simatch][pic1]
 ## 说明
-该软件包包括了robot_code模块，gazebo_visual模块，coach4sim模块和common模块，其中，参赛选手主要注重robot_code模块，里面包含的是控制机器人运动的相关程序。各个模块的介绍如下：   
+该软件包包括了robot_code模块，gazebo_visual模块，coach4sim模块，common模块以及auto_referee模块，其中，参赛选手主要注重robot_code模块，里面包含的是控制机器人运动的相关程序。各个模块的介绍如下：   
 
  - robot_code: 机器人的感知、规划、运动控制等方面，由NuBot队伍的机器人代码改造而成,其中主要的策略等(在nubot_control软件包中)部分已经删除，选手应自行编写，其余部分可以直接沿用，也可随意改动。
  -  gazebo_visual: Gazebo仿真平台，除基本的设置（在sim_config文件中）外，不应做其他改动。最终使用版本以比赛时的版本为准。   
  - coach4sim: 用于仿真的coach，发送比赛开始、暂停、站位等指令。
  - common: 包含cmake、手柄驱动等。选手不必做改动。   
+ - auto_referee: 自动裁判盒，模拟refbox以及裁判的功能，自动进行比赛。   
 
 > 请先学习ROS、C++，作为基本技能和知识，然后对机器人策略等方面有一定了解，再进行robot_code的多机器人协同程序的编写。
    
 ## 可能增加或改变的规则(最终以比赛时为准)
 1. 比赛不分上下半场，一共15分钟左右；
 2. 任何利用自动裁判盒的漏洞获取比赛中的优势将视为作弊行为，比赛成绩无效;   
+3. 比赛时候可能会对gazebo_visual部分作一定的改动，比如根据真实机器人的一般情况限制机器人的平移速度、旋转速度等，这些改动将通知到每一个队伍。所以请参赛队伍记住自己的代码也要考虑真实世界的情况，不要太理想；   
+4. 比赛过程中是否对机器人获取的信息加入适当的噪声以及加入多少看比赛情况而定，会及时通知参赛队伍；   
+5. 比赛前可能会有一次“热身”，主要看看本次比赛参赛队伍的整体水平从而或许对规则作相应的改动，最终目的在于促进机器人技术的发展，鼓励大家积极参与；   
+
+## 目前auto_referee中可以检测的规则
+1. 单个机器人带球不能超过3m，需要传球才可以；
+2. 单个机器人带球不能从己方半场过中线到对方半场，必须传球过中线才可以；
+3. 球出界或者射门得分；
+4. 射门得分；
+5. 除了守门员以外其他机器人不得进入小禁区，除了守门员以外在大禁区的机器人数量最多2个；
+6. 发球时机器人离球距离的限制，具体如下：   
+ (1) 如果是THROWIN，GOALKICK，CORNERKICK或者FREEKICK的情况时，对方机器人离球要超过3m，己方机器人除了开球机器人以外其他机器人要离球超过2m；   
+ (2) 如果是KICKOFF的情况时，除了发球机器人外其余机器人都必须在自己的半场，且对方机器人离球要超过3m，己方机器人除了开球机器人以外其他机器人要离球超过2m；   
+ (3) 如果是DROPBALL的情况时，所有机器人离球必须超过1m，但是如果在自己的大禁区则不受此距离限制；   
+ (4) 如果是比赛过程中的PENALTY情况时，除了守门员外其余机器人不得在大禁区内且除了准备点球的那个机器人外其余机器人必须离球超过3m；   
+
+## 比赛流程
+1. 参赛队伍按照本文的“With several computers”部分配置好网络；
+2. 参赛队伍将其队名改写进[sim_config][14]文件中，即更改cyan/prefix以及magenta/prefix的值为自己的队名，请务必保证cyan和magenta都改为自己的队名;  
+3. 参赛队伍将队名报给比赛技术负责人员/裁判员；   
+4. 等待比赛技术负责人员/裁判员打开Gazebo后，参赛队伍运行自己的代码，即   
+` $ rosrun nubot_common cyan_robot.sh` 或者 `$ rosrun nubot_common magenta_robot.sh`   
+5. 比赛技术负责人员/裁判员开启自动裁判盒开始比赛，即   
+` $ rosrun auto_referee auto_referee -1`代表cyan发球   
+或者` $ rosrun auto_referee auto_referee 1`代表magenta发球
 
 ## 共同开发
 欢迎大家积极共同完善该仿真平台，我们将感谢每一个人的贡献。   
@@ -172,9 +198,9 @@ If you want to run those modules seperatly, you could
 4 To run coach4sim,      
 `rosrun coach4sim cyan_coach.sh` or `rosrun coach4sim magenta_coach.sh`   
 
-> **NOTE:** 
-> 1. You could change some parameters in sim_config file and relaunch all modules again.
-> 2. You might not watch the robots doing anything because the movement part in 'nubot_control' package is removed. You might need to write some codes by yourself.
+> **NOTE:**    
+> 1. You could change some parameters in sim_config(see "Change game parameters" part below) file and relaunch all modules again.   
+> 2. You might not watch the robots doing anything because the movement part in 'nubot_control' package is removed. You might need to write some codes by yourself.   
 
 ### With several computers
 
@@ -192,6 +218,34 @@ e.g. In computer A, `$ sudo gedit /etc/hosts and add "Maggie 192.168.8.100"`
 2. In computer A, run gazebo_visual; In computer B, before you run nubot_ws, you should export ROS_MASTER_URI.
 e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`
 3. In computer B, run coach and send game command
+
+### Change game parameters
+You could change some parameters in "sim_config", which is a symbolic link to [global_config.yaml][14]. The content of this file is:
+```bash
+# Uses ISO units. For example, use 'm' for length.
+general:
+  dribble_distance_thres: 0.47           # theshold distance between nubot and football below which dribble ball
+  dribble_angle_thres: 15.0             # kicking mechanism aligning with football; allowed maximum angle error in degrees
+  noise_scale: 0.00                     # the scale of gaussian noise (m)
+  noise_rate: 0.01                       # how frequent the noise is generated
+
+cyan:
+  prefix: "nubot"             # Nubot name prefix. 
+  num: 3
+ 
+magenta:
+  prefix: "rival"            # Rival name prefix. 
+  num: 3
+
+field:
+  length: 18                     # Use integer!   used in spawn_model_script
+  width: 12                      # Use integer!  used in spawn_model_script
+  
+football:
+  name: "football"                   # football model name
+  chassis_link: "football::chassis"     # football body link name  
+```
+There are 5 parts: "general", "cyan", "magenta", "field" and "football". If you just want to test your code, you are free to change any parameter in these 5 parts. However, in the competition, the parameters of "general", "field", "football" and the number of robots would not be changed by players. However, players are still free to change the prefix of "cyan" or "magenta" robots to reprepsent their own teams but they need to report to the TC staff. 
 
 ## Tutorial
 ### ROS topics, messages and services
@@ -551,8 +605,10 @@ So you should also write some code to [world_model.cpp][13].
 ## Questions & Answers
 1. 问题：使用run教程里提供第一种方法运行所有的模块，没有在终端看到robot_code里的main()函数里的初始化输出信息**ROS_INFO("start control process")**，这关系到我们如何看到自己添加的调试信息。   
 解决办法：一次全部运行这些模块是看不到代码中的调试信息，应该使用第二种方法分别运行这些模块，在robot_code模块所在的终端可以看到输出的调试信息，记得每个新的终端下首先应该source一下，否则终端会提示错误。   
-2. 问题：
-解决办法：
+2. 问题： 需要给机器人轮速以驱动其运动吗？   
+解决办法：不需要。由于本仿真系统主要目的在于测试多机器人协同合作算法或策略，所以忽略了机器人的动力学模型以及运动学模型，所以只需要直接给机器人在其体坐标系下的速度即可；   
+3. 问题： 比赛中的一些参数，如机器人数量要怎么改？   
+解决办法： 在[sim_config][14]里面修改即可，其中有些参数与比赛相关，请谨慎修改，具体见README相关部分。
 
 [1]: https://github.com/nubot-nudt/single_nubot_gazebo
 [2]: http://wiki.ros.org/rqt_graph
@@ -567,6 +623,7 @@ So you should also write some code to [world_model.cpp][13].
 [11]: src/robot_code/nubot_control/src/nubot_control.cpp
 [12]: src/robot_code/nubot_common/msgs/StrategyInfo.msg
 [13]: src/robot_code/world_model/src/world_model.cpp
+[14]: src/gazebo_visual/nubot_gazebo/config/global_config.yaml 
 
 [pic1]: pics/simatch.png
 [pic2]: pics/rosgraph_single_robot.png
