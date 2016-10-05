@@ -3,14 +3,14 @@ general:
   dribble_distance_thres: 0.47           # theshold distance between nubot and football below which dribble ball
   dribble_angle_thres: 15.0             # kicking mechanism aligning with football; allowed maximum angle error in degrees
   noise_scale: 0.00                     # the scale of gaussian noise (m)
-  noise_rate: 0.01                       # how frequent the noise generates
+  noise_rate: 0.01                       # how frequent the noise is generated
 
 cyan:
-  prefix: "nubot"             # Nubot name prefix. Linked with model name; don't change
+  prefix: "nubot"             # Nubot name prefix. 
   num: 3
  
 magenta:
-  prefix: "rival"            # Rival name prefix. Linked with model name; don't change
+  prefix: "rival"            # Rival name prefix. 
   num: 3
 
 field:

@@ -38,18 +38,18 @@ const double RAD2DEG = 180.0/M_PI;
 const double LOOP_PERIOD = 0.005;
 const double BALL_RADIUS = 11.0;   // cm
 
-const double corner_x = 900.0 - 30.0;
-const double corner_y = 600.0 - 30.0;
-const double rstpt_x  = 600.0;
-const double rstpt_y  = 300.0;
-const DPoint ru_corner(corner_x, corner_y);   // right up corner point
-const DPoint rd_corner(corner_x, -corner_y);
-const DPoint lu_corner(-corner_x, corner_y);
-const DPoint ld_corner(-corner_x, -corner_y);
-const DPoint ru_rstpt(rstpt_x, rstpt_y);     // right up restart point
-const DPoint rd_rstpt(rstpt_x, -rstpt_y);
-const DPoint lu_rstpt(-rstpt_x, rstpt_y);
-const DPoint ld_rstpt(-rstpt_x, -rstpt_y);
+const double CORNER_X = 900.0 - 30.0;
+const double CORNER_Y = 600.0 - 30.0;
+const double RSTPT_X  = 600.0;
+const double RSTPT_Y  = 300.0;
+const DPoint RU_CORNER(CORNER_X, CORNER_Y);   // right up corner point
+const DPoint RD_CORNER(CORNER_X, -CORNER_Y);
+const DPoint LU_CORNER(-CORNER_X, CORNER_Y);
+const DPoint LD_CORNER(-CORNER_X, -CORNER_Y);
+const DPoint RU_RSTPT(RSTPT_X, RSTPT_Y);     // right up restart point
+const DPoint RD_RSTPT(RSTPT_X, -RSTPT_Y);
+const DPoint LU_RSTPT(-RSTPT_X, RSTPT_Y);
+const DPoint LD_RSTPT(-RSTPT_X, -RSTPT_Y);
 
 using namespace nubot_common;
 using namespace nubot;
@@ -128,6 +128,10 @@ public:
 
     void loopControl(const ros::TimerEvent& event);
 
+    bool isManualControl();
+
+    void printManualHelp();
+
     bool getModelState(int which_team, int id, ModelState& ms);
 
     bool createRecord();
@@ -177,7 +181,7 @@ private:
     int                         nextCmd_;
     int                         dribble_id_;
     int                         last_dribble_id_;
-    int                         start_team_;                    // team id when game starts at the very beginning
+    int                         start_team_;                 // team id when game starts at the very beginning
     bool                        ModelStatesCB_flag_;         // Indicate receiving messages
     bool                        kickoff_flg_;                // when kickoff cmd sends, this is true;
     std::ofstream               record_;
