@@ -82,8 +82,6 @@ public:
     auto_referee(int start_id);
     ~auto_referee();
 
-    void inputThread();
-
     /// \brief send game commands to two teams of robots
     ///  \param]in] id -- game command ID based on CYAN team
     void sendGameCommand(int id);
@@ -133,6 +131,8 @@ public:
     void printManualHelp();
 
     bool getModelState(int which_team, int id, ModelState& ms);
+
+    bool waittime(double sec);
 
     bool createRecord();
 
@@ -188,7 +188,6 @@ private:
 
     boost::thread               message_callback_queue_thread_;     // Thead object for the running callback Thread.
     boost::thread               service_callback_queue_thread_;
-    boost::thread               input_thread_;
     boost::mutex                msgCB_lock_;        // A mutex to lock access to fields that are used in ROS message callbacks
     boost::mutex                srvCB_lock_;        // A mutex to lock access to fields that are used in ROS service callbacks
     ros::CallbackQueue          message_queue_;     // Custom Callback Queue. Details see http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning
