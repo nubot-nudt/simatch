@@ -444,7 +444,7 @@ bool auto_referee::R4_isOppGoalOrPenaltyArea()
             writeRecord(ms.name+" in opp goal area!");
             return true;
         }
-        else if(fieldinfo_.isOppPenalty(ms.pos) && ms.id != 1)
+        else if(fieldinfo_.isOurPenalty(ms.pos) && ms.id != 1)
             magen_num++;
 
         if(magen_num >=2)
@@ -639,7 +639,7 @@ bool auto_referee::R5_isTooCloseToBall()
         }
     }
 
-    R4_isOppGoalOrPenaltyArea();        // check if violates rule 5
+    R4_isOppGoalOrPenaltyArea();        // check if violates rule 4
     return false;
 }
 
@@ -654,16 +654,16 @@ bool auto_referee::R3_isBallOutOrGoal()
             {
                 sendGameCommand(STOPROBOT);
                 nextCmd_ = OPP_CORNERKICK;
-                ball_resetpos_ = (ball_state_.pos.distance(lu_corner) < ball_state_.pos.distance(ld_corner))?
-                            lu_corner : ld_corner;
+                ball_resetpos_ = (ball_state_.pos.distance(LU_CORNER) < ball_state_.pos.distance(LD_CORNER))?
+                            LU_CORNER : LD_CORNER;
                 writeRecord("Cyan collides ball out");
             }
             else if(which_team_ == MAGENTA_TEAM)
             {
                 sendGameCommand(STOPROBOT);
                 nextCmd_ = OUR_GOALKICK;
-                ball_resetpos_ = (ball_state_.pos.distance(lu_rstpt) < ball_state_.pos.distance(ld_rstpt))?
-                            lu_rstpt : ld_rstpt;
+                ball_resetpos_ = (ball_state_.pos.distance(LU_RSTPT) < ball_state_.pos.distance(LD_RSTPT))?
+                            LU_RSTPT : LD_RSTPT;
                 writeRecord("Magenta collides ball out");
             }
             else
@@ -682,16 +682,16 @@ bool auto_referee::R3_isBallOutOrGoal()
         {
             sendGameCommand(STOPROBOT);
             nextCmd_ = OPP_GOALKICK;
-            ball_resetpos_ = (ball_state_.pos.distance(ru_rstpt) < ball_state_.pos.distance(rd_rstpt))?
-                        ru_rstpt : rd_rstpt;
+            ball_resetpos_ = (ball_state_.pos.distance(RU_RSTPT) < ball_state_.pos.distance(RD_RSTPT))?
+                        RU_RSTPT : RD_RSTPT;
             writeRecord("Cyan collides ball out");
         }
         else if(which_team_ == MAGENTA_TEAM)
         {
             sendGameCommand(STOPROBOT);
             nextCmd_ = OUR_CORNERKICK;
-            ball_resetpos_ = (ball_state_.pos.distance(ru_corner) < ball_state_.pos.distance(rd_corner))?
-                        ru_corner : rd_corner;
+            ball_resetpos_ = (ball_state_.pos.distance(RU_CORNER) < ball_state_.pos.distance(RD_CORNER))?
+                        RU_CORNER : RD_CORNER;
             writeRecord("Magenta collides ball out");
         }
         else
@@ -824,11 +824,11 @@ DPoint auto_referee::getBallRstPtNotInPenalty(DPoint ball_pos)
     if(!fieldinfo_.isOppPenalty(ball_pos) && !fieldinfo_.isOurPenalty(ball_pos))
         return ball_pos;
     else if(fieldinfo_.isOppPenalty(ball_pos))
-        return (ball_pos.distance(ru_rstpt) < ball_pos.distance(rd_rstpt))?
-                    ru_rstpt : rd_rstpt;
+        return (ball_pos.distance(RU_RSTPT) < ball_pos.distance(RD_RSTPT))?
+                    RU_RSTPT : RD_RSTPT;
     else if(fieldinfo_.isOurPenalty(ball_pos))
-        return (ball_pos.distance(lu_rstpt) < ball_pos.distance(ld_rstpt))?
-                    lu_rstpt : ld_rstpt;
+        return (ball_pos.distance(LU_RSTPT) < ball_pos.distance(LD_RSTPT))?
+                    LU_RSTPT : LD_RSTPT;
 }
 
 bool auto_referee::getModelState(int which_team, int id, ModelState &ms)
