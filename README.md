@@ -1,4 +1,5 @@
-# 中国机器人大赛中型组仿真比赛 China Robot Competition Middle Size Simulation League (With English User Manual)
+# 中国机器人大赛中型组仿真比赛
+# China Robot Competition Middle Size Simulation League (With English User Manual)
 ![simatch][pic1]
 ## 说明
 该软件包包括了robot_code模块，gazebo_visual模块，coach4sim模块，common模块以及auto_referee模块，其中，参赛选手主要注重robot_code模块，里面包含的是控制机器人运动的相关程序。各个模块的介绍如下：   
