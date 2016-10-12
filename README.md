@@ -129,9 +129,13 @@ Read for more [information][6]
   -  ` $ sudo apt-get install ros-jade-gazebo7-ros-pkgs`   
 
 ## Compile
-1. ` $ sudo chmod +x configure`
-2. ` $ ./configure`
-3. ` $ catkin_make `  
+Since [auto_referee][16] depends on [ncurses][17], if you would like to use it to debug your code, please run this command:   
+1. `sudo apt-get update`   
+2. `sudo apt-get install libncurses5-dev`   
+And then you are good to compile as follows:   
+1. ` $ sudo chmod +x configure`   
+2. ` $ ./configure`   
+3. ` $ catkin_make `     
 
 **Compile Error Solution:**   
 1) Cannot find cmake file related to Qt and therefore cannot complie coach4sim.   
@@ -609,7 +613,9 @@ So you should also write some code to [world_model.cpp][13].
 2. 问题： 需要给机器人轮速以驱动其运动吗？   
 解决办法：不需要。由于本仿真系统主要目的在于测试多机器人协同合作算法或策略，所以忽略了机器人的动力学模型以及运动学模型，所以只需要直接给机器人在其体坐标系下的速度即可；   
 3. 问题： 比赛中的一些参数，如机器人数量要怎么改？   
-解决办法： 在[sim_config][14]里面修改即可，其中有些参数与比赛相关，请谨慎修改，具体见README相关部分。
+解决办法： 在[sim_config][14]里面修改即可，其中有些参数与比赛相关，请谨慎修改，具体见README相关部分。   
+4. 问题： 如何让两只球队进行比赛？    
+解决办法： `rosrun nubot_common cyan_robot.sh` 和 `rosrun nubot_common magente_robot.sh`都要运行，下面两个coach命令也都要运行，`rosrun coach4sim cyan_coach.sh`  `rosrun coach4sim magenta_coach.sh`，分别开始双方比赛。如果不想运行两个coach来发指令的话，也可以运行自动裁判盒，也就是`rosrun auto_referee auto_referee -1`，最后一个参数如果是-1代表cyan发球，如果是1代表magenta发球。
 
 [1]: https://github.com/nubot-nudt/single_nubot_gazebo
 [2]: http://wiki.ros.org/rqt_graph
@@ -627,6 +633,7 @@ So you should also write some code to [world_model.cpp][13].
 [14]: src/gazebo_visual/nubot_gazebo/config/global_config.yaml 
 [15]: doc/Robocup-msl-rules-2016.pdf
 [16]: src/auto_referee/
+[17]: https://en.wikipedia.org/wiki/Ncurses
 
 [pic1]: pics/simatch.png
 [pic2]: pics/rosgraph_single_robot.png
