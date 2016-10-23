@@ -30,7 +30,6 @@ Two options:
 ## 目前[auto_referee][16]中可以检测的规则
 1. 单个机器人带球不能超过3m，需要传球才可以；   
 ~~2. 单个机器人带球不能从己方半场过中线到对方半场，必须传球过中线才可以；~~   
-2. 机器人射门得分前必须有至少一次传球（传球不成功也算），否则得分无效；   
 3. 球出界或者射门得分；   
 4. 除了守门员以外其他机器人不得进入小禁区，除了守门员以外在大禁区的机器人数量最多2个；   
 5. 发球时机器人离球距离的限制，具体如下：   
@@ -41,7 +40,7 @@ Two options:
 
 ### [auto_referee][16]即将添加的规则
 1. 考虑发球等待时延；   
-2. 检测进球无效情况；   
+2. 检测进球无效情况(机器人射门得分前必须有至少一次传球（传球不成功也算），否则得分无效)；   
 
 ## 比赛流程
 假设服务器（即运行Gazebo的由比赛方提供的主机）的IP地址为IpA，主机名(hostname)为hostA; cyan方参赛队主机的IP地址为IpB，主机名为hostB; magenta方参赛队主机的IP地址为IpC，主机名为hostC,那么相应的配置如下:
@@ -50,7 +49,7 @@ Two options:
 1. 确定好用于参赛的**指定**主机并且将**主机名**上报赛事负责人，同时配置好自己的IP地址（将由赛事负责人提供固定IP地址）。注意，得到主机名的一个简单的办法是打开终端，会看到比如`user@hostname:~$`的提示，其中user为用户名，hostname为主机名，请提供**hostname**给负责人而不是username。    
 2. 将服务器的IP地址IpA和主机名hostA加入自己主机的/etc/hosts文件中, 如运行`sudo gedit /etc/hosts`打开hosts文件后，在该文件末尾处加入一行`IpA hostA`即可;   
 3. 在终端中改变ROS_MASTER_URI指向服务器的IP地址和端口，即`$ export ROS_MASTER_URI=http://IpA:11311`或`$ export ROS_MASTER_URI=http://hostA:11311`。注意，端口号始终为11311。  
-4. 根据自己是cyan还是magenta相应地在该终端处运行自己的机器人代码(需等待服务器的Gazdebo启动完毕后才可以运行代码),如` $ rosrun nubot_common cyan_robot.sh` 或者 `$ rosrun nubot_common magenta_robot.sh`。注意，每次打开一个新的终端，为了能够使得机器人代码能够与服务器上的ROS MASTER通信，必须在这个新的终端运行第2步；
+4. 根据自己是cyan还是magenta相应地在该终端处运行自己的机器人代码(需等待服务器的Gazdebo启动完毕后才可以运行代码),如` $ rosrun nubot_common cyan_robot.sh` 或者 `$ rosrun nubot_common magenta_robot.sh`。注意，每次打开一个新的终端，为了能够使得机器人代码能够与服务器上的ROS MASTER通信，必须在这个新的终端运行第2步；            
 **注意:**参赛主机只需要运行自己的机器人代码，即robot_code的部分，禁止运行gazebo_visual和auto_referee，可以选择运行coach4sim以查看机器人的状态。比赛过程如非特殊情况（如比赛开始前网络通信出问题等）禁止任何人操作参赛主机，否则视为作弊。   
 
 ### 服务器的配置（由辅助裁判完成）
