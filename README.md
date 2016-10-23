@@ -1,6 +1,12 @@
 # 中国机器人大赛中型组仿真比赛
 # China Robot Competition Middle Size Simulation League (With English User Manual)
 ![simatch][pic1]
+
+## 演示视频 Demo Video
+Two options:    
+1. [优酷Youku][18]  
+2. [Youtube][19]  
+
 ## 说明
 该软件包包括了robot_code模块，gazebo_visual模块，coach4sim模块，common模块以及auto_referee模块，其中，参赛选手主要注重robot_code模块，里面包含的是控制机器人运动的相关程序。各个模块的介绍如下：   
 
@@ -10,7 +16,7 @@
  - common: 包含cmake、手柄驱动等。选手不必做改动。   
  - auto_referee: 自动裁判盒，模拟refbox以及裁判的功能，自动进行比赛。   
 
-> 请先学习ROS、C++，作为基本技能和知识，然后对机器人策略等方面有一定了解，再进行robot_code的多机器人协同程序的编写。
+> 请先学习ROS、C++，作为基本技能和知识，然后对机器人策略等方面有一定了解，再进行robot_code的多机器人协同程序的编写。由于目前仿真中可以直接得到准确的全局信息，所以选手可能会倾向于集中式控制，但是，建议选手用分布式机器人控制。在未来会在仿真中增加更多的现实因素，比如考虑单个机器人所能获取信息的局限性等；   
    
 ## 可能增加或改变的规则(最终以比赛时为准)
 比赛规则参考2016年RoboCup中型组比赛的[规则][15]，但是由于仿真比赛的特殊性，不会完全按照里面的所有规则，比如说：   
@@ -19,27 +25,39 @@
 3. 比赛时候可能会对gazebo_visual部分作一定的改动，比如根据真实机器人的一般情况限制机器人的平移速度、旋转速度等，这些改动将通知到每一个队伍。所以请参赛队伍记住自己的代码也要考虑真实世界的情况，不要太理想；   
 4. 比赛过程中是否对机器人获取的信息加入适当的噪声以及加入多少看比赛情况而定，会及时通知参赛队伍；   
 5. 比赛前可能会有一次“热身”，主要看看本次比赛参赛队伍的整体水平从而或许对规则作相应的改动，最终目的在于促进机器人技术的发展，鼓励大家积极参与；     
+6. 机器人不得恶意碰撞其他机器人，需要考虑避障；   
 
 ## 目前[auto_referee][16]中可以检测的规则
-1. 单个机器人带球不能超过3m，需要传球才可以；
-2. 单个机器人带球不能从己方半场过中线到对方半场，必须传球过中线才可以；
-3. 球出界或者射门得分；
-4. 除了守门员以外其他机器人不得进入小禁区，除了守门员以外在大禁区的机器人数量最多2个；
+1. 单个机器人带球不能超过3m，需要传球才可以；   
+~~2. 单个机器人带球不能从己方半场过中线到对方半场，必须传球过中线才可以；~~   
+2. 机器人射门得分前必须有至少一次传球（传球不成功也算），否则得分无效；   
+3. 球出界或者射门得分；   
+4. 除了守门员以外其他机器人不得进入小禁区，除了守门员以外在大禁区的机器人数量最多2个；   
 5. 发球时机器人离球距离的限制，具体如下：   
  (1) 如果是THROWIN，GOALKICK，CORNERKICK或者FREEKICK的情况时，对方机器人离球要超过3m，己方机器人除了开球机器人以外其他机器人要离球超过2m；   
  (2) 如果是KICKOFF的情况时，除了发球机器人外其余机器人都必须在自己的半场，且对方机器人离球要超过3m，己方机器人除了开球机器人以外其他机器人要离球超过2m；   
  (3) 如果是DROPBALL的情况时，所有机器人离球必须超过1m，但是如果在自己的大禁区则不受此距离限制；   
  (4) 如果是比赛过程中的PENALTY情况时，除了守门员外其余机器人不得在大禁区内且除了准备点球的那个机器人外其余机器人必须离球超过3m；   
 
+### [auto_referee][16]即将添加的规则
+1. 考虑发球等待时延；   
+2. 检测进球无效情况；   
+
 ## 比赛流程
-1. 参赛队伍按照本文的“With several computers”部分配置好网络；
-2. 参赛队伍将其队名改写进[sim_config][14]文件中，即更改cyan/prefix以及magenta/prefix的值为自己的队名，请务必保证cyan和magenta都改为自己的队名;  
-3. 参赛队伍将队名报给比赛技术负责人员/裁判员；   
-4. 等待比赛技术负责人员/裁判员打开Gazebo后，参赛队伍运行自己的代码，即   
-` $ rosrun nubot_common cyan_robot.sh` 或者 `$ rosrun nubot_common magenta_robot.sh`   
-5. 比赛技术负责人员/裁判员开启自动裁判盒开始比赛，即   
+假设服务器（即运行Gazebo的由比赛方提供的主机）的IP地址为IpA，主机名(hostname)为hostA; cyan方参赛队主机的IP地址为IpB，主机名为hostB; magenta方参赛队主机的IP地址为IpC，主机名为hostC,那么相应的配置如下:   
+### 参赛队主机的配置（由参赛选手完成）
+1. 确定好用于参赛的**指定**主机并且将**主机名**上报赛事负责人，同时配置好自己的IP地址（将由赛事负责人提供固定IP地址）。注意，得到主机名的一个简单的办法是打开终端，会看到比如`user@hostname:~$`的提示，其中user为用户名，hostname为主机名，请提供**hostname**给负责人而不是username。    
+2. 将服务器的IP地址IpA和主机名hostA加入自己主机的/etc/hosts文件中, 如运行`sudo gedit /etc/hosts`打开hosts文件后，在该文件末尾处加入一行`IpA hostA`即可;   
+3. 在终端中改变ROS_MASTER_URI指向服务器的IP地址和端口，即`$ export ROS_MASTER_URI=http://IpA:11311`或`$ export ROS_MASTER_URI=http://hostA:11311`。注意，端口号始终为11311。  
+4. 根据自己是cyan还是magenta相应地在该终端处运行自己的机器人代码(需等待服务器的Gazdebo启动完毕后才可以运行代码),如` $ rosrun nubot_common cyan_robot.sh` 或者 `$ rosrun nubot_common magenta_robot.sh`。注意，每次打开一个新的终端，为了能够使得机器人代码能够与服务器上的ROS MASTER通信，必须在这个新的终端运行第2步；   
+**注意:**参赛主机只需要运行自己的机器人代码，即robot_code的部分，禁止运行gazebo_visual和auto_referee，可以选择运行coach4sim以查看机器人的状态。比赛过程如非特殊情况（如比赛开始前网络通信出问题等）禁止任何人操作参赛主机，否则视为作弊。   
+### 服务器的配置（由辅助裁判完成）
+1. 将所有参赛队伍的IP地址和主机名加入服务器的/etc/hosts文件中；（赛事负责人将提前将每个队伍的参赛主机名以及参赛队伍名称收集好，其中IP地址将固定分配给每个队伍）。   
+2. 在[sim_config][14]文件中更改cyan/prefix以及magenta/prefix的值为参赛双方的队伍名字;  
+3. 打开Gazebo，即`$ roslaunch nubot_gazebo game_ready.launch`   
+4. 待双方参赛队伍机器人代码运行后，开启自动裁判盒开始比赛，即   
 ` $ rosrun auto_referee auto_referee -1`代表cyan发球   
-或者` $ rosrun auto_referee auto_referee 1`代表magenta发球
+或者` $ rosrun auto_referee auto_referee 1`代表magenta发球   
 
 ## 共同开发
 欢迎大家积极共同完善该仿真平台，我们将感谢每一个人的贡献。   
@@ -218,8 +236,8 @@ If you want to run those modules seperatly, you could
 >   The communication between computer A and computer B is via ROS master. The following is the configuration steps:
     
 1. In computer A, add computer B's IP address in /etc/hosts; and in computer B, add computer A's IP address in /etc/hosts
-e.g. In computer A, `$ sudo gedit /etc/hosts and add "Maggie 192.168.8.100"`
-     In computer B, `$ sudo gedit /etc/hosts and add "Bart   192.168.8.101"`
+e.g. In computer A, `$ sudo gedit /etc/hosts and add "192.168.8.100 Maggie"`
+     In computer B, `$ sudo gedit /etc/hosts and add "192.168.8.101 Bart"`
 2. In computer A, run gazebo_visual; In computer B, before you run nubot_ws, you should export ROS_MASTER_URI.
 e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`
 3. In computer B, run coach and send game command
@@ -270,7 +288,7 @@ Topic/Service	|	Type	|	Definition |
       
 For the definition of /BallHandle service, when "enable" equals to a non-zero number, a dribble request would be sent. If the robot meets the conditions to dribble the ball, the service response "BallIsHolding" is true.    
    
-For the definition of /Shoot service, when "ShootPos" equals to -1, this is a ground pass. In this case, "strength" is the inital speed you would like the soccer ball to have. When "ShootPos" equals to 1, this is a lob shot. In this case, "strength" is useless since the strength is calculated by the Gazebo plugin automatically and the soccer ball would follow a parabola path to enter the goal area. If the robot successfully kicks the ball out even if it failed to goal, the service response "ShootIsDone" is true.   
+For the definition of /Shoot service, when "ShootPos" equals to 1, this is a ground pass. In this case, "strength" is the inital speed you would like the soccer ball to have. When "ShootPos" equals to -1, this is a lob shot. In this case, "strength" is useless since the strength is calculated by the Gazebo plugin automatically and the soccer ball would follow a parabola path to enter the goal area. If the robot successfully kicks the ball out even if it failed to goal, the service response "ShootIsDone" is true.   
 
 For the definition of the "**omnivision/OmniVisionInfo**" topic, there are three new message types: "BallInfo", "ObstaclesInfo" and "RoboInfo". The field "robotinfo" is a vector. Before introducing the format of these new messages, three other message types "Point2d", "PPoint" and "Angle" are used in their definitions:   
 ```bash
@@ -615,7 +633,9 @@ So you should also write some code to [world_model.cpp][13].
 3. 问题： 比赛中的一些参数，如机器人数量要怎么改？   
 解决办法： 在[sim_config][14]里面修改即可，其中有些参数与比赛相关，请谨慎修改，具体见README相关部分。   
 4. 问题： 如何让两只球队进行比赛？    
-解决办法： `rosrun nubot_common cyan_robot.sh` 和 `rosrun nubot_common magente_robot.sh`都要运行，下面两个coach命令也都要运行，`rosrun coach4sim cyan_coach.sh`  `rosrun coach4sim magenta_coach.sh`，分别开始双方比赛。如果不想运行两个coach来发指令的话，也可以运行自动裁判盒，也就是`rosrun auto_referee auto_referee -1`，最后一个参数如果是-1代表cyan发球，如果是1代表magenta发球。
+解决办法： `rosrun nubot_common cyan_robot.sh` 和 `rosrun nubot_common magente_robot.sh`都要运行，下面两个coach命令也都要运行，`rosrun coach4sim cyan_coach.sh`  `rosrun coach4sim magenta_coach.sh`，分别开始双方比赛。如果不想运行两个coach来发指令的话，也可以运行自动裁判盒，也就是`rosrun auto_referee auto_referee -1`，最后一个参数如果是-1代表cyan发球，如果是1代表magenta发球。   
+5. 问题：安装ros的时候提示错误“GdkPixbuf-WARNING **: Cannot open pixbuf loader module file '/usr/lib/i386-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache': 没有那个文件或目录”   
+解决办法：错误说安装了旧版本的软件包，在实体机上新装ubuntu，一些应用还没更新，所以gazebo会出错。这个错误解决方法是在安装完gazebo后`sudo apt-get upgrade`。   
 
 [1]: https://github.com/nubot-nudt/single_nubot_gazebo
 [2]: http://wiki.ros.org/rqt_graph
@@ -634,6 +654,8 @@ So you should also write some code to [world_model.cpp][13].
 [15]: doc/Robocup-msl-rules-2016.pdf
 [16]: src/auto_referee/
 [17]: https://en.wikipedia.org/wiki/Ncurses
+[18]: http://v.youku.com/v_show/id_XMTc2NjA4NDc1Ng==.html?from=s1.8-1-1.2&spm=a2h0k.8191407.0.0
+[19]: https://youtu.be/TGs9Bfc6aXw
 
 [pic1]: pics/simatch.png
 [pic2]: pics/rosgraph_single_robot.png
