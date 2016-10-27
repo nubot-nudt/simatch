@@ -689,10 +689,24 @@ bool auto_referee::R5_isTooCloseToBall()
 
 bool auto_referee::R3_isBallOutOrGoal()
 {
+    static std::string s;
     if( fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) )
     {
-        OUTINFO("ball out pos:%f %f\n",ball_state_.pos.x_, ball_state_.pos.y_);
-        if(!isGoal())
+        OUTINFO("LEFT out pos:%f %f %f\n",ball_state_.pos.x_, ball_state_.pos.y_, ball_state_.pos_z);
+        if(fabs(ball_state_.pos.y_) < 100.0-BALL_RADIUS && fabs(ball_state_.pos_z) < 87.5-BALL_RADIUS)    // magenta goals
+        {
+            if(currentCmd_ != OUR_KICKOFF)      // prevent the code from going into again
+            {
+                sendGameCommand(STOPROBOT);
+                magenta_score_++;
+                nextCmd_ = OUR_KICKOFF;
+                ball_resetpos_ = DPoint(0.0, 0.0);
+                s="Cyan : Magenta ["+ std::to_string(cyan_score_)+" : "+ std::to_string(magenta_score_) +"]\t Magenta goals. ";
+                writeRecord(s);
+            }
+            return true;
+        }
+        else    // ball out
         {
             if(lastTouchBallTeam_ == CYAN_TEAM)
             {
@@ -722,35 +736,52 @@ bool auto_referee::R3_isBallOutOrGoal()
     }
     else if(fieldinfo_.isOutBorder(RIGHTBORDER, ball_state_.pos))
     {
-        if(lastTouchBallTeam_ == CYAN_TEAM)
+        OUTINFO("RIGHT out pos:%f %f %f\n",ball_state_.pos.x_, ball_state_.pos.y_, ball_state_.pos_z);
+        if(fabs(ball_state_.pos.y_) < 100.0-BALL_RADIUS && fabs(ball_state_.pos_z) < 87.5-BALL_RADIUS)  // cyan goals
         {
-            sendGameCommand(STOPROBOT);
-            nextCmd_ = OPP_GOALKICK;
-            ball_resetpos_ = (ball_state_.pos.distance(RU_RSTPT) < ball_state_.pos.distance(RD_RSTPT))?
-                        RU_RSTPT : RD_RSTPT;
-            writeRecord("Cyan collides ball out");
+            if(currentCmd_ != OPP_KICKOFF)      // prevent the code from going into again
+            {
+                sendGameCommand(STOPROBOT);
+                cyan_score_++;
+                nextCmd_ = OPP_KICKOFF;
+                ball_resetpos_ = DPoint(0.0, 0.0);
+                s="Cyan : Magenta ["+ std::to_string(cyan_score_)+" : "+ std::to_string(magenta_score_) +"]\t Cyan goals. ";
+                writeRecord(s);
+            }
+            return true;
         }
-        else if(lastTouchBallTeam_ == MAGENTA_TEAM)
+        else    // ball out
         {
-            sendGameCommand(STOPROBOT);
-            nextCmd_ = OUR_CORNERKICK;
-            ball_resetpos_ = (ball_state_.pos.distance(RU_CORNER) < ball_state_.pos.distance(RD_CORNER))?
-                        RU_CORNER : RD_CORNER;
-            writeRecord("Magenta collides ball out");
+            if(lastTouchBallTeam_ == CYAN_TEAM)
+            {
+                sendGameCommand(STOPROBOT);
+                nextCmd_ = OPP_GOALKICK;
+                ball_resetpos_ = (ball_state_.pos.distance(RU_RSTPT) < ball_state_.pos.distance(RD_RSTPT))?
+                            RU_RSTPT : RD_RSTPT;
+                writeRecord("Cyan collides ball out");
+            }
+            else if(lastTouchBallTeam_ == MAGENTA_TEAM)
+            {
+                sendGameCommand(STOPROBOT);
+                nextCmd_ = OUR_CORNERKICK;
+                ball_resetpos_ = (ball_state_.pos.distance(RU_CORNER) < ball_state_.pos.distance(RD_CORNER))?
+                            RU_CORNER : RD_CORNER;
+                writeRecord("Magenta collides ball out");
+            }
+            else
+            {
+                sendGameCommand(STOPROBOT);
+                nextCmd_ = DROPBALL;
+                ball_resetpos_ = DPoint(0.0, 0.0);
+                writeRecord("Cannot determine cyan or magenta collides ball out");
+            }
+            return true;
         }
-        else
-        {
-            sendGameCommand(STOPROBOT);
-            nextCmd_ = DROPBALL;
-            ball_resetpos_ = DPoint(0.0, 0.0);
-            writeRecord("Cannot determine cyan or magenta collides ball out");
-        }
-        return true;
     }
     else if(fieldinfo_.isOutBorder(UPBORDER, ball_state_.pos))
     {
+        OUTINFO("UP out pos:%f %f %f\n",ball_state_.pos.x_, ball_state_.pos.y_, ball_state_.pos_z);
         ball_resetpos_ = DPoint(ball_state_.pos.x_, fieldinfo_.yline_[0]-30.0);
-        OUTINFO("ball out pos:%f %f\n",ball_state_.pos.x_, ball_state_.pos.y_);
         if(lastTouchBallTeam_ == CYAN_TEAM)
         {
             sendGameCommand(STOPROBOT);
@@ -773,8 +804,8 @@ bool auto_referee::R3_isBallOutOrGoal()
     }
     else if(fieldinfo_.isOutBorder(DOWNBORDER, ball_state_.pos))
     {
+        OUTINFO("DOWN out pos:%f %f %f\n",ball_state_.pos.x_, ball_state_.pos.y_, ball_state_.pos_z);
         ball_resetpos_ = DPoint(ball_state_.pos.x_, fieldinfo_.yline_[5]+30.0);
-        OUTINFO("ball out pos:%f %f\n",ball_state_.pos.x_, ball_state_.pos.y_);
         if(lastTouchBallTeam_ == CYAN_TEAM)
         {
             sendGameCommand(STOPROBOT);
@@ -805,7 +836,7 @@ bool auto_referee::isGoal()
     if(fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) && fabs(ball_state_.pos.y_) < 100.0-BALL_RADIUS
             && fabs(ball_state_.pos_z) < 87.5-BALL_RADIUS)    // magenta goals
     {
-        if(currentCmd_ != OUR_KICKOFF)
+        if(currentCmd_ != OUR_KICKOFF)      // prevent the code from going into again
         {
             sendGameCommand(STOPROBOT);
             magenta_score_++;
@@ -819,7 +850,7 @@ bool auto_referee::isGoal()
     else if(fieldinfo_.isOutBorder(RIGHTBORDER, ball_state_.pos)  && fabs(ball_state_.pos.y_) < 100.0-BALL_RADIUS
             && fabs(ball_state_.pos_z) < 87.5-BALL_RADIUS)  // cyan goals
     {
-        if(currentCmd_ != OPP_KICKOFF)
+        if(currentCmd_ != OPP_KICKOFF)      // prevent the code from going into again
         {
             sendGameCommand(STOPROBOT);
             cyan_score_++;
