@@ -11,13 +11,13 @@ find_package(catkin REQUIRED COMPONENTS
   gazebo_msgs
 )
 find_package(Boost REQUIRED COMPONENTS system)
-find_package(Curses REQUIRED)
+#find_package(Curses REQUIRED)
 
 #link_directories(${GAZEBO_LIBRARY_DIRS})
 include_directories(${catkin_INCLUDE_DIRS}
 #                    ${GAZEBO_INCLUDE_DIRS}
                     ${Boost_INCLUDE_DIR}
-                    ${CURSES_INCLUDE_DIRS}
+#                    ${CURSES_INCLUDE_DIRS}
 )
 
 catkin_package(
@@ -35,6 +35,7 @@ add_executable(auto_referee src/auto_referee.cpp
 )
 add_dependencies(auto_referee ${catkin_EXPORTED_TARGETS})
 target_link_libraries(auto_referee ${catkin_LIBRARIES}
+									ncurses
                                    #${GAZEBO_LIBRARIES}
-                                   ${CURSES_LIBRARIES}
-)
+                                   #${CURSES_LIBRARIES}
+)									
