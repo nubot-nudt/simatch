@@ -59,6 +59,9 @@ Two options:
 4. 待双方参赛队伍机器人代码运行后，开启自动裁判盒开始比赛，即   
 ` $ rosrun auto_referee auto_referee -1`代表cyan发球   
 或者` $ rosrun auto_referee auto_referee 1`代表magenta发球   
+5. 到下一组比赛的时候，不需要关闭Gazebo，让所有机器人重新站位即可,即在Gazebo界面按下ctrl-shift-r即可;    
+6. 在[sim_config][14]文件中更改cyan/prefix以及magenta/prefix的值为参赛双方的队伍名字，**之后运行`rosparam load sim_config`**   
+7. 运行裁判盒开始比赛。   
 
 ## 共同开发
 欢迎大家积极共同完善该仿真平台，我们将感谢每一个人的贡献。   

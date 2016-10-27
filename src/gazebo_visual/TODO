@@ -1,11 +1,15 @@
 Welcome anyone to add somthing to this list or pick some items from it and contribute to this code.
 
-1. Add a GUI to configure parameters, e.g. robot numbers, model path, etc. (medium)
-2. Add a physical simulation model for kicking mechanism.  (hard)
-3. Add a physical simulation model for dribble mechanism.  (hard) 
+short-term:
+1. consider the physical limits of robots; (easy)
+2. limit the acceleration of the goal keeper;(easy)
+
+long-term:
+1. Add a physical simulation model for kicking mechanism.  (hard)
+2. Add a physical simulation model for dribble mechanism.  (hard) 
+3. set up a virtule runtime environment; refer to Matlab's support for RoboCup; (hard)
 4. show role labels beside each robot; show the positioning points; (medium)
-5. set up a virtule runtime environment; refer to Matlab's support for RoboCup; (hard)
-6. automatic referee. (hard)
-7. consider the physical limits of robots;
-8. consider the world information each robot is able to obtain;
-9. limit the acceleration of the goal keeper
+5. consider the world information each robot is able to obtain; (medium)
+6. Add a GUI to configure parameters, e.g. robot numbers, model path, etc. (medium)
+7. let players design the flight path of the soccer ball in a lob shot; (easy)
+8. programmatically assign numbers to robots in Gazebo; refer to an email from a portuguess team;

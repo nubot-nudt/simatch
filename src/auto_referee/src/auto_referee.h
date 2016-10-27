@@ -26,9 +26,10 @@
 #include <fstream>
 
 // Unit -- length: cm, velocity: cm/s, ori: rad, w: rad/s
-
 #define CM2M_CONVERSION 0.01
 #define M2CM_CONVERSION 100
+
+#define USE_NCURSES
 
 using namespace nubot;
 const int CYAN_TEAM = -1;
@@ -100,7 +101,10 @@ public:
     bool R1_isDribble3m();
 
     /// \brief Does robot dribble the ball across the field?
-    bool R2_isDribbleCrossField();
+    // bool R2_isDribbleCrossField();
+
+    /// \brief Does the robot pass the ball before shooting the goal?
+    bool R2_isPassBeforeGoal();
 
     /// \brief Is the ball out of the field or a goal?
     /// \return CYAN_TEAM or MAGENTA_TEAM
@@ -174,7 +178,7 @@ private:
     FieldInformation            fieldinfo_;
     DPoint                      ball_initpos_;      // the initial pos of dribble
     DPoint                      ball_resetpos_;     // ball reset point
-    int                         which_team_;        // which team last contacts with the ball
+    int                         lastTouchBallTeam_;        // which team last contacts with the ball
     int                         cyan_score_;
     int                         magenta_score_;
     int                         currentCmd_;          // next game command

@@ -1,2 +1,5 @@
 1. add game-restart waiting time judgment;
 2. add goal validation judgment;
+3. add a clock for game end detection;
+3. add manual mode for scores editing;
+4. considering using the ros package 'smach';

@@ -1,6 +1,18 @@
 #include "auto_referee.h"
 #include <iostream>
-#include <ncurses.h>
+
+#ifdef USE_NCURSES
+    #include <ncurses.h>
+    #define OUTINFO     printw
+    #define OUTERROR    printw
+#else
+    #define OUTINFO     ROS_INFO
+    #define OUTERROR    ROS_ERROR
+    #define KEY_UP      '5'
+    #define KEY_DOWN    '2'
+    #define KEY_LEFT    '1'
+    #define KEY_RIGHT   '3'
+#endif
 using namespace std;
 
 // Model info in world reference frame;
@@ -8,6 +20,7 @@ using namespace std;
 
 auto_referee::auto_referee(int start_id)
 {
+    #ifdef USE_NCURSES
     // ncurses initialization
     initscr();
     cbreak();               // one-character-a-time
@@ -15,9 +28,10 @@ auto_referee::auto_referee(int start_id)
     nodelay(stdscr, TRUE);  // non-blocking input
     noecho();               // no echo
     scrollok(stdscr, TRUE); // automatic scroll screen
-    printw("start auto referee\n");
+    OUTINFO("start auto referee\n");
+    #endif
 
-    which_team_ = NONE_TEAM;
+    lastTouchBallTeam_ = NONE_TEAM;
     start_team_ = start_id;
     cyan_score_ = 0;
     magenta_score_ = 0;
@@ -84,7 +98,10 @@ auto_referee::auto_referee(int start_id)
 
 auto_referee::~auto_referee()
 {
+    #ifdef USE_NCURSES
     endwin();                   // restore the terminal settings.
+    #endif
+
     message_queue_.clear();
     service_queue_.clear();
     message_queue_.disable();
@@ -100,7 +117,7 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
 {
     msgCB_lock_.lock();
     srvCB_lock_.lock();
-
+#if 1
     ModelStatesCB_flag_ = true;
     static int err_count = 0;
 
@@ -140,15 +157,17 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
                 err_count++;
                 if(err_count> 5.0/LOOP_PERIOD)          // model state flag is not valid for 5 secs
                 {
-                    //cout<<"Err: model states NOT received. Has Gazebo started yet?"<<endl;
-                    printw("Err: model states NOT received. Has Gazebo started yet?\n");
+                    OUTINFO("Err: model states NOT received. Has Gazebo started yet?\n");
                     err_count = 0;
                 }
             }
         }
         else
-            printw("Err: ros::ok() is false.\n");
+            OUTINFO("Err: ros::ok() is false.\n");
     }
+#else
+    test();
+#endif
 
     srvCB_lock_.unlock();
     msgCB_lock_.unlock();
@@ -156,6 +175,7 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
 
 bool auto_referee::isManualControl()
 {
+#ifdef USE_NCURSES
     static bool isManual = false;
     static int  pos_dif = 10;
     int ch;
@@ -171,7 +191,10 @@ bool auto_referee::isManualControl()
                 writeRecord("\nEnter the MANUAL mode. Press h or H for help!\n");
             }
             else
+            {
+                sendGameCommand(STARTROBOT);
                 writeRecord("\nQuit the MANUAL mode!\n");
+            }
         }
 
         if(isManual)
@@ -243,22 +266,26 @@ bool auto_referee::isManualControl()
         return true;
     else
         return false;
+#else
+    return false;
+#endif
 }
+
 
 void auto_referee::printManualHelp()
 {
-    printw("You could also use the arrow key to control the movement of the ball or press the keys as follow to send game commands.\n\n");
-    printw("              cyan        magenta       \n");
-    printw("kick-off        k             K         \n");
-    printw("throw-in        t             T         \n");
-    printw("goal-kick       g             G         \n");
-    printw("corner-kick     c             C         \n");
-    printw("free-kick       f             F         \n");
-    printw("penalty         p             P         \n");
-    printw("drop-ball       d             d         \n");
-    printw("stop/start    space          space      \n");
-    printw("\n");
-    printw("Press h or H to get this help message\n");
+    OUTINFO("You could also use the arrow key to control the movement of the ball or press the keys as follow to send game commands.\n\n");
+    OUTINFO("              cyan        magenta       \n");
+    OUTINFO("kick-off        k             K         \n");
+    OUTINFO("throw-in        t             T         \n");
+    OUTINFO("goal-kick       g             G         \n");
+    OUTINFO("corner-kick     c             C         \n");
+    OUTINFO("free-kick       f             F         \n");
+    OUTINFO("penalty         p             P         \n");
+    OUTINFO("drop-ball       d             d         \n");
+    OUTINFO("stop/start    space          space      \n");
+    OUTINFO("\n");
+    OUTINFO("Press h or H to get this help message\n");
 }
 
 void auto_referee::msCallback(const gazebo_msgs::ModelStates::ConstPtr &msg)
@@ -309,6 +336,7 @@ void auto_referee::contactCallback(const gazebo_msgs::ContactsState::ConstPtr &m
 {
     msgCB_lock_.lock();
 
+    static int tmpTeam = NONE_TEAM;
     contacts_ = *msg;
     for(int i =0; i<contacts_.states.size();i++)
     {
@@ -317,9 +345,19 @@ void auto_referee::contactCallback(const gazebo_msgs::ContactsState::ConstPtr &m
         std::size_t magenta_found = coll.find(magenta_prefix_);
 
         if(cyan_found != std::string::npos)
-            which_team_ = CYAN_TEAM;
+            tmpTeam = CYAN_TEAM;
         else if(magenta_found != std::string::npos)
-            which_team_ = MAGENTA_TEAM;
+            tmpTeam = MAGENTA_TEAM;
+    }
+
+    if(dribble_id_ == -1)       // it means no robot is dribbling the ball;
+        lastTouchBallTeam_ = tmpTeam;
+    else
+    {
+        if(dribble_id_ <= 5)
+            lastTouchBallTeam_ = CYAN_TEAM;
+        else
+            lastTouchBallTeam_ = MAGENTA_TEAM;
     }
 
     msgCB_lock_.unlock();
@@ -331,10 +369,14 @@ bool auto_referee::dribbleService(nubot_common::DribbleId::Request &req,
     srvCB_lock_.lock();
 
     dribble_id_ = req.AgentId;
-    if(dribble_id_ <= 5)
-        which_team_ = CYAN_TEAM;
-    else
-        which_team_ = MAGENTA_TEAM;
+
+    if(dribble_id_ != -1)           // it means a robot is dribbling the ball
+    {
+        if(dribble_id_ <= 5)
+            lastTouchBallTeam_ = CYAN_TEAM;
+        else
+            lastTouchBallTeam_ = MAGENTA_TEAM;
+    }
 
     srvCB_lock_.unlock();
     return true;
@@ -354,13 +396,13 @@ int auto_referee::R1and2_isDribbleFault()
         if(last_dribble_id_ != dribble_id_)
         {
             ball_initpos_ = ball_state_.pos;
-            //printw("ball init pos:[%.1f, %.1f]\n", ball_initpos_.x_, ball_initpos_.y_);
+            //OUTINFO("ball init pos:[%.1f, %.1f]\n", ball_initpos_.x_, ball_initpos_.y_);
         }
 
         if(R1_isDribble3m())
             rtnv = 1;
-        if(R2_isDribbleCrossField())
-            rtnv = 2;
+//        if(R2_isDribbleCrossField())
+//            rtnv = 2;
     }
 
     last_dribble_id_ = dribble_id_;
@@ -373,9 +415,9 @@ bool auto_referee::R1_isDribble3m()
     {
         ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
         sendGameCommand(STOPROBOT);
-        nextCmd_ = (which_team_==CYAN_TEAM)? OPP_FREEKICK : OUR_FREEKICK;
+        nextCmd_ = (lastTouchBallTeam_==CYAN_TEAM)? OPP_FREEKICK : OUR_FREEKICK;
         writeRecord(track_ms_.name+" dribbles more than 300 cm");
-        //printw("ball init pos:[%.1f, %.1f], pos:[%.1f, %.1f]\n", ball_initpos_.x_, ball_initpos_.y_,
+        //OUTINFO("ball init pos:[%.1f, %.1f], pos:[%.1f, %.1f]\n", ball_initpos_.x_, ball_initpos_.y_,
         //                                                         ball_state_.pos.x_, ball_state_.pos.y_);
         return true;
     }
@@ -383,6 +425,7 @@ bool auto_referee::R1_isDribble3m()
         return false;
 }
 
+/*
 bool auto_referee::R2_isDribbleCrossField()
 {
     // Don't check this rule when kickoff, after this, always check this rule;
@@ -391,9 +434,9 @@ bool auto_referee::R2_isDribbleCrossField()
         if(!kickoff_flg_)
         {
             ball_resetpos_ = ball_state_.pos;
-            printw("rest pt:%.1f %.1f\n",ball_resetpos_.x_, ball_resetpos_.y_);
+            OUTINFO("rest pt:%.1f %.1f\n",ball_resetpos_.x_, ball_resetpos_.y_);
             sendGameCommand(STOPROBOT);
-            nextCmd_ = (which_team_==CYAN_TEAM)? OPP_FREEKICK : OUR_FREEKICK;
+            nextCmd_ = (lastTouchBallTeam_==CYAN_TEAM)? OPP_FREEKICK : OUR_FREEKICK;
             writeRecord(track_ms_.name+" dribbles across the field");
             return true;
         }
@@ -406,6 +449,7 @@ bool auto_referee::R2_isDribbleCrossField()
     else
         return false;
 }
+*/
 
 bool auto_referee::R4_isOppGoalOrPenaltyArea()
 {
@@ -647,10 +691,10 @@ bool auto_referee::R3_isBallOutOrGoal()
 {
     if( fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) )
     {
-        printw("ball out pos:%f %f\n",ball_state_.pos.x_, ball_state_.pos.y_);
+        OUTINFO("ball out pos:%f %f\n",ball_state_.pos.x_, ball_state_.pos.y_);
         if(!isGoal())
         {
-            if(which_team_ == CYAN_TEAM)
+            if(lastTouchBallTeam_ == CYAN_TEAM)
             {
                 sendGameCommand(STOPROBOT);
                 nextCmd_ = OPP_CORNERKICK;
@@ -658,7 +702,7 @@ bool auto_referee::R3_isBallOutOrGoal()
                             LU_CORNER : LD_CORNER;
                 writeRecord("Cyan collides ball out");
             }
-            else if(which_team_ == MAGENTA_TEAM)
+            else if(lastTouchBallTeam_ == MAGENTA_TEAM)
             {
                 sendGameCommand(STOPROBOT);
                 nextCmd_ = OUR_GOALKICK;
@@ -678,7 +722,7 @@ bool auto_referee::R3_isBallOutOrGoal()
     }
     else if(fieldinfo_.isOutBorder(RIGHTBORDER, ball_state_.pos))
     {
-        if(which_team_ == CYAN_TEAM)
+        if(lastTouchBallTeam_ == CYAN_TEAM)
         {
             sendGameCommand(STOPROBOT);
             nextCmd_ = OPP_GOALKICK;
@@ -686,7 +730,7 @@ bool auto_referee::R3_isBallOutOrGoal()
                         RU_RSTPT : RD_RSTPT;
             writeRecord("Cyan collides ball out");
         }
-        else if(which_team_ == MAGENTA_TEAM)
+        else if(lastTouchBallTeam_ == MAGENTA_TEAM)
         {
             sendGameCommand(STOPROBOT);
             nextCmd_ = OUR_CORNERKICK;
@@ -706,14 +750,14 @@ bool auto_referee::R3_isBallOutOrGoal()
     else if(fieldinfo_.isOutBorder(UPBORDER, ball_state_.pos))
     {
         ball_resetpos_ = DPoint(ball_state_.pos.x_, fieldinfo_.yline_[0]-30.0);
-        printw("ball out pos:%f %f\n",ball_state_.pos.x_, ball_state_.pos.y_);
-        if(which_team_ == CYAN_TEAM)
+        OUTINFO("ball out pos:%f %f\n",ball_state_.pos.x_, ball_state_.pos.y_);
+        if(lastTouchBallTeam_ == CYAN_TEAM)
         {
             sendGameCommand(STOPROBOT);
             nextCmd_ = OPP_THROWIN;
             writeRecord("Cyan collides ball out");
         }
-        else if(which_team_ == MAGENTA_TEAM)
+        else if(lastTouchBallTeam_ == MAGENTA_TEAM)
         {
             sendGameCommand(STOPROBOT);
             nextCmd_ = OUR_THROWIN;
@@ -730,14 +774,14 @@ bool auto_referee::R3_isBallOutOrGoal()
     else if(fieldinfo_.isOutBorder(DOWNBORDER, ball_state_.pos))
     {
         ball_resetpos_ = DPoint(ball_state_.pos.x_, fieldinfo_.yline_[5]+30.0);
-        printw("ball out pos:%f %f\n",ball_state_.pos.x_, ball_state_.pos.y_);
-        if(which_team_ == CYAN_TEAM)
+        OUTINFO("ball out pos:%f %f\n",ball_state_.pos.x_, ball_state_.pos.y_);
+        if(lastTouchBallTeam_ == CYAN_TEAM)
         {
             sendGameCommand(STOPROBOT);
             nextCmd_ = OPP_THROWIN;
             writeRecord("Cyan collides ball out");
         }
-        else if(which_team_ == MAGENTA_TEAM)
+        else if(lastTouchBallTeam_ == MAGENTA_TEAM)
         {
             sendGameCommand(STOPROBOT);
             nextCmd_ = OUR_THROWIN;
@@ -848,7 +892,7 @@ bool auto_referee::getModelState(int which_team, int id, ModelState &ms)
         return true;
     }
     else
-        printw("Please specify an appropriate team\n");
+        OUTINFO("Please specify an appropriate team\n");
 
     return false;
 }
@@ -966,17 +1010,17 @@ bool auto_referee::createRecord()
     boost::filesystem::path dir(dirname);
     if(!(boost::filesystem::exists(dir)))
         if (boost::filesystem::create_directory(dir))
-            printw("Successfully create directory: %s!\n", dir.c_str());ROS_INFO("ball init pos:[%.1f, %.1f]", ball_initpos_.x_, ball_initpos_.y_);
+            OUTINFO("Successfully create directory: %s!\n", dir.c_str());
 
     record_.open(filename);
     if(record_.is_open())
     {
-        printw("Successfully create file: %s!\n", filename.c_str());
+        OUTINFO("Successfully create file: %s!\n", filename.c_str());
         return true;
     }
     else
     {
-        printw("Failed create file: %s!\n", filename.c_str());
+        OUTINFO("Failed create file: %s!\n", filename.c_str());
         return false;
     }
 }
@@ -997,7 +1041,7 @@ void auto_referee::writeRecord(string s)
 {
     std::string ss = "[" + getSysTime("%T") + "] " +s + "\n";
     record_<<ss;
-    printw("%s\n", s.c_str());
+    OUTINFO("%s\n", s.c_str());
 }
 
 int auto_referee::sgn(double x)
@@ -1028,20 +1072,27 @@ void auto_referee::test()
 {
 #if 0
     for(ModelState ms : cyan_info_)
-        printw("cyan_info:\n\tname:%s,\t id:%d\n \tpos:[%.0f, %.0f](cm), ori:%.0f(deg)\n \tvel:[%.0f,%.0f](cm/s), w:%.0f(deg/s)\n",
+        OUTINFO("cyan_info:\n\tname:%s,\t id:%d\n \tpos:[%.0f, %.0f](cm), ori:%.0f(deg)\n \tvel:[%.0f,%.0f](cm/s), w:%.0f(deg/s)\n",
                ms.name.c_str(), ms.id, ms.pos.x_, ms.pos.y_, ms.ori*RAD2DEG, ms.vel.x_, ms.vel.y_, ms.w*RAD2DEG);
     for(ModelState ms : magenta_info_)
-        printw("magenta_info:\n\tname:%s,\t id:%d\n \tpos:[%.0f, %.0f](cm), ori:%.0f(deg)\n \tvel:[%.0f,%.0f](cm/s), w:%.0f(deg/s)\n",
+        OUTINFO("magenta_info:\n\tname:%s,\t id:%d\n \tpos:[%.0f, %.0f](cm), ori:%.0f(deg)\n \tvel:[%.0f,%.0f](cm/s), w:%.0f(deg/s)\n",
                ms.name.c_str(), ms.id, ms.pos.x_, ms.pos.y_, ms.ori*RAD2DEG, ms.vel.x_, ms.vel.y_, ms.w*RAD2DEG);
 #endif
 #if 0
     //detectBallOut();
     detectGoal();
 #endif
-#if 1
+#if 0
     sendGameCommand(OUR_PENALTY);
     R5_isTooCloseToBall();
 #endif
+    OUTINFO("id:%d", dribble_id_);
+    if(lastTouchBallTeam_ == CYAN_TEAM)
+        OUTINFO("CYAN\n");
+    else if(lastTouchBallTeam_ == MAGENTA_TEAM)
+        OUTINFO("MAGENTA\n");
+    else
+        OUTINFO("NONE\n");
 }
 
 int main(int argc, char **argv)
@@ -1057,7 +1108,6 @@ int main(int argc, char **argv)
 
     ros::init(argc,argv,"auto_referee");
     ros::Time::init();
-    cout<<"start auto referee"<<endl;
 
     auto_referee ref(id);
     ros::spin();
