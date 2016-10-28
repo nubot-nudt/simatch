@@ -176,7 +176,7 @@ private:
     ModelState                  ball_state_;
     ModelState                  track_ms_;          // model state that is being tracked if it violates rules
     FieldInformation            fieldinfo_;
-    DPoint                      ball_initpos_;      // the initial pos of dribble
+    DPoint                      robot_initpos_;      // the initial pos of dribble
     DPoint                      ball_resetpos_;     // ball reset point
     int                         lastTouchBallTeam_;        // which team last contacts with the ball
     int                         cyan_score_;

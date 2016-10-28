@@ -39,7 +39,7 @@ auto_referee::auto_referee(int start_id)
     nextCmd_ = STOPROBOT;
     dribble_id_ = -1;
     last_dribble_id_ = -1;
-    ball_initpos_ = DPoint(0.0, 0.0);
+    robot_initpos_ = DPoint(0.0, 0.0);
     ball_resetpos_  = DPoint(0.0, 0.0);
     ModelStatesCB_flag_ = false;
     kickoff_flg_ = false;
@@ -395,8 +395,7 @@ int auto_referee::R1and2_isDribbleFault()
 
         if(last_dribble_id_ != dribble_id_)
         {
-            ball_initpos_ = ball_state_.pos;
-            //OUTINFO("ball init pos:[%.1f, %.1f]\n", ball_initpos_.x_, ball_initpos_.y_);
+            robot_initpos_ = track_ms_.pos;//ball_state_.pos;
         }
 
         if(R1_isDribble3m())
@@ -411,14 +410,14 @@ int auto_referee::R1and2_isDribbleFault()
 
 bool auto_referee::R1_isDribble3m()
 {
-    if(ball_initpos_.distance(ball_state_.pos) > 300)
+    if(robot_initpos_.distance(track_ms_.pos) > 300)
     {
         ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
         sendGameCommand(STOPROBOT);
         nextCmd_ = (lastTouchBallTeam_==CYAN_TEAM)? OPP_FREEKICK : OUR_FREEKICK;
         writeRecord(track_ms_.name+" dribbles more than 300 cm");
-        //OUTINFO("ball init pos:[%.1f, %.1f], pos:[%.1f, %.1f]\n", ball_initpos_.x_, ball_initpos_.y_,
-        //                                                         ball_state_.pos.x_, ball_state_.pos.y_);
+        OUTINFO("robot init pos:[%.1f, %.1f], pos:[%.1f, %.1f]\n", robot_initpos_.x_, robot_initpos_.y_,
+                                                                 track_ms_.pos.x_, track_ms_.pos.y_);
         return true;
     }
     else
