@@ -99,6 +99,7 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
                          << "Load the Gazebo system plugin 'libnubot_gazebo.so' in the gazebo_ros package)");
         return;
     }
+
     rosnode_ = new ros::NodeHandle(robot_namespace_);
     rosnode_->param<std::string>("/football/name",                   ball_name_,             std::string("football") );
     rosnode_->param<std::string>("/football/chassis_link",           ball_chassis_,          std::string("football::ball") );
@@ -119,7 +120,10 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     else
         flip_cord_ = _sdf->GetElement("flip_cord")->Get<bool>();
 
-    AgentID_ = atoi( model_name_.substr(cyan_pre_.size(),1).c_str() );    // get the robot id
+    if(!flip_cord_)
+        AgentID_ = atoi( model_name_.substr(cyan_pre_.size(),1).c_str() );    // get the robot id
+    else
+        AgentID_ = atoi( model_name_.substr(mag_pre_.size(),1).c_str() );    // get the robot id
 
     // Load the football model
     ball_model_ = world_->GetModel(ball_name_);
@@ -178,9 +182,8 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
                 boost::bind(&NubotGazebo::update_child, this));
 
     // Output info
-    ROS_INFO(" %s has %d plugins\n\tid: %d \tflip_cord:%d\n\tgaussian_noise -- scale: %f\t rate: %f",
-              model_name_.c_str(), robot_model_->GetPluginCount(), AgentID_, flip_cord_, noise_scale_, noise_rate_);
-
+    ROS_INFO(" %s  id: %d  flip_cord:%d  gaussian scale: %f  rate: %f\n",
+              model_name_.c_str(),  AgentID_, flip_cord_, noise_scale_, noise_rate_);
 }
 
 void NubotGazebo::Reset()
