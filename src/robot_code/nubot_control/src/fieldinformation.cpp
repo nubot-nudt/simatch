@@ -179,9 +179,8 @@ bool FieldInformation::isOppPenalty(DPoint world_pt)
 
     if(!inopppenalty)
     {
-        if(world_pt.x_ > opp_penaltyarea_[1].x_ &&
-                world_pt.y_ > opp_penaltyarea_[2].y_ &&
-                world_pt.y_ < opp_penaltyarea_[1].y_)
+        if(world_pt.x_ > opp_penaltyarea_[1].x_ && world_pt.x_ < opp_penaltyarea_[0].x_ &&
+           world_pt.y_ > opp_penaltyarea_[2].y_ && world_pt.y_ < opp_penaltyarea_[1].y_)
         {
             inopppenalty = true;
         }
@@ -190,9 +189,8 @@ bool FieldInformation::isOppPenalty(DPoint world_pt)
     }
     else if(inopppenalty)
     {
-        if(world_pt.x_ > (opp_penaltyarea_[1].x_ - simLOCATIONERROR) &&
-                world_pt.y_ > (opp_penaltyarea_[2].y_ - simLOCATIONERROR) &&
-                world_pt.y_ < (opp_penaltyarea_[1].y_ + simLOCATIONERROR))
+        if(world_pt.x_ > (opp_penaltyarea_[1].x_ - simLOCATIONERROR) && world_pt.x_ < (opp_penaltyarea_[0].x_ + simLOCATIONERROR) &&
+           world_pt.y_ > (opp_penaltyarea_[2].y_ - simLOCATIONERROR) && world_pt.y_ < (opp_penaltyarea_[1].y_ + simLOCATIONERROR))
         {
             inopppenalty = true;
         }
@@ -212,9 +210,8 @@ bool FieldInformation::isOurPenalty(DPoint world_pt)
 
     if(!inourpenalty)
     {
-        if(world_pt.x_ < our_penaltyarea_[1].x_ &&
-                world_pt.y_ > our_penaltyarea_[2].y_ &&
-                world_pt.y_ < our_penaltyarea_[1].y_)
+        if(world_pt.x_ < our_penaltyarea_[1].x_ && world_pt.x_ > our_penaltyarea_[0].x_ &&
+           world_pt.y_ > our_penaltyarea_[2].y_ && world_pt.y_ < our_penaltyarea_[1].y_)
         {
             inourpenalty = true;
         }
@@ -223,9 +220,8 @@ bool FieldInformation::isOurPenalty(DPoint world_pt)
     }
     else if(inourpenalty)
     {
-        if(world_pt.x_ < (our_penaltyarea_[1].x_ +simLOCATIONERROR) &&
-                world_pt.y_ > (our_penaltyarea_[2].y_-simLOCATIONERROR) &&
-                world_pt.y_ < (our_penaltyarea_[1].y_+simLOCATIONERROR))
+        if(world_pt.x_ < (our_penaltyarea_[1].x_ +simLOCATIONERROR) && world_pt.x_ > (our_penaltyarea_[0].x_ -simLOCATIONERROR) &&
+           world_pt.y_ > (our_penaltyarea_[2].y_-simLOCATIONERROR) &&  world_pt.y_ < (our_penaltyarea_[1].y_+simLOCATIONERROR))
         {
             inourpenalty = true;
         }
@@ -245,9 +241,8 @@ bool FieldInformation::isOppGoal(DPoint world_pt)
 
     if(!inopparea)
     {
-        if(world_pt.x_ > opp_goalarea_[1].x_ &&
-                world_pt.y_ > opp_goalarea_[2].y_ &&
-                world_pt.y_ < opp_goalarea_[1].y_)
+        if(world_pt.x_ > opp_goalarea_[1].x_ && world_pt.x_ < opp_goalarea_[0].x_ &&
+           world_pt.y_ > opp_goalarea_[2].y_ && world_pt.y_ < opp_goalarea_[1].y_)
         {
             inopparea = true;
         }
@@ -256,9 +251,8 @@ bool FieldInformation::isOppGoal(DPoint world_pt)
     }
     else if(inopparea)
     {
-        if(world_pt.x_ > (opp_goalarea_[1].x_ - simLOCATIONERROR) &&
-                world_pt.y_ > (opp_goalarea_[2].y_-simLOCATIONERROR) &&
-                world_pt.y_ < (opp_goalarea_[1].y_+simLOCATIONERROR))
+        if(world_pt.x_ > (opp_goalarea_[1].x_ - simLOCATIONERROR) && world_pt.x_ < (opp_goalarea_[0].x_ + simLOCATIONERROR) &&
+           world_pt.y_ > (opp_goalarea_[2].y_-simLOCATIONERROR) && world_pt.y_ < (opp_goalarea_[1].y_+simLOCATIONERROR))
         {
             inopparea = true;
         }
@@ -267,6 +261,37 @@ bool FieldInformation::isOppGoal(DPoint world_pt)
     }
 
     rtvl =  inopparea;
+    return rtvl;
+}
+
+/* 是否在我方小禁区 */
+bool FieldInformation::isOurGoal(DPoint world_pt)
+{
+    bool rtvl = false;
+    static bool inourarea = false;
+
+    if(!inourarea)
+    {
+        if(world_pt.x_ < our_goalarea_[1].x_ && world_pt.x_ > our_goalarea_[0].x_ &&
+           world_pt.y_ > our_goalarea_[2].y_ && world_pt.y_ < our_goalarea_[1].y_)
+        {
+            inourarea = true;
+        }
+        else
+            inourarea = false;
+    }
+    else if(inourarea)
+    {
+        if(world_pt.x_ < (our_goalarea_[1].x_ +simLOCATIONERROR) && world_pt.x_ > (our_goalarea_[0].x_ -simLOCATIONERROR) &&
+           world_pt.y_ > (our_goalarea_[2].y_-simLOCATIONERROR) &&  world_pt.y_ < (our_goalarea_[1].y_+simLOCATIONERROR))
+        {
+            inourarea = true;
+        }
+        else
+            inourarea = false;
+    }
+
+    rtvl =  inourarea;
     return rtvl;
 }
 
@@ -304,37 +329,4 @@ bool FieldInformation::isOutBorder(Border id, DPoint world_pt, double expand_len
         break;
     }
     }
-}
-
-/* 是否在我方小禁区 */
-bool FieldInformation::isOurGoal(DPoint world_pt)
-{
-    bool rtvl = false;
-    static bool inourarea = false;
-
-    if(!inourarea)
-    {
-        if(world_pt.x_ < our_goalarea_[1].x_ &&
-                world_pt.y_ > our_goalarea_[2].y_ &&
-                world_pt.y_ < our_goalarea_[1].y_)
-        {
-            inourarea = true;
-        }
-        else
-            inourarea = false;
-    }
-    else if(inourarea)
-    {
-        if(world_pt.x_ < (our_goalarea_[1].x_ +simLOCATIONERROR) &&
-                world_pt.y_ > (our_goalarea_[2].y_-simLOCATIONERROR) &&
-                world_pt.y_ < (our_goalarea_[1].y_+simLOCATIONERROR))
-        {
-            inourarea = true;
-        }
-        else
-            inourarea = false;
-    }
-
-    rtvl =  inourarea;
-    return rtvl;
 }

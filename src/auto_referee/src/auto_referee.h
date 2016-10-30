@@ -38,6 +38,8 @@ const int NONE_TEAM = 0;
 const double RAD2DEG = 180.0/M_PI;
 const double LOOP_PERIOD = 0.005;
 const double BALL_RADIUS = 11.0;   // cm
+const double GOALPOST_WIDTH = 75.0;     // the width of the goal post area (cm)
+const double GOALPOST_LEN   = 100.0;    // the length of the goal post area (cm)
 
 const double CORNER_X = 900.0 - 30.0;
 const double CORNER_Y = 600.0 - 30.0;
@@ -131,6 +133,9 @@ public:
     void loopControl(const ros::TimerEvent& event);
 
     bool isManualControl();
+
+    bool isOurGoalPoleArea(DPoint world_pt);        // check if world_pt is inside our(cyan) goal pole
+    bool isOppGoalPoleArea(DPoint world_pt);        // check if world_pt is inside opp(magenta) goal pole
 
     void printManualHelp();
 

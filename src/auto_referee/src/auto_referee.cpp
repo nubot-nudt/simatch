@@ -279,7 +279,6 @@ bool auto_referee::isManualControl()
 #endif
 }
 
-
 void auto_referee::printManualHelp()
 {
     OUTINFO("You could also use the arrow key to control the movement of the ball or press the keys as follow to send game commands.\n\n");
@@ -466,12 +465,13 @@ bool auto_referee::R4_isOppGoalOrPenaltyArea()
     {
         if(ms.id != 1)      // not consider the goal keeper
         {
-            if(fieldinfo_.isOppGoal(ms.pos) || fieldinfo_.isOurGoal(ms.pos))            // FIXME: can I in my own goal area? No, no more than one robot could be in the goal area except for the goal keeper
+            if(fieldinfo_.isOppGoal(ms.pos) || fieldinfo_.isOurGoal(ms.pos) ||
+               isOurGoalPoleArea(ms.pos) || isOppGoalPoleArea(ms.pos))
             {
                 ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
                 sendGameCommand(STOPROBOT);
                 nextCmd_ = OPP_FREEKICK;
-                writeRecord(ms.name+" in the goal area!");
+                writeRecord(ms.name+" in the goal/goal_pole area!");
                 return true;
             }
 
@@ -496,12 +496,13 @@ bool auto_referee::R4_isOppGoalOrPenaltyArea()
     {
         if(ms.id != 1)      // not consider the goal keeper
         {
-            if(fieldinfo_.isOppGoal(ms.pos) || fieldinfo_.isOurGoal(ms.pos))
+            if(fieldinfo_.isOppGoal(ms.pos) || fieldinfo_.isOurGoal(ms.pos) ||
+               isOurGoalPoleArea(ms.pos) || isOppGoalPoleArea(ms.pos))
             {
                 ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
                 sendGameCommand(STOPROBOT);
                 nextCmd_ = OUR_FREEKICK;
-                writeRecord(ms.name+" in the goal area!");
+                writeRecord(ms.name+" in the goal/goal_pole area!");
                 return true;
             }
 
@@ -884,6 +885,24 @@ bool auto_referee::isGoal()
     }
 
     return false;
+}
+
+bool auto_referee::isOurGoalPoleArea(DPoint world_pt)
+{
+    if(world_pt.x_ < -FIELD_LENGTH/2.0 && world_pt.x_ > -FIELD_LENGTH/2.0 - GOALPOST_WIDTH &&
+       world_pt.y_ < GOALPOST_LEN/2.0 && world_pt.y_ > -GOALPOST_LEN/2.0)
+        return true;
+    else
+        return false;
+}
+
+bool auto_referee::isOppGoalPoleArea(DPoint world_pt)
+{
+    if(world_pt.x_ > FIELD_LENGTH/2.0 && world_pt.x_ < FIELD_LENGTH/2.0 + GOALPOST_WIDTH &&
+       world_pt.y_ < GOALPOST_LEN/2.0 && world_pt.y_ > -GOALPOST_LEN/2.0)
+        return true;
+    else
+        return false;
 }
 
 bool auto_referee::setBallPos(double x, double y)

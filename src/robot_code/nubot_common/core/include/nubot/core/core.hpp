@@ -32,8 +32,8 @@ const int OPP_TEAM = 7 ;        //对方的机器人个数
 const int ROLENUM = 11;
 
 /** 一些常用的场地参数 */
-const int FIELD_LENGTH= 1800;    //场地参数，长度
-const int FIELD_WIDTH = 800;     //场地参度，长度
+const double FIELD_LENGTH= 1800.0;    //场地参数，长度
+const double FIELD_WIDTH = 800.0;     //场地参度，长度
 const double MAXDIS_FIELD = sqrt(FIELD_LENGTH*FIELD_LENGTH+FIELD_WIDTH*FIELD_WIDTH); //对角线长度
 
 /** 场地上的几条水平和垂直线,，其他的信息都可以通过场地信息得到*/
