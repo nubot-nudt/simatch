@@ -3,3 +3,4 @@
 3. add a clock for game end detection;
 3. add manual mode for scores editing;
 4. considering using the ros package 'smach';
+5. 守门员是否有限制，不能在球门内？

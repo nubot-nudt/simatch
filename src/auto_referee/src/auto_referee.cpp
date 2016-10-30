@@ -460,51 +460,65 @@ bool auto_referee::R2_isDribbleCrossField()
 
 bool auto_referee::R4_isOppGoalOrPenaltyArea()
 {
-    int cyan_num=0, magen_num=0;
+    int cyan_num1=0, magen_num1=0, cyan_num2=0, magen_num2=0;
 
     for(ModelState ms : cyan_info_)
     {
-        if(fieldinfo_.isOppGoal(ms.pos))            // FIXME: can I in my own goal area?
+        if(ms.id != 1)      // not consider the goal keeper
         {
-            ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
-            sendGameCommand(STOPROBOT);
-            nextCmd_ = OPP_FREEKICK;
-            writeRecord(ms.name+" in opp goal area!");
-            return true;
-        }
-        else if(fieldinfo_.isOppPenalty(ms.pos) && ms.id != 1)
-            cyan_num++;
+            if(fieldinfo_.isOppGoal(ms.pos) || fieldinfo_.isOurGoal(ms.pos))            // FIXME: can I in my own goal area? No, no more than one robot could be in the goal area except for the goal keeper
+            {
+                ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
+                sendGameCommand(STOPROBOT);
+                nextCmd_ = OPP_FREEKICK;
+                writeRecord(ms.name+" in the goal area!");
+                return true;
+            }
 
-        if(cyan_num >=2)
-        {
-            ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
-            sendGameCommand(STOPROBOT);
-            nextCmd_ = OPP_FREEKICK;
-            writeRecord("two cyan robots in opp penalty area!");
-            return true;
+            if(fieldinfo_.isOurPenalty(ms.pos))
+                cyan_num1++;
+
+            if(fieldinfo_.isOppPenalty(ms.pos))
+                cyan_num2++;
+
+            if(cyan_num1 >=2 || cyan_num2 >= 2)   // if two or more robots are in penalty areas, then they violate the rule
+            {
+                ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
+                sendGameCommand(STOPROBOT);
+                nextCmd_ = OPP_FREEKICK;
+                writeRecord("two or more cyan robots in the penalty area!");
+                return true;
+            }
         }
     }
 
     for(ModelState ms : magenta_info_)
     {
-        if(fieldinfo_.isOurGoal(ms.pos))
+        if(ms.id != 1)      // not consider the goal keeper
         {
-            ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
-            sendGameCommand(STOPROBOT);
-            nextCmd_ = OUR_FREEKICK;
-            writeRecord(ms.name+" in opp goal area!");
-            return true;
-        }
-        else if(fieldinfo_.isOurPenalty(ms.pos) && ms.id != 1)
-            magen_num++;
+            if(fieldinfo_.isOppGoal(ms.pos) || fieldinfo_.isOurGoal(ms.pos))
+            {
+                ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
+                sendGameCommand(STOPROBOT);
+                nextCmd_ = OUR_FREEKICK;
+                writeRecord(ms.name+" in the goal area!");
+                return true;
+            }
 
-        if(magen_num >=2)
-        {
-            ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
-            sendGameCommand(STOPROBOT);
-            nextCmd_ = OUR_FREEKICK;
-            writeRecord("two magenta robots in opp penalty area!");
-            return true;
+            if(fieldinfo_.isOurPenalty(ms.pos))
+                magen_num1++;
+
+            if(fieldinfo_.isOppPenalty(ms.pos))
+                magen_num2++;
+
+            if(magen_num1 >=2 || magen_num2>=2)     // if two or more robots are in penalty areas, then they violate the rule
+            {
+                ball_resetpos_ = getBallRstPtNotInPenalty(ball_state_.pos);
+                sendGameCommand(STOPROBOT);
+                nextCmd_ = OUR_FREEKICK;
+                writeRecord("two or more magenta robots in the penalty area!");
+                return true;
+            }
         }
     }
     return false;
