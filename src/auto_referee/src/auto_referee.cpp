@@ -13,6 +13,9 @@
     #define KEY_LEFT    '1'
     #define KEY_RIGHT   '3'
 #endif
+
+#define WAIT_SECS_STOP      2   // after 'STOP' command is received, wait how many seconds before next command is sent
+#define WAIT_SECS_PREGAME   4   // after pre-game command, such as free-kick, is received, wait how many seconds before next command is sent
 using namespace std;
 
 // Model info in world reference frame;
@@ -129,7 +132,7 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
             {
                 if(currentCmd_ == STOPROBOT)
                 {
-                    if(waittime(2))
+                    if(waittime(WAIT_SECS_STOP))
                     {
                         setBallPos(ball_resetpos_.x_, ball_resetpos_.y_);
                         sendGameCommand(nextCmd_);
@@ -142,13 +145,18 @@ void auto_referee::loopControl(const ros::TimerEvent &event)
                     R3_isBallOutOrGoal();
                     R4_isOppGoalOrPenaltyArea();
                 }
-                else if( currentCmd_!=PARKINGROBOT) // set play commands
+                else if( currentCmd_!=PARKINGROBOT) // pre-game commands, such as free-kick, drop-ball, etc.
                 {
                     // detect set-play faults
-                    if(waittime(4))
+                    if(waittime(WAIT_SECS_PREGAME))
                     {
                         //if(!R5_isTooCloseToBall())
                         sendGameCommand(STARTROBOT);
+                    }
+                    else
+                    {
+                        if(ball_state_.pos.distance(ball_resetpos_) > 10.0)     // prevent the ball from being kicked away
+                            setBallPos(ball_resetpos_.x_, ball_resetpos_.y_);
                     }
                 }
             }

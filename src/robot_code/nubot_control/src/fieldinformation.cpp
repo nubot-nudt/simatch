@@ -1,6 +1,6 @@
 #include "nubot/nubot_control/fieldinformation.h"
-
 using namespace nubot;
+const int simLOCATIONERROR = 0;
 
 FieldInformation::FieldInformation()
 {
@@ -135,7 +135,7 @@ bool FieldInformation::isOppField(DPoint world_pt)
     {
         inoppfield  =  true;
     }
-    else if(inoppfield && world_pt.x_ >  -LOCATIONERROR)
+    else if(inoppfield && world_pt.x_ >  -simLOCATIONERROR)
     {
         inoppfield =  true;
     }
@@ -158,7 +158,7 @@ bool FieldInformation::isOurField(DPoint world_pt)
     {
         inourfield  =  true;
     }
-    else if(inourfield && world_pt.x_ < LOCATIONERROR)
+    else if(inourfield && world_pt.x_ < simLOCATIONERROR)
     {
         inourfield =  true;
     }
@@ -190,9 +190,9 @@ bool FieldInformation::isOppPenalty(DPoint world_pt)
     }
     else if(inopppenalty)
     {
-        if(world_pt.x_ > (opp_penaltyarea_[1].x_ - LOCATIONERROR) &&
-                world_pt.y_ > (opp_penaltyarea_[2].y_ - LOCATIONERROR) &&
-                world_pt.y_ < (opp_penaltyarea_[1].y_ + LOCATIONERROR))
+        if(world_pt.x_ > (opp_penaltyarea_[1].x_ - simLOCATIONERROR) &&
+                world_pt.y_ > (opp_penaltyarea_[2].y_ - simLOCATIONERROR) &&
+                world_pt.y_ < (opp_penaltyarea_[1].y_ + simLOCATIONERROR))
         {
             inopppenalty = true;
         }
@@ -223,9 +223,9 @@ bool FieldInformation::isOurPenalty(DPoint world_pt)
     }
     else if(inourpenalty)
     {
-        if(world_pt.x_ < (our_penaltyarea_[1].x_ +LOCATIONERROR) &&
-                world_pt.y_ > (our_penaltyarea_[2].y_-LOCATIONERROR) &&
-                world_pt.y_ < (our_penaltyarea_[1].y_+LOCATIONERROR))
+        if(world_pt.x_ < (our_penaltyarea_[1].x_ +simLOCATIONERROR) &&
+                world_pt.y_ > (our_penaltyarea_[2].y_-simLOCATIONERROR) &&
+                world_pt.y_ < (our_penaltyarea_[1].y_+simLOCATIONERROR))
         {
             inourpenalty = true;
         }
@@ -256,9 +256,9 @@ bool FieldInformation::isOppGoal(DPoint world_pt)
     }
     else if(inopparea)
     {
-        if(world_pt.x_ > (opp_goalarea_[1].x_ - LOCATIONERROR) &&
-                world_pt.y_ > (opp_goalarea_[2].y_-LOCATIONERROR) &&
-                world_pt.y_ < (opp_goalarea_[1].y_+LOCATIONERROR))
+        if(world_pt.x_ > (opp_goalarea_[1].x_ - simLOCATIONERROR) &&
+                world_pt.y_ > (opp_goalarea_[2].y_-simLOCATIONERROR) &&
+                world_pt.y_ < (opp_goalarea_[1].y_+simLOCATIONERROR))
         {
             inopparea = true;
         }
@@ -325,9 +325,9 @@ bool FieldInformation::isOurGoal(DPoint world_pt)
     }
     else if(inourarea)
     {
-        if(world_pt.x_ < (our_goalarea_[1].x_ +LOCATIONERROR) &&
-                world_pt.y_ > (our_goalarea_[2].y_-LOCATIONERROR) &&
-                world_pt.y_ < (our_goalarea_[1].y_+LOCATIONERROR))
+        if(world_pt.x_ < (our_goalarea_[1].x_ +simLOCATIONERROR) &&
+                world_pt.y_ > (our_goalarea_[2].y_-simLOCATIONERROR) &&
+                world_pt.y_ < (our_goalarea_[1].y_+simLOCATIONERROR))
         {
             inourarea = true;
         }
