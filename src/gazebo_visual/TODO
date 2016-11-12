@@ -13,3 +13,4 @@ long-term:
 6. Add a GUI to configure parameters, e.g. robot numbers, model path, etc. (medium)
 7. let players design the flight path of the soccer ball in a lob shot; (easy)
 8. programmatically assign numbers to robots in Gazebo; refer to an email from a portuguess team;
+9. Create a GUI that is able to insert cyan/magenta robots with custom name and pose.
