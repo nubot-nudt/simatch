@@ -92,19 +92,22 @@ Nubot队伍(RoboCup team): nubot.nudt@outlook.com
 -------------------------------------------------
 -------------------------------------------------
 # 用户手册 User manual
-> **NOTE:** 
-> If you want to have a basic understanding of how Gazebo and ROS combines to work for robots, it is recommended to check out the repository ['single_nubot_gazebo'][1].
-> This contains how to configure the environment, how to run the simulation, and how the robot is simulated. You could run the ROS tool ['rqt_graph'][2] to
-> understand the basic messages and service flow. 
 
 ## Package Summary   
-   
 - Maintainer status: maintained
 - Maintainer: Weijia Yao <abcgarden@126.com>
 - Author: [NuBot Team](https://www.trustie.net/organizations/23?org_subfield_id=108)
 - License: Apache
 - Bug / feature tracker: https://github.com/nubot-nudt/simatch/issues   
 - Source: git https://github.com/nubot-nudt/simatch (branch: master)   
+
+## Quick Start Video Tutorial
+[Video][20]
+
+> **NOTE:** 
+> If you want to have a basic understanding of how Gazebo and ROS combines to work for robots, it is recommended to check out the repository ['single_nubot_gazebo'][1].
+> This contains how to configure the environment, how to run the simulation, and how the robot is simulated. You could run the ROS tool ['rqt_graph'][2] to
+> understand the basic messages and service flow. 
 
 ## Recommended Operating Environment
 1. Ubuntu 14.04; 
@@ -654,6 +657,7 @@ So you should also write some code to [world_model.cpp][13].
 [17]: https://en.wikipedia.org/wiki/Ncurses
 [18]: http://v.youku.com/v_show/id_XMTc2NjA4NDc1Ng==.html?from=s1.8-1-1.2&spm=a2h0k.8191407.0.0
 [19]: https://youtu.be/TGs9Bfc6aXw
+[20]: http://v.youku.com/v_show/id_XMTg1MTg1ODc1Ng==.html?spm=a2hzp.8244740.userfeed.5!2~5~5~5!3~5~A
 
 [pic1]: pics/simatch.png
 [pic2]: pics/rosgraph_single_robot.png
