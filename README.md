@@ -2,6 +2,14 @@
 # China Robot Competition Middle Size Simulation League (With English User Manual)
 ![simatch][pic1]
 
+## Package Summary   
+- Maintainer status: maintained
+- Maintainer: Weijia Yao <abcgarden@126.com>
+- Author: [NuBot Team](https://www.trustie.net/organizations/23?org_subfield_id=108)
+- License: Apache
+- Bug / feature tracker: https://github.com/nubot-nudt/simatch/issues   
+- Source: git https://github.com/nubot-nudt/simatch (branch: master)  
+
 ## 演示视频 Demo Video
 Two options:    
 1. [优酷Youku][18]  
@@ -91,15 +99,7 @@ Nubot队伍(RoboCup team): nubot.nudt@outlook.com
 
 -------------------------------------------------
 -------------------------------------------------
-# 用户手册 User manual
-
-## Package Summary   
-- Maintainer status: maintained
-- Maintainer: Weijia Yao <abcgarden@126.com>
-- Author: [NuBot Team](https://www.trustie.net/organizations/23?org_subfield_id=108)
-- License: Apache
-- Bug / feature tracker: https://github.com/nubot-nudt/simatch/issues   
-- Source: git https://github.com/nubot-nudt/simatch (branch: master)   
+# 用户手册 User manual 
 
 ## Quick Start Video Tutorial
 [Video][20]
