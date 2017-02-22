@@ -2,6 +2,7 @@
 build/
 devel/
 record/
+simatch_tutorial/
 
 CMakeLists.txt.*
 *~
