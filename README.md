@@ -37,14 +37,27 @@ Two options:
 
 ## 目前[auto_referee][16]中可以检测的规则
 1. 单个机器人带球不能超过3m，需要传球才可以；   
-   ~~2. 单个机器人带球不能从己方半场过中线到对方半场，必须传球过中线才可以；~~   
+
 2. 球出界或者射门得分；   
+
 3. 除了守门员以外其他机器人不得进入小禁区，除了守门员以外在大禁区的机器人数量最多1个；   
+
 4. 发球时机器人离球距离的限制，具体如下：   
     (1) 如果是THROWIN，GOALKICK，CORNERKICK或者FREEKICK的情况时，对方机器人离球要超过3m，己方机器人除了开球机器人以外其他机器人要离球超过2m；   
     (2) 如果是KICKOFF的情况时，除了发球机器人外其余机器人都必须在自己的半场，且对方机器人离球要超过3m，己方机器人除了开球机器人以外其他机器人要离球超过2m；   
     (3) 如果是DROPBALL的情况时，所有机器人离球必须超过1m，但是如果在自己的大禁区则不受此距离限制；   
     (4) 如果是比赛过程中的PENALTY情况时，除了守门员外其余机器人不得在大禁区内且除了准备点球的那个机器人外其余机器人必须离球超过3m；   
+
+5. **限制机器人最大平移速度为5m/s，最大角速度为6rad/s，最大平移加速度为**
+   $$
+   2.5m/s^2
+   $$
+   **最大角加速度为**
+
+6. $$
+   3rad/s^2
+   $$
+
 
 ### [auto_referee][16]即将添加的规则
 1. 考虑发球等待时延；   
@@ -53,10 +66,10 @@ Two options:
 ## 比赛流程
 假设服务器（即运行Gazebo的由比赛方提供的主机）的IP地址为IpA，主机名(hostname)为hostA; cyan方参赛队主机的IP地址为IpB，主机名为hostB; magenta方参赛队主机的IP地址为IpC，主机名为hostC,那么相应的配置如下:
 
-### 参赛队主机的配置（由参赛选手完成）
-主机只需要运行自己的机器人代码，即robot_code的部分，禁止运行gazebo_visual，auto_refereeoach4sim。比赛过程如非特何人操作参赛主机，否则视为作弊，除非征得裁判和对方队员同意。
+### 参赛队主机的配置
+主机只需要运行自己的机器人代码，即robot_code的部分，禁止运行gazebo_visual，auto_referee,coach4sim。比赛过程如非特何人操作参赛主机，否则视为作弊，除非征得裁判和对方队员同意。
 
-### 服务器的配置（由辅助裁判完成）
+### 服务器的配置
 1. 将所有参赛队伍的IP地址和主机名加入服务器的/etc/hosts文件中；（赛事负责人将提前将每个队伍的参赛主机名以及参赛队伍名称收集好，其中IP地址将固定分配给每个队伍）。   
 2. 在[sim_config][14]文件中更改cyan/prefix以及magenta/prefix的值为参赛双方的队伍名字;  
 3. 打开Gazebo，即`$ roslaunch nubot_gazebo game_ready.launch`   
@@ -120,28 +133,28 @@ Nubot队伍(RoboCup team): nubot.nudt@outlook.com
 **NOTE:** 
 Concerning how to install appropriate **gazebo_ros_pkgs**, please read the following according to your own situation:   
 - 1.  If you decide to use **ROS Indigo**, please read the following:   
-       If you choose "desktop-full" install of ROS Indigo, there is a Gazebo 2.0 included initially. In order to install Gazebo 5.0/5.1, you should first remove Gazebo 2.0 by running:   
-       (**The following command is dangerous; it might delete the whole ROS, so please do it carefully or you may find other ways to delete gazebo2**)   
-       ` $ sudo apt-get remove gazebo2* `    
-       Then you should be able to install Gazebo 5.0 now. To install gazebo_ros_pkgs compatible with Gazebo
-       5.0/5.1, run this command:   
-       ` $ sudo apt-get install ros-indigo-gazebo5-ros-pkgs ros-indigo-gazebo5-ros-control`   
-       HOWEVER,    if the above command does now work, these packages may be moved to other places. You can check out [gazebo_ros][3] and download and install the correct version.   
+        If you choose "desktop-full" install of ROS Indigo, there is a Gazebo 2.0 included initially. In order to install Gazebo 5.0/5.1, you should first remove Gazebo 2.0 by running:   
+        (**The following command is dangerous; it might delete the whole ROS, so please do it carefully or you may find other ways to delete gazebo2**)   
+        ` $ sudo apt-get remove gazebo2* `    
+        Then you should be able to install Gazebo 5.0 now. To install gazebo_ros_pkgs compatible with Gazebo
+        5.0/5.1, run this command:   
+        ` $ sudo apt-get install ros-indigo-gazebo5-ros-pkgs ros-indigo-gazebo5-ros-control`   
+        HOWEVER,    if the above command does now work, these packages may be moved to other places. You can check out [gazebo_ros][3] and download and install the correct version.   
 - 2. If you decide to use **ROS Jade** with **gazebo 5.0 or 5.1**, read the following   
-      ROS Jade has gazebo_ros_pkgs with it; so you don't have to install gazebo_ros_pkgs again.  
-      However, you should do the following steps to fix some of the bugs in ROS Jade related to Gazebo:        
+       ROS Jade has gazebo_ros_pkgs with it; so you don't have to install gazebo_ros_pkgs again.  
+       However, you should do the following steps to fix some of the bugs in ROS Jade related to Gazebo:        
 - (a) `$ sudo gedit /opt/ros/jade/lib/gazebo_ros/gazebo`    
-   In this file, go to line 24 and delete the last '/'. So    
-   `setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo/`    
-   is changed to     
-   `setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo`    
-   You can read this link for more [information][4]
+    In this file, go to line 24 and delete the last '/'. So    
+    `setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo/`    
+    is changed to     
+    `setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo`    
+    You can read this link for more [information][4]
    -  (b) Install Gazebo 5.     
        `$ sudo apt-get install gazebo5`     
       If this fails, try to run the ['gazebo5_install.sh'][5](obtained from Gazebo's official website).    
       Read for more [information][6]   
    -  (c) Optional: copy resource files to the new gazebo folder.    
-       `$ sudo cp -r /usr/share/gazebo-5.0/* /usr/share/gazebo-5.1`      
+        `$ sudo cp -r /usr/share/gazebo-5.0/* /usr/share/gazebo-5.1`      
 - 3. If you decide to use **ROS Jade** with **gazebo 7.1**, read the following,    
 - (1) Install gazebo 7.0 by running [gazebo7_install.sh][7](obtained from Gazebo's official website);      
    -  (2) Then run this in the terminal:   
@@ -160,7 +173,7 @@ Since [auto_referee][16] depends on [ncurses][17], if you would like to use it t
 1) Cannot find cmake file related to Qt and therefore cannot complie coach4sim.   
 + Explanation: This means it cannot find the cmake file to Qt. Since coach4sim uses Qt to draw its GUI, we need Qt to compile the program successfully(solution 1). However, since the function of coach4sim is only to send game commands, you could do this manually by sending approriate ROS messages without using coach4sim(solution 2).   
 + Solution 1:  You should first install Qt and then add the location to CMAKE_PREFIX_PATH. In this case, go to src/coach4sim/CMakeLists.txt and add the path to line 5. The final result would look like this:   
-     `  set(CMAKE_PREFIX_PATH  ${CMAKE_PREFIX_PATH} "/opt/Qt5.3.2/5.3/gcc_64/lib/cmake/Qt5Widgets/") `    
+       `  set(CMAKE_PREFIX_PATH  ${CMAKE_PREFIX_PATH} "/opt/Qt5.3.2/5.3/gcc_64/lib/cmake/Qt5Widgets/") `    
     + Solution 2: In another terminal, input the following to send a game command:   
 ```    
 rostopic pub -r 1 /nubot/receive_from_coach  nubot_common/CoachInfo "
