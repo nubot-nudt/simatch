@@ -2,7 +2,7 @@
 # China Robot Competition Middle Size Simulation League (With English User Manual)
 ![simatch][pic1]
 
-## Package Summary   
+## 概述 Package Summary    
 - Maintainer status: maintained
 - Maintainer: Weijia Yao <abcgarden@126.com>
 - Author: [NuBot Team](https://www.trustie.net/organizations/23?org_subfield_id=108)
@@ -10,12 +10,16 @@
 - Bug / feature tracker: https://github.com/nubot-nudt/simatch/issues   
 - Source: git https://github.com/nubot-nudt/simatch (branch: master)  
 
+## 联系 Contact
+软件维护者(Maitainer): abcgarden@126.com   
+Nubot队伍(RoboCup team): nubot.nudt@outlook.com   
+
 ## 演示视频 Demo Video
 Two options:    
 1. [优酷Youku][18]  
 2. [Youtube][19]  
 
-## 说明
+## 软件模块 Software Modules 
 该软件包包括了robot_code模块，gazebo_visual模块，coach4sim模块，common模块以及auto_referee模块，其中，参赛选手主要注重robot_code模块，里面包含的是控制机器人运动的相关程序。各个模块的介绍如下：   
 
 - robot_code: 机器人的感知、规划、运动控制等方面，由NuBot队伍的机器人代码改造而成,其中主要的策略等(在nubot_control软件包中)部分已经删除，选手应自行编写，其余部分可以直接沿用，也可随意改动。
@@ -26,7 +30,7 @@ Two options:
 
 > 请先学习ROS、C++，作为基本技能和知识，然后对机器人策略等方面有一定了解，再进行robot_code的多机器人协同程序的编写。由于目前仿真中可以直接得到准确的全局信息，所以选手可能会倾向于集中式控制，但是，建议选手用分布式机器人控制。在未来会在仿真中增加更多的现实因素，比如考虑单个机器人所能获取信息的局限性等；   
 
-## 可能增加或改变的规则(最终以比赛时为准)
+## 可能增加或改变的规则(最终以比赛时为准) Game Rules
 比赛规则参考2016年RoboCup中型组比赛的[规则][15]，但是由于仿真比赛的特殊性，不会完全按照里面的所有规则，比如说：   
 1. 比赛不分上下半场，一共15分钟左右；   
 2. 任何利用自动裁判盒([auto_referee][16])的漏洞获取比赛中的优势将视为作弊行为，比赛成绩无效;     
@@ -49,8 +53,6 @@ Two options:
     (4) 如果是比赛过程中的PENALTY情况时，除了守门员外其余机器人不得在大禁区内且除了准备点球的那个机器人外其余机器人必须离球超过3m；   
 
 5. **限制机器人最大平移速度为5m/s，最大角速度为6rad/s，最大平移加速度为2.5m/s^2，最大角加速度为3rad/s^2。**
-
-
 
 ### [auto_referee][16]即将添加的规则
 1. 考虑发球等待时延；   
@@ -98,10 +100,6 @@ Two options:
 3. 最后创建一个pull request如下图所示，这样我就能够审批通过你的编辑了
 
 ![pull][pic6]  
-
-## 联系
-软件维护者(Maitainer): abcgarden@126.com   
-Nubot队伍(RoboCup team): nubot.nudt@outlook.com   
 
 -------------------------------------------------
 -------------------------------------------------
