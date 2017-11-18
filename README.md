@@ -113,6 +113,10 @@ Two options:
 > This contains how to configure the environment, how to run the simulation, and how the robot is simulated. You could run the ROS tool ['rqt_graph'][2] to
 > understand the basic messages and service flow. 
 
+## Quick Start Docker Image
+
+Please refer to [simatch-docker](https://github.com/dortmans/simatch-docker) for building and running the Simatch using [Docker](https://www.docker.com/).
+
 ## Recommended Operating Environment
 1. Ubuntu 14.04; 
 2. ROS Indigo or ROS Jade. (It is recommended to install ROS Jade)
@@ -124,13 +128,13 @@ Two options:
 **NOTE:** 
 Concerning how to install appropriate **gazebo_ros_pkgs**, please read the following according to your own situation:   
 - 1.  If you decide to use **ROS Indigo**, please read the following:   
-         If you choose "desktop-full" install of ROS Indigo, there is a Gazebo 2.0 included initially. In order to install Gazebo 5.0/5.1, you should first remove Gazebo 2.0 by running:   
-         (**The following command is dangerous; it might delete the whole ROS, so please do it carefully or you may find other ways to delete gazebo2**)   
-         ` $ sudo apt-get remove gazebo2* `    
-         Then you should be able to install Gazebo 5.0 now. To install gazebo_ros_pkgs compatible with Gazebo
-         5.0/5.1, run this command:   
-         ` $ sudo apt-get install ros-indigo-gazebo5-ros-pkgs ros-indigo-gazebo5-ros-control`   
-         HOWEVER,    if the above command does now work, these packages may be moved to other places. You can check out [gazebo_ros][3] and download and install the correct version.   
+        If you choose "desktop-full" install of ROS Indigo, there is a Gazebo 2.0 included initially. In order to install Gazebo 5.0/5.1, you should first remove Gazebo 2.0 by running:   
+        (**The following command is dangerous; it might delete the whole ROS, so please do it carefully or you may find other ways to delete gazebo2**)   
+        ` $ sudo apt-get remove gazebo2* `    
+        Then you should be able to install Gazebo 5.0 now. To install gazebo_ros_pkgs compatible with Gazebo
+        5.0/5.1, run this command:   
+        ` $ sudo apt-get install ros-indigo-gazebo5-ros-pkgs ros-indigo-gazebo5-ros-control`   
+        HOWEVER,    if the above command does now work, these packages may be moved to other places. You can check out [gazebo_ros][3] and download and install the correct version.   
 - 2. If you decide to use **ROS Jade** with **gazebo 5.0 or 5.1**, read the following   
         ROS Jade has gazebo_ros_pkgs with it; so you don't have to install gazebo_ros_pkgs again.  
         However, you should do the following steps to fix some of the bugs in ROS Jade related to Gazebo:        
@@ -140,14 +144,14 @@ Concerning how to install appropriate **gazebo_ros_pkgs**, please read the follo
      is changed to     
      `setup_path=$(pkg-config --variable=prefix gazebo)/share/gazebo`    
      You can read this link for more [information][4]
-   -  (b) Install Gazebo 5.     
+   - (b) Install Gazebo 5.     
        `$ sudo apt-get install gazebo5`     
       If this fails, try to run the ['gazebo5_install.sh'][5](obtained from Gazebo's official website).    
       Read for more [information][6]   
    -  (c) Optional: copy resource files to the new gazebo folder.    
-         `$ sudo cp -r /usr/share/gazebo-5.0/* /usr/share/gazebo-5.1`      
-- 3. If you decide to use **ROS Jade** with **gazebo 7.1**, read the following,    
-- (1) Install gazebo 7.0 by running [gazebo7_install.sh][7](obtained from Gazebo's official website);      
+        `$ sudo cp -r /usr/share/gazebo-5.0/* /usr/share/gazebo-5.1`      
+-  3. If you decide to use **ROS Jade** with **gazebo 7.1**, read the following,    
+-  (1) Install gazebo 7.0 by running [gazebo7_install.sh][7](obtained from Gazebo's official website);      
    -  (2) Then run this in the terminal:   
    -  ` $ sudo apt-get install ros-jade-gazebo7-ros-pkgs`   
 
@@ -664,7 +668,7 @@ So you should also write some code to [world_model.cpp][13].
 [15]: doc/Robocup-msl-rules-2016.pdf
 [16]: src/auto_referee/
 [17]: https://en.wikipedia.org/wiki/Ncurses
-[18]: http://v.youku.com/v_show/id_XMTc2NjA4NDc1Ng==.html?from=s1.8-1-1.2&amp;spm=a2h0k.8191407.0.0
+[18]: http://v.youku.com/v_show/id_XMTc2NjA4NDc1Ng==.html?from=s1.8-1-1.2&amp;amp;spm=a2h0k.8191407.0.0
 [19]: https://youtu.be/TGs9Bfc6aXw
 [20]: http://v.youku.com/v_show/id_XMTg1MTg1ODc1Ng==.html?spm=a2hzp.8244740.userfeed.5!2~5~5~5!3~5~A
 
@@ -672,6 +676,6 @@ So you should also write some code to [world_model.cpp][13].
 [pic2]: pics/rosgraph_single_robot.png
 [pic3]: pics/multi-computers.png
 [pic4]: pics/fork.jpg
-[pic5]: pics/q&amp;a.jpg
+[pic5]: pics/q&amp;amp;a.jpg
 [pic6]: pics/pull_request.png
 [pic7]: pics/strategyInfo.png
