@@ -11,7 +11,7 @@
 - Source: git https://github.com/nubot-nudt/simatch (branch: master)  
 
 ## 联系 Contact
-软件维护者(Maitainer): abcgarden@126.com   
+软件维护者(Maitainer): weijia.yao.nudt@gmail.com   
 Nubot队伍(RoboCup team): nubot.nudt@outlook.com   
 
 ## 演示视频 Demo Video
