@@ -4,7 +4,7 @@
 
 ## 概述 Package Summary    
 - Maintainer status: maintained
-- Maintainer: Weijia Yao <abcgarden@126.com>
+- Maintainer: Weijia Yao <weijia.yao.nudt@gmail.com>
 - Author: [NuBot Team](https://www.trustie.net/organizations/23?org_subfield_id=108)
 - License: Apache
 - Bug / feature tracker: https://github.com/nubot-nudt/simatch/issues   
