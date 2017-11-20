@@ -1,5 +1,5 @@
 # 中国机器人大赛中型组仿真比赛
-# China Robot Competition Middle Size Simulation League (With English User Manual)
+# China Robotics Competition Middle Size Simulation League (With English User Manual)
 ![simatch][pic1]
 
 ## 概述 Package Summary    
@@ -230,6 +230,13 @@ If you want to run those modules seperatly, you could
 4 To run coach4sim,      
 `rosrun coach4sim cyan_coach.sh` or `rosrun coach4sim magenta_coach.sh`   
 
+5 (Optional) To run auto_referee
+
+` $ rosrun auto_referee auto_referee -1` 
+or ` $ rosrun auto_referee auto_referee 1`  
+
+The argument -1 means cyan kick-off otherwise magenta kick-off.
+
 > **NOTE:**    
 > 1. You could change some parameters in sim_config(see "Change game parameters" part below) file and relaunch all modules again.   
 > 2. You might not watch the robots doing anything because the movement part in 'nubot_control' package is removed. You might need to write some codes by yourself.   
@@ -249,7 +256,7 @@ If you want to run those modules seperatly, you could
      In computer B, `$ sudo gedit /etc/hosts and add "192.168.8.101 Bart"`
 2. In computer A, run gazebo_visual; In computer B, before you run nubot_ws, you should export ROS_MASTER_URI.
    e.g. In computer B, ` $ export ROS_MASTER_URI=http://Bart:11311`
-3. In computer B, run coach and send game command
+3. In computer B, run coach and send game command. Alternatively, you can run auto_referee in computer A to let the game be played automatically with an autonomous referee.
 
 ### Change game parameters
 You could change some parameters in "sim_config", which is a symbolic link to [global_config.yaml][14]. The content of this file is:
@@ -287,12 +294,12 @@ The robot movement is realized by a Gazebo model plugin which is called "NubotGa
 The gazebo plugin subscribes to topic **"nubotcontrol/velcmd"** for omnidirecitonal movement and **"omnivision/OmniVisionInfo"** which contains messages about the soccer ball and all the robots' information such as position, velocity and etc. like the functions of an omnivision camera. For services, it subscribes to service **"BallHandle"** and **"Shoot"** for ball-dribbling and ball-kicking respectively.  Since there may be multiple robots, these topics or services names should be prefixed with the robot model names in order to distinguish between each other. For example, if your robot model's name is "nubot1", then the topic names are **"/nubot1/nubotcontrol/velcmd"** and **"/nubot1/omnivision/OmniVisionInfo"** and the service names would be changed to **"/nubot1/BallHandle"** and **"/nubot1/Shoot"** accordingly. You can customize this code for your robot based on these messages and services as a convenient interface. The types and definitions of the topics and servivces are listed in the following table:    
 
 
-|             Topic/Service             |            Type             | Definition                               |      |
-| :-----------------------------------: | :-------------------------: | :--------------------------------------- | ---- |
-|    **/nubot1/nubotcontrol/velcmd**    |     nubot_common/VelCmd     | float32 Vx <br> float32 Vy <br>  float32 w |      |
-| **/nubot1/omnivision/OmniVisionInfo** | ubot_common/OminiVisionInfo | Header header <br> [BallInfo][8] ballinfo <br> [ObstaclesInfo][9] obstacleinfo <br> [RobotInfo][10][]  robotinfo |      |
-|        **/nubot1/BallHandle**         |   nubot_common/BallHandle   | int64 enable <br> --- <br>  int64 BallIsHolding |      |
-|           **/nubot1/Shoot**           |     nubot_common/Shoot      | int64 strength <br> int64 ShootPos <br>  --- <br> int64 ShootIsDone |      |
+|             Topic/Service             |            Type             | Definition                               |
+| :-----------------------------------: | :-------------------------: | :--------------------------------------- |
+|    **/nubot1/nubotcontrol/velcmd**    |     nubot_common/VelCmd     | float32 Vx <br> float32 Vy <br>  float32 w |
+| **/nubot1/omnivision/OmniVisionInfo** | ubot_common/OminiVisionInfo | Header header <br> [BallInfo][8] ballinfo <br> [ObstaclesInfo][9] obstacleinfo <br> [RobotInfo][10][]  robotinfo |
+|        **/nubot1/BallHandle**         |   nubot_common/BallHandle   | int64 enable <br> --- <br>  int64 BallIsHolding |
+|           **/nubot1/Shoot**           |     nubot_common/Shoot      | int64 strength <br> int64 ShootPos <br>  --- <br> int64 ShootIsDone |
 
 
 For the definition of /BallHandle service, when "enable" equals to a non-zero number, a dribble request would be sent. If the robot meets the conditions to dribble the ball, the service response "BallIsHolding" is true.    
@@ -634,9 +641,10 @@ nubot::World_Model::updateStrategyinfo(const nubot_common::simulation_strategy &
 So you should also write some code to [world_model.cpp][13].
 
 --------------------------
-# NEW FEATURE
+# New features
 
 1. if robot's position satisfies fabs(x) > 10 or fabs(y) > 7, then the robot's `isvalid` flag is set to false. Please refer to the function `bool NubotGazebo::is_robot_valid(double x, double y)` in `nubot_gazebo.cc`.
+2. Addedacceleration limits.
 
 ## Questions & Answers
 
@@ -668,7 +676,7 @@ So you should also write some code to [world_model.cpp][13].
 [15]: doc/Robocup-msl-rules-2016.pdf
 [16]: src/auto_referee/
 [17]: https://en.wikipedia.org/wiki/Ncurses
-[18]: http://v.youku.com/v_show/id_XMTc2NjA4NDc1Ng==.html?from=s1.8-1-1.2&amp;amp;spm=a2h0k.8191407.0.0
+[18]: http://v.youku.com/v_show/id_XMTc2NjA4NDc1Ng==.html?from=s1.8-1-1.2&amp;amp;amp;spm=a2h0k.8191407.0.0
 [19]: https://youtu.be/TGs9Bfc6aXw
 [20]: http://v.youku.com/v_show/id_XMTg1MTg1ODc1Ng==.html?spm=a2hzp.8244740.userfeed.5!2~5~5~5!3~5~A
 
@@ -676,6 +684,6 @@ So you should also write some code to [world_model.cpp][13].
 [pic2]: pics/rosgraph_single_robot.png
 [pic3]: pics/multi-computers.png
 [pic4]: pics/fork.jpg
-[pic5]: pics/q&amp;amp;a.jpg
+[pic5]: pics/q&amp;amp;amp;a.jpg
 [pic6]: pics/pull_request.png
 [pic7]: pics/strategyInfo.png
