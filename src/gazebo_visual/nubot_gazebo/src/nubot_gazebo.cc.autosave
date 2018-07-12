@@ -469,8 +469,6 @@ void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector
     double max_acc_linear_ = 2.5;
     double max_acc_angular_ = 3;
 
-
-
     static ros::Time last_time_ = ros::Time::now();
     ros::Time now_time_ = ros::Time::now();
     ros::Duration duration_time_ = now_time_ - last_time_;

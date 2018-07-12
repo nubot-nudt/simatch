@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 find_package(Boost REQUIRED COMPONENTS system)
 #find_package(Curses REQUIRED)
-
+find_package(OpenCV REQUIRED)
 #link_directories(${GAZEBO_LIBRARY_DIRS})
 include_directories(${catkin_INCLUDE_DIRS}
 #                    ${GAZEBO_INCLUDE_DIRS}
@@ -35,6 +35,7 @@ add_executable(auto_referee src/auto_referee.cpp
 )
 add_dependencies(auto_referee ${catkin_EXPORTED_TARGETS})
 target_link_libraries(auto_referee ${catkin_LIBRARIES}
+${OpenCV_LIBS}
 									ncurses
                                    #${GAZEBO_LIBRARIES}
                                    #${CURSES_LIBRARIES}

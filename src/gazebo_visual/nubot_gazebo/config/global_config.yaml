@@ -7,11 +7,11 @@ general:
 
 cyan:
   prefix: "nubot"             # Nubot name prefix. 
-  num: 3
+  num: 5
  
 magenta:
   prefix: "rival"            # Rival name prefix. 
-  num: 3
+  num: 5
 
 field:
   length: 18                     # Use integer!   used in spawn_model_script

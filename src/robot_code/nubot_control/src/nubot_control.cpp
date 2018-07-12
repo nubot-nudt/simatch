@@ -114,7 +114,6 @@ public:
         for(std::size_t i = 0 ; i < OUR_TEAM ; i++)
         {
             world_model_info_.RobotInfo_[i].setID(_world_msg.robotinfo[i].AgentID);
-
             world_model_info_.RobotInfo_[i].setTargetNum(1,_world_msg.robotinfo[i].targetNum1);
             world_model_info_.RobotInfo_[i].setTargetNum(2,_world_msg.robotinfo[i].targetNum2);
             world_model_info_.RobotInfo_[i].setTargetNum(3,_world_msg.robotinfo[i].targetNum3);
@@ -144,7 +143,7 @@ public:
         world_model_info_.Obstacles_.clear();
         for(nubot_common::Point2d point : _world_msg.obstacleinfo.pos )
             world_model_info_.Obstacles_.push_back(DPoint(point.x,point.y));
-        world_model_info_.Opponents_.clear();
+            world_model_info_.Opponents_.clear();
         for(nubot_common::Point2d point : _world_msg.oppinfo.pos )
             world_model_info_.Opponents_.push_back(DPoint(point.x,point.y));
         /** 更新足球物信息*/
@@ -229,8 +228,66 @@ public:
 
 
     void positioning()
+    { 
+        switch (match_mode_)
+        {
+        case OUR_KICKOFF:
+            //OurkickoffReady_();
+            OurDefaultReady_();
+            break;
+        case OPP_KICKOFF:
+            //OppkickoffReady_();
+            OppDefaultReady_();
+            break;
+        case OUR_FREEKICK:
+            OurDefaultReady_();
+            break;
+        case OPP_FREEKICK:
+            //OppDefaultReady_();
+            OppDefaultReady_();
+            break;
+        case OUR_GOALKICK:
+            OurDefaultReady_();
+            break;
+        case OPP_GOALKICK:
+            //OppDefaultReady_();
+            OppDefaultReady_();
+            break;
+        case OUR_CORNERKICK:
+            OurDefaultReady_();
+            break;
+        case OPP_CORNERKICK:
+            //OppDefaultReady_();
+            OppDefaultReady_();
+            break;
+        case OUR_THROWIN:
+            OurDefaultReady_();
+            break;
+        case OPP_THROWIN:
+            //OppDefaultReady_();
+            OppDefaultReady_();
+            break;
+        case OUR_PENALTY:
+            //OurPenaltyReady_();
+            OurDefaultReady_();
+            break;
+        case OPP_PENALTY:
+            //OppPenaltyReady_();
+            OppDefaultReady_();
+            break;
+        case DROPBALL:
+            //DropBallReady_();
+            OurDefaultReady_();
+            break;
+        default:
+            break;
+        }
+    }
+
+
+    void  OppDefaultReady_()
     {
-        DPoint br = ball_pos_ - robot_pos_;
+         DPoint br = ball_pos_ - robot_pos_;
         switch(world_model_info_.AgentID_)  // 十分简单的实现，固定的站位，建议动态调整站位，写入staticpass.cpp中
         {                                   // 站位还需要考虑是否犯规，但是现在这个程序没有考虑。
             case 1:
@@ -254,6 +311,35 @@ public:
                     move2ori(br.angle().radian_, robot_ori_.radian_);
             break;
         }
+
+    }
+    void  OurDefaultReady_()
+    {
+        DPoint br = ball_pos_ - robot_pos_;
+        switch(world_model_info_.AgentID_)  // 十分简单的实现，固定的站位，建议动态调整站位，写入staticpass.cpp中
+        {                                   // 站位还需要考虑是否犯规，但是现在这个程序没有考虑。
+            case 1:
+                if(move2target(DPoint(-850.0, 0.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 2:
+                if(move2target(ball_pos_, robot_pos_,100.0))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 3:
+                if(move2target(ball_pos_, robot_pos_,200.0))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 4:
+                if(move2target(DPoint(-450.0, 200.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+            case 5:
+                if(move2target(DPoint(-450.0, -200.0), robot_pos_))
+                    move2ori(br.angle().radian_, robot_ori_.radian_);
+            break;
+        }
+
     }
 
     void parking()

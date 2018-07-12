@@ -30,43 +30,52 @@ void StaticPass::staticReady_()                    //判断何种站位
     switch (world_model_->CoachInfo_.MatchMode)
     {
     case OUR_KICKOFF:
-        OurkickoffReady_();
+        //OurkickoffReady_();
+        OurDefaultReady_();
         break;
     case OPP_KICKOFF:
-        OppkickoffReady_();
+        //OppkickoffReady_();
+        OurDefaultReady_();
         break;
     case OUR_FREEKICK:
         OurDefaultReady_();
         break;
     case OPP_FREEKICK:
-        OppDefaultReady_();
+        //OppDefaultReady_();
+        OurDefaultReady_();
         break;
     case OUR_GOALKICK:
         OurDefaultReady_();
         break;
     case OPP_GOALKICK:
-        OppDefaultReady_();
+        //OppDefaultReady_();
+        OurDefaultReady_();
         break;
     case OUR_CORNERKICK:
         OurDefaultReady_();
         break;
     case OPP_CORNERKICK:
-        OppDefaultReady_();
+        //OppDefaultReady_();
+        OurDefaultReady_();
         break;
     case OUR_THROWIN:
         OurDefaultReady_();
         break;
     case OPP_THROWIN:
-        OppDefaultReady_();
+        //OppDefaultReady_();
+        OurDefaultReady_();
         break;
     case OUR_PENALTY:
-        OurPenaltyReady_();
+        //OurPenaltyReady_();
+        OurDefaultReady_();
         break;
     case OPP_PENALTY:
-        OppPenaltyReady_();
+        //OppPenaltyReady_();
+        OurDefaultReady_();
         break;
     case DROPBALL:
-        DropBallReady_();
+        //DropBallReady_();
+        OurDefaultReady_();
         break;
     default:
         break;
@@ -75,7 +84,6 @@ void StaticPass::staticReady_()                    //判断何种站位
 
 void StaticPass::OurDefaultReady_()                   //我方发球默认的站位
 {
-
 }
 
 void StaticPass::OppDefaultReady_()               //对方发球默认站位
