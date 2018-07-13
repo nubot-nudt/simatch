@@ -22,9 +22,15 @@ const math::Vector3 kick_vector_robot(1,0,0);    // assume the normalized vector
                                                  // is in x-axis direction
 const double goal_x = 9.0;
 const double goal_height = 1.0;
-const double        g = 9.8;
-const double        m = 0.41;                   // ball mass (kg)
+const double g = 9.8;
+const double m = 0.41;                          // ball mass (kg)
 const double eps = 0.0001;                      // small value
+
+/* speed and acceleration limit */
+const double max_linear_vel_ = 5;
+const double max_angular_vel_ = 6;
+const double max_acc_linear_ = 2.5;
+const double max_acc_angular_ = 3;
 
 using namespace gazebo;
 using namespace std;
@@ -464,6 +470,7 @@ void NubotGazebo::message_publish(void)
 
 void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector3 angular_vel_vector)
 {
+
     double max_linear_vel_ = 5;
     double max_angular_vel_ = 6;
     double max_acc_linear_ = 2.5;
@@ -486,9 +493,9 @@ void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector
     math::Vector3 acc_angular_vector_;
 
 
-
     desired_trans_vector_ = linear_vel_vector;
     desired_rot_vector_   = angular_vel_vector;
+
     // planar movement
 
     desired_trans_vector_.z = 0;
@@ -530,12 +537,14 @@ void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector
     {
         acc_angular_vector_ = acc_angular_vector_.Normalize() * max_acc_angular_;
         desired_rot_vector_ = last_angular_vector_ + 0.9 * (acc_angular_vector_ * duration);
+
     }
 
 
     robot_model_->SetLinearVel(desired_trans_vector_);
     robot_model_->SetAngularVel(desired_rot_vector_);
     judge_nubot_stuck_ = 1;                                                 // only afetr nubot tends to move can I judge if it is stuck
+
     last_linear_vector_ = desired_trans_vector_;
     last_angular_vector_ = desired_rot_vector_;
     last_time_ = now_time_;
@@ -830,7 +839,7 @@ void NubotGazebo::update_child()
         /********** EDIT BEGINS **********/
 
         nubot_be_control();
-        // nubot_test();
+        //nubot_test();
 
         /**********  EDIT ENDS  **********/
     }
@@ -958,6 +967,17 @@ void NubotGazebo::nubot_test(void)
     //debug_msgs_.data.push_back(vel2);
     debug_pub_.publish(debug_msgs_);
 #endif
+    math::Vector3 a(5,0,0);
+    math::Vector3 b(8,0,0);
+    static ros::Time last_time = ros::Time::now();
+    if((ros::Time::now()-last_time).toSec() > 1)
+    {
+        nubot_locomotion(b, ZERO_VECTOR);
+        last_time = ros::Time::now();
+        cout<<"change vel"<<endl;
+    }
+    else
+        nubot_locomotion(a, ZERO_VECTOR);
 }
 
 /// For reference
