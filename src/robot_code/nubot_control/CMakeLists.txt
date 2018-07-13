@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(Eigen REQUIRED)
+find_package(OpenCV REQUIRED)
 
 catkin_package(
   INCLUDE_DIRS include
@@ -57,6 +58,7 @@ add_executable(nubot_control_node src/nubot_control.cpp
 add_dependencies(nubot_control_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(nubot_control_node
    ${catkin_LIBRARIES}
- )
+   ${OpenCV_LIBS}
+)
 
 

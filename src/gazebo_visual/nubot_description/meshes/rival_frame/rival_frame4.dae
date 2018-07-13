@@ -3125,10 +3125,10 @@
     </library_effects>
     <library_images>
         <image id="ID177">
-            <init_from>rival_frame4/texture0.jpg</init_from>
+            <init_from>rival_frame4/texture0.png</init_from>
         </image>
         <image id="ID348">
-            <init_from>rival_frame4/texture1.jpg</init_from>
+            <init_from>rival_frame4/texture1.png</init_from>
         </image>
         <image id="ID381">
             <init_from>rival_frame4/texture2.png</init_from>

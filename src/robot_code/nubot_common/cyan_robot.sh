@@ -22,7 +22,7 @@ do
     rosrun nubot_control    nubot_control_node ${cyan_prefix}${i}   __name:=${cyan_prefix}_nubot_control${i} &
     PIDS[kill_num]=$!
     let "kill_num=kill_num+1"
-    sleep 0.5
+    #sleep 0.5
 done 
 
 ######### Don't to use RTDB for convenience. Use "rostopic pub" to publish game control
