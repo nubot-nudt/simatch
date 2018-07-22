@@ -55,7 +55,7 @@ Two options:
 5. **限制机器人最大平移速度为5m/s，最大角速度为6rad/s，最大平移加速度为2.5m/s^2，最大角加速度为3rad/s^2。**
 
 ### [auto_referee][16]即将添加的规则
-1. 考虑发球等待时延；   
+1. 考虑发球等待时延（參見RC-8.3開球規則）；   
 2. 检测进球无效情况(机器人射门得分前必须有至少一次传球（传球不成功也算），否则得分无效)；   
 
 ## 比赛流程
@@ -118,14 +118,14 @@ Two options:
 Please refer to [simatch-docker](https://github.com/dortmans/simatch-docker) for building and running the Simatch using [Docker](https://www.docker.com/).
 
 ## Recommended Operating Environment
-1. Ubuntu 14.04; 
-2. ROS Indigo or ROS Jade. (It is recommended to install ROS Jade)
+1. Ubuntu 16.04， Ubuntu 14.04（We recommend to choose Ubuntu 16.04）; 
+2. ROS Kinetic for Ubuntu16.04 and ROS Indigo or ROS Jade for Ubuntu14.04. (For Ubuntu 14.04, it is recommended to install ROS Jade)
 3. Gazebo 5.0 or above;
 4. gazebo_ros_pkgs; (please read the **NOTE** below for more information)  
 5. If you decide to use coach4sim with a GUI, you should make sure you have installed Qt5. The recommended install place is /opt. 
    Other versions of Ubuntu, ROS or Gazebo may also work, but we have not tested yet.
 
-**NOTE:** 
+**NOTE FOR 14.04:** 
 Concerning how to install appropriate **gazebo_ros_pkgs**, please read the following according to your own situation:   
 - 1.  If you decide to use **ROS Indigo**, please read the following:   
         If you choose "desktop-full" install of ROS Indigo, there is a Gazebo 2.0 included initially. In order to install Gazebo 5.0/5.1, you should first remove Gazebo 2.0 by running:   
@@ -156,7 +156,8 @@ Concerning how to install appropriate **gazebo_ros_pkgs**, please read the follo
    -  ` $ sudo apt-get install ros-jade-gazebo7-ros-pkgs`   
 
 ## Compile
-Since [auto_referee][16] depends on [ncurses][17], if you would like to use it to debug your code, please run this command:   
+Since [auto_referee][16] depends on [ncurses][17], if you would like to use it to debug your code, please run this command:
+(Attention: Ubuntu 16.04 has installed libncurses5-dev, so you can skip step 1 and step 2).
 1. `sudo apt-get update`   
 2. `sudo apt-get install libncurses5-dev`   
    And then you are good to compile as follows:   
