@@ -975,7 +975,6 @@ void NubotGazebo::nubot_test(void)
     else
         nubot_locomotion(a, ZERO_VECTOR);
 }
-
 /// For reference
 /*
  Rot(z, 180 degrees), then quaterion: [d a b c] ==> [-c b -a d]
