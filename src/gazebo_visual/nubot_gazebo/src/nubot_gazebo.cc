@@ -476,8 +476,6 @@ void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector
     double max_acc_linear_ = 2.5;
     double max_acc_angular_ = 3;
 
-
-
     static ros::Time last_time_ = ros::Time::now();
     ros::Time now_time_ = ros::Time::now();
     ros::Duration duration_time_ = now_time_ - last_time_;
@@ -539,8 +537,6 @@ void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector
         desired_rot_vector_ = last_angular_vector_ + 0.9 * (acc_angular_vector_ * duration);
 
     }
-
-
     robot_model_->SetLinearVel(desired_trans_vector_);
     robot_model_->SetAngularVel(desired_rot_vector_);
     judge_nubot_stuck_ = 1;                                                 // only afetr nubot tends to move can I judge if it is stuck
