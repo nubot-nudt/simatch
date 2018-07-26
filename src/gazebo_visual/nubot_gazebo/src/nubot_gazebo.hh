@@ -125,7 +125,6 @@ namespace gazebo{
         std::string                 mag_pre_;
         unsigned int                ball_index_;
         unsigned int                robot_index_;
-
         double                      nubot_ball_vec_len_;
         double                      dribble_distance_thres_;
         double                      dribble_angle_thres_;
@@ -242,6 +241,21 @@ namespace gazebo{
         /// \param[in] scale            the magnitude of the noise is within [0, scale]
         /// \param[in] probability      the probability of generating noise, probability should be in [0,1]
         double  noise(double scale, double probability=0.01);
+
+        /// \brief return the velocity after limitting the acceleration of nubot model
+        /// \brief we limit the acceleration of every wheel for better simulation of real match
+        /// \param[in] duration the duration between two commands of velocity
+        /// \param[in] model_vel the real linear velocity of model at the last step
+        /// \param[in] target_vel the target linear velocity of model now
+        /// \param[in] model_vel the real angular velocity of model at the last step
+        /// \param[in] target_vel the target angular velocity of model now
+        math::Vector3 accelerateLimit(double duration, math::Vector3  model_linear_vel, math::Vector3 target_linear_vel,math::Vector3  model_ang_vel, math::Vector3 target_ang_vel);
+
+        /// \brief return the velocity after limitting the speed of nubot model
+        /// \brief we limit the speed of every wheel for better simulation of real match
+        /// \param[in] target_vel the target linear velocity of model now
+        math::Vector3 speedLimit( math::Vector3 target_linear_vel,math::Vector3 target_ang_vel);
+
 
     public:
         /// \brief Constructor. Will be called firstly

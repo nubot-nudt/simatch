@@ -13,24 +13,28 @@
 #define FLY -1
 #define ZERO_VECTOR math::Vector3::Zero
 #define PI 3.14159265
+#define use_convected_acc true
 
 #define CM2M_CONVERSION 0.01
 #define M2CM_CONVERSION 100
 
+
 enum {NOTSEEBALL = 0, SEEBALLBYOWN = 1,SEEBALLBYOTHERS = 2};
 const math::Vector3 kick_vector_robot(1,0,0);    // assume the normalized vector from origin to kicking mechanism in robot refercence frame
-                                                 // is in x-axis direction
+// is in x-axis direction
 const double goal_x = 9.0;
 const double goal_height = 1.0;
-const double g = 9.8;
-const double m = 0.41;                          // ball mass (kg)
+const double        g = 9.8;
+const double        m = 0.41;                   // ball mass (kg)
 const double eps = 0.0001;                      // small value
-
-/* speed and acceleration limit */
 const double max_linear_vel_ = 5;
 const double max_angular_vel_ = 6;
 const double max_acc_linear_ = 2.5;
 const double max_acc_angular_ = 3;
+const double acc_thresh = 2.5; ///m/s^2
+const double dcc_thresh = 5;  ///m/s^2
+const double speed_thresh = 5;  ///m/s
+
 
 using namespace gazebo;
 using namespace std;
@@ -97,6 +101,7 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     world_ = _model->GetWorld();
     robot_model_ = _model;
     model_name_ = robot_model_->GetName();
+
     robot_namespace_ = robot_model_->GetName();
 
     // Make sure the ROS node for Gazebo has already been initialized
@@ -179,7 +184,6 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     reconfigureServer_ = new dynamic_reconfigure::Server<nubot_gazebo::NubotGazeboConfig>(*rosnode_);
     reconfigureServer_->setCallback(boost::bind(&NubotGazebo::config, this, _1, _2));
 #endif
-
     // Custom Callback Queue Thread. Use threads to process message and service callback queue
     message_callback_queue_thread_ = boost::thread( boost::bind( &NubotGazebo::message_queue_thread,this ) );
     service_callback_queue_thread_ = boost::thread( boost::bind( &NubotGazebo::service_queue_thread,this ) );
@@ -190,7 +194,7 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
     // Output info
     ROS_INFO(" %s  id: %d  flip_cord:%d  gaussian scale: %f  rate: %f\n",
-              model_name_.c_str(),  AgentID_, flip_cord_, noise_scale_, noise_rate_);
+             model_name_.c_str(),  AgentID_, flip_cord_, noise_scale_, noise_rate_);
 }
 
 void NubotGazebo::Reset()
@@ -263,8 +267,8 @@ void NubotGazebo::model_states_CB(const gazebo_msgs::ModelStates::ConstPtr& _msg
     {
         // get info of robots and the ball; reference frame: world
         if( (_msg->name[i].find(cyan_pre_) != std::string::npos) ||
-            (_msg->name[i].find(mag_pre_) != std::string::npos) ||
-            (_msg->name[i] == ball_name_) )
+                (_msg->name[i].find(mag_pre_) != std::string::npos) ||
+                (_msg->name[i] == ball_name_) )
         {
             geometry_msgs::Pose     ps = _msg->pose[i];
             geometry_msgs::Twist    tw = _msg->twist[i];
@@ -345,7 +349,7 @@ bool NubotGazebo::update_model_info(void)
         math::Quaternion    rotation_quaternion = robot_state_.pose.orient;
         math::Matrix3       RotationMatrix3 = rotation_quaternion.GetAsMatrix3();
         kick_vector_world_ = RotationMatrix3 * kick_vector_robot; // vector from nubot origin to kicking mechanism in world frame
-        // ROS_INFO("kick_vector_world_: %f %f %f",kick_vector_world_.x, kick_vector_world_.y, kick_vector_world_.z);
+//        ROS_INFO("kick_vector_world_: %f %f %f",kick_vector_world_.x, kick_vector_world_.y, kick_vector_world_.z);
 
         obs_->world_obs_.reserve(20);
         obs_->real_obs_.reserve(20);
@@ -357,11 +361,11 @@ bool NubotGazebo::update_model_info(void)
         {
             // Obstacles info (including teamates and opponent robots)
             if(model_states_.name[i].compare(0, cyan_pre_.size(), cyan_pre_) == 0 ||
-               model_states_.name[i].compare(0, mag_pre_.size(), mag_pre_) == 0)   //compare model name' prefix to determine robots
+                    model_states_.name[i].compare(0, mag_pre_.size(), mag_pre_) == 0)   //compare model name' prefix to determine robots
             {
                 math::Vector3 obs_pos(model_states_.pose[i].position.x,
-                                                model_states_.pose[i].position.y,
-                                                model_states_.pose[i].position.z);
+                                      model_states_.pose[i].position.y,
+                                      model_states_.pose[i].position.z);
                 if(i != robot_index_)
                 {
                     obs_->world_obs_.push_back(nubot::DPoint(obs_pos.x, obs_pos.y));
@@ -471,80 +475,98 @@ void NubotGazebo::message_publish(void)
 void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector3 angular_vel_vector)
 {
 
-    double max_linear_vel_ = 5;
-    double max_angular_vel_ = 6;
-    double max_acc_linear_ = 2.5;
-    double max_acc_angular_ = 3;
-
     static ros::Time last_time_ = ros::Time::now();
+    static ros::Time last_robot_time_[10](ros::Time::now());
+    static math::Vector3 last_robot_linear_vector_[10](math::Vector3(0,0,0));
+    static math::Vector3 last_robot_angular_vector_[10](math::Vector3(0,0,0));
+    math::Vector3 last_linear_vector_;
+    math::Vector3 last_angular_vector_;
+    if(model_name_.substr(0,cyan_pre_.size())==cyan_pre_)
+    {
+        last_linear_vector_ = last_robot_linear_vector_[AgentID_-1];
+        last_time_ = last_robot_time_[AgentID_-1];
+    }
+    else if(model_name_.substr(0,mag_pre_.size())==mag_pre_)
+    {
+
+        last_linear_vector_ = last_robot_linear_vector_[AgentID_-1+5];
+        last_time_ = last_robot_time_[AgentID_-1+5];
+    }
+
     ros::Time now_time_ = ros::Time::now();
     ros::Duration duration_time_ = now_time_ - last_time_;
     double duration;
     duration = duration_time_.toSec();
-    double now_linear_vel_ = 0;  // mold of vector
-    double now_angular_vel_ = 0; // mold of vector
-    double now_acc_linear_ = 0;
-    double now_acc_angular_ = 0;
-    static math::Vector3 last_linear_vector_;
-    static math::Vector3 last_angular_vector_;
-    math::Vector3 acc_linear_vector_;
-    math::Vector3 acc_angular_vector_;
-
-
+//    double now_acc_linear_ = 0;
+//    double now_acc_angular_ = 0;
+//    math::Vector3 acc_linear_vector_;
+//    math::Vector3 acc_angular_vector_;
+    math::Vector3 result_vector_;
     desired_trans_vector_ = linear_vel_vector;
     desired_rot_vector_   = angular_vel_vector;
-
     // planar movement
-
     desired_trans_vector_.z = 0;
     desired_rot_vector_.x = 0;
     desired_rot_vector_.y = 0;
+    ///speed limit for every wheel zhouzhiqian 180825
+//    if(desired_trans_vector_.GetLength() > max_linear_vel_)
+//    {
+//        desired_trans_vector_ = desired_trans_vector_.Normalize() * max_linear_vel_;
+//        std::cout<<"over linear speed   "<<model_name_<<endl;
+//    }
+//    if( desired_rot_vector_.GetLength() > max_angular_vel_)
+//    {
+//        desired_rot_vector_ = desired_rot_vector_.Normalize() * max_angular_vel_;
+//        cout<<"over angular speed   "<<model_name_<<endl;
+//    }
+    result_vector_ = speedLimit(desired_trans_vector_,desired_rot_vector_);
+    desired_rot_vector_ = result_vector_.Dot(math::Vector3(0,0,1)) * math::Vector3(0,0,1);
+    desired_trans_vector_ = result_vector_ - desired_rot_vector_;
 
-//speed limit
-    now_linear_vel_ = desired_trans_vector_.Distance(0.0,0.0,0.0);
-    now_angular_vel_ = desired_rot_vector_.Distance(0.0,0.0,0.0);;
+    ///accelerate limit for every wheel
+    accelerateLimit(duration,desired_trans_vector_,last_linear_vector_,desired_rot_vector_,last_angular_vector_);
+    result_vector_ = speedLimit(desired_trans_vector_,desired_rot_vector_);
+    desired_rot_vector_ = result_vector_.Dot(math::Vector3(0,0,1)) * math::Vector3(0,0,1);
+    desired_trans_vector_ = result_vector_ - desired_rot_vector_;
 
-    if(now_linear_vel_ > max_linear_vel_)
-    {
-        desired_trans_vector_ = desired_trans_vector_.Normalize() * max_linear_vel_;
-    }
-    if( now_angular_vel_ > max_angular_vel_)
-    {
-        desired_rot_vector_ = desired_rot_vector_.Normalize() * max_angular_vel_;
-    }
-//accelerate limit
-    if(duration == 0 || duration < 0)
-    {
-        now_acc_linear_ = 0;
-        now_acc_angular_ = 0;
-    }
-    else
-    {
-        acc_linear_vector_ = (desired_trans_vector_ - last_linear_vector_) / duration;
-        acc_angular_vector_ = (desired_rot_vector_ - last_angular_vector_) / duration;
-        now_acc_linear_ = acc_linear_vector_.Distance(0.0,0.0,0.0); //mold of  linear vector
-        now_acc_angular_ = acc_angular_vector_.Distance(0.0,0.0,0.0); //mold of angular vector
-    }
-
-    if( now_acc_linear_ > max_acc_linear_)
-    {
-       acc_linear_vector_ = acc_linear_vector_.Normalize() * max_acc_linear_;
-       desired_trans_vector_ = last_linear_vector_ + 0.9 * (acc_linear_vector_ * duration);
-    }
-    if(now_acc_angular_ > max_acc_angular_)
-    {
-        acc_angular_vector_ = acc_angular_vector_.Normalize() * max_acc_angular_;
-        desired_rot_vector_ = last_angular_vector_ + 0.9 * (acc_angular_vector_ * duration);
-
-    }
+//    if(duration == 0 || duration < 0)
+//    {
+//        now_acc_linear_ = 0;
+//        now_acc_angular_ = 0;
+//    }
+//    else
+//    {
+//        acc_linear_vector_ = (desired_trans_vector_ - last_linear_vector_) / duration;
+//        acc_angular_vector_ = (desired_rot_vector_ - last_angular_vector_) / duration;
+//    }
+//    if( acc_linear_vector_.GetLength()> max_acc_linear_)
+//    {
+//        std::cout<<"first   desired    "<<desired_trans_vector_<<"    last  "<<last_linear_vector_<<"   "<<model_name_<<std::endl;
+//        acc_linear_vector_ = acc_linear_vector_.Normalize() * max_acc_linear_;
+//        desired_trans_vector_ = last_linear_vector_ + 0.9 * (acc_linear_vector_ * duration);
+//        //        cout<<"over linear accelerate   "<<acc_linear_vector_.GetLength()<<"   "<<duration<<"   "<<model_name_<<endl;
+//        //        std::cout<<acc_linear_vector_<<std::endl;
+//        //        std::cout<<"modefied  desired    "<<desired_trans_vector_<<"    last  "<<last_linear_vector_<<std::endl;
+//    }
+//    if(acc_angular_vector_. GetLength()> max_acc_angular_)
+//    {
+//        acc_angular_vector_ = acc_angular_vector_.Normalize() * max_acc_angular_;
+//        desired_rot_vector_ = last_angular_vector_ + 0.9 * (acc_angular_vector_ * duration);
+//        //        cout<<"over linear accelerate"<<endl;
+//    }
     robot_model_->SetLinearVel(desired_trans_vector_);
     robot_model_->SetAngularVel(desired_rot_vector_);
     judge_nubot_stuck_ = 1;                                                 // only afetr nubot tends to move can I judge if it is stuck
-
-    last_linear_vector_ = desired_trans_vector_;
-    last_angular_vector_ = desired_rot_vector_;
-    last_time_ = now_time_;
-
+    if(model_name_.substr(0,cyan_pre_.size())==cyan_pre_)
+    {
+        last_robot_linear_vector_[AgentID_-1] = desired_trans_vector_;
+        last_robot_time_[AgentID_-1] = now_time_;
+    }
+    else if(model_name_.substr(0,mag_pre_.size())==mag_pre_)
+    {
+        last_robot_linear_vector_[AgentID_-1+5] = desired_trans_vector_;
+        last_robot_time_[AgentID_-1+5] = now_time_;
+    }
 }
 
 void NubotGazebo::vel_cmd_CB(const nubot_common::VelCmd::ConstPtr& cmd)
@@ -682,8 +704,7 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
 {
     math::Vector3 kick_vector_planar(kick_vector_world_.x, kick_vector_world_.y, 0.0);
     math::Vector3 vel_vector;
-
-    if(mode == RUN)
+    if(mode == RUN )
     {
         double vel2 = vel * 2.3;;                         //FIXME. CAN TUNE
         if(flip_cord_)
@@ -694,39 +715,54 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
         ball_model_->SetLinearVel(vel_vector);
         ROS_INFO("kick ball vel:%f vel2:%f",vel, vel2);
     }
-    else if(mode == FLY)
+    //        if(mode/fabs(mode) == FLY )
+    // math formular: y = a*x^2 + b*x + c;
+    //  a = -g/(2*vx*vx), c = 0, b = kick_goal_height/D + g*D/(2.0*vx*vx)
+    //  mid_point coordinates:[-b/(2*a), (4a*c-b^2)/(4a) ]
+    ///the origin fly mode
+    //        static const double g = 9.8, kick_goal_height = goal_height - 0.5;      // FIXME: can be tuned
+    //        nubot::DPoint point1(robot_state_.pose.position.x,robot_state_.pose.position.y);
+    //        nubot::DPoint point2(robot_state_.pose.position.x + kick_vector_world_.x,
+    //                             robot_state_.pose.position.y + kick_vector_world_.y);
+    //        nubot::DPoint point3(ball_state_.pose.position.x,ball_state_.pose.position.y);
+    //        nubot::Line_ line1(point1, point2);
+    //        nubot::Line_ line2(1.0, 0.0, kick_vector_world_.x>0 ? -goal_x : goal_x);         // nubot::Line_(A,B,C);
+
+    //        nubot::DPoint crosspoint = line1.crosspoint(line2);
+    //        double D = crosspoint.distance(point3);
+    //        double vx_thres = D*sqrt(g/2/kick_goal_height);
+    //        double vx = vx_thres/2.0;//>vel ? vel : vx_thres/2.0;                            // initial x velocity.CAN BE TUNED
+    //        double b = kick_goal_height/D + g*D/(2.0*vx*vx);
+
+    //        ROS_INFO("%s crosspoint:(%f %f) vx: %f", model_name_.c_str(),
+    //                 crosspoint.x_, crosspoint.y_, vx);
+    //        if( fabs(crosspoint.y_) < 10)
+    //        {
+    //            math::Vector3 kick_vector;
+    //            if(flip_cord_)
+    //                kick_vector = math::Vector3(-vx*kick_vector_world_.x, -vx*kick_vector_world_.y, b*vx);
+    //            else
+    //                kick_vector = math::Vector3(vx*kick_vector_world_.x, vx*kick_vector_world_.y, b*vx);
+    //            ball_model_->SetLinearVel(kick_vector);
+    //        }
+    //        else
+    //            ROS_FATAL("CANNOT SHOOT. crosspoint.y is too big!");
+
+    ///new fly mode zhouzhiqian 180826
+    else if( mode == FLY )
     {
-        // math formular: y = a*x^2 + b*x + c;
-        //  a = -g/(2*vx*vx), c = 0, b = kick_goal_height/D + g*D/(2.0*vx*vx)
-        //  mid_point coordinates:[-b/(2*a), (4a*c-b^2)/(4a) ]
-
-        static const double g = 9.8, kick_goal_height = goal_height - 0.20;      // FIXME: can be tuned
-        nubot::DPoint point1(robot_state_.pose.position.x,robot_state_.pose.position.y);
-        nubot::DPoint point2(robot_state_.pose.position.x + kick_vector_world_.x,
-                             robot_state_.pose.position.y + kick_vector_world_.y);
-        nubot::DPoint point3(ball_state_.pose.position.x,ball_state_.pose.position.y);
-        nubot::Line_ line1(point1, point2);
-        nubot::Line_ line2(1.0, 0.0, kick_vector_world_.x>0 ? -goal_x : goal_x);         // nubot::Line_(A,B,C);
-
-        nubot::DPoint crosspoint = line1.crosspoint(line2);
-        double D = crosspoint.distance(point3);
-        double vx_thres = D*sqrt(g/2/kick_goal_height);
-        double vx = vx_thres/2.0;//>vel ? vel : vx_thres/2.0;                            // initial x velocity.CAN BE TUNED
-        double b = kick_goal_height/D + g*D/(2.0*vx*vx);
-
-        ROS_INFO("%s crosspoint:(%f %f) vx: %f", model_name_.c_str(),
-                 crosspoint.x_, crosspoint.y_, vx);
-        if( fabs(crosspoint.y_) < 10)
-        {
-            math::Vector3 kick_vector;
-            if(flip_cord_)
-                kick_vector = math::Vector3(-vx*kick_vector_world_.x, -vx*kick_vector_world_.y, b*vx);
-            else
-                kick_vector = math::Vector3(vx*kick_vector_world_.x, vx*kick_vector_world_.y, b*vx);
-            ball_model_->SetLinearVel(kick_vector);
-        }
+        math::Vector3 kick_vector;
+        double vel_mode = vel;
+        /// 0.6 and 0.8 is nearly the real angle of the machanism
+        /// In the future, we want to adjust the position of machanism to kick ball, so that
+        /// different ratio is possible.
+        double vel_planar = vel_mode * 0.6;
+        double vel_vertical = vel_mode * 0.8;
+        if(flip_cord_)
+            kick_vector = math::Vector3(-vel_planar*kick_vector_world_.x, -vel_planar*kick_vector_world_.y, vel_vertical);
         else
-            ROS_FATAL("CANNOT SHOOT. crosspoint.y is too big!");
+            kick_vector = math::Vector3(vel_planar*kick_vector_world_.x, vel_planar*kick_vector_world_.y, vel_vertical);
+        ball_model_->SetLinearVel(kick_vector);
     }
     else
     {
@@ -734,7 +770,8 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
     }
 }
 
-bool NubotGazebo::get_is_hold_ball(void)
+bool
+NubotGazebo::get_is_hold_ball(void)
 {
     bool near_ball, allign_ball;
     math::Vector3 norm = nubot_ball_vec_;
@@ -755,7 +792,8 @@ bool NubotGazebo::get_is_hold_ball(void)
     return (near_ball && allign_ball);
 }
 
-bool NubotGazebo::get_nubot_stuck(void)
+bool
+NubotGazebo::get_nubot_stuck(void)
 {
     static int time_count=0;
     static bool last_time_stuck=0;
@@ -824,7 +862,8 @@ bool NubotGazebo::get_nubot_stuck(void)
     }
 }
 
-void NubotGazebo::update_child()
+void
+NubotGazebo::update_child()
 {
     msgCB_lock_.lock(); // lock access to fields that are used in ROS message callbacks
     srvCB_lock_.lock();
@@ -835,7 +874,7 @@ void NubotGazebo::update_child()
         /********** EDIT BEGINS **********/
 
         nubot_be_control();
-        //nubot_test();
+        // nubot_test();
 
         /**********  EDIT ENDS  **********/
     }
@@ -843,7 +882,8 @@ void NubotGazebo::update_child()
     msgCB_lock_.unlock();
 }
 
-void NubotGazebo::nubot_be_control(void)
+void
+NubotGazebo::nubot_be_control(void)
 {
     static nubot_common::DribbleId di;
     if(robot_state_.pose.position.z < 0.2)          // not in the air
@@ -883,7 +923,8 @@ void NubotGazebo::nubot_be_control(void)
         if(shot_req_ && get_is_hold_ball() && match_mode_ != STOPROBOT)
         {
             kick_ball(mode_, force_);
-            shot_req_ = false;
+            if(mode_ == FLY)
+                shot_req_ = false;
         }
     }
     else
@@ -903,7 +944,8 @@ bool NubotGazebo::is_robot_valid(double x, double y)
         return true;
 }
 
-void NubotGazebo::nubot_test(void)
+void
+NubotGazebo::nubot_test(void)
 {
     // dribble ball
 #if 0
@@ -963,18 +1005,183 @@ void NubotGazebo::nubot_test(void)
     //debug_msgs_.data.push_back(vel2);
     debug_pub_.publish(debug_msgs_);
 #endif
-    math::Vector3 a(5,0,0);
-    math::Vector3 b(8,0,0);
-    static ros::Time last_time = ros::Time::now();
-    if((ros::Time::now()-last_time).toSec() > 1)
+}
+
+math::Vector3
+NubotGazebo::accelerateLimit(double duration, math::Vector3  model_linear_vel, math::Vector3 target_linear_vel,
+                             math::Vector3  model_ang_vel, math::Vector3 target_ang_vel)
+{
+    /// ACC limit
+    //it is used for distinguish nubot with 4 wheels and nubot with 3 wheels.
+    // Now. all nubots have 4 wheels.
+#define WHEELS 4
+    const double WHEEL_DISTANCE=20.3 * CM2M_CONVERSION;  //it is decided by the real nubot wiht 4 wheels
+
+    //同时平动和转动，要想保持全局速度方向不变，会给轮子带来额外的加速度开销，暂且称为牵连加速度:|acc_convect| <= |v*w|
+    math::Vector3 result_vel;
+    float wheel_speed_old[WHEELS];
+    float wheel_speed[WHEELS];
+    float wheel_acc[WHEELS];
+    float target_Vx = target_linear_vel.Dot(math::Vector3(1,0,0));
+    float target_Vy = target_linear_vel.Dot(math::Vector3(0,1,0));
+    float target_w  = target_ang_vel.Dot(math::Vector3(1,0,0));
+    float model_Vx = model_linear_vel.Dot(math::Vector3(1,0,0));
+    float model_Vy = model_linear_vel.Dot(math::Vector3(0,1,0));
+    float model_w  = model_ang_vel.Dot(math::Vector3(0,0,1));
+    float Vx,Vy,w;
+
+    if(WHEELS == 4)
     {
-        nubot_locomotion(b, ZERO_VECTOR);
-        last_time = ros::Time::now();
-        cout<<"change vel"<<endl;
+        wheel_speed[0]= ( 0.707*( target_Vx - target_Vy) - target_w*WHEEL_DISTANCE);
+        wheel_speed[1]= ( 0.707*( target_Vx + target_Vy) - target_w*WHEEL_DISTANCE);
+        wheel_speed[2]= ( 0.707*(-target_Vx + target_Vy) - target_w*WHEEL_DISTANCE);
+        wheel_speed[3]= ( 0.707*(-target_Vx - target_Vy) - target_w*WHEEL_DISTANCE);
+        wheel_speed_old[0]= ( 0.707*( model_Vx - model_Vy) - model_w*WHEEL_DISTANCE);
+        wheel_speed_old[1]= ( 0.707*( model_Vx + model_Vy) - model_w*WHEEL_DISTANCE);
+        wheel_speed_old[2]= ( 0.707*(-model_Vx + model_Vy) - model_w*WHEEL_DISTANCE);
+        wheel_speed_old[3]= ( 0.707*(-model_Vx - model_Vy) - model_w*WHEEL_DISTANCE);
     }
     else
-        nubot_locomotion(a, ZERO_VECTOR);
+    {
+        wheel_speed[0]= ( 0.866*target_Vx -  0.5*target_Vy - target_w*WHEEL_DISTANCE);
+        wheel_speed[1]= (   0.0*target_Vx +      target_Vy - target_w*WHEEL_DISTANCE);
+        wheel_speed[2]= ( -0.866*target_Vx - 0.5*target_Vy - target_w*WHEEL_DISTANCE);
+        wheel_speed_old[0]= ( 0.866*model_Vx -  0.5*model_Vy - model_w*WHEEL_DISTANCE);
+        wheel_speed_old[1]= (   0.0*model_Vx +      model_Vy - model_w*WHEEL_DISTANCE);
+        wheel_speed_old[2]= ( -0.866*model_Vx - 0.5*model_Vy - model_w*WHEEL_DISTANCE);
+    }
+    float acc_thresh_ratio = 1;
+    for(int i=0; i<WHEELS; i++)
+    {
+        wheel_acc[i] = (wheel_speed[i]-wheel_speed_old[i])/duration;
+        float acc_thresh_ratio_temp = 0;
+        if( wheel_acc[i]*wheel_speed_old[i]>=0 ) //speed up
+            acc_thresh_ratio_temp = fabs(wheel_acc[i])/acc_thresh;
+        else                                 //speed down
+            acc_thresh_ratio_temp = fabs(wheel_acc[i])/dcc_thresh;
+        if( acc_thresh_ratio_temp>acc_thresh_ratio )
+            acc_thresh_ratio = acc_thresh_ratio_temp;
+    }
+
+    if( acc_thresh_ratio > 1 )
+    {
+        for(int i=0; i<WHEELS; i++)
+        {
+            wheel_acc[i] /= acc_thresh_ratio;
+            wheel_speed[i] = wheel_speed_old[i] + wheel_acc[i];
+        }
+    }
+    if(WHEELS==4)
+    {
+        w  = -(wheel_speed[0]+wheel_speed[1]+wheel_speed[2]+wheel_speed[3])/(4*WHEEL_DISTANCE);
+        Vx =  (wheel_speed[0]+wheel_speed[1]-wheel_speed[2]-wheel_speed[3])/(2*1.414);
+        Vy =  (wheel_speed[1]+wheel_speed[2]-wheel_speed[0]-wheel_speed[3])/(2*1.414);
+    }
+    else
+    {
+        Vx = ( 0.577*wheel_speed[0]  + 0 * wheel_speed[1] -  wheel_speed[2] * 0.577);
+        Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
+        w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
+    }
+
+    if(hypot(Vx,Vy)*fabs(w)*0.03>acc_thresh)//无法保持全局速度方向不变,进一步限速
+    {
+        float v_wheel=0;
+        for(int i=0; i<WHEELS; i++)
+        {
+            if( fabs(wheel_speed[i])>v_wheel )
+                v_wheel = fabs(wheel_speed[i]);
+        }
+        if(v_wheel<acc_thresh) v_wheel = acc_thresh;
+        for(int i=0; i<WHEELS; i++)
+        {
+            wheel_speed[i] *= (1-acc_thresh/v_wheel);
+        }
+
+
+        if(WHEELS==4)
+        {
+            w  = -(wheel_speed[0]+wheel_speed[1]+wheel_speed[2]+wheel_speed[3])/(4*WHEEL_DISTANCE);
+            Vx =  (wheel_speed[0]+wheel_speed[1]-wheel_speed[2]-wheel_speed[3])/(2*1.414);
+            Vy =  (wheel_speed[1]+wheel_speed[2]-wheel_speed[0]-wheel_speed[3])/(2*1.414);
+        }
+        else
+        {
+            Vx = ( 0.577*wheel_speed[0]  + 0 * wheel_speed[1] -  wheel_speed[2] * 0.577);
+            Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
+            w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
+        }
+    }
+    if(use_convected_acc)
+    {
+        float temp = Vx;
+        Vx -=-Vy*w*0.05;
+        Vy -= temp*w*0.05;
+    }
+    result_vel = math::Vector3(Vx,Vy,w);
+    return result_vel;
 }
+
+
+math::Vector3
+NubotGazebo::speedLimit(math::Vector3 target_linear_vel,math::Vector3 target_ang_vel)
+{
+    // Speed limit
+    ///it is used for distinguish nubot with 4 wheels and nubot with 3 wheels.
+    /// Now. all nubots have 4 wheels.
+#define WHEELS 4
+    const double WHEEL_DISTANCE=20.3 * CM2M_CONVERSION;  //it is decided by the real nubot wiht 4 wheels
+    math::Vector3 result_vel;
+    float wheel_speed[WHEELS];
+    float target_Vx = target_linear_vel.Dot(math::Vector3(1,0,0));
+    float target_Vy = target_linear_vel.Dot(math::Vector3(0,1,0));
+    float target_w  = target_ang_vel.Dot(math::Vector3(0,0,1));
+    float Vx,Vy,w;
+    if(WHEELS == 4)
+    {
+        wheel_speed[0]= ( 0.707*( target_Vx - target_Vy) - target_w*WHEEL_DISTANCE);
+        wheel_speed[1]= ( 0.707*( target_Vx + target_Vy) - target_w*WHEEL_DISTANCE);
+        wheel_speed[2]= ( 0.707*(-target_Vx + target_Vy) - target_w*WHEEL_DISTANCE);
+        wheel_speed[3]= ( 0.707*(-target_Vx - target_Vy) - target_w*WHEEL_DISTANCE);
+    }
+    else
+    {
+        wheel_speed[0]= ( 0.866*target_Vx -  0.5*target_Vy - target_w*WHEEL_DISTANCE);
+        wheel_speed[1]= (   0.0*target_Vx +      target_Vy - target_w*WHEEL_DISTANCE);
+        wheel_speed[2]= ( -0.866*target_Vx - 0.5*target_Vy - target_w*WHEEL_DISTANCE);
+    }
+    float speed_thresh_ratio = 1;
+    for(int i=0; i<WHEELS; i++)
+    {
+        float speed_thresh_ratio_temp = 0;
+        speed_thresh_ratio_temp = fabs(wheel_speed[i])/speed_thresh;
+        if( speed_thresh_ratio_temp>speed_thresh_ratio )
+            speed_thresh_ratio = speed_thresh_ratio_temp;
+    }
+
+    if( speed_thresh_ratio > 1 )
+    {
+        for(int i=0; i<WHEELS; i++)
+        {
+            wheel_speed[i] /= speed_thresh_ratio;
+        }
+    }
+    if(WHEELS==4)
+    {
+        w  = -(wheel_speed[0]+wheel_speed[1]+wheel_speed[2]+wheel_speed[3])/(4*WHEEL_DISTANCE);
+        Vx =  (wheel_speed[0]+wheel_speed[1]-wheel_speed[2]-wheel_speed[3])/(2*1.414);
+        Vy =  (wheel_speed[1]+wheel_speed[2]-wheel_speed[0]-wheel_speed[3])/(2*1.414);
+    }
+    else
+    {
+        Vx = ( 0.577*wheel_speed[0]  + 0 * wheel_speed[1] -  wheel_speed[2] * 0.577);
+        Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
+        w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
+    }
+    result_vel = math::Vector3(Vx,Vy,w);
+    return result_vel;
+}
+
 /// For reference
 /*
  Rot(z, 180 degrees), then quaterion: [d a b c] ==> [-c b -a d]
