@@ -646,6 +646,29 @@ So you should also write some code to [world_model.cpp][13].
 1. if robot's position satisfies fabs(x) > 10 or fabs(y) > 7, then the robot's `isvalid` flag is set to false. Please refer to the function `bool NubotGazebo::is_robot_valid(double x, double y)` in `nubot_gazebo.cc`.
 2. Addedacceleration limits.
 
+# Citation
+If you use this simulation system, please cite our work.
+
+```
+@inproceedings{yao2015simulation,
+  title={A simulation system based on ros and gazebo for robocup middle size league},
+  author={Yao, Weijia and Dai, Wei and Xiao, Junhao and Lu, Huimin and Zheng, Zhiqiang},
+  booktitle={Robotics and Biomimetics (ROBIO), 2015 IEEE International Conference on},
+  pages={54--59},
+  year={2015},
+  organization={IEEE}
+}
+
+@incollection{xiao2017building,
+  title={Building software system and simulation environment for robocup Msl soccer robots based on ros and gazebo},
+  author={Xiao, Junhao and Xiong, Dan and Yao, Weijia and Yu, Qinghua and Lu, Huimin and Zheng, Zhiqiang},
+  booktitle={Robot operating system (ROS)},
+  pages={597--631},
+  year={2017},
+  publisher={Springer}
+}
+```
+
 ## Questions & Answers
 
 1. 问题：使用run教程里提供第一种方法运行所有的模块，没有在终端看到robot_code里的main()函数里的初始化输出信息**ROS_INFO("start control process")**，这关系到我们如何看到自己添加的调试信息。   
