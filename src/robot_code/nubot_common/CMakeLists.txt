@@ -16,8 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   std_srvs
+  geometry_msgs
 )
-
 
 add_message_files(DIRECTORY msgs FILES Angle.msg
 Point2d.msg
@@ -28,29 +28,34 @@ MotorInfo.msg
 BallInfo.msg
 BallInfo3d.msg
 ObstaclesInfo.msg
+ObstaclesInfo3d.msg
 OminiVisionInfo.msg
+object_info.msg
 currentCmd.msg
+ActionCmd.msg
+Teleop_joy.msg
 VelCmd.msg
 OdoInfo.msg
 CoachInfo.msg
 PassCommands.msg
 WorldModelInfo.msg
+CoachWorldModelInfo.msg
 StrategyInfo.msg
 TargetInfo.msg
-FrontBallInfo.msg
 simulation_strategy.msg
+BallIsHolding.msg
+Relocation.msg
 )
 
-add_service_files(DIRECTORY srv FILES BallHandle.srv Shoot.srv DribbleId.srv)
+add_service_files(DIRECTORY srv FILES DribbleId.srv)
 
-generate_messages(DEPENDENCIES std_msgs)
+generate_messages(DEPENDENCIES std_msgs  geometry_msgs)
 
 set(nubot_common_includes
                ${catkin_INCLUDE_DIRS}
-               ${PROJECT_SOURCE_DIR}/core/include 
+               ${PROJECT_SOURCE_DIR}/include
 )
 include_directories(${nubot_common_includes})
 catkin_package(
   INCLUDE_DIRS ${nubot_common_includes}
-  INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/core/include
 )

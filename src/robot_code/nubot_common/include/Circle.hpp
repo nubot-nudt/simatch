@@ -80,11 +80,11 @@ inline std::vector< DPoint_<double> > Circle::crosspoint(const Line_ & line) con
 	 {
 	    if(disLine<radius_) 
 	    {
-                DPoint2d pt=verticalpoint(line,center_);
-		double tmpdis=DPoint2d(pt-center_).norm();
-		double dis=sqrt(radius_*radius_-tmpdis*tmpdis);
-		cross_point.push_back(pointinline(line,pt,dis));
-		cross_point.push_back(pointinline(line,pt,-dis)); 
+            DPoint2d pt=verticalpoint(line,center_);
+            double tmpdis=DPoint2d(pt-center_).length();
+            double dis=sqrt(radius_*radius_-tmpdis*tmpdis);
+            cross_point.push_back(pointinline(line,pt,dis));
+            cross_point.push_back(pointinline(line,pt,-dis));
 	    }
 	    else
 	       cross_point.push_back(verticalpoint(line,center_)); 

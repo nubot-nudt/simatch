@@ -33,7 +33,7 @@ public:
 	//! distance between (x_,y_) and pt
 	template<typename _Tp2> double distance(const DPoint_<_Tp2>& pt) const;
 	//! value of norm;
-	double norm() const;
+    double length() const;
 	//! angle of (y_,x_)
 	Angle  angle() const;	
 	//! angle of (y_-pt.y_,x_-pt.x_)
@@ -104,7 +104,7 @@ template<typename _Tp> template<typename _Tp2>inline DPoint_<_Tp> DPoint_<_Tp>::
     return DPoint_<_Tp>(_Tp(x_+cos(theta.radian_)*_distance),_Tp(y_+sin(theta.radian_)*_distance));
 }
 
-template<typename _Tp>inline double DPoint_<_Tp>::norm() const
+template<typename _Tp>inline double DPoint_<_Tp>::length() const
 {
 	return std::sqrt((double)x_*x_ + (double)y_*y_);
 }

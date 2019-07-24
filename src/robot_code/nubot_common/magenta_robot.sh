@@ -1,5 +1,4 @@
 #!/bin/bash			
-
 ### source the workspace
 source ../devel/setup.bash
 source devel/setup.bash
@@ -14,14 +13,19 @@ kill_num=0
 ### spawn magenta robots
 for ((i=1; i<=magenta_num; ++i))
 do
-    rosrun world_model      world_model_node   ${magenta_prefix}${i}    __name:=${magenta_prefix}_world_model${i} &
-    PIDS[kill_num]=$!
-    let "kill_num=kill_num+1"
-    
     rosrun nubot_control    nubot_control_node ${magenta_prefix}${i}   __name:=${magenta_prefix}_nubot_control${i} &
     PIDS[kill_num]=$!
     let "kill_num=kill_num+1"
-   # sleep 0.5
+   
+    rosrun world_model      world_model_node   ${magenta_prefix}${i}    __name:=${magenta_prefix}_world_model${i} &
+    PIDS[kill_num]=$!
+    let "kill_num=kill_num+1"
+   
+    rosrun nubot_hwcontroller    nubot_hwcontroller_node ${magenta_prefix}${i}   __name:=${magenta_prefix}_nubot_hwcontroller${i} &
+    PIDS[kill_num]=$!
+    let "kill_num=kill_num+1"
+
+   sleep 0.5
 done 
 
 ######### Don't to use RTDB for convenience. Use "rostopic pub" to publish game control
@@ -33,8 +37,8 @@ done
 #let "kill_num=kill_num+1"
 
 ### run coachinfo_publisher
-# sleep 5
-# rosrun  simulation_interface coach_robot_comm_RTDB  ${magenta_prefix}${j} __name:=${magenta_prefix}_coach_robot_comm_RTDB &
+# j=2
+# rosrun  simulation_interface coach_robot_comm_RTDB ${magenta_prefix}${j} __name:=${magenta_prefix}_coach_robot_comm_RTDB &
 # PIDS[kill_num]=$!
 # let "kill_num=kill_num+1"
 
@@ -44,7 +48,7 @@ PIDS[kill_num]=$!
 let "kill_num=kill_num+1"
 
 ### Optional: run joystick drivers to control football movement
-# rosrun joy joy_node &
+# rosrun joy joy_node  &
 # PIDS[kill_num]=$!
 
 ### kill thoes background processes
@@ -52,3 +56,14 @@ trap 'kill ${PIDS[*]}' SIGINT
 wait
 
 rosnode cleanup
+
+### kill nodes
+#for ((i=1; i<=magenta_num; ++i))
+#do
+#	j=$i+1 
+#	rosnode kill world_model${j}
+#	rosnode kill nubot_control${j}
+#done
+
+
+

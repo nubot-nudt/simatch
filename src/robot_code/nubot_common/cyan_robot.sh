@@ -1,5 +1,4 @@
 #!/bin/bash			
-
 ### source the workspace
 source ../devel/setup.bash
 source devel/setup.bash
@@ -14,15 +13,19 @@ kill_num=0
 ### spawn cyan robots
 for ((i=1; i<=cyan_num; ++i))
 do
-
-    rosrun world_model      world_model_node   ${cyan_prefix}${i}    __name:=${cyan_prefix}_world_model${i} &
-    PIDS[kill_num]=$!
-    let "kill_num=kill_num+1"
-    
     rosrun nubot_control    nubot_control_node ${cyan_prefix}${i}   __name:=${cyan_prefix}_nubot_control${i} &
     PIDS[kill_num]=$!
     let "kill_num=kill_num+1"
-    #sleep 0.5
+   
+    rosrun world_model      world_model_node   ${cyan_prefix}${i}    __name:=${cyan_prefix}_world_model${i} &
+    PIDS[kill_num]=$!
+    let "kill_num=kill_num+1"
+   
+    rosrun nubot_hwcontroller    nubot_hwcontroller_node ${cyan_prefix}${i}   __name:=${cyan_prefix}_nubot_hwcontroller${i} &
+    PIDS[kill_num]=$!
+    let "kill_num=kill_num+1"
+
+   sleep 0.5
 done 
 
 ######### Don't to use RTDB for convenience. Use "rostopic pub" to publish game control
