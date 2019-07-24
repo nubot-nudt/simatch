@@ -24,10 +24,9 @@
 
 #include <stdio.h>
 #include <signal.h>
-#include "nubot/rtdb/rtdb_api.h"
-#include "nubot/rtdb/rtdb_user.h"
-#include "nubot/world_model/teammatesinfo.h"
-#include "nubot/core/core.hpp"
+#include "rtdb/rtdb_api.h"
+#include "rtdb/rtdb_user.h"
+#include "world_model/teammatesinfo.h"
 
 int end = 0;
 
@@ -45,9 +44,23 @@ static void signal_catch(int sig)
 // *************************
 int main(int argc, char **argv)
 {
-    nubot::Teammatesinfo rtdb_teammate;
-    rtdb_teammate.robot_info_.setID(3);
-    rtdb_teammate.robot_info_.setLocation(nubot::DPoint(10,10));
+    struct MessageFromCoach
+    {
+        char Head;
+        char MatchMode;          //比赛模式
+        char MatchType;
+        char TestMode;           //测试模式
+        nubot::DPoint pointA;
+        nubot::DPoint pointB;
+        int angleA;
+        int angleB;
+        char id_A;
+        char id_B;
+        char kick_force;
+
+    }coach2robot;
+    coach2robot.MatchMode=13;
+    coach2robot.MatchType=2;
 
     if(signal(SIGINT, signal_catch) == SIG_ERR)
     {
@@ -60,7 +73,7 @@ int main(int argc, char **argv)
 
     while(end == 0)
     {
-        if(DB_put(TEAMMATESINFO, &rtdb_teammate) == -1)
+        if(DB_put(MESSAGEFROMCOACHINFO, &coach2robot) == -1)
         {
             DB_free();
             return -1;

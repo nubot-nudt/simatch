@@ -1,7 +1,8 @@
-#include "nubot/world_model/obstacles.h"
-#include "nubot/world_model/MTTracker.h"
+#include "world_model/obstacles.h"
+#include "world_model/MTTracker.h"
+
 using namespace nubot;
-ObstacleObject::ObstacleObject(DPoint _loc,PPoint _polar)
+ObstacleObject::ObstacleObject(DPoint2s _loc,PPoint _polar)
 {
     obstacle_loc_  = _loc;
     obstacle_polar_= _polar;
@@ -12,16 +13,16 @@ ObstacleObject::ObstacleObject(const ObstacleObject & _info)
     obstacle_polar_ = _info.obstacle_polar_;
 }
 void
-ObstacleObject::setLocation(DPoint  _loc) { obstacle_loc_=_loc; }
+ObstacleObject::setLocation(DPoint2s  _loc) { obstacle_loc_=_loc; }
 void
 ObstacleObject::clear()
 {
-    obstacle_loc_   = DPoint(-10000,-10000);
+    obstacle_loc_   = DPoint2s(-10000,-10000);
     obstacle_polar_ = PPoint(Angle(0),10000);
 }
 void
 ObstacleObject::setPolarLocation(PPoint _polar) { obstacle_polar_=_polar;}
-DPoint
+DPoint2s
 ObstacleObject::getLocation() { return obstacle_loc_;}
 PPoint
 ObstacleObject::getPolarLocation() { return obstacle_polar_;}
@@ -62,18 +63,37 @@ Obstacles::setOmniObstacles(std::vector< ObstacleObject > & _obstacles, int robo
     int nums_obstacles= _obstacles.size();
     for(std::size_t i =0 ;i < nums_obstacles;i++)
     {
-        //场外的障碍物，可能是填充的障碍物，无需考虑；
         ObstacleObject & obs = _obstacles[i];
+        /// PolarLocation()的初始值为10000,如果此时仍是10000,则表明该障碍物无效
         if(obs.getPolarLocation().radius_ == 10000)
              continue;
         omni_obstacles_[robot_id-1].push_back(_obstacles[i]);
+    }
+}
+
+/// \brief Kinect的障碍物信息并未做融合,因为RTDB没有将Kinect的信息共享,所以无法像全向一样融合,因此这里Kinect函数中的robot_id值是无用的
+void
+Obstacles::setKinectObstacles(std::vector< ObstacleObject > & _obstacles, int robot_id)
+{
+    kinect_obstacles_.clear();
+    int nums_obstacles= _obstacles.size();
+    for(std::size_t i =0 ;i < nums_obstacles;i++)
+    {
+        ObstacleObject & obs = _obstacles[i];
+//        if(obs.getPolarLocation().radius_ == 10000)
+//             continue;
+        kinect_obstacles_.push_back(_obstacles[i]);
     }
 }
 void
 Obstacles::clearOmniObstacles(int robot_id){
   omni_obstacles_[robot_id-1].clear();
 }
+void
+Obstacles::clearKinectObstacles(int robot_id){
+  kinect_obstacles_.clear();
 
+}
 void
 Obstacles::getFuseObsTracker(std::vector<DPoint> & _obs_tracker){
     _obs_tracker = fuse_obs_;
@@ -87,6 +107,12 @@ void
 Obstacles::getOmniObstacles(std::vector< ObstacleObject > & _omni_obstacles,int robot_id){
     _omni_obstacles=omni_obstacles_[robot_id-1];
 }
+
+void
+Obstacles::getKinectObstacles(std::vector< ObstacleObject > & kinect_obstacles,int robot_id){
+    kinect_obstacles=kinect_obstacles_;
+}
+
 void
 Obstacles::update(){
     MultiTargetTrackKalmanFilter();

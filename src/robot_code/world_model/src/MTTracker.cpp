@@ -1,8 +1,8 @@
-#include "nubot/world_model/MTTracker.h"
-#include "nubot/world_model/iAuction.h"
-#define _USE_MATH_DEFINES
+#include "world_model/MTTracker.h"
+#include "world_model/iAuction.h"
 #include <math.h>
 
+#define _USE_MATH_DEFINES
 using namespace std;
 using namespace nubot;
 
@@ -286,7 +286,7 @@ void MTTracker::TeammateIdentify(Teammates &teammates)
 
             if ( f.SeenByRobots[robot_id]==false )
             {
-                double distance=(pos - DPoint(f(0),f(1))).norm();
+                double distance=(pos - DPoint(f(0),f(1))).length();
                 m[distance]=idx;
             }
             idx++;

@@ -1,4 +1,5 @@
-#include "nubot/world_model/robot.h"
+#include "world_model/robot.h"
+
 using namespace nubot;
 Robot::Robot(int id, int num, int catch_num, int pass_num, DPoint loc, Angle head, DPoint vec, double w,
              bool  is_kick_off, bool is_robot_stuck, bool is_robot_slip,

@@ -1,4 +1,4 @@
-#include <nubot/world_model/iAuction.h>
+#include <world_model/iAuction.h>
 #include <limits>
 
 void

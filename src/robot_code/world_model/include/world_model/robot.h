@@ -1,20 +1,11 @@
 #ifndef NUBOT_ROBOT_H_
 #define NUBOT_ROBOT_H_
 
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 
 namespace nubot{
 
 const int THRES_ROBOT_VALID_CONST=15;
-
-/** 从Coach收到信息*/
-struct MessageFromCoach
-{
-    char Head;
-    char MatchMode; /** 比赛模式，如果*/
-    char MatchType;
-};
-
 
 template<typename _T> struct Point_
 {
@@ -43,7 +34,7 @@ public:
     Robot(int id=-1,int num=-1,int catch_num=0,int pass_num=0, DPoint loc=DPoint(0,0),Angle head=Angle(0),DPoint vec=DPoint(0,0),
           double w=0.0, bool is_kick_off=false,bool is_robot_stuck=false,
           bool is_robot_slip=false, bool isvalid=false, double lifetime = -2235432,
-          char _current_role = 0, DPoint _target = DPoint(0,0),
+          char _current_role = NOROLE, DPoint _target = DPoint(0,0),
           bool is_robot_dribble=false,double role_preserve = 0);
 
     Robot (const Robot& _info) ;

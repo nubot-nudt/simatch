@@ -3,7 +3,7 @@
 
 #include <boost/foreach.hpp>
 #include <boost/smart_ptr.hpp>
-#include <nubot/core/core.hpp>
+#include <core.hpp>
 #include <Eigen/Eigen>
 #include <list>
 #include <vector>

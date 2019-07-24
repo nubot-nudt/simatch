@@ -1,18 +1,15 @@
 #ifndef _NUBOT_BALL_H_
 #define _NUBOT_BALL_H_
 
-#include "nubot/core/core.hpp"
-#include "nubot/world_model/robot.h"
+#include "world_model/robot.h"
 #include "ros/ros.h"
-
-
 
 namespace nubot{
 
 const int  BALL_PREDICT_BIAS_CONST=60;
 const int  THRES_BALL_VALID_CONST=15;
 enum {NOTSEEBALL = 0, SEEBALLBYOWN = 1,SEEBALLBYOTHERS = 2};
-enum {OMNI_BALL  = 0, FRONT_BALL = 1, KINECT_BALL  = 2};
+enum {OMNI_BALL  = 0, KINECT_BALL  = 1};
 class BallObject{
 
 public:
@@ -74,7 +71,8 @@ public:
 
     /** @brief 更新球的信息，并将不同球的信息进行融合 */
     void
-    update(BallObject & teammates_ball,bool is_valid);
+    update(BallObject & teammates_ball, bool is_valid);
+
 
     bool
     evaluateVelocity(std::vector<BallObject> & _ball_info,
@@ -83,9 +81,8 @@ public:
 public:
 
     /** 感知到的足球信息
-     *  OMNI_BALL=0  ， 全向视觉系统检测到的足球
-     *  FRONT_BALL=1 ， 前向视觉检测到的足球
-     *  KINECT_BALL=2， kinect传感器检测到的足球信息
+     *  OMNI_BALL=0，全向视觉系统检测到的足球
+     *  KINECT_BALL=1，kinect传感器检测到的足球信息
      */
     std::vector< BallObject > sensor_ball_;
     /** @brief kinect传感器检测到的足球信息*/
@@ -98,9 +95,6 @@ public:
     /** @brief 记录全向视觉系统得到的足球信息，用于球速估计*/
     std::vector<BallObject> omni_ball_record_;
     std::vector<ros::Time>  omni_ball_time_;
-    /** @brief 记录前向视觉系统得到的足球信息，用于球速估计*/
-    std::vector<BallObject> front_ball_record_;
-    std::vector<ros::Time>  front_ball_time_;
     /** @brief 记录kinect传感器得到的足球信息，用于球速估计*/
     std::vector<BallObject> kinect_ball_record_;
     std::vector<ros::Time>  kinect_ball_time_;

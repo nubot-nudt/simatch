@@ -24,9 +24,9 @@
 
 #include <stdio.h>
 #include <signal.h>
-#include "nubot/rtdb/rtdb_api.h"
-#include "nubot/rtdb/rtdb_user.h"
-#include "nubot/world_model/teammatesinfo.h"
+#include "rtdb/rtdb_api.h"
+#include "rtdb/rtdb_user.h"
+#include "world_model/teammatesinfo.h"
 
 #include <time.h>
 
@@ -67,8 +67,16 @@ int main(int argc, char **argv)
     struct MessageFromCoach
     {
         char Head;
-        char MatchMode; /** 比赛模式，如果*/
+        char MatchMode;          //比赛模式
         char MatchType;
+        char TestMode;           //测试模式
+        nubot::DPoint2s pointA;
+        nubot::DPoint2s pointB;
+        int angleA;
+        int angleB;
+        char id_A;
+        char id_B;
+        char kick_force;
     }coach2robot;
 	int lifetime;
     int value = 0;
@@ -83,8 +91,8 @@ int main(int argc, char **argv)
     while(end == 0)
 	{
         printf("\n\n\n");
-                lifetime = DB_get(Agent0,MESSAGEFROMCOACHINFO, &coach2robot);
-        printf("%d",coach2robot.MatchMode);
+                lifetime = DB_get(0,MESSAGEFROMCOACHINFO, &coach2robot);
+        printf("%d",coach2robot.kick_force);
 
         sleep(0.5);
 	}

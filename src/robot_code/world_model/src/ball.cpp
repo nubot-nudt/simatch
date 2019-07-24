@@ -1,6 +1,4 @@
-#include "nubot/world_model/ball.h"
-#include <fstream>
-#include <float.h>
+#include "world_model/world_model.h"
 using namespace nubot;
 
 BallObject::BallObject(int id,bool is_valid,DPoint loc ,PPoint real_loc,
@@ -62,64 +60,118 @@ BallObject::isVelocityKnown()   { return ball_vec_known_;}
 double
 BallObject::getlifetime()       { return lifetime_;}
 
-
+/// \brief 感知到的足球信息
+/// OMNI_BALL=0  ， 全向视觉系统检测到的足球
+/// KINECT_BALL=1， kinect传感器检测到的足球信息
 Ball::Ball(void)
 {
-    /** 感知到的足球信息
-     *  OMNI_BALL=0  ， 全向视觉系统检测到的足球
-     *  FRONT_BALL=1 ， 前向视觉检测到的足球
-     *  KINECT_BALL=2， kinect传感器检测到的足球信息
-     */
-    sensor_ball_.resize(3);
+    sensor_ball_.resize(2);
 
     omni_ball_record_.reserve(25);
     omni_ball_time_.reserve(25);
 
-    front_ball_record_.reserve(25);
-    front_ball_time_.reserve(25);
+    kinect_ball_record_.reserve(25);
+    kinect_ball_time_.reserve(25);
 }
 Ball::~Ball(void)
 {
 }
 
+/// \brief 更新自身传感器的信息，并进行融合
 void
 Ball::update(BallObject & teammates_ball,bool is_valid)
 {
-    /** 更新自身传感器的信息，并进行融合，融合的优先级由全向、前向到kinect机器人
-     * （kinect还没有启用，在world_model.cpp接收的topic中将其赋值位false，以后要用
-        请将其赋值位true*/
     own_ball_.setValid(false);
     own_ball_.setLocationKnown(false);
     own_ball_.setVelocityKnown(false);
     own_ball_.setVelocity(DPoint(0,0));
     ball_info_state_ = NOTSEEBALL;
-    for(std::size_t i = 0 ; i < sensor_ball_.size(); i++)
+    DPoint velocity    = own_ball_.getVelocity();
+    bool   is_velocity = own_ball_.isVelocityKnown();
+
+    BallObject & kinect_ball_info = sensor_ball_[KINECT_BALL];
+    double ltime = kinect_ball_info.getlifetime();
+    //printf("ball ball kinect angle: %d radians: %f\n",kinect_ball_info.getRealLocation().angle_.degree(),kinect_ball_info.getRealLocation().radius_);
+    bool flagkinect=false;
+    bool flagomni=false;
+    /// 长时间没有更新数据，则判定起为false
+    if(ltime < 0 || ltime > NOT_DATAUPDATE)
+        kinect_ball_info.setValid(false);
+
+    if (kinect_ball_info.isValid() && kinect_ball_info.isLocationKnown())
+            flagkinect=true;
+    BallObject &omni_ball_info = sensor_ball_[OMNI_BALL];
+    /// kinect检测到的球的全局坐标
+    DPoint kk=kinect_ball_info.getGlobalLocation();
+    /// 全向视觉检测到的球的全局坐标
+    DPoint ko=omni_ball_info.getGlobalLocation();
+
+    double ltime1 = omni_ball_info.getlifetime();
+    /// 长时间没有更新数据，则判定起为false
+    if(ltime1 < 0 || ltime1 > NOT_DATAUPDATE)
+        omni_ball_info.setValid(false);
+    if (omni_ball_info.isValid() && omni_ball_info.isLocationKnown())
+            flagomni=true;
+
+    printf("KINECT BALL angle: %d radians: %f\n",kinect_ball_info.getRealLocation().angle_.degree(),kinect_ball_info.getRealLocation().radius_);
+    printf("OMNI BALL angle: %d radians: %f\n",omni_ball_info.getRealLocation().angle_.degree(),omni_ball_info.getRealLocation().radius_);
+
+    if (flagkinect && flagomni)
     {
-        BallObject & ball_info = sensor_ball_[i];
-        double ltime = ball_info.getlifetime();
-        /** 长时间没有更新数据，则判定起为false */
-        if(ltime < 0 || ltime > NOT_DATAUPDATE)
-            ball_info.setValid(false);
-        /** 球速需要单独更新，因为足球位置有效，并不代表球速估计就有效，参见球速估计代码*/
-        DPoint velocity    = own_ball_.getVelocity();
-        bool   is_velocity = own_ball_.isVelocityKnown();
-        if(ball_info.isValid() && ball_info.isLocationKnown())
-            own_ball_ = ball_info;
-        if(ball_info.isValid() && !ball_info.isVelocityKnown()) //球速未知，直接赋予以往速度信息
+        if (kinect_ball_info.getRealLocation().angle_.degree()>-40 && kinect_ball_info.getRealLocation().angle_.degree()<40 && kinect_ball_info.getRealLocation().radius_>=100 && kinect_ball_info.getRealLocation().radius_<550)
         {
-            own_ball_.setVelocity(velocity);
-            own_ball_.setVelocityKnown(is_velocity);
+            own_ball_=kinect_ball_info;
+            printf("LAST KINECT BALL angle: %d radians: %f\n",kinect_ball_info.getRealLocation().angle_.degree(),kinect_ball_info.getRealLocation().radius_);
+        }
+        else
+        {
+                own_ball_=omni_ball_info;
+            printf("LAST OMNI BALL angle: %d radians: %f\n",omni_ball_info.getRealLocation().angle_.degree(),omni_ball_info.getRealLocation().radius_);
+
         }
     }
+    if (!flagkinect && flagomni)
+    {
+            own_ball_=omni_ball_info;
+            printf("LAST OMNI BALL angle: %d radians: %f\n",omni_ball_info.getRealLocation().angle_.degree(),omni_ball_info.getRealLocation().radius_);
+    }
+    if (flagkinect && !flagomni)
+    {
+            own_ball_=kinect_ball_info;
+            printf("LAST KINECT BALL angle: %d radians: %f\n",kinect_ball_info.getRealLocation().angle_.degree(),kinect_ball_info.getRealLocation().radius_);
+    }
+    if (!flagkinect && !flagomni)
+    {
+            own_ball_.setLocationKnown(false);
+            printf("NO BALL !!!!\n");
+    }
+
+    /// 如果全向有消息,且有速度,则取全向的速度,否则,取之前的速度
+    if (omni_ball_info.isValid()&&omni_ball_info.isVelocityKnown())
+    {
+        own_ball_.setVelocity(omni_ball_info.getVelocity());
+        own_ball_.setVelocityKnown(true);
+    }
+    else
+    {
+        own_ball_.setVelocity(velocity);
+        own_ball_.setVelocityKnown(is_velocity);
+    }
+    /// 重新求取速度，则将所有数据清空
+    /// 球速需要单独更新，因为足球位置有效，并不代表球速估计就有效，参见球速估计代码
+
+    /// 如果检测到球,默认最终融合的足球采用自己检测到的
     if(own_ball_.isValid() && own_ball_.isLocationKnown())
         ball_info_state_ = SEEBALLBYOWN;
-    fuse_ball_ = own_ball_; /** 默认最终融合的足球采用自己监测到的 */
+    fuse_ball_ = own_ball_;
+
+    /// 如果不知道球速，且存在被选中的更新足球信息的机器人A，那么可以设置球速为A的球速
     if(!fuse_ball_.isVelocityKnown() && is_valid)
     {
        fuse_ball_.setVelocity(teammates_ball.getVelocity());
        fuse_ball_.setVelocityKnown(teammates_ball.isVelocityKnown());
     }
-    /** 如果自己检测不到足球，队友能够感知到足球,足球用队友的*/
+    /// 如果自己检测不到足球，队友能够感知到足球,足球用队友的
     if(ball_info_state_ == NOTSEEBALL && is_valid)
     {
         ball_info_state_ = SEEBALLBYOTHERS;
@@ -273,7 +325,7 @@ Ball::evaluateVelocity(std::vector<BallObject> & _ball_info,
         ball_global_vec=accumulate_pt*weight_avgpart+ball_velocity*(1.0-weight_avgpart);
     }
     //! 如果求取的速度太小，且没有连续几帧误差较大，则认为其速度为零
-    if(is_start_again)//ball_global_vec.norm() < (distanceb2r/20.0+20.0)||
+    if(is_start_again)//ball_global_vec.length() < (distanceb2r/20.0+20.0)||
         ball_global_vec=DPoint(0,0);
     //! 连续几帧误差比较大(is_start_again=true)，将其速度设置为未知，并且还要清空数据
     ball_vec_known = !is_start_again;

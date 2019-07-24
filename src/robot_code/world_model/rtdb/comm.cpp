@@ -37,11 +37,9 @@
 
 #include <stdlib.h>
 
-#include "nubot/rtdb/multicast.h"
-#include "nubot/rtdb/rtdb_comm.h"
-#include "nubot/rtdb/rtdb_user.h"
-
-
+#include "rtdb/multicast.h"
+#include "rtdb/rtdb_comm.h"
+#include "rtdb/rtdb_user.h"
 
 #define BUFFER_SIZE 5000
 
@@ -494,7 +492,7 @@ int main(int argc, char *argv[])
    // sharedRecs = sharedRecs-2; //xiongdan 2015, 后面两位是COACH
 
 #ifdef UNI_DEBUG
-    if((uniSckt = openUniSocket("eth0")) == -1)
+    if((uniSckt = openUniSocket("eth1")) == -1)
     {
         PERR("openUnicastSocket");
         return -1;

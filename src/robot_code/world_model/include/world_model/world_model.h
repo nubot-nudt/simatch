@@ -1,13 +1,15 @@
 #ifndef _NUBOT_World_Model_H_
 #define _NUBOT_World_Model_H_
 
-#include "nubot/core/core.hpp"
-#include "nubot/world_model/ball.h"
-#include "nubot/world_model/robot.h"
-#include "nubot/world_model/obstacles.h"
-#include "nubot/world_model/teammatesinfo.h"
+#include "world_model/teammatesinfo.h"
+#include "Fieldinformation.h"
+#include "rtdb/rtdb_api.h"
+#include "rtdb/rtdb_user.h"
+
 #include <std_msgs/Header.h>
 #include <std_msgs/String.h>
+#include <std_msgs/Float32MultiArray.h>
+
 #include <nubot_common/BallInfo.h>
 #include <nubot_common/RobotInfo.h>
 #include <nubot_common/ObstaclesInfo.h>
@@ -15,16 +17,12 @@
 #include <nubot_common/WorldModelInfo.h>
 #include <nubot_common/StrategyInfo.h>
 #include <nubot_common/TargetInfo.h>
-#include <nubot_common/FrontBallInfo.h>
 #include <nubot_common/BallInfo3d.h>
-#include "nubot/rtdb/rtdb_api.h"
-#include "nubot/rtdb/rtdb_user.h"
-#include "ros/ros.h"
+#include <nubot_common/object_info.h>
 #include <semaphore.h>
-#include <fstream>
 
 #ifdef SIMULATION
-#include "nubot/rtdb/multicast.h"
+#include "rtdb/multicast.h"
 #include "nubot_common/simulation_strategy.h"
 #endif
 
@@ -37,17 +35,18 @@ public:
     ~World_Model();
     void update(const ros::TimerEvent& event);
     void updateOminivision(const nubot_common::OminiVisionInfo &omniinfo);
-    void updateFrontVision(const nubot_common::FrontBallInfo & _front_info);
-    void updateKinectBall(const nubot_common::BallInfo3d & _ball_info);
+    void updateKinectBall(const nubot_common::object_info  &tx1_info);
     void updateInfo();
     void publish();
-//    void sendToCoach();
     void sendToTeamnates();
+    bool IsLocationInField(DPoint location);
 public:
     std::vector<Teammatesinfo> teammatesinfo_;
     Ball ball_info_;
-    int teammateIDforBallSelected ;
     Obstacles obstacles_;
+    FieldInformation field_info_;
+
+    int  teammateIDforBallSelected ;
     int  AgentID_;
     int  coach_socket_;
 
@@ -55,9 +54,6 @@ public:
     ros::Time kinect_update_time_;  /** kinect节点发布的topic更新时间；*/
     ros::Time front_update_time_;   /** 前向视觉节点发布的topic更新时间；*/
     ros::Time nubot_control_time_;
-
-
-   // MessageToCoach   robot2coach_;        //实际没有使用
     MessageFromCoach coach2robot_;
 
 public:

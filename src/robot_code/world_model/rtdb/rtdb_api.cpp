@@ -33,8 +33,8 @@
 #include <errno.h>
 
 
-#include "nubot/rtdb/rtdb_defs.h"
-#include "nubot/rtdb/rtdb_user.h"
+#include "rtdb/rtdb_defs.h"
+#include "rtdb/rtdb_user.h"
 #include <sstream>
 
 //#define DEBUG
@@ -114,17 +114,12 @@ int read_configuration(RTDBconf_agents *conf)
 	int id, size, period;
 	char type;
 
-    int agent_number;
-    char * environment;
-    if((environment = getenv("AGENT"))==NULL)
-    {
-        PERR("this agent number is not read by robot");
-        return -1;
-    }
-    agent_number = atoi(environment);
-    std::stringstream ss;
-    ss<<agent_number;
-    std::string ini_config_file="/home/nubot"+ss.str()+"/nubot_ws/src/nubot/world_model/config/rtdb.ini";
+    char * home;
+    home=getenv("HOME");
+    std::stringstream sh;
+    sh<<home;
+
+    std::string ini_config_file=sh.str()+"/nubot_ws/src/nubot/world_model/config/rtdb.ini";
     if ((f_def = fopen(ini_config_file.c_str(), "r")) == NULL)
 	{
 		PERRNO("fopen");

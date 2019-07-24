@@ -1,10 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "nubot/core/core.hpp"
-#include "nubot/world_model/world_model.h"
-#include <ros/ros.h>
+#include "world_model/world_model.h"
 #include <boost/thread.hpp>
+
 using namespace nubot;
 int main(int argc, char **argv)
 {

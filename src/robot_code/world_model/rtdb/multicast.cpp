@@ -34,7 +34,7 @@
 #include <unistd.h>
 #include <linux/if_ether.h>
 
-#include "nubot/rtdb/multicast.h"
+#include "rtdb/multicast.h"
 
 
 #define PERRNO(txt) \
