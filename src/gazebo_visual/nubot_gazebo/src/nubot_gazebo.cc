@@ -13,20 +13,20 @@
 #define FLY -1
 #define ZERO_VECTOR math::Vector3::Zero
 #define PI 3.14159265
-#define use_convected_acc true
 
 #define CM2M_CONVERSION 0.01
 #define M2CM_CONVERSION 100
 
-
 enum {NOTSEEBALL = 0, SEEBALLBYOWN = 1,SEEBALLBYOTHERS = 2};
 const math::Vector3 kick_vector_robot(1,0,0);    // assume the normalized vector from origin to kicking mechanism in robot refercence frame
-// is in x-axis direction
+                                                 // is in x-axis direction
 const double goal_x = 9.0;
 const double goal_height = 1.0;
-const double        g = 9.8;
-const double        m = 0.41;                   // ball mass (kg)
-const double eps = 0.0001;                      // small value
+const double g = 9.8;
+const double m = 0.41;                          // ball mass (kg)
+//const double eps = 0.0001;                      // small value
+
+/* speed and acceleration limit */
 const double max_linear_vel_ = 5;
 const double max_angular_vel_ = 6;
 const double max_acc_linear_ = 2.5;
@@ -34,7 +34,6 @@ const double max_acc_angular_ = 3;
 const double acc_thresh = 2.5; ///m/s^2
 const double dcc_thresh = 5;  ///m/s^2
 const double speed_thresh = 5;  ///m/s
-
 
 using namespace gazebo;
 using namespace std;
@@ -101,7 +100,6 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     world_ = _model->GetWorld();
     robot_model_ = _model;
     model_name_ = robot_model_->GetName();
-
     robot_namespace_ = robot_model_->GetName();
 
     // Make sure the ROS node for Gazebo has already been initialized
@@ -151,7 +149,7 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     // Publishers
     omin_vision_pub_   = rosnode_->advertise<nubot_common::OminiVisionInfo>("omnivision/OmniVisionInfo",10);
     // debug_pub_ = rosnode_->advertise<std_msgs::Float64MultiArray>("debug",10);
-
+    Ballisholding_pub  = rosnode_->advertise<nubot_common::BallIsHolding>("ballisholding/BallIsHolding",10);
     // Subscribers.
     ros::SubscribeOptions so1 = ros::SubscribeOptions::create<gazebo_msgs::ModelStates>(
                 "/gazebo/model_states", 100, boost::bind( &NubotGazebo::model_states_CB,this,_1),
@@ -168,22 +166,18 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
                 ros::VoidPtr(), &message_queue_);
     CoachInfo_sub_ = rosnode_->subscribe(so3);
 
+    ros::SubscribeOptions so4 = ros::SubscribeOptions::create<nubot_common::ActionCmd>(
+                "nubotcontrol/actioncmd", 100, boost::bind( &NubotGazebo::actionCmd_CB,this,_1),
+                ros::VoidPtr(), &message_queue_);
+    actioncmd_sub_ = rosnode_->subscribe(so4);
     // Service Servers & clients
-    ros::AdvertiseServiceOptions aso1 = ros::AdvertiseServiceOptions::create<nubot_common::BallHandle>(
-                "BallHandle", boost::bind(&NubotGazebo::ball_handle_control_service, this, _1, _2),
-                ros::VoidPtr(), &service_queue_);
-    ballhandle_server_ =   rosnode_->advertiseService(aso1);
-
-    ros::AdvertiseServiceOptions aso2 = ros::AdvertiseServiceOptions::create<nubot_common::Shoot>(
-                "Shoot", boost::bind(&NubotGazebo::shoot_control_servive, this, _1, _2),
-                ros::VoidPtr(), &service_queue_);
-    shoot_server_ =   rosnode_->advertiseService(aso2);
     dribbleId_client_ = rosnode_->serviceClient<nubot_common::DribbleId>("/DribbleId");
 
 #if 0
     reconfigureServer_ = new dynamic_reconfigure::Server<nubot_gazebo::NubotGazeboConfig>(*rosnode_);
     reconfigureServer_->setCallback(boost::bind(&NubotGazebo::config, this, _1, _2));
 #endif
+
     // Custom Callback Queue Thread. Use threads to process message and service callback queue
     message_callback_queue_thread_ = boost::thread( boost::bind( &NubotGazebo::message_queue_thread,this ) );
     service_callback_queue_thread_ = boost::thread( boost::bind( &NubotGazebo::service_queue_thread,this ) );
@@ -194,7 +188,7 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
     // Output info
     ROS_INFO(" %s  id: %d  flip_cord:%d  gaussian scale: %f  rate: %f\n",
-             model_name_.c_str(),  AgentID_, flip_cord_, noise_scale_, noise_rate_);
+              model_name_.c_str(),  AgentID_, flip_cord_, noise_scale_, noise_rate_);
 }
 
 void NubotGazebo::Reset()
@@ -267,8 +261,8 @@ void NubotGazebo::model_states_CB(const gazebo_msgs::ModelStates::ConstPtr& _msg
     {
         // get info of robots and the ball; reference frame: world
         if( (_msg->name[i].find(cyan_pre_) != std::string::npos) ||
-                (_msg->name[i].find(mag_pre_) != std::string::npos) ||
-                (_msg->name[i] == ball_name_) )
+            (_msg->name[i].find(mag_pre_) != std::string::npos) ||
+            (_msg->name[i] == ball_name_) )
         {
             geometry_msgs::Pose     ps = _msg->pose[i];
             geometry_msgs::Twist    tw = _msg->twist[i];
@@ -349,7 +343,7 @@ bool NubotGazebo::update_model_info(void)
         math::Quaternion    rotation_quaternion = robot_state_.pose.orient;
         math::Matrix3       RotationMatrix3 = rotation_quaternion.GetAsMatrix3();
         kick_vector_world_ = RotationMatrix3 * kick_vector_robot; // vector from nubot origin to kicking mechanism in world frame
-//        ROS_INFO("kick_vector_world_: %f %f %f",kick_vector_world_.x, kick_vector_world_.y, kick_vector_world_.z);
+        // ROS_INFO("kick_vector_world_: %f %f %f",kick_vector_world_.x, kick_vector_world_.y, kick_vector_world_.z);
 
         obs_->world_obs_.reserve(20);
         obs_->real_obs_.reserve(20);
@@ -361,11 +355,11 @@ bool NubotGazebo::update_model_info(void)
         {
             // Obstacles info (including teamates and opponent robots)
             if(model_states_.name[i].compare(0, cyan_pre_.size(), cyan_pre_) == 0 ||
-                    model_states_.name[i].compare(0, mag_pre_.size(), mag_pre_) == 0)   //compare model name' prefix to determine robots
+               model_states_.name[i].compare(0, mag_pre_.size(), mag_pre_) == 0)   //compare model name' prefix to determine robots
             {
                 math::Vector3 obs_pos(model_states_.pose[i].position.x,
-                                      model_states_.pose[i].position.y,
-                                      model_states_.pose[i].position.z);
+                                                model_states_.pose[i].position.y,
+                                                model_states_.pose[i].position.z);
                 if(i != robot_index_)
                 {
                     obs_->world_obs_.push_back(nubot::DPoint(obs_pos.x, obs_pos.y));
@@ -453,8 +447,8 @@ void NubotGazebo::message_publish(void)
     nubot_common::PPoint  polar_point;                              // message type in ObstaclesInfo.msg
     for(int i = 0 ; i < length ; i++)
     {
-        nubot::DPoint & pt=obs_->world_obs_[i];         // DPoint is a type in nubot/core/core.hpp
-        nubot::PPoint & polar_pt= obs_->real_obs_[i];   // PPoint is a type in nubot/core/core.hpp
+        nubot::DPoint & pt=obs_->world_obs_[i];         // DPoint is a type in core.hpp
+        nubot::PPoint & polar_pt= obs_->real_obs_[i];   // PPoint is a type in core.hpp
 
         point.x=pt.x_ * M2CM_CONVERSION ;                           // Get the location info and put it in message type
         point.y=pt.y_ * M2CM_CONVERSION;
@@ -469,7 +463,8 @@ void NubotGazebo::message_publish(void)
     omni_info_.ballinfo=ball_info_;
     omni_info_.obstacleinfo=obstacles_info_;
     omin_vision_pub_.publish(omni_info_);
-
+    ballisholding_info_.BallIsHolding=get_is_hold_ball();
+    Ballisholding_pub.publish(ballisholding_info_);
 }
 
 void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector3 angular_vel_vector)
@@ -520,6 +515,7 @@ void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector
 //        cout<<"over angular speed   "<<model_name_<<endl;
 //    }
     result_vector_ = speedLimit(desired_trans_vector_,desired_rot_vector_);
+//    std::cout<<"speed"<<result_vector_<<std::endl;
     desired_rot_vector_ = result_vector_.Dot(math::Vector3(0,0,1)) * math::Vector3(0,0,1);
     desired_trans_vector_ = result_vector_ - desired_rot_vector_;
 
@@ -604,26 +600,14 @@ void NubotGazebo::coachinfo_CB(const nubot_common::CoachInfo::ConstPtr &cmd)
     msgCB_lock_.unlock();
 }
 
-bool NubotGazebo::ball_handle_control_service(nubot_common::BallHandle::Request  &req,
-                                              nubot_common::BallHandle::Response &res)
+void NubotGazebo::actionCmd_CB(const nubot_common::ActionCmd::ConstPtr &actioncmd)
 {
-    srvCB_lock_.lock();
-
-    dribble_req_ = req.enable ? 1 : 0;         // FIXME. when robot is stucked, req.enable=2
-    res.BallIsHolding = get_is_hold_ball();
-
-    // ROS_FATAL("%s dribble:[enable holding]:[%d %d]",model_name_.c_str(), (int)req.enable, (int)res.BallIsHolding);
-    srvCB_lock_.unlock();
-    return true;
-}
-
-bool NubotGazebo::shoot_control_servive( nubot_common::Shoot::Request  &req,
-                                         nubot_common::Shoot::Response &res )
-{
-    srvCB_lock_.lock();
-
-    force_ = (double)req.strength;
-    mode_ = (int)req.ShootPos;
+    msgCB_lock_.lock();
+    dribble_req_=actioncmd->handle_enable;
+    force_ = (double)actioncmd->strength;
+    mode_ = (int)actioncmd->shootPos;
+    if(force_!=0)
+        std::cout<<"force  "<<force_<<std::endl;
     if(force_ > 15.0)
     {
         //ROS_FATAL("Kick ball force(%f) is too great.", force_);
@@ -636,12 +620,10 @@ bool NubotGazebo::shoot_control_servive( nubot_common::Shoot::Request  &req,
             dribble_req_ = false;
             shot_req_ = true;
             //ROS_INFO("%s shoot_service: ShootPos:%d strength:%f",model_name_.c_str(), mode_, force_);
-            res.ShootIsDone = 1;
         }
         else
         {
             shot_req_ = false;
-            res.ShootIsDone = 0;
             //ROS_INFO("%s shoot_service(): Cannot kick ball. angle error:%f distance error: %f. ",
             //                            model_name_.c_str(), angle_error_degree_, nubot_football_vector_length_);
         }
@@ -649,15 +631,9 @@ bool NubotGazebo::shoot_control_servive( nubot_common::Shoot::Request  &req,
     else
     {
         shot_req_ = false;
-        res.ShootIsDone = 1;
         //ROS_ERROR("%s shoot_control_service(): Kick-mechanism charging complete!",model_name_.c_str());
     }
-
-    //ROS_INFO("%s shoot: [strength pos shootisdone]:[%f %d %d]",
-    //            model_name_.c_str(), force_, mode_, (int)res.ShootIsDone);
-
-    srvCB_lock_.unlock();
-    return true;
+    msgCB_lock_.unlock();
 }
 
 void NubotGazebo::dribble_ball(void)
@@ -704,65 +680,54 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
 {
     math::Vector3 kick_vector_planar(kick_vector_world_.x, kick_vector_world_.y, 0.0);
     math::Vector3 vel_vector;
-    if(mode == RUN )
+
+    if(mode == RUN)
     {
-        double vel2 = vel * 2.3;;                         //FIXME. CAN TUNE
+        double vel2 = vel;;                         //FIXME. CAN TUNE
+        ///limit the max velocity of ball
+        if(vel2>10.0)
+            vel2=10.0;
         if(flip_cord_)
             vel_vector = -kick_vector_planar * vel2;
         else
             vel_vector = kick_vector_planar * vel2;
-
         ball_model_->SetLinearVel(vel_vector);
         ROS_INFO("kick ball vel:%f vel2:%f",vel, vel2);
     }
-    //        if(mode/fabs(mode) == FLY )
-    // math formular: y = a*x^2 + b*x + c;
-    //  a = -g/(2*vx*vx), c = 0, b = kick_goal_height/D + g*D/(2.0*vx*vx)
-    //  mid_point coordinates:[-b/(2*a), (4a*c-b^2)/(4a) ]
-    ///the origin fly mode
-    //        static const double g = 9.8, kick_goal_height = goal_height - 0.5;      // FIXME: can be tuned
-    //        nubot::DPoint point1(robot_state_.pose.position.x,robot_state_.pose.position.y);
-    //        nubot::DPoint point2(robot_state_.pose.position.x + kick_vector_world_.x,
-    //                             robot_state_.pose.position.y + kick_vector_world_.y);
-    //        nubot::DPoint point3(ball_state_.pose.position.x,ball_state_.pose.position.y);
-    //        nubot::Line_ line1(point1, point2);
-    //        nubot::Line_ line2(1.0, 0.0, kick_vector_world_.x>0 ? -goal_x : goal_x);         // nubot::Line_(A,B,C);
-
-    //        nubot::DPoint crosspoint = line1.crosspoint(line2);
-    //        double D = crosspoint.distance(point3);
-    //        double vx_thres = D*sqrt(g/2/kick_goal_height);
-    //        double vx = vx_thres/2.0;//>vel ? vel : vx_thres/2.0;                            // initial x velocity.CAN BE TUNED
-    //        double b = kick_goal_height/D + g*D/(2.0*vx*vx);
-
-    //        ROS_INFO("%s crosspoint:(%f %f) vx: %f", model_name_.c_str(),
-    //                 crosspoint.x_, crosspoint.y_, vx);
-    //        if( fabs(crosspoint.y_) < 10)
-    //        {
-    //            math::Vector3 kick_vector;
-    //            if(flip_cord_)
-    //                kick_vector = math::Vector3(-vx*kick_vector_world_.x, -vx*kick_vector_world_.y, b*vx);
-    //            else
-    //                kick_vector = math::Vector3(vx*kick_vector_world_.x, vx*kick_vector_world_.y, b*vx);
-    //            ball_model_->SetLinearVel(kick_vector);
-    //        }
-    //        else
-    //            ROS_FATAL("CANNOT SHOOT. crosspoint.y is too big!");
-
-    ///new fly mode zhouzhiqian 180826
-    else if( mode == FLY )
+    else if(mode == FLY)
     {
-        math::Vector3 kick_vector;
-        double vel_mode = vel;
-        /// 0.6 and 0.8 is nearly the real angle of the machanism
-        /// In the future, we want to adjust the position of machanism to kick ball, so that
-        /// different ratio is possible.
-        double vel_planar = vel_mode * 0.6;
-        double vel_vertical = vel_mode * 0.8;
-        if(flip_cord_)
-            kick_vector = math::Vector3(-vel_planar*kick_vector_world_.x, -vel_planar*kick_vector_world_.y, vel_vertical);
+        // math formular: y = a*x^2 + b*x + c;
+        //  a = -g/(2*vx*vx), c = 0, b = kick_goal_height/D + g*D/(2.0*vx*vx)
+        //  mid_point coordinates:[-b/(2*a), (4a*c-b^2)/(4a) ]
+
+        static const double g = 9.8, kick_goal_height = goal_height - 0.20;      // FIXME: can be tuned
+        nubot::DPoint point1(robot_state_.pose.position.x,robot_state_.pose.position.y);
+        nubot::DPoint point2(robot_state_.pose.position.x + kick_vector_world_.x,
+                             robot_state_.pose.position.y + kick_vector_world_.y);
+        nubot::DPoint point3(ball_state_.pose.position.x,ball_state_.pose.position.y);
+        nubot::Line_ line1(point1, point2);
+        nubot::Line_ line2(1.0, 0.0, kick_vector_world_.x>0 ? -goal_x : goal_x);         // nubot::Line_(A,B,C);
+
+        nubot::DPoint crosspoint;
+        line1.crosspoint(line2,crosspoint);
+        double D = crosspoint.distance(point3);
+        double vx_thres = D*sqrt(g/2/kick_goal_height);
+        double vx = vx_thres/2.0;//>vel ? vel : vx_thres/2.0;                            // initial x velocity.CAN BE TUNED
+        double b = kick_goal_height/D + g*D/(2.0*vx*vx);
+
+        ROS_INFO("%s crosspoint:(%f %f) vx: %f", model_name_.c_str(),
+                 crosspoint.x_, crosspoint.y_, vx);
+        if( fabs(crosspoint.y_) < 10)
+        {
+            math::Vector3 kick_vector;
+            if(flip_cord_)
+                kick_vector = math::Vector3(-vx*kick_vector_world_.x, -vx*kick_vector_world_.y, b*vx);
+            else
+                kick_vector = math::Vector3(vx*kick_vector_world_.x, vx*kick_vector_world_.y, b*vx);
+            ball_model_->SetLinearVel(kick_vector);
+        }
         else
-            kick_vector = math::Vector3(vel_planar*kick_vector_world_.x, vel_planar*kick_vector_world_.y, vel_vertical);
-        ball_model_->SetLinearVel(kick_vector);
+            ROS_FATAL("CANNOT SHOOT. crosspoint.y is too big!");
     }
     else
     {
@@ -770,8 +735,7 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
     }
 }
 
-bool
-NubotGazebo::get_is_hold_ball(void)
+bool NubotGazebo::get_is_hold_ball(void)
 {
     bool near_ball, allign_ball;
     math::Vector3 norm = nubot_ball_vec_;
@@ -782,9 +746,9 @@ NubotGazebo::get_is_hold_ball(void)
     allign_ball = (angle_error_degree_ <= dribble_angle_thres_/2.0
                    && angle_error_degree_ >= -dribble_angle_thres_/2.0) ?
                 1 : 0;
-    near_ball = nubot_ball_vec_len_ <= dribble_distance_thres_ ?
+    near_ball = nubot_ball_vec_len_ <= /*dribble_distance_thres_*/0.5 ?
                 1 : 0;
-
+//    std::cout<<"allign_ball::"<<dribble_angle_thres_<<"   near_ball"<<dribble_distance_thres_<<std::endl;
     //ROS_INFO("%s get_is_hold_ball(): angle error:%f(thres:%f) distance_error:%f(thres:%f)",
     //         model_name_.c_str(),  angle_error_degree_, dribble_angle_thres_,
     //         nubot_football_vector_length_, dribble_distance_thres_);
@@ -792,8 +756,7 @@ NubotGazebo::get_is_hold_ball(void)
     return (near_ball && allign_ball);
 }
 
-bool
-NubotGazebo::get_nubot_stuck(void)
+bool NubotGazebo::get_nubot_stuck(void)
 {
     static int time_count=0;
     static bool last_time_stuck=0;
@@ -862,8 +825,7 @@ NubotGazebo::get_nubot_stuck(void)
     }
 }
 
-void
-NubotGazebo::update_child()
+void NubotGazebo::update_child()
 {
     msgCB_lock_.lock(); // lock access to fields that are used in ROS message callbacks
     srvCB_lock_.lock();
@@ -874,7 +836,7 @@ NubotGazebo::update_child()
         /********** EDIT BEGINS **********/
 
         nubot_be_control();
-        // nubot_test();
+        //nubot_test();
 
         /**********  EDIT ENDS  **********/
     }
@@ -882,8 +844,7 @@ NubotGazebo::update_child()
     msgCB_lock_.unlock();
 }
 
-void
-NubotGazebo::nubot_be_control(void)
+void NubotGazebo::nubot_be_control(void)
 {
     static nubot_common::DribbleId di;
     if(robot_state_.pose.position.z < 0.2)          // not in the air
@@ -923,8 +884,7 @@ NubotGazebo::nubot_be_control(void)
         if(shot_req_ && get_is_hold_ball() && match_mode_ != STOPROBOT)
         {
             kick_ball(mode_, force_);
-            if(mode_ == FLY)
-                shot_req_ = false;
+            shot_req_ = false;
         }
     }
     else
@@ -938,14 +898,13 @@ NubotGazebo::nubot_be_control(void)
 
 bool NubotGazebo::is_robot_valid(double x, double y)
 {
-    if(fabs(x) > 10 || fabs(y) > 7)
+    if(fabs(x) > 12 || fabs(y) > 8)
         return false;
     else
         return true;
 }
 
-void
-NubotGazebo::nubot_test(void)
+void NubotGazebo::nubot_test(void)
 {
     // dribble ball
 #if 0
@@ -1005,6 +964,17 @@ NubotGazebo::nubot_test(void)
     //debug_msgs_.data.push_back(vel2);
     debug_pub_.publish(debug_msgs_);
 #endif
+    math::Vector3 a(5,0,0);
+    math::Vector3 b(8,0,0);
+    static ros::Time last_time = ros::Time::now();
+    if((ros::Time::now()-last_time).toSec() > 1)
+    {
+        nubot_locomotion(b, ZERO_VECTOR);
+        last_time = ros::Time::now();
+        cout<<"change vel"<<endl;
+    }
+    else
+        nubot_locomotion(a, ZERO_VECTOR);
 }
 
 math::Vector3
@@ -1083,45 +1053,43 @@ NubotGazebo::accelerateLimit(double duration, math::Vector3  model_linear_vel, m
         Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
         w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
     }
+//    if(hypot(Vx,Vy)*fabs(w)*0.03>acc_thresh)//无法保持全局速度方向不变,进一步限速
+//    {
+//        float v_wheel=0;
+//        for(int i=0; i<WHEELS; i++)
+//        {
+//            if( fabs(wheel_speed[i])>v_wheel )
+//                v_wheel = fabs(wheel_speed[i]);
+//        }
+//        if(v_wheel<acc_thresh) v_wheel = acc_thresh;
+//        for(int i=0; i<WHEELS; i++)
+//        {
+//            wheel_speed[i] *= (1-acc_thresh/v_wheel);
+//        }
 
-    if(hypot(Vx,Vy)*fabs(w)*0.03>acc_thresh)//无法保持全局速度方向不变,进一步限速
-    {
-        float v_wheel=0;
-        for(int i=0; i<WHEELS; i++)
-        {
-            if( fabs(wheel_speed[i])>v_wheel )
-                v_wheel = fabs(wheel_speed[i]);
-        }
-        if(v_wheel<acc_thresh) v_wheel = acc_thresh;
-        for(int i=0; i<WHEELS; i++)
-        {
-            wheel_speed[i] *= (1-acc_thresh/v_wheel);
-        }
 
-
-        if(WHEELS==4)
-        {
-            w  = -(wheel_speed[0]+wheel_speed[1]+wheel_speed[2]+wheel_speed[3])/(4*WHEEL_DISTANCE);
-            Vx =  (wheel_speed[0]+wheel_speed[1]-wheel_speed[2]-wheel_speed[3])/(2*1.414);
-            Vy =  (wheel_speed[1]+wheel_speed[2]-wheel_speed[0]-wheel_speed[3])/(2*1.414);
-        }
-        else
-        {
-            Vx = ( 0.577*wheel_speed[0]  + 0 * wheel_speed[1] -  wheel_speed[2] * 0.577);
-            Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
-            w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
-        }
-    }
-    if(use_convected_acc)
-    {
-        float temp = Vx;
-        Vx -=-Vy*w*0.05;
-        Vy -= temp*w*0.05;
-    }
+//        if(WHEELS==4)
+//        {
+//            w  = -(wheel_speed[0]+wheel_speed[1]+wheel_speed[2]+wheel_speed[3])/(4*WHEEL_DISTANCE);
+//            Vx =  (wheel_speed[0]+wheel_speed[1]-wheel_speed[2]-wheel_speed[3])/(2*1.414);
+//            Vy =  (wheel_speed[1]+wheel_speed[2]-wheel_speed[0]-wheel_speed[3])/(2*1.414);
+//        }
+//        else
+//        {
+//            Vx = ( 0.577*wheel_speed[0]  + 0 * wheel_speed[1] -  wheel_speed[2] * 0.577);
+//            Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
+//            w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
+//        }
+//    }
+//    if(use_convected_acc)
+//    {
+//        float temp = Vx;
+//        Vx -=-Vy*w*0.05;
+//        Vy -= temp*w*0.05;
+//    }
     result_vel = math::Vector3(Vx,Vy,w);
     return result_vel;
 }
-
 
 math::Vector3
 NubotGazebo::speedLimit(math::Vector3 target_linear_vel,math::Vector3 target_ang_vel)
@@ -1149,6 +1117,7 @@ NubotGazebo::speedLimit(math::Vector3 target_linear_vel,math::Vector3 target_ang
         wheel_speed[0]= ( 0.866*target_Vx -  0.5*target_Vy - target_w*WHEEL_DISTANCE);
         wheel_speed[1]= (   0.0*target_Vx +      target_Vy - target_w*WHEEL_DISTANCE);
         wheel_speed[2]= ( -0.866*target_Vx - 0.5*target_Vy - target_w*WHEEL_DISTANCE);
+
     }
     float speed_thresh_ratio = 1;
     for(int i=0; i<WHEELS; i++)

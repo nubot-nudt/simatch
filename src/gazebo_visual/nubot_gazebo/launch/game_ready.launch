@@ -16,7 +16,7 @@
     <arg name="paused"		value="false"/>
   </include>
 
-  <node name="robot_up" pkg="nubot_gazebo" type="robot_up.sh"/>
+  <node name="robot_up" pkg="nubot_gazebo" type="robot_up.sh" output="screen"/>
 
 </launch>
 

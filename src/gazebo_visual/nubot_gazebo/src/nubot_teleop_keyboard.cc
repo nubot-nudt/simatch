@@ -64,10 +64,13 @@ NubotTeleopKey::NubotTeleopKey():
     // set param to loose the control requirements
     // nh_.setParam("/nubot/dribble_thres", 0.60);
     // nh_.setParam("/nubot/angle_err_deg", 15);
-
+//    ros::SubscribeOptions so1 = ros::SubscribeOptions::create<nubot_common::BallIsHolding>(
+//                robot_name+"/ballisholding/BallIsHolding", 100, boost::bind( &NubotTeleopKey::ballisholding_CB,this,_1),
+//                ros::VoidPtr(), &message_queue_);
+    ballisholding_sub = nh_.subscribe(robot_name+"/ballisholding/BallIsHolding",100,&NubotTeleopKey::ballisholding_CB,this);
+//    ballisholding_sub = nh_.subscribe<nubot_common::BallIsHolding>(robot_name+"/ballisholding/BallIsHolding",10)
     vel_pub = nh_.advertise<nubot_common::VelCmd>(robot_name + "/nubotcontrol/velcmd", 10);
-    ballhandle_client_ =  nh_.serviceClient<nubot_common::BallHandle>(robot_name + "/BallHandle");
-    shoot_client_ = nh_.serviceClient<nubot_common::Shoot>(robot_name + "/Shoot");
+    actioncmd_pub = nh_.advertise<nubot_common::ActionCmd>(robot_name+"/nubotcontrol/actioncmd",10);
 }
 
 void NubotTeleopKey::keyLoop()
@@ -170,41 +173,41 @@ void NubotTeleopKey::keyLoop()
         vel_cmd_.Vy = vy_;
         vel_cmd_.w = w_;
         vel_pub.publish(vel_cmd_);
-
-        // rosservice call
-//        ROS_INFO("last_dribble: %d dribble:%d", last_dribble_flag_, dribble_flag_);
-        if(last_dribble_flag_ != dribble_flag_)
+        // dribble ball
+        // ROS_INFO("last_dribble: %d dribble:%d", last_dribble_flag_, dribble_flag_);
+        if(shot_flag_||(last_dribble_flag_ != dribble_flag_))
         {
-            nubot_common::BallHandle b;
-            b.request.enable = dribble_flag_;
-            ballhandle_client_.call(b);
-            ROS_INFO("I am calling dribble service");
-            if(dribble_flag_)
+            if(last_dribble_flag_ != dribble_flag_)
             {
-                if(b.response.BallIsHolding)
-                    ROS_INFO("dribble_flag_ : 1");
-                else
-                {
-                    dribble_flag_ = 0;
-                    last_dribble_flag_  = dribble_flag_;
-                    ROS_INFO("dribble fails. dribble_flag_ : 0");
-                }
+                actioncmd_info_.handle_enable = dribble_flag_;
+                ROS_INFO("I am advertising dribble service %d ",dribble_flag_);
+                //            if(dribble_flag_)
+                //            {
+                //                if(ballIsHolding_info_.BallIsHolding)
+                //                    ROS_INFO("dribble_flag_ : 1");
+                //                else
+                //                {
+                //                    dribble_flag_ = 0;
+                //                    last_dribble_flag_  = dribble_flag_;
+                //                    ROS_INFO("dribble fails. dribble_flag_ : 0");
+                //                }
+                //            }
+                //            else
+                //                ROS_INFO("dribble_flag_ : 0");
+            }
+            if(shot_flag_)
+            {
+                actioncmd_info_.shootPos = mode_;
+                actioncmd_info_.strength = KICK_BALL_VEL;
+                shot_flag_ = false;
             }
             else
-                ROS_INFO("dribble_flag_ : 0");
-        }
-
-        if(shot_flag_)
-        {
-            nubot_common::Shoot s;
-            s.request.ShootPos = mode_;
-            s.request.strength = KICK_BALL_VEL;
-            shoot_client_.call(s);
-            shot_flag_ = false;
-            if(s.response.ShootIsDone)
-                ROS_INFO("shoot ball success!");
-            else
-                ROS_INFO("shoot ball failure");
+            {
+                actioncmd_info_.shootPos = mode_;
+                actioncmd_info_.strength = 0;
+            }
+            actioncmd_pub.publish(actioncmd_info_);
+            //        ROS_INFO("shot_flag %b",shot_flag_);
         }
 
         dirty=false;
@@ -213,14 +216,16 @@ void NubotTeleopKey::keyLoop()
   return;
 }
 
-void quit(int sig)
+void
+quit(int sig)
 {
   tcsetattr(kfd, TCSANOW, &cooked);
   ros::shutdown();
   exit(0);
 }
 
-int main(int argc, char** argv)
+int
+main(int argc, char** argv)
 {
   cout<<"Input robot number"<<endl;
   cin>>robot_num;
@@ -234,6 +239,8 @@ int main(int argc, char** argv)
   return(0);
 }
 
-
-
-
+void
+NubotTeleopKey::ballisholding_CB(const nubot_common::BallIsHolding::ConstPtr& ballisholding_info_)
+{
+    ballIsHolding_info_.BallIsHolding = ballisholding_info_->BallIsHolding;
+}

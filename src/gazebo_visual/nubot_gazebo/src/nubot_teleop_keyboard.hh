@@ -5,8 +5,8 @@
 #include <string>
 
 #include <nubot_common/VelCmd.h>
-#include <nubot_common/BallHandle.h>
-#include <nubot_common/Shoot.h>
+#include <nubot_common/ActionCmd.h>
+#include <nubot_common/BallIsHolding.h>
 
 
 namespace nubot
@@ -20,12 +20,14 @@ namespace nubot
             /// \brief Constructor
             NubotTeleopKey();
 
-            /// \brief Service client for ball-dribbling
-            ros::ServiceClient ballhandle_client_;
+            /// \brief subscriber for ball-dribbling
+            ros::Subscriber ballisholding_sub;
 
-            /// \brief Service client for ball-shooting
-            ros::ServiceClient shoot_client_;
 
+            /// \brief call back function for ballisholding
+            void ballisholding_CB(const nubot_common::BallIsHolding::ConstPtr &ballisholding_info);
+
+            nubot_common::BallIsHolding ballIsHolding_info_;
             /// \brief Update function that receives keyboard input and acts accordingly
             void keyLoop();
 
@@ -36,6 +38,12 @@ namespace nubot
 
             /// \brief ROS Publisher that publishes velocity messages to control robot locomotion
             ros::Publisher vel_pub;
+
+            /// \brief publisher for action command
+            ros::Publisher actioncmd_pub;
+
+            /// \brief action command
+            nubot_common::ActionCmd actioncmd_info_;
 
             /// \brief Velocity messages
             nubot_common::VelCmd vel_cmd_;

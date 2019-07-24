@@ -15,7 +15,7 @@
 #include <geometry_msgs/Twist.h>
 #include <sensor_msgs/Joy.h>
 
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 
 
 namespace gazebo{

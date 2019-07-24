@@ -6,16 +6,16 @@ general:
   noise_rate: 0.01                       # how frequent the noise is generated
 
 cyan:
-  prefix: "nubot"             # Nubot name prefix. 
-  num: 3
+  prefix: "NuBot"             # Nubot name prefix. 
+  num: 5 
  
 magenta:
   prefix: "rival"            # Rival name prefix. 
-  num: 3
+  num: 5
 
 field:
-  length: 18                     # Use integer!   used in spawn_model_script
-  width: 12                      # Use integer!  used in spawn_model_script
+  length: 22                     # Use integer!   used in spawn_model_script
+  width: 14                      # Use integer!  used in spawn_model_script
   
 football:
   name: "football"                   # football model name

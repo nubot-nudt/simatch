@@ -14,10 +14,10 @@
 #include <ros/subscribe_options.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <gazebo_msgs/ModelState.h>
+#include "nubot_common/ActionCmd.h"
 #include "nubot_common/OminiVisionInfo.h"
 #include "nubot_common/VelCmd.h"
-#include "nubot_common/Shoot.h"
-#include "nubot_common/BallHandle.h"
+#include "nubot_common/BallIsHolding.h"
 #include "nubot_common/DribbleId.h"
 #include "nubot_common/CoachInfo.h"
 #include <std_msgs/Float64MultiArray.h>
@@ -29,7 +29,7 @@
 #include <boost/thread/mutex.hpp>
 #include <string>
 
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 
 #include <nubot_gazebo/NubotGazeboConfig.h>
 #include <dynamic_reconfigure/server.h>
@@ -88,10 +88,11 @@ namespace gazebo{
         ros::Subscriber             ModelStates_sub_;
         ros::Subscriber             Velcmd_sub_;
         ros::Subscriber             CoachInfo_sub_;
+        ros::Subscriber             actioncmd_sub_;     //listen the action command
         ros::Publisher              omin_vision_pub_;      /* four publishers cooresponding to those in world_model.cpp */
         ros::Publisher              debug_pub_;
-        ros::ServiceServer          ballhandle_server_;
-        ros::ServiceServer          shoot_server_;
+        ros::Publisher              Ballisholding_pub;
+
         ros::ServiceClient          dribbleId_client_;
 
         boost::thread               message_callback_queue_thread_;     // Thead object for the running callback Thread.
@@ -109,6 +110,7 @@ namespace gazebo{
         nubot_common::RobotInfo       teamate_info_;
         nubot_common::ObstaclesInfo   obstacles_info_;
         nubot_common::OminiVisionInfo omni_info_;
+        nubot_common::BallIsHolding   ballisholding_info_;
         //common::Time                  receive_sim_time_;
         std_msgs::Float64MultiArray   debug_msgs_;
 
@@ -125,6 +127,7 @@ namespace gazebo{
         std::string                 mag_pre_;
         unsigned int                ball_index_;
         unsigned int                robot_index_;
+
         double                      nubot_ball_vec_len_;
         double                      dribble_distance_thres_;
         double                      dribble_angle_thres_;
@@ -175,17 +178,9 @@ namespace gazebo{
         /// \param[in] cmd coach info msg shared pointer
         void coachinfo_CB(const nubot_common::CoachInfo::ConstPtr& cmd);
 
-        /// \brief Ball handling service
-        /// \param[in] req ball handle service request
-        /// \param[out] res ball handle service response
-        bool ball_handle_control_service(nubot_common::BallHandle::Request  &req,
-                                      nubot_common::BallHandle::Response &res);
-
-        /// \brief Ball shooting service
-        /// \param[in] req ball handle service request
-        /// \param[out] res ball handle service response
-        bool shoot_control_servive(nubot_common::Shoot::Request  &req,
-                                 nubot_common::Shoot::Response &res);
+        /// \brief action command CallBack function
+        /// \param[in] action command msg shared pointer
+        void actionCmd_CB(const nubot_common::ActionCmd::ConstPtr& actioncmd);
 
         /// \brief Custom message callback queue thread
         void message_queue_thread();
@@ -255,7 +250,6 @@ namespace gazebo{
         /// \brief we limit the speed of every wheel for better simulation of real match
         /// \param[in] target_vel the target linear velocity of model now
         math::Vector3 speedLimit( math::Vector3 target_linear_vel,math::Vector3 target_ang_vel);
-
 
     public:
         /// \brief Constructor. Will be called firstly

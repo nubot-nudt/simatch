@@ -9,7 +9,7 @@
         <geometry>
           <plane>
             <normal>0 0 1</normal>
-            <size>18 12</size>
+            <size>22 14</size>
           </plane>
         </geometry>
         <surface>
@@ -27,7 +27,7 @@
         <geometry>
           <plane>
             <normal>0 0 1</normal>
-            <size>18 12</size>
+            <size>22 14</size>
           </plane>
         </geometry>
         <material>
@@ -40,12 +40,12 @@
       </visual>
 
        <visual name="base1">
-        <pose>0 6.75 0.01 0 0 0</pose>
+        <pose>0 7.75 0.01 0 0 0</pose>
         <cast_shadows>false</cast_shadows>
         <geometry>
           <plane>
             <normal>0 0 1</normal>
-            <size>21.0 1.5</size>
+            <size>25.0 1.5</size>
           </plane>
         </geometry>
         <material>
@@ -57,12 +57,12 @@
         </material>
       </visual>
       <visual name="base2">
-        <pose>0 -6.75 0.01 0 0 0</pose>
+        <pose>0 -7.75 0.01 0 0 0</pose>
         <cast_shadows>false</cast_shadows>
         <geometry>
           <plane>
             <normal>0 0 1</normal>
-            <size>21.0 1.5</size>
+            <size>25.0 1.5</size>
           </plane>
         </geometry>
         <material>
@@ -74,12 +74,12 @@
         </material>
       </visual>
       <visual name="base3">
-        <pose>9.75 0 0.01 0 0 0</pose>
+        <pose>11.75 0 0.01 0 0 0</pose>
         <cast_shadows>false</cast_shadows>
         <geometry>
           <plane>
             <normal>0 0 1</normal>
-            <size>1.5 12.0</size>
+            <size>1.5 14.0</size>
           </plane>
         </geometry>
         <material>
@@ -91,12 +91,12 @@
         </material>
       </visual>
       <visual name="base4">
-        <pose>-9.75 0 0.01 0 0 0</pose>
+        <pose>-11.75 0 0.01 0 0 0</pose>
         <cast_shadows>false</cast_shadows>
         <geometry>
           <plane>
             <normal>0 0 1</normal>
-            <size>1.5 12.0</size>
+            <size>1.5 14.0</size>
           </plane>
         </geometry>
         <material>

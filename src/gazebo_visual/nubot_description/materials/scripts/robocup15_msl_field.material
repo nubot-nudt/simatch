@@ -47,7 +47,7 @@ material RoboCup/Carpet
 
       texture_unit
       {
-        texture lines.png
+        texture field2.png
         filtering trilinear
       }
     }
