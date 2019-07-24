@@ -110,7 +110,7 @@
 
 <!-- RoboCup 2015 MSL Goal left -->
     <include>
-        <pose>-9 0 0.01 0 0 3.14 </pose>
+        <pose>-11 0 0.01 0 0 3.14 </pose>
         <uri>model://RoboCup15_MSL_Goal</uri>
         <name>left_goal</name>
         <static>true</static>
@@ -118,7 +118,7 @@
 
 <!-- RoboCup 2015 MSL Goal right -->
    <include>
-        <pose>9 0 0.01 0 0 0 </pose>
+        <pose>11 0 0.01 0 0 0 </pose>
         <uri>model://RoboCup15_MSL_Goal</uri>
         <name>right_goal</name>
         <static>true</static>
