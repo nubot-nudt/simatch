@@ -1,5 +1,5 @@
 <launch>
   <include file="$(find nubot_gazebo)/launch/game_ready.launch"> </include>
   <node name="magenta_robot" pkg="nubot_common" type="magenta_robot.sh"/>
-  <node name="magenta_coach" pkg="coach4sim" type="magenta_coach.sh"/>
+  <node name="magenta_coach" pkg="nubot_coach" type="magenta_coach.sh"/>
 </launch>
