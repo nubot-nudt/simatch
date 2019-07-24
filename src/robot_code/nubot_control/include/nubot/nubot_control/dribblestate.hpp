@@ -1,6 +1,6 @@
 #ifndef DRIBBLE_STATUS_HPP
 #define DRIBBLE_STATUS_HPP
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 class DribbleState
 {
 public:
@@ -40,10 +40,10 @@ public:
 
   nubot::DPoint limitWithinCircle( const nubot::DPoint &_point_in, const int _radius = 300)
   {
-      if( (_point_in-satrt_point_).norm()<_radius )
+      if( (_point_in-satrt_point_).length()<_radius )
 		  return _point_in;
 	  else
-          return satrt_point_ + (_point_in-satrt_point_) *( _radius/(_point_in-satrt_point_).norm() );
+          return satrt_point_ + (_point_in-satrt_point_) *( _radius/(_point_in-satrt_point_).length());
   };
 };
 

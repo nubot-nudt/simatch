@@ -2,7 +2,7 @@
 #define __NUBOT_NUBOTCONTROL_FIELDINFOMATION_H_
 
 #include <opencv2/opencv.hpp>
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 
 namespace nubot
 {

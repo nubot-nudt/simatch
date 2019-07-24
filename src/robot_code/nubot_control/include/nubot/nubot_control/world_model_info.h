@@ -1,14 +1,15 @@
 #ifndef _NUBOT_WORLD_MODEL_INFO_H
 #define _NUBOT_WORLD_MODEL_INFO_H
 
-#include "nubot/core/core.hpp"
-#include "nubot/world_model/robot.h"
-#include "nubot/world_model/ball.h"
-#include "nubot/world_model/teammatesinfo.h"
+#include "core.hpp"
+#include "world_model/robot.h"
+#include "world_model/ball.h"
+#include "world_model/teammatesinfo.h"
 #include "nubot/nubot_control/dribblestate.hpp"
 #include "nubot/nubot_control/fieldinformation.h"
 #include "ros/ros.h"
 #define CENTRALIZE_POSITION
+const double ConstDribbleDisFirst=50;
 namespace nubot
 {
 const int PASSSTATE_TIME_DELAY = 100;
@@ -119,7 +120,7 @@ public:
         RegainBallInOurFiled_ = false;
         Obstacles_.reserve(25);
         isShootflg=false;
-        CoachInfo_.Head = AgentID_;
+//        CoachInfo_.Head = AgentID_;
 //        CoachInfo_.CoachStrategy = STRATEGY_DEFEND;
         CoachInfo_.MatchMode = STOPROBOT;
         CoachInfo_.MatchType = STOPROBOT;
@@ -364,7 +365,7 @@ public:
         {
             if(ball_pos.x_<0)
             {
-                pass_point_temp = ball_pos + DPoint(PPoint(Angle(pass_direction_temp),ball_pos.norm()+300));
+                pass_point_temp = ball_pos + DPoint(PPoint(Angle(pass_direction_temp),ball_pos.length()+300));
                 if( pass_point_temp.x_ < 200 )      pass_point_temp.x_ = 200;
                 else if( pass_point_temp.x_ > 400 ) pass_point_temp.x_ = 400;
             }
@@ -382,7 +383,7 @@ public:
             sight_temp = searchMaxSight( pass_direction_temp, ball_pos, direction_low, direction_high, 400 );
             if(ball_pos.x_<0)
             {
-                pass_point_temp = ball_pos + DPoint(PPoint(Angle(pass_direction_temp),ball_pos.norm()+300));
+                pass_point_temp = ball_pos + DPoint(PPoint(Angle(pass_direction_temp),ball_pos.length()+300));
                 if( pass_point_temp.x_ < 200 ) pass_point_temp.x_ = 200;//防止接球点离中线太近
                 else if( pass_point_temp.x_ > 400 ) pass_point_temp.x_ = 400;//防止接球点离中线太远
             }
@@ -406,7 +407,7 @@ public:
         else
             can_pass_ = false;
         /*DPoint ball_direction = robot_pos -ball_pos;//从球门到球的方向向量
-        double distance = ball_direction.norm();
+        double distance = ball_direction.length();
         if(distance!=0 && distance < 350 )
            assist_pt_ = ball_pos + 350.0/distance * ball_direction;*/
         //辅助防守盯人，防止对方传球
@@ -414,7 +415,7 @@ public:
         {
             //主防守站在球与球门连线上
             DPoint ball_direction = ball_pos-DPoint(-900,0);//从球门到球的方向向量
-            double distance = ball_direction.norm();
+            double distance = ball_direction.length();
             if(ball_direction.x_==0 && ball_direction.y_==0)
                 distance +=1;
             ball_direction = 1.0/distance * ball_direction;
@@ -541,7 +542,7 @@ public:
         double angle_current;
         for(int i=0; i<obs_num; i++)
         {
-            if( (Opponents_[i]-_point_from).norm()>_max_distance )
+            if( (Opponents_[i]-_point_from).length()>_max_distance )
                 continue;
             angle_current = Opponents_[i].angle(_point_from).radian_;
             if(num==0)

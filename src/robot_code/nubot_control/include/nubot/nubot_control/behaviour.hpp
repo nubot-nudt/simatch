@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <cmath>
 #include <string.h>
-#include"nubot/core/core.hpp"
+#include "core.hpp"
 #include "common.hpp"
 
 #define NB 0

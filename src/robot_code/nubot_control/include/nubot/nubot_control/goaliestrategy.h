@@ -4,7 +4,7 @@
 #include <ros/ros.h>
 
 //nubot includes
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 #include <nubot_common/BallInfo3d.h>
 #include <nubot_common/OminiVisionInfo.h>
 

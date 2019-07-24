@@ -1,10 +1,12 @@
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 
 #include <nubot_common/VelCmd.h>
 #include <nubot_common/WorldModelInfo.h>
 #include <nubot_common/BallInfo3d.h>
-#include <nubot_common/BallHandle.h>
-#include <nubot_common/Shoot.h>
+//#include <nubot_common/BallHandle.h>
+//#include <nubot_common/Shoot.h>
+#include <nubot_common/ActionCmd.h>
+#include <nubot_common/BallIsHolding.h>
 #include <nubot_common/StrategyInfo.h>
 #include <nubot_common/TargetInfo.h>
 #include <std_msgs/Header.h>
@@ -34,12 +36,13 @@ public:
     ros::Subscriber  odoinfo_sub_;
     ros::Subscriber  obstaclesinfo_sub_;
     ros::Subscriber  worldmodelinfo_sub_;
-
-    ros::ServiceClient ballhandle_client_;
-    ros::ServiceClient shoot_client_;
+    ros::Subscriber  ballisholding_sub_;
+//    ros::ServiceClient ballhandle_client_;
+//    ros::ServiceClient shoot_client_;
 
     ros::Publisher   motor_cmd_pub_;
     ros::Publisher   strategy_info_pub_;
+    ros::Publisher   action_cmd_pub_;
     ros::Timer       control_timer_;
 
     boost::shared_ptr<ros::NodeHandle> nh_;
@@ -55,9 +58,16 @@ public:
     char    match_mode_;
     char    pre_match_mode_;
     DPoint  robot_pos_;
-    Angle  robot_ori_;
+    Angle   robot_ori_;
+    double  robot_w;
     DPoint  ball_pos_;
     DPoint  ball_vel_;
+    bool    isactive    =false; ///active role
+    bool    shoot_flag  =false;
+    int     shoot_count = 0;
+    nubot_common::BallIsHolding ball_holding_;
+    nubot_common::ActionCmd     action_cmd_;
+    nubot_common::VelCmd        vel;
 
 
 public:
@@ -71,7 +81,7 @@ public:
 	std::string num = robot_name.substr(robot_name.size()-1);
 	//std::string robot_prefix = robot_name.substr(0,robot_name.size()-1);
 	environment = num.c_str();
-	ROS_FATAL("robot_name:%s",robot_name.c_str());
+    ROS_FATAL("control_robot_name:%s",robot_name.c_str());
 	nh_ = boost::make_shared<ros::NodeHandle>(robot_name);
 #else
         nh_ = boost::make_shared<ros::NodeHandle>();
@@ -84,20 +94,31 @@ public:
 #endif
         motor_cmd_pub_ = nh_->advertise<nubot_common::VelCmd>("nubotcontrol/velcmd",1);
         strategy_info_pub_ =  nh_->advertise<nubot_common::StrategyInfo>("nubotcontrol/strategy",10);
-        std::string  service = "BallHandle";
-        ballhandle_client_ =  nh_->serviceClient<nubot_common::BallHandle>(service);
-        std::string  service1 = "Shoot";
-        shoot_client_ = nh_->serviceClient<nubot_common::Shoot>(service1);
+        action_cmd_pub_ = nh_->advertise<nubot_common::ActionCmd>("nubotcontrol/actioncmd",1);
+
+        //        std::string  service = "BallHandle";
+//        ballhandle_client_ =  nh_->serviceClient<nubot_common::BallHandle>(service);
+//        std::string  service1 = "Shoot";
+//        shoot_client_ = nh_->serviceClient<nubot_common::Shoot>(service1);
         worldmodelinfo_sub_ = nh_->subscribe("worldmodel/worldmodelinfo", 1, &NuBotControl::update_world_model_info,this);
+        ballisholding_sub_ = nh_->subscribe("ballisholding/BallIsHolding",1,&NuBotControl::update_ballisholding,this);
         //ballinfo3d_sub1_    = nh_->subscribe("kinect/ballinfo",1, &NuBotControl::ballInfo3dCallback, this);
         control_timer_      = nh_->createTimer(ros::Duration(0.015),&NuBotControl::loopControl,this);
-
         world_model_info_.AgentID_ = atoi(environment); /** 机器人标号*/
         world_model_info_.CoachInfo_.MatchMode = STOPROBOT;
         m_plan_.world_model_ =  & world_model_info_;
         m_plan_.m_subtargets_.world_model_ =  & world_model_info_;
         m_staticpass_.world_model_= & world_model_info_;
         m_strategy_ = new Strategy(world_model_info_,m_plan_);
+        ball_holding_.BallIsHolding = 0;
+        action_cmd_.maxvel=MAXVEL;
+        action_cmd_.maxw=MAXW;
+        action_cmd_.move_action=No_Action;
+        action_cmd_.rotate_acton=No_Action;
+        action_cmd_.rotate_mode=1;
+        action_cmd_.shootPos = 0;
+        action_cmd_.strength = 0;
+        action_cmd_.handle_enable = 0;
     }
 
     ~NuBotControl()
@@ -105,6 +126,11 @@ public:
         m_plan_.m_behaviour_.app_vx_ = 0;
         m_plan_.m_behaviour_.app_vy_ = 0;
         m_plan_.m_behaviour_.app_w_  = 0;
+        ball_holding_.BallIsHolding = 0;
+        action_cmd_.shootPos = 0;
+        action_cmd_.strength = 0;
+        action_cmd_.handle_enable = 0;
+        action_cmd_pub_.publish(action_cmd_);
     }
 
     void
@@ -131,13 +157,13 @@ public:
             world_model_info_.RobotInfo_[i].setValid(_world_msg.robotinfo[i].isvalid);
             world_model_info_.RobotInfo_[i].setW(_world_msg.robotinfo[i].vrot);
             /** 信息是来源于队友，则要更新机器人策略信息*/
-            if(world_model_info_.AgentID_ != i+1)
-            {
+//            if(world_model_info_.AgentID_ != i+1)
+//            {
                 world_model_info_.RobotInfo_[i].setDribbleState(_world_msg.robotinfo[i].isdribble);
                 world_model_info_.RobotInfo_[i].setRolePreserveTime(_world_msg.robotinfo[i].role_time);
                 world_model_info_.RobotInfo_[i].setCurrentRole(_world_msg.robotinfo[i].current_role);
                 world_model_info_.RobotInfo_[i].setTarget(DPoint(_world_msg.robotinfo[i].target.x,_world_msg.robotinfo[i].target.y));
-            }
+//            }
         }
         /** 更新障碍物信息*/
         world_model_info_.Obstacles_.clear();
@@ -173,13 +199,15 @@ public:
         world_model_info_.pass_cmds_.pass_pt    = DPoint(_world_msg.pass_cmd.pass_pt.x,_world_msg.pass_cmd.pass_pt.y);
         world_model_info_.pass_cmds_.catch_pt   = DPoint(_world_msg.pass_cmd.catch_pt.x,_world_msg.pass_cmd.catch_pt.y);
 
-        /*  if(world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].isStuck())
-            ROS_INFO("STUCK:(YES)");
-        else
-            ROS_INFO("STUCK:(NO)");*/
         /** 这个先如此改，之后将所有数据用world_model_进行传递*/
         m_strategy_->goalie_strategy_.robot_info_    = _world_msg.robotinfo[world_model_info_.AgentID_-1];
         m_strategy_->goalie_strategy_.ball_info_2d_  = _world_msg.ballinfo[world_model_info_.AgentID_-1];
+    }
+
+    void
+    update_ballisholding(const nubot_common::BallIsHolding & ball_holding)
+    {
+        ball_holding_.BallIsHolding=ball_holding.BallIsHolding;
     }
 
     /** 球的三维信息,用于守门员角色*/
@@ -198,20 +226,12 @@ public:
         robot_ori_  = world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getHead();
         ball_pos_   = world_model_info_.BallInfo_[world_model_info_.AgentID_-1].getGlobalLocation();
         ball_vel_   = world_model_info_.BallInfo_[world_model_info_.AgentID_-1].getVelocity();
-        nubot_common::VelCmd        vel;
-        nubot_common::Shoot         shoot;
-        nubot_common::BallHandle    dribble;
 
         if(match_mode_ == STOPROBOT )
         {
-            vel.Vx = 0;
-            vel.Vy = 0;
-            vel.w  = 0;
-            motor_cmd_pub_.publish(vel);
-            shoot.request.strength = 0;
-            shoot_client_.call(shoot);
-            dribble.request.enable = 0;
-            ballhandle_client_.call(dribble);
+            /// 运动参数
+            action_cmd_.move_action =No_Action;
+            action_cmd_.rotate_acton=No_Action;
         }
         /** 机器人在开始之前的跑位. 开始静态传接球的目标点计算*/
         else if(match_mode_ > STOPROBOT && match_mode_ <= DROPBALL)
@@ -222,7 +242,8 @@ public:
         {
             normalGame();
         } // start部分结束
-
+        handleball();
+        setEthercatCommand();
         pubStrategyInfo();  // 发送策略消息让其他机器人看到，这一部分一般用于多机器人之间的协同
     }
 
@@ -287,110 +308,157 @@ public:
 
     void  OppDefaultReady_()
     {
-         DPoint br = ball_pos_ - robot_pos_;
+        DPoint target;
+        DPoint br = ball_pos_ - robot_pos_;
         switch(world_model_info_.AgentID_)  // 十分简单的实现，固定的站位，建议动态调整站位，写入staticpass.cpp中
         {                                   // 站位还需要考虑是否犯规，但是现在这个程序没有考虑。
-            case 1:
-                if(move2target(DPoint(-850.0, 0.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 1:
+            target = DPoint(-1050.0,0.0);
             break;
-            case 2:
-                if(move2target(DPoint(-150.0, 100.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 2:
+            target = DPoint(-200.0,100.0);
             break;
-            case 3:
-                if(move2target(DPoint(-150.0, -100.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 3:
+            target = DPoint(-200.0,-100.0);
             break;
-            case 4:
-                if(move2target(DPoint(-450.0, 200.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 4:
+            target = DPoint(-550.0,200.0);
             break;
-            case 5:
-                if(move2target(DPoint(-450.0, -200.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 5:
+            target = DPoint(-550.0,-200.0);
             break;
         }
-
+        if(target.distance(ball_pos_)<300&&!world_model_info_.field_info_.isOurPenalty(target))
+            target = ball_pos_.pointofline(target,320.0);
+        if(move2target(target, robot_pos_))
+            move2ori(br.angle().radian_, robot_ori_.radian_);
+        action_cmd_.move_action = Positioned_Static;
+        action_cmd_.rotate_acton= Positioned_Static;
+        action_cmd_.rotate_mode = 0;
     }
     void  OurDefaultReady_()
     {
         DPoint br = ball_pos_ - robot_pos_;
+        DPoint target;
         switch(world_model_info_.AgentID_)  // 十分简单的实现，固定的站位，建议动态调整站位，写入staticpass.cpp中
         {                                   // 站位还需要考虑是否犯规，但是现在这个程序没有考虑。
-            case 1:
-                if(move2target(DPoint(-850.0, 0.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 1:
+            target = DPoint(-1050.0,0.0);
             break;
-            case 2:
-                if(move2target(ball_pos_, robot_pos_,100.0))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 2:
+            target = ball_pos_.pointofline(robot_pos_,100.0);
             break;
-            case 3:
-                if(move2target(ball_pos_, robot_pos_,200.0))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 3:
+            target = ball_pos_.pointofline(robot_pos_,200.0);
             break;
-            case 4:
-                if(move2target(DPoint(-450.0, 200.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 4:
+            target = DPoint(-550.0,200.0);
             break;
-            case 5:
-                if(move2target(DPoint(-450.0, -200.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 5:
+            target = DPoint(-550.0,-200.0);
             break;
         }
-
+        if(move2target(target, robot_pos_))
+            move2ori(br.angle().radian_, robot_ori_.radian_);
+        action_cmd_.move_action = Positioned_Static;
+        action_cmd_.rotate_acton= Positioned_Static;
+        action_cmd_.rotate_mode = 0;
     }
 
     void parking()
     {
-        static double parking_y=-580.0;
+        static double parking_y=-680.0;
         cout<<"PARKINGROBOT"<<endl;
-
         DPoint parking_target;
         float tar_ori = SINGLEPI_CONSTANT/2.0;
-        parking_target.x_= -120.0 * world_model_info_.AgentID_;
-        if(world_model_info_.AgentID_ == 1)
-            parking_target.x_ = -700;//守门员站在离球门最近的地方
+        parking_target.x_= FIELD_XLINE7 + 150.0 * world_model_info_.AgentID_;
+//        if(world_model_info_.AgentID_ == 1)
+//            parking_target.x_ = -900;//守门员站在离球门最近的地方
         parking_target.y_ = parking_y;
 
         if(move2target(parking_target, robot_pos_))    //停到目标点10cm附近就不用动了，只需调整朝向
             move2ori(tar_ori, robot_ori_.radian_);
+        action_cmd_.move_action = Positioned_Static;
+        action_cmd_.rotate_acton= Positioned_Static;
+        action_cmd_.rotate_mode = 0;
+    }
+
+    void handleball()
+    {
+        if(isactive&&match_mode_==STARTROBOT&&!shoot_flag)
+            action_cmd_.handle_enable = 1;
+        else
+            action_cmd_.handle_enable = 0;
     }
 
     void normalGame()
     {
+        static bool last_dribble = 0;
+        isactive =false;
         if(world_model_info_.AgentID_ != 1 && isNearestRobot())
         {
-            nubot_common::BallHandle    dribble;
-            DPoint br = ball_pos_ - robot_pos_;
+            isactive=true;
+        }
+        if(isactive && !shoot_flag)
+        {
+            DPoint b2r = ball_pos_ - robot_pos_;
+            DPoint tmp(200.0,300.0);
+            DPoint t2r = tmp - robot_pos_;
+            DPoint shoot_line = world_model_info_.field_info_.oppGoal_[GOAL_MIDDLE] - robot_pos_;
+            if(last_dribble != world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getDribbleState())
+                ROS_INFO("change::");
+            last_dribble = world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getDribbleState();
 
-            if(move2ori(br.angle().radian_, robot_ori_.radian_))        // 先往足球靠近
+            if(!world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getDribbleState())
             {
-                if(move2target(ball_pos_, robot_pos_, 50.0))
+                action_cmd_.handle_enable = 1;
+                if(move2ori(b2r.angle().radian_,robot_ori_.radian_))
+                    move2target(ball_pos_,robot_pos_);
+                action_cmd_.move_action = CatchBall;
+                action_cmd_.rotate_acton= CatchBall;
+                action_cmd_.rotate_mode = 0;
+            }
+            else if(robot_pos_.distance(tmp)>20.0)
+            {
+                action_cmd_.move_action = MoveWithBall;
+                action_cmd_.rotate_acton= MoveWithBall;
+                action_cmd_.rotate_mode = 0;
+                if(move2ori(t2r.angle().radian_,robot_ori_.radian_))
+                    move2target(tmp,robot_pos_);
+            }
+            else
+            {
+                action_cmd_.move_action = TurnForShoot;
+                action_cmd_.rotate_acton= TurnForShoot;
+                action_cmd_.rotate_mode = 0;
+                move2target(robot_pos_,robot_pos_);
+                if(move2ori(shoot_line.angle().radian_,robot_ori_.radian_,0.5*DEG2RAD))
                 {
-                    dribble.request.enable = 1;
-                    ballhandle_client_.call(dribble);
-                    if(dribble.response.BallIsHolding != true)
+                    double up_radian_  = (world_model_info_.field_info_.oppGoal_[GOAL_MIDUPPER] - robot_pos_).angle().radian_;
+                    double low_radian_ = (world_model_info_.field_info_.oppGoal_[GOAL_MIDLOWER] - robot_pos_).angle().radian_;
+                    if(robot_ori_.radian_>low_radian_ && robot_ori_.radian_<up_radian_)
                     {
-                        if(move2target(ball_pos_, robot_pos_, 40.0))
-                            move2ori(br.angle().radian_, robot_ori_.radian_);
-                    }
-                    else        // 带上球了
-                    {
-                        DPoint tmp(200.0,300.0);
-                        DPoint dirc = DPoint(900.0 ,0.0) - tmp;         // 对准 (900.0 ,0.0)
-                        if(move2target(tmp, robot_pos_) &&
-                           move2ori(dirc.angle().radian_, robot_ori_.radian_, 5.0*DEG2RAD))  // 跑到位以及转到位
-                        {
-                            nubot_common::Shoot shoot;
-                            shoot.request.ShootPos = FLY;
-                            shoot.request.strength = 1.0;   // 在FLY模式下，strength不重要,只要非零就行
-                            shoot_client_.call(shoot);
-                        }
+                        action_cmd_.shootPos = RUN;
+                        action_cmd_.strength = shoot_line.length()/100;
+                        if(action_cmd_.strength<3.0)
+                            action_cmd_.strength = 3.0;
+                        shoot_flag = true;
                     }
                 }
             }
+        }
+        else
+        {
+            action_cmd_.move_action=No_Action;
+            action_cmd_.rotate_acton=No_Action;
+            if(shoot_flag)
+                shoot_count++;
+            if(shoot_count>20)
+            {
+                shoot_count=0;
+                shoot_flag=false;
+            }
+
         }
     }
 
@@ -416,58 +484,76 @@ public:
             return false;
     }
 
-    bool move2target(DPoint target, DPoint pos, double distance_thres=10.0)     // 一个十分简单的实现，可以用PID
+    bool move2target(DPoint target, DPoint pos, double distance_thres=20.0)     // 一个十分简单的实现，可以用PID
     {
-        static nubot_common::VelCmd        vel;
-        DPoint tmp = target - pos;
-        float tar_theta = tmp.angle().radian_;
-
-        if(tmp.norm() > distance_thres)
-        {
-            vel.Vx = tmp.norm()*0.7*cos(tar_theta - robot_ori_.radian_);    // 注意将全局坐标系下的期望速度转换为在机器人体坐标系下
-            vel.Vy = tmp.norm()*0.7*sin(tar_theta - robot_ori_.radian_);
-            vel.w = 0;
-            motor_cmd_pub_.publish(vel);
+        action_cmd_.target.x = target.x_;
+        action_cmd_.target.y = target.y_;
+        action_cmd_.maxvel = pos.distance(target);
+        if(pos.distance(target) > distance_thres)
             return false;
-        }
         else
-        {
-            vel.Vx = 0.0;
-            vel.Vy = 0.0;
-            vel.w = 0;
-            motor_cmd_pub_.publish(vel);
             return true;
-        }
     }
 
     bool move2ori(double target, double angle, double angle_thres = 8.0*DEG2RAD)  // 一个十分简单的实现，可以用PID
     {
-        static nubot_common::VelCmd        vel;
-        double tmp = target - angle;
-        if(fabs(tmp) > angle_thres)        // 容许误差为5度
-        {
-            vel.Vx = 0;
-            vel.Vy = 0;
-            vel.w = tmp;
-            motor_cmd_pub_.publish(vel);
+        action_cmd_.target_ori =target;
+        action_cmd_.maxw = fabs(target-angle)*2;
+        if(fabs(target-angle) > angle_thres)        // 容许误差为5度
             return false;
-        }
         else
-        {
-            vel.Vx = 0.0;
-            vel.Vy = 0.0;
-            vel.w = 0;
-            motor_cmd_pub_.publish(vel);
             return true;
-        }
     }
 
+    void setEthercatCommand()
+    {
+        /// initialize the command
+        nubot_common::ActionCmd command;
+        command.move_action  =No_Action;
+        command.rotate_acton =No_Action;
+        command.rotate_mode  =0;
+        command.maxvel = 0;
+        command.maxw   = 0;
+        command.target_w   =0;
+        /// 机器人人位置信息 robot states
+        command.robot_pos.x=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getLocation().x_;
+        command.robot_pos.y=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getLocation().y_;
+        command.robot_vel.x=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getVelocity().x_;
+        command.robot_vel.y=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getVelocity().y_;
+        command.robot_ori=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getHead().radian_;
+        command.robot_w=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getW();
+        /// 运动参数
+        command.move_action =action_cmd_.move_action;
+        command.rotate_acton=action_cmd_.rotate_acton;
+        command.rotate_mode =action_cmd_.rotate_mode;
+        command.target      =action_cmd_.target;
+        command.target_vel  =action_cmd_.target_vel;
+        command.target_w    =action_cmd_.target_w;
+        command.target_ori  =action_cmd_.target_ori;
+        command.maxvel      =action_cmd_.maxvel;
+        command.maxw        =action_cmd_.maxw;
+        if(command.maxvel>MAXVEL)
+            command.maxvel=MAXVEL;
+        if(command.maxw>MAXW)
+            command.maxw=MAXW;
+        if(fabs(command.target_ori)>10000.0)
+            command.target_ori = 0;
+        /// 带球及射门选择
+        command.handle_enable=action_cmd_.handle_enable;
+        command.strength=action_cmd_.strength;
+        if(command.strength!= 0)
+            std::cout<<"passed out"<<command.strength<<std::endl;
+        command.shootPos = action_cmd_.shootPos;
+        /// 传一次后，力量清0,防止多次射门
+        action_cmd_.strength=0;
+        action_cmd_pub_.publish(command);
+    }
     void pubStrategyInfo()
     {
         nubot_common::StrategyInfo strategy_info;       // 这个消息的定义可以根据个人需要进行修改
         strategy_info.header.stamp = ros::Time::now();
         strategy_info.AgentID     = world_model_info_.AgentID_;
-
+        strategy_info.is_dribble = ball_holding_.BallIsHolding;
         strategy_info_pub_.publish(strategy_info);
     }
 };

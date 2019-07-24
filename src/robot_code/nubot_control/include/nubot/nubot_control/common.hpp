@@ -3,7 +3,7 @@
 
 
 
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 #include "nubot/nubot_control/define.hpp"
 #include <cmath>
 
@@ -570,7 +570,7 @@ DIsPointInAB2C(DPoint PointA,DPoint PointB,DPoint PointC,double dis,double e,int
 inline bool
 IsInReachableZone(DPoint point)
 {
-    if(abs(point.x_)<FIELDLENGTH/2.0+100+LOCATIONERROR&&abs(point.y_)<FIELDWIDTH/2.0+100+LOCATIONERROR)
+    if(abs(point.x_)<FIELD_LENGTH/2.0+100+LOCATIONERROR&&abs(point.y_)<FIELD_WIDTH/2.0+100+LOCATIONERROR)
         return true;
     else
         return false;

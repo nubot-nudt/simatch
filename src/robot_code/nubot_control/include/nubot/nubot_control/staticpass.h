@@ -1,7 +1,7 @@
 #ifndef STATICPASS_H
 #define STATICPASS_H
 
-#include<nubot/core/core.hpp>
+#include<core.hpp>
 #include<nubot/nubot_control/world_model_info.h>
 #include<ros/ros.h>
 

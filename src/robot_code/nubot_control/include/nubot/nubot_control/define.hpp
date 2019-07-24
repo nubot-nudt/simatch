@@ -1,7 +1,7 @@
 #ifndef DEFINE_H
 #define DEFINE_H
 
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 
 const unsigned char  CTRL_STOP                   =    0 ;
 const unsigned char  CTRL_ATTACK                 =    1 ;
@@ -59,8 +59,6 @@ const double          FRICONRATIO      = 0.85;
 
 const double          RADIUS = 30;
 const double          GEARREDUCTIONRATIO = 21.3571;
-const double          MAXVEL   =    500;//500;
-const double          MAXW     =    12;//15;
 const double          Max_ObsVision = 10;
 const double          OBLE_RADIUS   = 30;
 const double          POSITION_LIMIT_VEL =  250;
@@ -73,10 +71,6 @@ const double          LIMITDRIBLLEDIS = 75.0;   // the limit distance to check d
 const double          SCAlEOFOUTFIELD = 500.0;
 const double          BALLHOLDINGDIS = 38.0;
 
-
-
-
-
 enum LOCATIONSTATE
 {
     INOURFIELD,
@@ -86,27 +80,6 @@ enum LOCATIONSTATE
     INOPPPENALTY,
     OUTOFFIELD
 };
-
-const double   BOARDWIDTH   =   30.0;
-const double   VISIONSCALE	 =	500.0;//500
-
-const double    FIELDLENGTH= 1800.0;//the field length  1800cm
-const double    FIELDWIDTH = WIDTHRATIO4FIELD*1200.0;//the field width   1200cm
-const double    CORNERSIZE = WIDTHRATIO4FIELD*200.0; // the corner size  200cm
-//
-const double    GOALWIDTH=WIDTHRATIO4FIELD*200.0;    // the width of the goal
-
-const double    OurPenltyAreaX = 225;
-const double    OurPenltyAreaY = 325 * WIDTHRATIO4FIELD ;
-const double    OurGoalKeeperAreaX = 75;
-const double    OurGoalKeeperAreaY = 175 * WIDTHRATIO4FIELD;
-//
-const double    OppPenaltyAreaX = 225;
-const double    OppPenaltyAreaY = 325 * WIDTHRATIO4FIELD;
-const double    OppGoalKeeperAreaX = 75;
-const double    OppGoalKeeperAreaY = 175 * WIDTHRATIO4FIELD;
-
-const double    OBSRECORDNUM = 10.0;
 
 #define deg(a) (SINGLEPI_CONSTANT*(a)/180.0f)
 

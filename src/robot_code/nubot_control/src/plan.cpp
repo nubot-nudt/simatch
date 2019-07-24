@@ -1,5 +1,5 @@
 #include "nubot/nubot_control/plan.h"
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 using namespace  nubot;
 
 Plan::Plan()

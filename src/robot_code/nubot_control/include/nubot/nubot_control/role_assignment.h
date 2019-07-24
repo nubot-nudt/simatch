@@ -1,7 +1,7 @@
 #ifndef __NUBOT_STRATEGY_ROLE_ASSIGNMENT_H_
 #define __NUBOT_STRATEGY_ROLE_ASSIGNMENT_H_
 
-#include<nubot/core/core.hpp>
+#include<core.hpp>
 #include<nubot/nubot_control/world_model_info.h>
 #include<ros/ros.h>
 namespace nubot{

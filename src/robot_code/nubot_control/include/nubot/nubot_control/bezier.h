@@ -2,7 +2,7 @@
 #define BEZIER_H
 
 #include <cmath>
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 #include "nubot/nubot_control/behaviour.hpp"
 #include "nubot/nubot_control/world_model_info.h"
 #include <boost/ptr_container/ptr_list.hpp>
