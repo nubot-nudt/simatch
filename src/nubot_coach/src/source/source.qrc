@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/">
+        <file>app.png</file>
+        <file>coach_background.png</file>
+        <file>control.png</file>
+        <file>field.png</file>
+        <file>field_home.png</file>
+        <file>left2right.png</file>
+        <file>num1.png</file>
+        <file>num2.png</file>
+        <file>num3.png</file>
+        <file>num4.png</file>
+        <file>num5.png</file>
+        <file>NUM1.png</file>
+        <file>NUM2.png</file>
+        <file>NUM3.png</file>
+        <file>NUM4.png</file>
+        <file>NUM5.png</file>
+        <file>obstacles_1.png</file>
+        <file>obstacles_2.png</file>
+        <file>obstacles_3.png</file>
+        <file>obstacles_4.png</file>
+        <file>obstacles_5.png</file>
+        <file>right2left.png</file>
+        <file>test.png</file>
+        <file>vs.png</file>
+        <file>ball.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,5 @@
+#!/bin/bash
+# Note, if you are only a user and DO NOT edit the core content of the following files, you can run these commands below to tell git to ignore the changes of these files. You may modify any configuration parts in these files and git will not record these machine-dependent configurations.
+git update-index --assume-unchanged src/nubot/world_model/rtdb/comm.cpp
+git update-index --assume-unchanged src/nubot/world_model/rtdb/rtdb_api.cpp
+git update-index --assume-unchanged src/nubot/world_model/rtdb/parser/CMakeLists.txt

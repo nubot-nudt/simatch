@@ -1,0 +1,8 @@
+<launch>
+  <env name="AGENT" value="0" />
+  <env name="NET" value="wlp2s0" />
+  <include file="$(find world_model)/launch/world_model.launch"> </include>
+  <node name="nubot_coach_node" pkg="nubot_coach" type="nubot_coach_node" output="screen" required="true"/>
+</launch>
+
+<!--My computer's wlan is "wlp3s0" and lan is "enp0s25", yours are different-->
