@@ -1,17 +1,19 @@
+
+
 # 中国机器人大赛中型组仿真比赛
 # China Robotics Competition Middle Size Simulation League (With English User Manual)
 ![simatch][pic1]
 
 ## 概述 Package Summary    
 - Maintainer status: maintained
-- Maintainer: Weijia Yao <weijia.yao.nudt@gmail.com>
+- Maintainer: Zhiqian Zhou <zhiqian.zhou13@hotmail.com>
 - Author: [NuBot Team](https://www.trustie.net/organizations/23?org_subfield_id=108)
 - License: Apache
 - Bug / feature tracker: https://github.com/nubot-nudt/simatch/issues   
 - Source: git https://github.com/nubot-nudt/simatch (branch: master)  
 
 ## 联系 Contact
-软件维护者(Maitainer): weijia.yao.nudt@gmail.com   
+软件维护者(Maitainer): zhiqian.zhou13@hotmail.com   
 Nubot队伍(RoboCup team): nubot.nudt@outlook.com   
 
 ## 演示视频 Demo Video
@@ -20,19 +22,20 @@ Two options:
 2. [Youtube][19]  
 
 ## 软件模块 Software Modules 
-该软件包包括了robot_code模块，gazebo_visual模块，coach4sim模块，common模块以及auto_referee模块，其中，参赛选手主要注重robot_code模块，里面包含的是控制机器人运动的相关程序。各个模块的介绍如下：   
+该软件包包括了robot_code模块，gazebo_visual模块，nubot_coach模块，nubot_common模块，nubot_hwcontroller以及auto_referee模块，其中，参赛选手主要注重robot_code模块，里面包含的是控制机器人运动的相关程序。各个模块的介绍如下：   
 
 - robot_code: 机器人的感知、规划、运动控制等方面，由NuBot队伍的机器人代码改造而成,其中主要的策略等(在nubot_control软件包中)部分已经删除，选手应自行编写，其余部分可以直接沿用，也可随意改动。
 - gazebo_visual: Gazebo仿真平台，除基本的设置（在sim_config文件中）外，不应做其他改动。最终使用版本以比赛时的版本为准。   
-- coach4sim: 用于仿真的coach，发送比赛开始、暂停、站位等指令。
-- common: 包含cmake、手柄驱动等。选手不必做改动。   
+- nubot_coach: 用于仿真的coach，发送比赛开始、暂停、站位等指令。
+- nubot_common: 包含cmake、手柄驱动等。选手不必做改动。   
+- nubot_hwcontroller: 连接nubot_control和gazebo仿真器，解算上层发布的运动指令，进而发送到gazebo仿真器，控制机器人运动。
 - auto_referee: 自动裁判盒，模拟refbox以及裁判的功能，自动进行比赛。   
 
 > 请先学习ROS、C++，作为基本技能和知识，然后对机器人策略等方面有一定了解，再进行robot_code的多机器人协同程序的编写。由于目前仿真中可以直接得到准确的全局信息，所以选手可能会倾向于集中式控制，但是，建议选手用分布式机器人控制。在未来会在仿真中增加更多的现实因素，比如考虑单个机器人所能获取信息的局限性等；   
 
 ## 可能增加或改变的规则(最终以比赛时为准) Game Rules
-比赛规则参考2016年RoboCup中型组比赛的[规则][15]，但是由于仿真比赛的特殊性，不会完全按照里面的所有规则，比如说：   
-1. 比赛不分上下半场，一共15分钟左右；   
+比赛规则参考2019年RoboCup中型组比赛的[规则][15]，但是由于仿真比赛的特殊性，不会完全按照里面的所有规则，比如说：   
+1. 比赛分上下半场，每个半场10分钟左右，中场休息5分钟；   
 2. 任何利用自动裁判盒([auto_referee][16])的漏洞获取比赛中的优势将视为作弊行为，比赛成绩无效;     
 3. 比赛时候可能会对gazebo_visual部分作一定的改动，比如根据真实机器人的一般情况限制机器人的平移速度、旋转速度等，这些改动将通知到每一个队伍。所以请参赛队伍记住自己的代码也要考虑真实世界的情况，不要太理想；   
 4. 比赛过程中是否对机器人获取的信息加入适当的噪声以及加入多少看比赛情况而定，会及时通知参赛队伍；   
@@ -54,7 +57,7 @@ Two options:
 
 5. **为了更加贴近实际机器人，对机器人进行了限速，每个车轮限速5m/s，加速度限制为2.5m/s，减速度限制为5m/s（原规则为限制机器人最大平移速度为5m/s，最大角速度为6rad/s，最大平移加速度为2.5m/s^2，最大角加速度为3rad/s^2。）**
 ### [auto_referee][16]即将添加的规则
-1. 考虑发球等待时延（參見RC-8.3開球規則）；   
+1. 考虑发球等待时延；   
 2. 检测进球无效情况(机器人射门得分前必须有至少一次传球（传球不成功也算），否则得分无效)；   
 
 ## 比赛流程
@@ -81,8 +84,8 @@ Two options:
 > - 软件编程： 
 >     - robot_code: ROS, C++    
 >     - gazebo_visual: ROS, C++, Gazebo插件以及编程实现    
->         - coach4sim: ROS, C++, Qt    
->         - 配置文件: Linux bash或其他     
+>     - nubot_coach: ROS, C++, Qt    
+>     - 配置文件: Linux bash或其他     
 > - 其他方面   
 >     - 使用说明:	 txt，Markdown 
 >        - 软件文档： Doxygen或其他
@@ -94,8 +97,7 @@ Two options:
 
 ![fork][pic4]  
 2. 然后点进README.md文件，就可以编辑了。把自己遇到的问题和解决部分写在这里questions & answers如下图：
-
-![q&a][pic5]  
+![q&a](pics/q&a.jpg)
 3. 最后创建一个pull request如下图所示，这样我就能够审批通过你的编辑了
 
 ![pull][pic6]  
@@ -117,14 +119,14 @@ Two options:
 Please refer to [simatch-docker](https://github.com/dortmans/simatch-docker) for building and running the Simatch using [Docker](https://www.docker.com/).
 
 ## Recommended Operating Environment
-1. Ubuntu 16.04， Ubuntu 14.04（We recommend to choose Ubuntu 16.04）; 
-2. ROS Kinetic for Ubuntu16.04 and ROS Indigo or ROS Jade for Ubuntu14.04. (For Ubuntu 14.04, it is recommended to install ROS Jade)
+1. Ubuntu 14.04; 
+2. ROS Indigo or ROS Jade. (It is recommended to install ROS Jade)
 3. Gazebo 5.0 or above;
 4. gazebo_ros_pkgs; (please read the **NOTE** below for more information)  
 5. If you decide to use coach4sim with a GUI, you should make sure you have installed Qt5. The recommended install place is /opt. 
    Other versions of Ubuntu, ROS or Gazebo may also work, but we have not tested yet.
 
-**NOTE FOR 14.04:** 
+**NOTE:** 
 Concerning how to install appropriate **gazebo_ros_pkgs**, please read the following according to your own situation:   
 - 1.  If you decide to use **ROS Indigo**, please read the following:   
         If you choose "desktop-full" install of ROS Indigo, there is a Gazebo 2.0 included initially. In order to install Gazebo 5.0/5.1, you should first remove Gazebo 2.0 by running:   
@@ -155,8 +157,7 @@ Concerning how to install appropriate **gazebo_ros_pkgs**, please read the follo
    -  ` $ sudo apt-get install ros-jade-gazebo7-ros-pkgs`   
 
 ## Compile
-Since [auto_referee][16] depends on [ncurses][17], if you would like to use it to debug your code, please run this command:
-(Attention: Ubuntu 16.04 has installed libncurses5-dev, so you can skip step 1 and step 2).
+Since [auto_referee][16] depends on [ncurses][17], if you would like to use it to debug your code, please run this command:   
 1. `sudo apt-get update`   
 2. `sudo apt-get install libncurses5-dev`   
    And then you are good to compile as follows:   
@@ -227,8 +228,9 @@ If you want to run those modules seperatly, you could
 `$ roslaunch nubot_gazebo game_ready.launch`    
 3 To run robot_code for cyan or magenta robots:      
 `$ rosrun nubot_common cyan_robot.sh` or `$ rosrun nubot_common magenta_robot.sh`   
-4 To run coach4sim,      
-`rosrun coach4sim cyan_coach.sh` or `rosrun coach4sim magenta_coach.sh`   
+Actually, there are four types of nodes —— nubot_control_node, world_model_node, nubot_hwcontroller_node and strategy_pub_node. It is practical and encouraged to run these nodes separately.
+4 To run nubot_coach,      
+`rosrun nubot_coach cyan_coach.sh` or `rosrun nubot_coach magenta_coach.sh`   
 
 5 (Optional) To run auto_referee
 
@@ -245,6 +247,7 @@ The argument -1 means cyan kick-off otherwise magenta kick-off.
 
 **Configuration of computer A and computer B**   
 ![multi-computers][pic3]
+
 >   The recommended way to run simulation is with two computers running nubot_ws and gazebo_visual seperately.
 
 > For example,computer A runs gazebo_visual to display the movement of robots. Computer B runs nubot_ws to calculate and send  movement commands to robots. In addition, computer B should also run coach to send game command such as game start. 
@@ -291,20 +294,16 @@ There are 5 parts: "general", "cyan", "magenta", "field" and "football". If you 
 The robot movement is realized by a Gazebo model plugin which is called "NubotGazebo" generated by source files "nubot_gazebo.cc" and "nubot_gazebo.hh". Basically the essential part of the plugin is realizing basic motions: omnidirectional locomotion, ball-dribbling and ball-kicking.    
 ![rosgraph][pic2]
 
-The gazebo plugin subscribes to topic **"nubotcontrol/velcmd"** for omnidirecitonal movement and **"omnivision/OmniVisionInfo"** which contains messages about the soccer ball and all the robots' information such as position, velocity and etc. like the functions of an omnivision camera. For services, it subscribes to service **"BallHandle"** and **"Shoot"** for ball-dribbling and ball-kicking respectively.  Since there may be multiple robots, these topics or services names should be prefixed with the robot model names in order to distinguish between each other. For example, if your robot model's name is "nubot1", then the topic names are **"/nubot1/nubotcontrol/velcmd"** and **"/nubot1/omnivision/OmniVisionInfo"** and the service names would be changed to **"/nubot1/BallHandle"** and **"/nubot1/Shoot"** accordingly. You can customize this code for your robot based on these messages and services as a convenient interface. The types and definitions of the topics and servivces are listed in the following table:    
+The gazebo plugin subscribes to topic **"nubotcontrol/velcmd"**  for omnidirecitonal movement and **"omnivision/OmniVisionInfo"** which contains messages about the soccer ball and all the robots' information such as position, velocity and etc. like the functions of an omnivision camera. The **nubot_control_node** send action command with the topic named **"/nubotcontrol/actioncmd"**, which is subscribed by the **nubot_hwcontroller_node**. The topic describes the robot states and declares its target position and orienation, which decides the final omnidirectional movement.  Besides, it sends a dribble request and a shoot request, which are recievedby the gazebo plugin. Only if handle_enable is true, can the robot dribble the ball and move with the ball. The shoot request consists of two elements, strength and shootPos. The first element tells the gazebo plugin the velocity of ball and the seconde one distinguish two types of shoot mode, the ground pass and the lob shot. Since there may be multiple robots, these topics or services names should be prefixed with the robot model names in order to distinguish between each other. For example, if your robot model's name is "nubot1", then the topic names are **"/nubot1/nubotcontrol/velcmd"**, **"/nubot1/omnivision/OmniVisionInfo"** and **"/nubot1/nubotcontrol/actioncmd"**  .  You can customize this code for your robot based on these messages as a convenient interface. The types and definitions of the topics are listed in the following table:    
 
 
-|             Topic/Service             |            Type             | Definition                               |
-| :-----------------------------------: | :-------------------------: | :--------------------------------------- |
-|    **/nubot1/nubotcontrol/velcmd**    |     nubot_common/VelCmd     | float32 Vx <br> float32 Vy <br>  float32 w |
-| **/nubot1/omnivision/OmniVisionInfo** | ubot_common/OminiVisionInfo | Header header <br> [BallInfo][8] ballinfo <br> [ObstaclesInfo][9] obstacleinfo <br> [RobotInfo][10][]  robotinfo |
-|        **/nubot1/BallHandle**         |   nubot_common/BallHandle   | int64 enable <br> --- <br>  int64 BallIsHolding |
-|           **/nubot1/Shoot**           |     nubot_common/Shoot      | int64 strength <br> int64 ShootPos <br>  --- <br> int64 ShootIsDone |
+|             Topic/Service             |            Type             | Definition                                                   |
+| :-----------------------------------: | :-------------------------: | :----------------------------------------------------------- |
+|    **/nubot1/nubotcontrol/velcmd**    |     nubot_common/VelCmd     | float32 Vx <br> float32 Vy <br>  float32 w                   |
+| **/nubot1/omnivision/OmniVisionInfo** | nubot_common/OminiVisionInfo | Header header <br> [BallInfo][8] ballinfo <br> [ObstaclesInfo][9] obstacleinfo <br> [RobotInfo][10][]  robotinfo |
+| **/nubot1/nubotcontrol/action_cmd** | nubot_common/ActionCmd |  Point2d target <br> float32 target_ori <br> float32 target_w <br> Point2d target_vel <br> float32 maxvel <br> float32 maxw <br> Point2d robot_pos <br> Point2d robot_vel <br> float32 robot_ori <br> float32 robot_w <br> char move_action <br> char rotate_acton <br> int64 handle_enable   float32 strength <br> int64 shootPos |
 
 
-For the definition of /BallHandle service, when "enable" equals to a non-zero number, a dribble request would be sent. If the robot meets the conditions to dribble the ball, the service response "BallIsHolding" is true.    
-
-For the definition of /Shoot service, when "ShootPos" equals to 1, this is a ground pass. In this case, "strength" is the inital speed you would like the soccer ball to have. When "ShootPos" equals to -1, this is a lob shot. In this case, "strength" is useless since the strength is calculated by the Gazebo plugin automatically and the soccer ball would follow a parabola path to enter the goal area. If the robot successfully kicks the ball out even if it failed to goal, the service response "ShootIsDone" is true.   
 
 For the definition of the "**omnivision/OmniVisionInfo**" topic, there are three new message types: "BallInfo", "ObstaclesInfo" and "RoboInfo". The field "robotinfo" is a vector. Before introducing the format of these new messages, three other message types "Point2d", "PPoint" and "Angle" are used in their definitions:   
 ```bash
@@ -384,7 +383,6 @@ However, the code related to receiving game comamnds and doing corresponding act
 - **_Global reference frame_**: origin is the center of the field; x-axis pointing horizontally towards the goal center of the megenta side; z-axis pointing vertically towards the sky; y-axis using right-hand rule to determine.   
 - **_Robot body reference frame_**: origin is the center of the robot base; x-axis points from the origin to the kicking-mechanism; z-axis pointing veritcally towards the sky; y-axis using right-hand rule to determine.   
 ```c++
-/** 主要的控制框架位于这里*/
     void
     loopControl(const ros::TimerEvent& event)
     {
@@ -394,20 +392,12 @@ However, the code related to receiving game comamnds and doing corresponding act
         robot_ori_  = world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getHead();
         ball_pos_   = world_model_info_.BallInfo_[world_model_info_.AgentID_-1].getGlobalLocation();
         ball_vel_   = world_model_info_.BallInfo_[world_model_info_.AgentID_-1].getVelocity();
-        nubot_common::VelCmd        vel;
-        nubot_common::Shoot         shoot;
-        nubot_common::BallHandle    dribble;
 
         if(match_mode_ == STOPROBOT )
         {
-            vel.Vx = 0;
-            vel.Vy = 0;
-            vel.w  = 0;
-            motor_cmd_pub_.publish(vel);
-            shoot.request.strength = 0;
-            shoot_client_.call(shoot);
-            dribble.request.enable = 0;
-            ballhandle_client_.call(dribble);
+            /// 运动参数
+            action_cmd_.move_action =No_Action;
+            action_cmd_.rotate_acton=No_Action;
         }
         /** 机器人在开始之前的跑位. 开始静态传接球的目标点计算*/
         else if(match_mode_ > STOPROBOT && match_mode_ <= DROPBALL)
@@ -418,90 +408,131 @@ However, the code related to receiving game comamnds and doing corresponding act
         {
             normalGame();
         } // start部分结束
-
+        handleball();
+        setEthercatCommand();
         pubStrategyInfo();  // 发送策略消息让其他机器人看到，这一部分一般用于多机器人之间的协同
     }
 ```
 ```c++
-    void positioning()
+void  OppDefaultReady_()
     {
+        DPoint target;
         DPoint br = ball_pos_ - robot_pos_;
         switch(world_model_info_.AgentID_)  // 十分简单的实现，固定的站位，建议动态调整站位，写入staticpass.cpp中
         {                                   // 站位还需要考虑是否犯规，但是现在这个程序没有考虑。
-            case 1:
-                if(move2target(DPoint(-850.0, 0.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 1:
+            target = DPoint(-1050.0,0.0);
             break;
-            case 2:
-                if(move2target(DPoint(-150.0, 100.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 2:
+            target = DPoint(-200.0,100.0);
             break;
-            case 3:
-                if(move2target(DPoint(-150.0, -100.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 3:
+            target = DPoint(-200.0,-100.0);
             break;
-            case 4:
-                if(move2target(DPoint(-450.0, 200.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 4:
+            target = DPoint(-550.0,200.0);
             break;
-            case 5:
-                if(move2target(DPoint(-450.0, -200.0), robot_pos_))
-                    move2ori(br.angle().radian_, robot_ori_.radian_);
+        case 5:
+            target = DPoint(-550.0,-200.0);
             break;
         }
+        if(target.distance(ball_pos_)<300&&!world_model_info_.field_info_.isOurPenalty(target))
+            target = ball_pos_.pointofline(target,320.0);
+        if(move2target(target, robot_pos_))
+            move2ori(br.angle().radian_, robot_ori_.radian_);
+        action_cmd_.move_action = Positioned_Static;
+        action_cmd_.rotate_acton= Positioned_Static;
+        action_cmd_.rotate_mode = 0;
     }
 ```
 ```c++
     void parking()
     {
-        static double parking_y=-580.0;
+        static double parking_y=-680.0;
         cout<<"PARKINGROBOT"<<endl;
-
         DPoint parking_target;
         float tar_ori = SINGLEPI_CONSTANT/2.0;
-        parking_target.x_= -120.0 * world_model_info_.AgentID_;
-        if(world_model_info_.AgentID_ == 1)
-            parking_target.x_ = -700;//守门员站在离球门最近的地方
+        parking_target.x_= FIELD_XLINE7 + 150.0 * world_model_info_.AgentID_;
+//        if(world_model_info_.AgentID_ == 1)
+//            parking_target.x_ = -900;//守门员站在离球门最近的地方
         parking_target.y_ = parking_y;
 
         if(move2target(parking_target, robot_pos_))    //停到目标点10cm附近就不用动了，只需调整朝向
             move2ori(tar_ori, robot_ori_.radian_);
+        action_cmd_.move_action = Positioned_Static;
+        action_cmd_.rotate_acton= Positioned_Static;
+        action_cmd_.rotate_mode = 0;
     }
 ```
 ```c++
     void normalGame()
     {
+        static bool last_dribble = 0;
+        isactive =false;
         if(world_model_info_.AgentID_ != 1 && isNearestRobot())
         {
-            nubot_common::BallHandle    dribble;
-            DPoint br = ball_pos_ - robot_pos_;
+            isactive=true;
+        }
+        if(isactive && !shoot_flag)
+        {
+            DPoint b2r = ball_pos_ - robot_pos_;
+            DPoint tmp(200.0,300.0);
+            DPoint t2r = tmp - robot_pos_;
+            DPoint shoot_line = world_model_info_.field_info_.oppGoal_[GOAL_MIDDLE] - robot_pos_;
+            if(last_dribble != world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getDribbleState())
+                ROS_INFO("change::");
+            last_dribble = world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getDribbleState();
 
-            if(move2ori(br.angle().radian_, robot_ori_.radian_))        // 先往足球靠近
+            if(!world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getDribbleState())
             {
-                if(move2target(ball_pos_, robot_pos_, 50.0))
+                action_cmd_.handle_enable = 1;
+                if(move2ori(b2r.angle().radian_,robot_ori_.radian_))
+                    move2target(ball_pos_,robot_pos_);
+                action_cmd_.move_action = CatchBall;
+                action_cmd_.rotate_acton= CatchBall;
+                action_cmd_.rotate_mode = 0;
+            }
+            else if(robot_pos_.distance(tmp)>20.0)
+            {
+                action_cmd_.move_action = MoveWithBall;
+                action_cmd_.rotate_acton= MoveWithBall;
+                action_cmd_.rotate_mode = 0;
+                if(move2ori(t2r.angle().radian_,robot_ori_.radian_))
+                    move2target(tmp,robot_pos_);
+            }
+            else
+            {
+                action_cmd_.move_action = TurnForShoot;
+                action_cmd_.rotate_acton= TurnForShoot;
+                action_cmd_.rotate_mode = 0;
+                move2target(robot_pos_,robot_pos_);
+                if(move2ori(shoot_line.angle().radian_,robot_ori_.radian_,0.5*DEG2RAD))
                 {
-                    dribble.request.enable = 1;
-                    ballhandle_client_.call(dribble);
-                    if(dribble.response.BallIsHolding != true)
+                    double up_radian_  = (world_model_info_.field_info_.oppGoal_[GOAL_MIDUPPER] - robot_pos_).angle().radian_;
+                    double low_radian_ = (world_model_info_.field_info_.oppGoal_[GOAL_MIDLOWER] - robot_pos_).angle().radian_;
+                    if(robot_ori_.radian_>low_radian_ && robot_ori_.radian_<up_radian_)
                     {
-                        if(move2target(ball_pos_, robot_pos_, 40.0))
-                            move2ori(br.angle().radian_, robot_ori_.radian_);
-                    }
-                    else        // 带上球了
-                    {
-                        DPoint tmp(200.0,300.0);
-                        DPoint dirc = DPoint(900.0 ,0.0) - tmp;         // 对准 (900.0 ,0.0)
-                        if(move2target(tmp, robot_pos_) &&
-                           move2ori(dirc.angle().radian_, robot_ori_.radian_, 5.0*DEG2RAD))  // 跑到位以及转到位
-                        {
-                            nubot_common::Shoot shoot;
-                            shoot.request.ShootPos = FLY;
-                            shoot.request.strength = 1.0;   // 在FLY模式下，strength不重要,只要非零就行
-                            shoot_client_.call(shoot);
-                        }
+                        action_cmd_.shootPos = RUN;
+                        action_cmd_.strength = shoot_line.length()/100;
+                        if(action_cmd_.strength<3.0)
+                            action_cmd_.strength = 3.0;
+                        shoot_flag = true;
                     }
                 }
             }
+        }
+        else
+        {
+            action_cmd_.move_action=No_Action;
+            action_cmd_.rotate_acton=No_Action;
+            if(shoot_flag)
+                shoot_count++;
+            if(shoot_count>20)
+            {
+                shoot_count=0;
+                shoot_flag=false;
+            }
+
         }
     }
 ```
@@ -529,51 +560,80 @@ However, the code related to receiving game comamnds and doing corresponding act
     }
 ```
 ```c++
-    bool move2target(DPoint target, DPoint pos, double distance_thres=10.0)     // 一个十分简单的实现，可以用PID
+    bool move2target(DPoint target, DPoint pos, double distance_thres=20.0)     // 一个十分简单的实现，可以用PID
     {
-        static nubot_common::VelCmd        vel;
-        DPoint tmp = target - pos;
-        float tar_theta = tmp.angle().radian_;
-
-        if(tmp.norm() > distance_thres)
-        {
-            vel.Vx = tmp.norm()*0.7*cos(tar_theta - robot_ori_.radian_);    // 注意将全局坐标系下的期望速度转换为在机器人体坐标系下
-            vel.Vy = tmp.norm()*0.7*sin(tar_theta - robot_ori_.radian_);
-            vel.w = 0;
-            motor_cmd_pub_.publish(vel);
+        action_cmd_.target.x = target.x_;
+        action_cmd_.target.y = target.y_;
+        action_cmd_.maxvel = pos.distance(target);
+        if(pos.distance(target) > distance_thres)
             return false;
-        }
         else
-        {
-            vel.Vx = 0.0;
-            vel.Vy = 0.0;
-            vel.w = 0;
-            motor_cmd_pub_.publish(vel);
             return true;
-        }
     }
 ```
 ```c++
     bool move2ori(double target, double angle, double angle_thres = 8.0*DEG2RAD)  // 一个十分简单的实现，可以用PID
     {
-        static nubot_common::VelCmd        vel;
-        double tmp = target - angle;
-        if(fabs(tmp) > angle_thres)        // 容许误差为5度
-        {
-            vel.Vx = 0;
-            vel.Vy = 0;
-            vel.w = tmp;
-            motor_cmd_pub_.publish(vel);
+        action_cmd_.target_ori =target;
+        action_cmd_.maxw = fabs(target-angle)*2;
+        if(fabs(target-angle) > angle_thres)        // 容许误差为5度
             return false;
-        }
         else
-        {
-            vel.Vx = 0.0;
-            vel.Vy = 0.0;
-            vel.w = 0;
-            motor_cmd_pub_.publish(vel);
             return true;
-        }
+    }
+```
+```c++
+    void handleball()
+    {
+        if(isactive&&match_mode_==STARTROBOT&&!shoot_flag)
+            action_cmd_.handle_enable = 1;
+        else
+            action_cmd_.handle_enable = 0;
+    }
+```
+```c++
+void setEthercatCommand()
+    {
+        /// initialize the command
+        nubot_common::ActionCmd command;
+        command.move_action  =No_Action;
+        command.rotate_acton =No_Action;
+        command.rotate_mode  =0;
+        command.maxvel = 0;
+        command.maxw   = 0;
+        command.target_w   =0;
+        /// 机器人人位置信息 robot states
+        command.robot_pos.x=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getLocation().x_;
+        command.robot_pos.y=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getLocation().y_;
+        command.robot_vel.x=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getVelocity().x_;
+        command.robot_vel.y=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getVelocity().y_;
+        command.robot_ori=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getHead().radian_;
+        command.robot_w=world_model_info_.RobotInfo_[world_model_info_.AgentID_-1].getW();
+        /// 运动参数
+        command.move_action =action_cmd_.move_action;
+        command.rotate_acton=action_cmd_.rotate_acton;
+        command.rotate_mode =action_cmd_.rotate_mode;
+        command.target      =action_cmd_.target;
+        command.target_vel  =action_cmd_.target_vel;
+        command.target_w    =action_cmd_.target_w;
+        command.target_ori  =action_cmd_.target_ori;
+        command.maxvel      =action_cmd_.maxvel;
+        command.maxw        =action_cmd_.maxw;
+        if(command.maxvel>MAXVEL)
+            command.maxvel=MAXVEL;
+        if(command.maxw>MAXW)
+            command.maxw=MAXW;
+        if(fabs(command.target_ori)>10000.0)
+            command.target_ori = 0;
+        /// 带球及射门选择
+        command.handle_enable=action_cmd_.handle_enable;
+        command.strength=action_cmd_.strength;
+        if(command.strength!= 0)
+            std::cout<<"passed out"<<command.strength<<std::endl;
+        command.shootPos = action_cmd_.shootPos;
+        /// 传一次后，力量清0,防止多次射门
+        action_cmd_.strength=0;
+        action_cmd_pub_.publish(command);
     }
 ```
 ```c++
@@ -599,8 +659,10 @@ Basically, robot communicates via topic **"nubotcontrol/strategy"**. So you coul
     }
 ```
 The messages flow is as follows:
-![strategyInfo][pic7]
+
+![strategyinfo](pics/strategyinfo.png)
 Here, nubot_strategy_pub subscribes to all strategy infomation from all robots such as nubot1~nubot5, and then combines these messages and publishes messages on a new topic named **"/nubot/nubotcontrol/strategy"**. If you robot prefix is not "nubot" but "something" for example, this node would publish messages on a new topic named "/somthing/nubotcontrol/strategy". And then [world_model.cpp][13] receives and processes these messages, for example:
+
 ```c++
 /**  仿真程序更新所有的机器人的策略信息，在实际比赛中通过RTDB进行传输，现在采用topic传输*/
 void
@@ -646,29 +708,6 @@ So you should also write some code to [world_model.cpp][13].
 1. if robot's position satisfies fabs(x) > 10 or fabs(y) > 7, then the robot's `isvalid` flag is set to false. Please refer to the function `bool NubotGazebo::is_robot_valid(double x, double y)` in `nubot_gazebo.cc`.
 2. Addedacceleration limits.
 
-# Citation
-If you use this simulation system, please cite our work.
-
-```
-@inproceedings{yao2015simulation,
-  title={A simulation system based on ros and gazebo for robocup middle size league},
-  author={Yao, Weijia and Dai, Wei and Xiao, Junhao and Lu, Huimin and Zheng, Zhiqiang},
-  booktitle={Robotics and Biomimetics (ROBIO), 2015 IEEE International Conference on},
-  pages={54--59},
-  year={2015},
-  organization={IEEE}
-}
-
-@incollection{xiao2017building,
-  title={Building software system and simulation environment for robocup Msl soccer robots based on ros and gazebo},
-  author={Xiao, Junhao and Xiong, Dan and Yao, Weijia and Yu, Qinghua and Lu, Huimin and Zheng, Zhiqiang},
-  booktitle={Robot operating system (ROS)},
-  pages={597--631},
-  year={2017},
-  publisher={Springer}
-}
-```
-
 ## Questions & Answers
 
 1. 问题：使用run教程里提供第一种方法运行所有的模块，没有在终端看到robot_code里的main()函数里的初始化输出信息**ROS_INFO("start control process")**，这关系到我们如何看到自己添加的调试信息。   
@@ -678,7 +717,7 @@ If you use this simulation system, please cite our work.
 3. 问题： 比赛中的一些参数，如机器人数量要怎么改？   
    解决办法： 在[sim_config][14]里面修改即可，其中有些参数与比赛相关，请谨慎修改，具体见README相关部分。   
 4. 问题： 如何让两只球队进行比赛？    
-   解决办法： `rosrun nubot_common cyan_robot.sh` 和 `rosrun nubot_common magente_robot.sh`都要运行，下面两个coach命令也都要运行，`rosrun coach4sim cyan_coach.sh`  `rosrun coach4sim magenta_coach.sh`，分别开始双方比赛。如果不想运行两个coach来发指令的话，也可以运行自动裁判盒，也就是`rosrun auto_referee auto_referee -1`，最后一个参数如果是-1代表cyan发球，如果是1代表magenta发球。   
+   解决办法： `rosrun nubot_common cyan_robot.sh` 和 `rosrun nubot_common magente_robot.sh`都要运行，下面两个coach命令也都要运行，`rosrun nubot_coach cyan_coach.sh`  `rosrun nubot_coach magenta_coach.sh`，分别开始双方比赛。如果不想运行两个coach来发指令的话，也可以运行自动裁判盒，也就是`rosrun auto_referee auto_referee -1`，最后一个参数如果是-1代表cyan发球，如果是1代表magenta发球。   
 5. 问题：安装ros的时候提示错误“GdkPixbuf-WARNING **: Cannot open pixbuf loader module file '/usr/lib/i386-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache': 没有那个文件或目录”   
    解决办法：错误说安装了旧版本的软件包，在实体机上新装ubuntu，一些应用还没更新，所以gazebo会出错。这个错误解决方法是在安装完gazebo后`sudo apt-get upgrade`。   
 
