@@ -1,5 +1,5 @@
 #include "ros/ros.h"
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 #include "nubot_common/simulation_strategy.h"
 
 #ifdef SIMULATION
