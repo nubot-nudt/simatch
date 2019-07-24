@@ -1,0 +1,3 @@
+<launch>
+<node name="nubot_hwcontroller_node" pkg="nubot_hwcontroller" type="nubot_hwcontroller_node" required="true"/>
+</launch>
