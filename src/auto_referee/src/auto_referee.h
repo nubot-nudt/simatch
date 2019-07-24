@@ -4,7 +4,7 @@
 #include <ros/ros.h>
 #include <ros/callback_queue.h>         // Custom Callback Queue
 #include <ros/subscribe_options.h>
-#include "nubot/core/core.hpp"
+#include "core.hpp"
 #include "nubot_common/CoachInfo.h"
 #include "nubot_common/Point2d.h"
 #include "nubot_common/DribbleId.h"
