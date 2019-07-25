@@ -5,7 +5,7 @@
 #include <iostream>
 #include <float.h>
 #include <string>
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 #include "Circle.hpp"
 #include "Angle.hpp"
 #include "DPoint.hpp"
