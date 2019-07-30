@@ -2995,16 +2995,16 @@
     </library_effects>
     <library_images>
         <image id="ID175">
-            <init_from>nubot_frame5/texture0.png</init_from>
+            <init_from>nubot_frame1/texture0.png</init_from>
         </image>
         <image id="ID358">
-            <init_from>nubot_frame5/texture1.png</init_from>
+            <init_from>nubot_frame1/texture1.png</init_from>
         </image>
         <image id="ID371">
-            <init_from>nubot_frame5/texture2.png</init_from>
+            <init_from>nubot_frame1/texture2.png</init_from>
         </image>
         <image id="ID384">
-            <init_from>nubot_frame5/texture3.png</init_from>
+            <init_from>nubot_frame1/texture3.png</init_from>
         </image>
     </library_images>
     <scene>

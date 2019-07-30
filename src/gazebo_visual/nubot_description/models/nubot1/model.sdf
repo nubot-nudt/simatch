@@ -21,7 +21,7 @@
             <geometry>
                <mesh>
                   <scale>1.5 1.5 1.6</scale>
-                  <uri>file://meshes/nubot_frame_collision.dae</uri>
+                  <uri>file://meshes/nubot_frame/nubot_frame1.dae</uri>
                </mesh>
             </geometry>
             <surface>
