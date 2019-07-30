@@ -438,7 +438,7 @@ public:
                     double low_radian_ = (world_model_info_.field_info_.oppGoal_[GOAL_MIDLOWER] - robot_pos_).angle().radian_;
                     if(robot_ori_.radian_>low_radian_ && robot_ori_.radian_<up_radian_)
                     {
-                        action_cmd_.shootPos = RUN;
+                        action_cmd_.shootPos = RUN/*FLY*/;
                         action_cmd_.strength = shoot_line.length()/100;
                         if(action_cmd_.strength<3.0)
                             action_cmd_.strength = 3.0;
