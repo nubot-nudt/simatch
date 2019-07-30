@@ -418,7 +418,7 @@ public:
                 action_cmd_.rotate_acton= CatchBall;
                 action_cmd_.rotate_mode = 0;
             }
-            else if(robot_pos_.distance(tmp)>20.0)
+            else if(robot_pos_.distance(tmp)>30.0)
             {
                 action_cmd_.move_action = MoveWithBall;
                 action_cmd_.rotate_acton= MoveWithBall;
@@ -431,7 +431,7 @@ public:
                 action_cmd_.move_action = TurnForShoot;
                 action_cmd_.rotate_acton= TurnForShoot;
                 action_cmd_.rotate_mode = 0;
-                move2target(robot_pos_,robot_pos_);
+                move2target(tmp,robot_pos_);
                 if(move2ori(shoot_line.angle().radian_,robot_ori_.radian_,0.5*DEG2RAD))
                 {
                     double up_radian_  = (world_model_info_.field_info_.oppGoal_[GOAL_MIDUPPER] - robot_pos_).angle().radian_;
