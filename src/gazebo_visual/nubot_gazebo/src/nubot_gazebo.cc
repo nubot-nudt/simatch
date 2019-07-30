@@ -608,11 +608,11 @@ void NubotGazebo::actionCmd_CB(const nubot_common::ActionCmd::ConstPtr &actioncm
     mode_ = (int)actioncmd->shootPos;
     if(force_!=0)
         std::cout<<"force  "<<force_<<std::endl;
-    if(force_ > 15.0)
-    {
-        //ROS_FATAL("Kick ball force(%f) is too great.", force_);
-        force_ = 15.0;
-    }
+//    if(force_ > 15.0)
+//    {
+//        //ROS_FATAL("Kick ball force(%f) is too great.", force_);
+//        force_ = 15.0;
+//    }
     if( force_ )
     {
         if(get_is_hold_ball())
@@ -711,9 +711,10 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
         nubot::DPoint crosspoint;
         line1.crosspoint(line2,crosspoint);
         double D = crosspoint.distance(point3);
-        double vx_thres = D*sqrt(g/2/kick_goal_height);
-        double vx = vx_thres/2.0;//>vel ? vel : vx_thres/2.0;                            // initial x velocity.CAN BE TUNED
-        double b = kick_goal_height/D + g*D/(2.0*vx*vx);
+//        double vx_thres = D*sqrt(g/2/kick_goal_height);
+//        double vx = vx_thres/2.0;//>vel ? vel : vx_thres/2.0;                            // initial x velocity.CAN BE TUNED
+        double vx = vel;
+//        double b = kick_goal_height/D + g*D/(2.0*vx*vx);
 
         ROS_INFO("%s crosspoint:(%f %f) vx: %f", model_name_.c_str(),
                  crosspoint.x_, crosspoint.y_, vx);
@@ -721,9 +722,9 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
         {
             math::Vector3 kick_vector;
             if(flip_cord_)
-                kick_vector = math::Vector3(-vx*kick_vector_world_.x, -vx*kick_vector_world_.y, b*vx);
+                kick_vector = math::Vector3(-0.8*vx*kick_vector_world_.x, -0.8*vx*kick_vector_world_.y, 0.6*vx);
             else
-                kick_vector = math::Vector3(vx*kick_vector_world_.x, vx*kick_vector_world_.y, b*vx);
+                kick_vector = math::Vector3(0.8*vx*kick_vector_world_.x, 0.8*vx*kick_vector_world_.y, 0.6*vx);
             ball_model_->SetLinearVel(kick_vector);
         }
         else
