@@ -56,8 +56,8 @@ const int ROLENUM           = 7;
 
 /// 一些常用的场地参数
 #if defined(SIMULATION)
-const int FIELD_LENGTH  = 1800;
-const int FIELD_WIDTH   = 1200;
+const int FIELD_LENGTH  = 2200;
+const int FIELD_WIDTH   = 1400;
 const double MAXDIS_FIELD = sqrt(FIELD_LENGTH*FIELD_LENGTH+FIELD_WIDTH*FIELD_WIDTH);
 #elif defined(MATCH)
 const int FIELD_LENGTH  = 2200;

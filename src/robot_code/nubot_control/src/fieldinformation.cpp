@@ -51,17 +51,17 @@ FieldInformation::FieldInformation()
     postcircle_[3].center_=DPoint2d(-xline_[0],-yline_[0]);
 
     /** 守门员处的几个关键位置*/
-    oppGoal_[GOAL_UPPER]    = DPoint(xline_[0],100);
-    oppGoal_[GOAL_MIDUPPER] = DPoint(xline_[0],40);
+    oppGoal_[GOAL_UPPER]    = DPoint(xline_[0],120);
+    oppGoal_[GOAL_MIDUPPER] = DPoint(xline_[0],60);
     oppGoal_[GOAL_MIDDLE]   = DPoint(xline_[0],0);
-    oppGoal_[GOAL_MIDLOWER] = DPoint(xline_[0],-40);
-    oppGoal_[GOAL_LOWER]    = DPoint(xline_[0],-100);
+    oppGoal_[GOAL_MIDLOWER] = DPoint(xline_[0],-60);
+    oppGoal_[GOAL_LOWER]    = DPoint(xline_[0],-120);
 
-    ourGoal_[GOAL_UPPER]    = DPoint(xline_[6],100);
-    ourGoal_[GOAL_MIDUPPER] = DPoint(xline_[6],40);
+    ourGoal_[GOAL_UPPER]    = DPoint(xline_[6],120);
+    ourGoal_[GOAL_MIDUPPER] = DPoint(xline_[6],60);
     ourGoal_[GOAL_MIDDLE]   = DPoint(xline_[6],0);
-    ourGoal_[GOAL_MIDLOWER] = DPoint(xline_[6],-40);
-    ourGoal_[GOAL_LOWER]    = DPoint(xline_[6],-100);
+    ourGoal_[GOAL_MIDLOWER] = DPoint(xline_[6],-60);
+    ourGoal_[GOAL_LOWER]    = DPoint(xline_[6],-120);
 
 
     our_penaltyarea_[0] = DPoint(xline_[6],yline_[1]);  //(-900,325)    我方大禁区

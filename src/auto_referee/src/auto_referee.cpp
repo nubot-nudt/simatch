@@ -715,7 +715,8 @@ bool auto_referee::R3_isBallOutOrGoal()
     if( fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) )
     {
         OUTINFO("LEFT out pos:%f %f %f\n",ball_state_.pos.x_, ball_state_.pos.y_, ball_state_.pos_z);
-        if(fabs(ball_state_.pos.y_) < 100.0-BALL_RADIUS && fabs(ball_state_.pos_z) < 87.5-BALL_RADIUS)    // magenta goals
+        if(fabs(ball_state_.pos.y_) < fieldinfo_.ourGoal_[GOAL_UPPER].y_-BALL_RADIUS && fabs(ball_state_.pos_z) < GOAL_HEIGHT-BALL_RADIUS
+                && ball_state_.pos.x_>-FIELD_LENGTH/2.0 - GOALPOST_WIDTH)    // magenta goals
         {
             if(currentCmd_ != OUR_KICKOFF)      // prevent the code from going into again
             {
@@ -759,7 +760,8 @@ bool auto_referee::R3_isBallOutOrGoal()
     else if(fieldinfo_.isOutBorder(RIGHTBORDER, ball_state_.pos))
     {
         OUTINFO("RIGHT out pos:%f %f %f\n",ball_state_.pos.x_, ball_state_.pos.y_, ball_state_.pos_z);
-        if(fabs(ball_state_.pos.y_) < 100.0-BALL_RADIUS && fabs(ball_state_.pos_z) < 87.5-BALL_RADIUS)  // cyan goals
+        if(fabs(ball_state_.pos.y_) < fieldinfo_.ourGoal_[GOAL_UPPER].y_-BALL_RADIUS && fabs(ball_state_.pos_z) < GOAL_HEIGHT-BALL_RADIUS
+                && ball_state_.pos.x_<FIELD_LENGTH/2.0 + GOALPOST_WIDTH)  // cyan goals
         {
             if(currentCmd_ != OPP_KICKOFF)      // prevent the code from going into again
             {
@@ -855,8 +857,8 @@ bool auto_referee::R3_isBallOutOrGoal()
 bool auto_referee::isGoal()
 {
     static std::string s;
-    if(fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) && fabs(ball_state_.pos.y_) < 100.0-BALL_RADIUS
-            && fabs(ball_state_.pos_z) < 87.5-BALL_RADIUS)    // magenta goals
+    if(fieldinfo_.isOutBorder(LEFTBORDER, ball_state_.pos) && fabs(ball_state_.pos.y_) < fieldinfo_.ourGoal_[GOAL_UPPER].y_-BALL_RADIUS
+            && fabs(ball_state_.pos_z) < GOAL_HEIGHT-BALL_RADIUS)    // magenta goals
     {
         if(currentCmd_ != OUR_KICKOFF)      // prevent the code from going into again
         {
@@ -867,10 +869,11 @@ bool auto_referee::isGoal()
             s="Cyan : Magenta ["+ std::to_string(cyan_score_)+" : "+ std::to_string(magenta_score_) +"]\t Magenta goals. ";
             writeRecord(s);
         }
+        std::cout<<fieldinfo_.ourGoal_[GOAL_UPPER].x_<<std::endl;
         return true;
     }
-    else if(fieldinfo_.isOutBorder(RIGHTBORDER, ball_state_.pos)  && fabs(ball_state_.pos.y_) < 100.0-BALL_RADIUS
-            && fabs(ball_state_.pos_z) < 87.5-BALL_RADIUS)  // cyan goals
+    else if(fieldinfo_.isOutBorder(RIGHTBORDER, ball_state_.pos)  && fabs(ball_state_.pos.y_) < fieldinfo_.ourGoal_[GOAL_UPPER].y_ - BALL_RADIUS
+            && fabs(ball_state_.pos_z) < GOAL_HEIGHT-BALL_RADIUS)  // cyan goals
     {
         if(currentCmd_ != OPP_KICKOFF)      // prevent the code from going into again
         {
@@ -883,7 +886,6 @@ bool auto_referee::isGoal()
         }
         return true;
     }
-
     return false;
 }
 

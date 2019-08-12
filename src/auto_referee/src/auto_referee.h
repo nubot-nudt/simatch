@@ -37,14 +37,15 @@ const int MAGENTA_TEAM = 1;
 const int NONE_TEAM = 0;
 const double RAD2DEG = 180.0/M_PI;
 const double LOOP_PERIOD = 0.005;
+const double GOAL_HEIGHT = 101.0;  // Though the real goal height is 100cm, the base height of the field is 1cm
 const double BALL_RADIUS = 11.0;   // cm
 const double GOALPOST_WIDTH = 75.0;     // the width of the goal post area (cm)
-const double GOALPOST_LEN   = 100.0;    // the length of the goal post area (cm)
+const double GOALPOST_LEN   = 240.0;    // the length of the goal post area (cm)
 
-const double CORNER_X = 900.0 - 30.0;
-const double CORNER_Y = 600.0 - 30.0;
-const double RSTPT_X  = 600.0;
-const double RSTPT_Y  = 300.0;
+const double CORNER_X = FIELD_LENGTH/2 - 30.0;
+const double CORNER_Y = FIELD_WIDTH/2 - 30.0;
+const double RSTPT_X  = FIELD_LENGTH/2 - 360.0;
+const double RSTPT_Y  = FIELD_WIDTH/4;
 const DPoint RU_CORNER(CORNER_X, CORNER_Y);   // right up corner point
 const DPoint RD_CORNER(CORNER_X, -CORNER_Y);
 const DPoint LU_CORNER(-CORNER_X, CORNER_Y);

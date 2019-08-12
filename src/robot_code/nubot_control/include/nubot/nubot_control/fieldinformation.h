@@ -9,15 +9,6 @@ namespace nubot
 using std::vector;
 using std::string;
 
-enum GoalLocation
-{
-     GOAL_UPPER     = 0,
-     GOAL_MIDUPPER  = 1,
-     GOAL_MIDDLE    = 2,
-     GOAL_MIDLOWER  = 3,
-     GOAL_LOWER     = 4,
-};
-
 class FieldInformation
 {
 public:
