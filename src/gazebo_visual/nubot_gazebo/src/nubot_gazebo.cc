@@ -117,8 +117,8 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     rosnode_->param<std::string>("/magenta/prefix",                  mag_pre_,              std::string("rival"));
     rosnode_->param<double>("/general/dribble_distance_thres",  dribble_distance_thres_,    0.50);
     rosnode_->param<double>("/general/dribble_angle_thres",     dribble_angle_thres_,       30.0);
-    rosnode_->param<double>("/field/length",                    field_length_,              18.0);
-    rosnode_->param<double>("/field/width",                     field_width_,               12.0);
+    rosnode_->param<double>("/field/length",                    field_length_,              22.0);
+    rosnode_->param<double>("/field/width",                     field_width_,               14.0);
     rosnode_->param<double>("/general/noise_scale",             noise_scale_,               0.10);
     rosnode_->param<double>("/general/noise_rate",              noise_rate_,                0.01);
 
@@ -587,9 +587,20 @@ void NubotGazebo::vel_cmd_CB(const nubot_common::VelCmd::ConstPtr& cmd)
 
     //    ROS_FATAL("%s vel_cmd_CB():linear_vector:%f %f %f angular_vector:0 0 %f",model_name_.c_str(),
     //                    linear_vector.x, linear_vector.y, linear_vector.z, angular_vector.z);
-    if(can_move_)
-        nubot_locomotion(linear_vector, angular_vector);
 
+    math::Quaternion    target_rot = robot_model_->GetWorldPose().rot;
+    math::Vector3 euler = target_rot.GetAsEuler();
+    math::Pose          target_pose;
+    target_pose.pos = robot_model_->GetWorldPose().pos;
+    if(fabs(target_pose.pos.z)>0.05 || fabs(euler.x)>0.05 || fabs(euler.y)>0.05)
+    {
+        target_pose.pos.z = 0.01;
+        target_rot.SetFromEuler(0,0,euler.z);
+        target_pose.rot = target_rot;
+        robot_model_->SetWorldPose(target_pose);
+    }
+//    else
+    nubot_locomotion(linear_vector, angular_vector);
     msgCB_lock_.unlock();
 }
 
@@ -652,6 +663,7 @@ void NubotGazebo::dribble_ball(void)
     //ROS_INFO("target pos:%f %f %f",target_pos.x, target_pos.y, target_pos.z);
     math::Pose          target_pose(target_pos, target_rot);
     ball_model_->SetLinearVel(math::Vector3(0,0,0));
+
     ball_model_->SetWorldPose(target_pose);
     ball_state_.twist.linear = robot_state_.twist.linear;
 #endif
@@ -848,7 +860,7 @@ void NubotGazebo::update_child()
 void NubotGazebo::nubot_be_control(void)
 {
     static nubot_common::DribbleId di;
-    if(robot_state_.pose.position.z < 0.2)          // not in the air
+    if(robot_state_.pose.position.z < 0.05)          // not in the air
     {
         can_move_ = true;
         if(dribble_req_ && get_is_hold_ball() && match_mode_ != STOPROBOT)
@@ -899,7 +911,7 @@ void NubotGazebo::nubot_be_control(void)
 
 bool NubotGazebo::is_robot_valid(double x, double y)
 {
-    if(fabs(x) > 12 || fabs(y) > 8)
+    if(fabs(x) > field_length_/2 + 2 || fabs(y) > field_width_/2+2)
         return false;
     else
         return true;
