@@ -2,18 +2,19 @@
 <sdf version="1.4">
    <model name="rival5">
       <static>false</static>
+      <pose>0 0 0.01 0 0 0</pose>
       <link name="chassis">
          <pose>0 0 0.01 0 0 0</pose>
          <inertial>
-            <mass>31</mass>
-            <pose>0 0 0 0 0 0</pose>
+            <mass>39</mass>
+            <pose>0 0 0.1 0 0 0</pose>
             <inertia>
-               <ixx>100</ixx>
+               <ixx>0.65</ixx>
                <ixy>0</ixy>
                <ixz>0</ixz>
-               <iyy>100</iyy>
+               <iyy>0.65</iyy>
                <iyz>0</iyz>
-               <izz>2.86</izz>
+               <izz>1.625</izz>
             </inertia>
          </inertial>
          <collision name="collision">
@@ -21,7 +22,7 @@
             <geometry>
                <mesh>
                   <scale>1.5 1.5 1.6</scale>
-                  <uri>file://meshes/rival_frame/rival_frame5.dae</uri>
+                  <uri>file://meshes/nubot_frame_collision.dae</uri>
                </mesh>
             </geometry>
             <surface>
@@ -34,6 +35,12 @@
                      <mu2>0.1</mu2>
                   </ode>
                </friction>
+               <contact>
+                  <ode>
+                    <max_vel>1</max_vel>
+                    <min_depth>0.01</min_depth>
+                 </ode>
+              </contact>
             </surface>
          </collision>
          <visual name="visual">
