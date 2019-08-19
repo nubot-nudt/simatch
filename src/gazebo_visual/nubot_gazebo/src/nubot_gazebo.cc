@@ -695,7 +695,7 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
 
     if(mode == RUN)
     {
-        double vel2 = vel;;                         //FIXME. CAN TUNE
+        double vel2 = vel;                         //FIXME. CAN TUNE
         ///limit the max velocity of ball
         if(vel2>10.0)
             vel2=10.0;
