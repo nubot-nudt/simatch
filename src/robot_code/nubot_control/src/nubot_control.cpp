@@ -169,9 +169,11 @@ public:
         world_model_info_.Obstacles_.clear();
         for(nubot_common::Point2d point : _world_msg.obstacleinfo.pos )
             world_model_info_.Obstacles_.push_back(DPoint(point.x,point.y));
-            world_model_info_.Opponents_.clear();
+//        std::cout<<"obstacles "<<world_model_info_.Obstacles_.size()<<"  "<<world_model_info_.AgentID_<<std::endl;
+        world_model_info_.Opponents_.clear();
         for(nubot_common::Point2d point : _world_msg.oppinfo.pos )
             world_model_info_.Opponents_.push_back(DPoint(point.x,point.y));
+///        std::cout<<"opponents "<<world_model_info_.Opponents_.size()<<"  "<<world_model_info_.AgentID_<<std::endl;
         /** 更新足球物信息*/
         for(std::size_t i = 0 ; i < OUR_TEAM ; i++)
         {

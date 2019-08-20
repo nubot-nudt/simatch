@@ -652,7 +652,7 @@ void NubotGazebo::dribble_ball(void)
 
 #if 1
     math::Quaternion    target_rot = robot_state_.pose.orient;
-    math::Vector3       relative_pos = kick_vector_world_* 0.43;
+    math::Vector3       relative_pos = kick_vector_world_* 0.35;
     math::Vector3       target_pos;
     if(flip_cord_)
         target_pos = -(robot_state_.pose.position + relative_pos);
@@ -728,8 +728,8 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
         double vx = vel;
 //        double b = kick_goal_height/D + g*D/(2.0*vx*vx);
 
-        ROS_INFO("%s crosspoint:(%f %f) vx: %f", model_name_.c_str(),
-                 crosspoint.x_, crosspoint.y_, vx);
+//        ROS_INFO("%s crosspoint:(%f %f) vx: %f", model_name_.c_str(),
+//                 crosspoint.x_, crosspoint.y_, vx);
         if( fabs(crosspoint.y_) < 10)
         {
             math::Vector3 kick_vector;
@@ -759,7 +759,7 @@ bool NubotGazebo::get_is_hold_ball(void)
     allign_ball = (angle_error_degree_ <= dribble_angle_thres_/2.0
                    && angle_error_degree_ >= -dribble_angle_thres_/2.0) ?
                 1 : 0;
-    near_ball = nubot_ball_vec_len_ <= /*dribble_distance_thres_*/0.5 ?
+    near_ball = nubot_ball_vec_len_ <= dribble_distance_thres_ ?
                 1 : 0;
 //    std::cout<<"allign_ball::"<<dribble_angle_thres_<<"   near_ball"<<dribble_distance_thres_<<std::endl;
     //ROS_INFO("%s get_is_hold_ball(): angle error:%f(thres:%f) distance_error:%f(thres:%f)",

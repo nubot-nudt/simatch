@@ -18,10 +18,10 @@
             </inertia>
          </inertial>
          <collision name="collision">
-            <pose>0 0 0 0 0 0</pose>
+            <pose>0 0 0 0 0 3.1415926</pose>
             <geometry>
                <mesh>
-                  <scale>1.5 1.5 1.6</scale>
+                  <scale>1.1 1.1 1.4</scale>
                   <uri>file://meshes/nubot_frame_collision.dae</uri>
                </mesh>
             </geometry>
@@ -47,7 +47,7 @@
             <pose>0 0 0 0 0 0</pose>
             <geometry>
                <mesh>
-                  <scale>1.5 1.5 1.6</scale>
+                  <scale>1.1 1.1 1.4</scale>
                   <uri>file://meshes/rival_frame/rival_frame4.dae</uri>
                </mesh>
             </geometry>
