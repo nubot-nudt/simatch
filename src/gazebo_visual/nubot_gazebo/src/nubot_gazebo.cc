@@ -730,17 +730,17 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
 
 //        ROS_INFO("%s crosspoint:(%f %f) vx: %f", model_name_.c_str(),
 //                 crosspoint.x_, crosspoint.y_, vx);
-        if( fabs(crosspoint.y_) < 10)
-        {
-            math::Vector3 kick_vector;
-            if(flip_cord_)
-                kick_vector = math::Vector3(-0.8*vx*kick_vector_world_.x, -0.8*vx*kick_vector_world_.y, 0.6*vx);
-            else
-                kick_vector = math::Vector3(0.8*vx*kick_vector_world_.x, 0.8*vx*kick_vector_world_.y, 0.6*vx);
-            ball_model_->SetLinearVel(kick_vector);
-        }
+//        if( fabs(crosspoint.y_) < 10)
+//        {
+        math::Vector3 kick_vector;
+        if(flip_cord_)
+            kick_vector = math::Vector3(-0.8*vx*kick_vector_world_.x, -0.8*vx*kick_vector_world_.y, 0.6*vx);
         else
-            ROS_FATAL("CANNOT SHOOT. crosspoint.y is too big!");
+            kick_vector = math::Vector3(0.8*vx*kick_vector_world_.x, 0.8*vx*kick_vector_world_.y, 0.6*vx);
+        ball_model_->SetLinearVel(kick_vector);
+//        }
+//        else
+//            ROS_FATAL("CANNOT SHOOT. crosspoint.y is too big!");
     }
     else
     {
