@@ -434,7 +434,7 @@ public:
                 action_cmd_.rotate_acton= TurnForShoot;
                 action_cmd_.rotate_mode = 0;
                 move2target(tmp,robot_pos_);
-                if(move2ori(shoot_line.angle().radian_,robot_ori_.radian_,0.5*DEG2RAD))
+                move2ori(shoot_line.angle().radian_,robot_ori_.radian_);
                 {
                     double up_radian_  = (world_model_info_.field_info_.oppGoal_[GOAL_MIDUPPER] - robot_pos_).angle().radian_;
                     double low_radian_ = (world_model_info_.field_info_.oppGoal_[GOAL_MIDLOWER] - robot_pos_).angle().radian_;
@@ -445,6 +445,7 @@ public:
                         if(action_cmd_.strength<3.0)
                             action_cmd_.strength = 3.0;
                         shoot_flag = true;
+                        std::cout<<"shoot done "<<std::endl;
                     }
                 }
             }

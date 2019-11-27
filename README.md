@@ -719,7 +719,7 @@ So you should also write some code to [world_model.cpp][13].
 3. 问题： 比赛中的一些参数，如机器人数量要怎么改？   
    解决办法： 在[sim_config][14]里面修改即可，其中有些参数与比赛相关，请谨慎修改，具体见README相关部分。   
 4. 问题： 如何让两只球队进行比赛？    
-   解决办法： `rosrun nubot_common cyan_robot.sh` 和 `rosrun nubot_common magente_robot.sh`都要运行，下面两个coach命令也都要运行，`rosrun nubot_coach cyan_coach.sh`  `rosrun nubot_coach magenta_coach.sh`，分别开始双方比赛。如果不想运行两个coach来发指令的话，也可以运行自动裁判盒，也就是`rosrun auto_referee auto_referee -1`，最后一个参数如果是-1代表cyan发球，如果是1代表magenta发球。   
+   解决办法： `rosrun nubot_common cyan_robot.sh` 和 `rosrun nubot_common magenta_robot.sh`都要运行，下面两个coach命令也都要运行，`rosrun nubot_coach cyan_coach.sh`  `rosrun nubot_coach magenta_coach.sh`，分别开始双方比赛。如果不想运行两个coach来发指令的话，也可以运行自动裁判盒，也就是`rosrun auto_referee auto_referee -1`，最后一个参数如果是-1代表cyan发球，如果是1代表magenta发球。   
 5. 问题：安装ros的时候提示错误“GdkPixbuf-WARNING **: Cannot open pixbuf loader module file '/usr/lib/i386-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache': 没有那个文件或目录”   
    解决办法：错误说安装了旧版本的软件包，在实体机上新装ubuntu，一些应用还没更新，所以gazebo会出错。这个错误解决方法是在安装完gazebo后`sudo apt-get upgrade`。   
 

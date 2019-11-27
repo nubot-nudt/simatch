@@ -491,11 +491,7 @@ void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector
     ros::Time now_time_ = ros::Time::now();
     ros::Duration duration_time_ = now_time_ - last_time_;
     double duration;
-    duration = duration_time_.toSec();
-//    double now_acc_linear_ = 0;
-//    double now_acc_angular_ = 0;
-//    math::Vector3 acc_linear_vector_;
-//    math::Vector3 acc_angular_vector_;
+    duration = duration_time_.toNSec()/1000000000.0;
     math::Vector3 result_vector_;
     desired_trans_vector_ = linear_vel_vector;
     desired_rot_vector_   = angular_vel_vector;
@@ -504,63 +500,31 @@ void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector
     desired_rot_vector_.x = 0;
     desired_rot_vector_.y = 0;
     ///speed limit for every wheel zhouzhiqian 180825
-//    if(desired_trans_vector_.GetLength() > max_linear_vel_)
-//    {
-//        desired_trans_vector_ = desired_trans_vector_.Normalize() * max_linear_vel_;
-//        std::cout<<"over linear speed   "<<model_name_<<endl;
-//    }
-//    if( desired_rot_vector_.GetLength() > max_angular_vel_)
-//    {
-//        desired_rot_vector_ = desired_rot_vector_.Normalize() * max_angular_vel_;
-//        cout<<"over angular speed   "<<model_name_<<endl;
-//    }
     result_vector_ = speedLimit(desired_trans_vector_,desired_rot_vector_);
-//    std::cout<<"speed"<<result_vector_<<std::endl;
     desired_rot_vector_ = result_vector_.Dot(math::Vector3(0,0,1)) * math::Vector3(0,0,1);
     desired_trans_vector_ = result_vector_ - desired_rot_vector_;
 
     ///accelerate limit for every wheel
-    accelerateLimit(duration,desired_trans_vector_,last_linear_vector_,desired_rot_vector_,last_angular_vector_);
+    result_vector_ = accelerateLimit(duration,desired_trans_vector_,last_linear_vector_,desired_rot_vector_,last_angular_vector_);
+    desired_rot_vector_ = result_vector_.Dot(math::Vector3(0,0,1)) * math::Vector3(0,0,1);
+    desired_trans_vector_ = result_vector_ - desired_rot_vector_;
     result_vector_ = speedLimit(desired_trans_vector_,desired_rot_vector_);
     desired_rot_vector_ = result_vector_.Dot(math::Vector3(0,0,1)) * math::Vector3(0,0,1);
     desired_trans_vector_ = result_vector_ - desired_rot_vector_;
 
-//    if(duration == 0 || duration < 0)
-//    {
-//        now_acc_linear_ = 0;
-//        now_acc_angular_ = 0;
-//    }
-//    else
-//    {
-//        acc_linear_vector_ = (desired_trans_vector_ - last_linear_vector_) / duration;
-//        acc_angular_vector_ = (desired_rot_vector_ - last_angular_vector_) / duration;
-//    }
-//    if( acc_linear_vector_.GetLength()> max_acc_linear_)
-//    {
-//        std::cout<<"first   desired    "<<desired_trans_vector_<<"    last  "<<last_linear_vector_<<"   "<<model_name_<<std::endl;
-//        acc_linear_vector_ = acc_linear_vector_.Normalize() * max_acc_linear_;
-//        desired_trans_vector_ = last_linear_vector_ + 0.9 * (acc_linear_vector_ * duration);
-//        //        cout<<"over linear accelerate   "<<acc_linear_vector_.GetLength()<<"   "<<duration<<"   "<<model_name_<<endl;
-//        //        std::cout<<acc_linear_vector_<<std::endl;
-//        //        std::cout<<"modefied  desired    "<<desired_trans_vector_<<"    last  "<<last_linear_vector_<<std::endl;
-//    }
-//    if(acc_angular_vector_. GetLength()> max_acc_angular_)
-//    {
-//        acc_angular_vector_ = acc_angular_vector_.Normalize() * max_acc_angular_;
-//        desired_rot_vector_ = last_angular_vector_ + 0.9 * (acc_angular_vector_ * duration);
-//        //        cout<<"over linear accelerate"<<endl;
-//    }
     robot_model_->SetLinearVel(desired_trans_vector_);
     robot_model_->SetAngularVel(desired_rot_vector_);
     judge_nubot_stuck_ = 1;                                                 // only afetr nubot tends to move can I judge if it is stuck
     if(model_name_.substr(0,cyan_pre_.size())==cyan_pre_)
     {
         last_robot_linear_vector_[AgentID_-1] = desired_trans_vector_;
+        last_robot_angular_vector_[AgentID_-1] = desired_rot_vector_;
         last_robot_time_[AgentID_-1] = now_time_;
     }
     else if(model_name_.substr(0,mag_pre_.size())==mag_pre_)
     {
         last_robot_linear_vector_[AgentID_-1+5] = desired_trans_vector_;
+        last_robot_angular_vector_[AgentID_-1+5] = desired_rot_vector_;
         last_robot_time_[AgentID_-1+5] = now_time_;
     }
 }
@@ -585,8 +549,6 @@ void NubotGazebo::vel_cmd_CB(const nubot_common::VelCmd::ConstPtr& cmd)
     math::Vector3 linear_vector = Vx_nubot + Vy_nubot;
     math::Vector3 angular_vector(0,0,w_cmd_);
 
-    //    ROS_FATAL("%s vel_cmd_CB():linear_vector:%f %f %f angular_vector:0 0 %f",model_name_.c_str(),
-    //                    linear_vector.x, linear_vector.y, linear_vector.z, angular_vector.z);
 
     math::Quaternion    target_rot = robot_model_->GetWorldPose().rot;
     math::Vector3 euler = target_rot.GetAsEuler();
@@ -599,7 +561,6 @@ void NubotGazebo::vel_cmd_CB(const nubot_common::VelCmd::ConstPtr& cmd)
         target_pose.rot = target_rot;
         robot_model_->SetWorldPose(target_pose);
     }
-//    else
     nubot_locomotion(linear_vector, angular_vector);
     msgCB_lock_.unlock();
 }
@@ -1007,7 +968,8 @@ NubotGazebo::accelerateLimit(double duration, math::Vector3  model_linear_vel, m
     float wheel_acc[WHEELS];
     float target_Vx = target_linear_vel.Dot(math::Vector3(1,0,0));
     float target_Vy = target_linear_vel.Dot(math::Vector3(0,1,0));
-    float target_w  = target_ang_vel.Dot(math::Vector3(1,0,0));
+    float target_w  = target_ang_vel.Dot(math::Vector3(0,0,1));
+
     float model_Vx = model_linear_vel.Dot(math::Vector3(1,0,0));
     float model_Vy = model_linear_vel.Dot(math::Vector3(0,1,0));
     float model_w  = model_ang_vel.Dot(math::Vector3(0,0,1));
@@ -1034,73 +996,45 @@ NubotGazebo::accelerateLimit(double duration, math::Vector3  model_linear_vel, m
         wheel_speed_old[2]= ( -0.866*model_Vx - 0.5*model_Vy - model_w*WHEEL_DISTANCE);
     }
     float acc_thresh_ratio = 1;
-    for(int i=0; i<WHEELS; i++)
-    {
-        wheel_acc[i] = (wheel_speed[i]-wheel_speed_old[i])/duration;
-        float acc_thresh_ratio_temp = 0;
-        if( wheel_acc[i]*wheel_speed_old[i]>=0 ) //speed up
-            acc_thresh_ratio_temp = fabs(wheel_acc[i])/acc_thresh;
-        else                                 //speed down
-            acc_thresh_ratio_temp = fabs(wheel_acc[i])/dcc_thresh;
-        if( acc_thresh_ratio_temp>acc_thresh_ratio )
-            acc_thresh_ratio = acc_thresh_ratio_temp;
-    }
 
-    if( acc_thresh_ratio > 1 )
+    if(fabs(duration)>0.000001)
     {
         for(int i=0; i<WHEELS; i++)
         {
-            wheel_acc[i] /= acc_thresh_ratio;
-            wheel_speed[i] = wheel_speed_old[i] + wheel_acc[i];
+            wheel_acc[i] = (wheel_speed[i]-wheel_speed_old[i])/duration;
+            float acc_thresh_ratio_temp = 0;
+            if( wheel_acc[i]*wheel_speed_old[i]>=0 ) //speed up
+                acc_thresh_ratio_temp = fabs(wheel_acc[i])/acc_thresh;
+            else                                 //speed down
+                acc_thresh_ratio_temp = fabs(wheel_acc[i])/dcc_thresh;
+            if( acc_thresh_ratio_temp>acc_thresh_ratio )
+                acc_thresh_ratio = acc_thresh_ratio_temp;
         }
-    }
-    if(WHEELS==4)
-    {
-        w  = -(wheel_speed[0]+wheel_speed[1]+wheel_speed[2]+wheel_speed[3])/(4*WHEEL_DISTANCE);
-        Vx =  (wheel_speed[0]+wheel_speed[1]-wheel_speed[2]-wheel_speed[3])/(2*1.414);
-        Vy =  (wheel_speed[1]+wheel_speed[2]-wheel_speed[0]-wheel_speed[3])/(2*1.414);
+        if( acc_thresh_ratio > 1 )
+        {
+            for(int i=0; i<WHEELS; i++)
+            {
+                wheel_acc[i] /= acc_thresh_ratio;
+                wheel_speed[i] = wheel_speed_old[i] + wheel_acc[i]*duration;
+            }
+        }
+        if(WHEELS==4)
+        {
+            w  = -(wheel_speed[0]+wheel_speed[1]+wheel_speed[2]+wheel_speed[3])/(4*WHEEL_DISTANCE);
+            Vx =  (wheel_speed[0]+wheel_speed[1]-wheel_speed[2]-wheel_speed[3])/(2*1.414);
+            Vy =  (wheel_speed[1]+wheel_speed[2]-wheel_speed[0]-wheel_speed[3])/(2*1.414);
+        }
+        else
+        {
+            Vx = ( 0.577*wheel_speed[0]  + 0 * wheel_speed[1] -  wheel_speed[2] * 0.577);
+            Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
+            w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
+        }
+        result_vel = math::Vector3(Vx,Vy,w);
     }
     else
-    {
-        Vx = ( 0.577*wheel_speed[0]  + 0 * wheel_speed[1] -  wheel_speed[2] * 0.577);
-        Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
-        w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
-    }
-//    if(hypot(Vx,Vy)*fabs(w)*0.03>acc_thresh)//无法保持全局速度方向不变,进一步限速
-//    {
-//        float v_wheel=0;
-//        for(int i=0; i<WHEELS; i++)
-//        {
-//            if( fabs(wheel_speed[i])>v_wheel )
-//                v_wheel = fabs(wheel_speed[i]);
-//        }
-//        if(v_wheel<acc_thresh) v_wheel = acc_thresh;
-//        for(int i=0; i<WHEELS; i++)
-//        {
-//            wheel_speed[i] *= (1-acc_thresh/v_wheel);
-//        }
+        result_vel = math::Vector3(model_Vx,model_Vy,model_w);
 
-
-//        if(WHEELS==4)
-//        {
-//            w  = -(wheel_speed[0]+wheel_speed[1]+wheel_speed[2]+wheel_speed[3])/(4*WHEEL_DISTANCE);
-//            Vx =  (wheel_speed[0]+wheel_speed[1]-wheel_speed[2]-wheel_speed[3])/(2*1.414);
-//            Vy =  (wheel_speed[1]+wheel_speed[2]-wheel_speed[0]-wheel_speed[3])/(2*1.414);
-//        }
-//        else
-//        {
-//            Vx = ( 0.577*wheel_speed[0]  + 0 * wheel_speed[1] -  wheel_speed[2] * 0.577);
-//            Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
-//            w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
-//        }
-//    }
-//    if(use_convected_acc)
-//    {
-//        float temp = Vx;
-//        Vx -=-Vy*w*0.05;
-//        Vy -= temp*w*0.05;
-//    }
-    result_vel = math::Vector3(Vx,Vy,w);
     return result_vel;
 }
 
