@@ -17,6 +17,16 @@
 #define WAIT_SECS_STOP      2   // after 'STOP' command is received, wait how many seconds before next command is sent
 #define WAIT_SECS_PREGAME   4   // after pre-game command, such as free-kick, is received, wait how many seconds before next command is sent
 using namespace std;
+//zdx_note;for sendingoff and sendingback justice
+int n2_isvalid_flag =1;
+int n3_isvalid_flag =1;
+int n4_isvalid_flag =1;
+int n5_isvalid_flag =1;
+int r2_isvalid_flag =1;
+int r3_isvalid_flag =1;
+int r4_isvalid_flag =1;
+int r5_isvalid_flag =1;
+
 
 // Model info in world reference frame;
 // Unit -- length: cm, velocity: cm/s, ori: rad, w: rad/s
@@ -59,6 +69,10 @@ auto_referee::auto_referee(int start_id)
     cyan_pub_ = rosnode_->advertise<nubot_common::CoachInfo>("/"+cyan_prefix_+"/receive_from_coach", 100);
     magenta_pub_ = rosnode_->advertise<nubot_common::CoachInfo>("/"+magenta_prefix_+"/receive_from_coach", 100);
     setMS_pub_ = rosnode_->advertise<gazebo_msgs::ModelState>("/gazebo/set_model_state", 100);
+
+    //zdx_note
+    cyan_sending_off_pub = rosnode_->advertise<nubot_common::SendingOff>("/"+cyan_prefix_+"/redcard/chatter", 100);
+    magenta_sending_off_pub = rosnode_->advertise<nubot_common::SendingOff>("/"+magenta_prefix_+"/redcard/chatter", 100);
 
     /** ROS subscribers using custom callback queues and a thread **/
     ros::SubscribeOptions so1 = ros::SubscribeOptions::create<gazebo_msgs::ContactsState>(
@@ -264,6 +278,118 @@ bool auto_referee::isManualControl()
             case KEY_RIGHT:
                 setBallPos(ball_state_.pos.x_ + pos_dif, ball_state_.pos.y_);
                 break;
+
+                //zdx_note
+            case '2':
+                pub_sendingoff_flag.TeamName = "NuBot2";
+                pub_sendingoff_flag.TeamInfo = 0;
+                pub_sendingoff_flag.PlayerNum = 2;
+                pub_sendingoff_flag.id_maxvel_isvalid = 2;
+                n2_isvalid_flag ++;
+                if(n2_isvalid_flag >=3)
+                {
+                    pub_sendingoff_flag.id_maxvel_isvalid = 12;
+                    n2_isvalid_flag = 1;
+                }
+                cyan_sending_off_pub.publish(pub_sendingoff_flag);
+
+                break;
+            case '3':
+                pub_sendingoff_flag.TeamName = "NuBot3";
+                pub_sendingoff_flag.TeamInfo = 0;
+                pub_sendingoff_flag.PlayerNum = 3;
+                pub_sendingoff_flag.id_maxvel_isvalid   =3;
+                n3_isvalid_flag ++;
+                if(n3_isvalid_flag >=3)
+                {
+                    pub_sendingoff_flag.id_maxvel_isvalid = 13;
+                    n3_isvalid_flag = 1;
+                }
+                cyan_sending_off_pub.publish(pub_sendingoff_flag);
+                break;
+            case '4':
+                pub_sendingoff_flag.TeamName = "NuBot4";
+                pub_sendingoff_flag.TeamInfo = 0;
+                pub_sendingoff_flag.PlayerNum = 4;
+                pub_sendingoff_flag.id_maxvel_isvalid   =4;
+                n4_isvalid_flag ++;
+                if(n4_isvalid_flag >=3)
+                {
+                    pub_sendingoff_flag.id_maxvel_isvalid = 14;
+                    n4_isvalid_flag = 1;
+                }
+                cyan_sending_off_pub.publish(pub_sendingoff_flag);
+                break;
+            case '5':
+                pub_sendingoff_flag.TeamName = "NuBot5";
+                pub_sendingoff_flag.TeamInfo = 0;
+                pub_sendingoff_flag.PlayerNum = 5;
+                pub_sendingoff_flag.id_maxvel_isvalid   =5;
+                n5_isvalid_flag ++;
+                if(n5_isvalid_flag >=3)
+                {
+                    pub_sendingoff_flag.id_maxvel_isvalid = 15;
+                    n5_isvalid_flag = 1;
+                }
+                cyan_sending_off_pub.publish(pub_sendingoff_flag);
+                break;
+            case '6':
+                pub_sendingoff_flag.TeamName = "rival2";
+                pub_sendingoff_flag.id_maxvel_isvalid   =2;
+                pub_sendingoff_flag.TeamInfo = 1;
+                pub_sendingoff_flag.PlayerNum = 2;
+                r2_isvalid_flag ++;
+                if(r2_isvalid_flag >=3)
+                {
+                    pub_sendingoff_flag.id_maxvel_isvalid = 12;
+                    r2_isvalid_flag = 1;
+                }
+                cyan_sending_off_pub.publish(pub_sendingoff_flag);
+                magenta_sending_off_pub.publish(pub_sendingoff_flag);
+                break;
+            case '7':
+                pub_sendingoff_flag.TeamName = "rival3";
+                pub_sendingoff_flag.id_maxvel_isvalid   =3;
+                pub_sendingoff_flag.TeamInfo = 1;
+                pub_sendingoff_flag.PlayerNum = 3;
+                r3_isvalid_flag ++;
+                if(r3_isvalid_flag >=3)
+                {
+                    pub_sendingoff_flag.id_maxvel_isvalid = 13;
+                    r3_isvalid_flag = 1;
+                }
+                cyan_sending_off_pub.publish(pub_sendingoff_flag);
+                magenta_sending_off_pub.publish(pub_sendingoff_flag);
+                break;
+            case '8':
+                pub_sendingoff_flag.TeamName = "rival4";
+                pub_sendingoff_flag.id_maxvel_isvalid   =4;
+                pub_sendingoff_flag.TeamInfo = 1;
+                pub_sendingoff_flag.PlayerNum = 4;
+                r4_isvalid_flag ++;
+                if(r4_isvalid_flag >=3)
+                {
+                    pub_sendingoff_flag.id_maxvel_isvalid = 14;
+                    r4_isvalid_flag = 1;
+                }
+                cyan_sending_off_pub.publish(pub_sendingoff_flag);
+                magenta_sending_off_pub.publish(pub_sendingoff_flag);
+                break;
+            case '9':
+                pub_sendingoff_flag.TeamName = "rival5";
+                pub_sendingoff_flag.id_maxvel_isvalid   =5;
+                pub_sendingoff_flag.TeamInfo = 1;
+                pub_sendingoff_flag.PlayerNum = 5;
+                r5_isvalid_flag ++;
+                if(r5_isvalid_flag >=3)
+                {
+                    pub_sendingoff_flag.id_maxvel_isvalid = 15;
+                    r5_isvalid_flag = 1;
+                }
+                cyan_sending_off_pub.publish(pub_sendingoff_flag);
+                magenta_sending_off_pub.publish(pub_sendingoff_flag);
+                break;
+                //
             default:
                 break;
             }
@@ -290,7 +416,9 @@ void auto_referee::printManualHelp()
     OUTINFO("free-kick       f             F         \n");
     OUTINFO("penalty         p             P         \n");
     OUTINFO("drop-ball       d             d         \n");
+    OUTINFO("sending0ff/back    2/3/4/5          6/7/8/9      \n");
     OUTINFO("stop/start    space          space      \n");
+
     OUTINFO("\n");
     OUTINFO("Press h or H to get this help message\n");
 }
@@ -1049,6 +1177,19 @@ void auto_referee::sendGameCommand(int id)
 
     cyan_coach_info_.MatchType = PreCyanMode;
     magenta_gameCmd_.MatchType = PreMagentaMode;
+
+    //zdx_note  write solid here, should be modify, according to the coach's message.  2020.11.07
+    //cyan_coach_info_.idA = 1;
+    //cyan_coach_info_.idB = 169;
+    cyan_coach_info_.angleA = 450;
+    cyan_coach_info_.angleB = 10;
+    //cyan_coach_info_.kickforce = 77;
+
+    magenta_gameCmd_.angleA = 450;
+    magenta_gameCmd_.angleB = 10;
+
+    //zdx_note end.
+
     PreCyanMode = cyan_coach_info_.MatchMode;
     PreMagentaMode = magenta_gameCmd_.MatchMode;
     currentCmd_ = id;

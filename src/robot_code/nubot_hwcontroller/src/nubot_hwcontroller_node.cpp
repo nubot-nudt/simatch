@@ -51,13 +51,20 @@ Nubot_HWController::Nubot_HWController(int argc,char** argv)
 //    ROS_INFO("initialize hw_node process");
     robot_name = argv[1];
     std::string num = robot_name.substr(robot_name.size()-1);
+    std::string robot_prefix = robot_name.substr(0,robot_name.size()-1);
+    robot_id = std::stoi(robot_name.substr(robot_name.size()-1));  //zdx_note:each robot's id
     ROS_FATAL("robot_name:%s",robot_name.c_str());
+    //ROS_INFO("robot_name:%d",id_size);
     n = ros::NodeHandle(robot_name);
+
     motor_cmd_pub_ = n.advertise<nubot_common::VelCmd>("nubotcontrol/velcmd",1);
     /// 接受底盘速度指令
     actioncmd_sub_ = n.subscribe("nubotcontrol/actioncmd",1,&Nubot_HWController::SetAction,this);
+    sendingoff_sub_ = n.subscribe("/"+robot_prefix+"/redcard/chatter",1,&Nubot_HWController::SendingOff_isvalid_flag,this);
+
     /// 建立周期回调函数
     timer1=n.createTimer(ros::Rate(200),&Nubot_HWController::Timer1_Process,this);
+    is_id_valid = true;
 }
 
 Nubot_HWController::~Nubot_HWController()
@@ -101,6 +108,23 @@ void Nubot_HWController::BaseController()
 //    std::cout<<"num "<<num<<"  vx::"<<Vx<<"  vy:: "<<Vy<<"  w::"<<w<<std::endl;
     motor_cmd_pub_.publish(vel_cmd);
 }
+
+//zdx_note
+void Nubot_HWController::SendingOff_isvalid_flag(const nubot_common::SendingOff::ConstPtr& cmd)
+{
+    //ROS_FATAL("get topic %d %d %d %s is  %s",cmd->id_maxvel_isvalid,robot_id,is_id_valid,cmd->TeamName.c_str(),robot_name.c_str());
+    if(cmd->id_maxvel_isvalid==robot_id && is_id_valid == true && strcmp(cmd->TeamName.c_str(),robot_name.c_str())==0)
+    {
+        is_id_valid = false;
+        //ROS_FATAL("allow robot in");
+    }
+    else if(cmd->id_maxvel_isvalid==robot_id+10 && is_id_valid == false && strcmp(cmd->TeamName.c_str(),robot_name.c_str())==0)
+    {
+        is_id_valid = true;
+        //ROS_INFO("send robot off");
+    }
+}
+//zdx_end
 /// \brief 上层nubot_control发布的动作topic的回调函数，在自主运行时，订阅的是动作
 void Nubot_HWController::SetAction(const nubot_common::ActionCmd::ConstPtr& cmd)
 {
@@ -116,8 +140,32 @@ void Nubot_HWController::SetAction(const nubot_common::ActionCmd::ConstPtr& cmd)
 
     robot_vel_=nubot::DPoint2s(cmd->robot_vel.x,cmd->robot_vel.y);
     robot_w_=cmd->robot_w;
-    maxvel_=cmd->maxvel;
-    maxw_=cmd->maxw;
+
+    //maxvel_=cmd->maxvel;
+    //maxw_=cmd->maxw;
+    //zdx_note
+    if(is_id_valid)
+    {
+        maxvel_ = cmd->maxvel;
+        maxw_ = cmd->maxw;
+    }
+    else
+    {
+        maxvel_ = 0;
+        maxw_   = 0;
+    }
+        /*if(is_id_valid == id_size + 10 && strcmp(TeamName.c_str(),robot_name.c_str())==0)
+    {
+        maxvel_=cmd->maxvel;
+        maxw_=cmd->maxw;
+    }
+    else if(is_id_valid == 0)
+    {
+        maxvel_=cmd->maxvel;
+        maxw_=cmd->maxw;
+    }*/
+
+    //zdx_end
 ////    /// 带球及射门消息
     BallHandleEnable=cmd->handle_enable;
     ShootPos=cmd->shootPos;
@@ -154,6 +202,7 @@ void Nubot_HWController::calculateSpeed()
 /// \brief 基本的PD控制器
 float Nubot_HWController::basicPDControl(float pgain,float dgain, float err,float err1, float maxval)
 {
+
     float _e1 = err1;
     float kp =  pgain;
     float kd=  dgain;
@@ -205,6 +254,7 @@ void Nubot_HWController::move2target()
         Vx=Vx*maxvel_/v;
         Vy=Vy*maxvel_/v;
     }
+    //if(robot_name.c_str() == "NuBot3") ROS_INFO("velocity:%d",Vx);
     _pos_e1  = _pos_e;
 }
 

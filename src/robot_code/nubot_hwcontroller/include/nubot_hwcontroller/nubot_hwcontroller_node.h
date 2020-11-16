@@ -12,6 +12,7 @@
 #include <errno.h>
 #include <string.h>
 #include <ros/ros.h>
+#include <cstdlib>
 
 #include <boost/circular_buffer.hpp>
 #include <boost/foreach.hpp>
@@ -28,6 +29,7 @@
 #include "nubot_common/ActionCmd.h"
 #include "nubot_common/OdoInfo.h"
 #include "nubot_common/BallIsHolding.h"
+#include "nubot_common/SendingOff.h"
 #include "DPoint.hpp"
 #include "core.hpp"
 #include "dynamic_reconfigure/server.h"
@@ -51,6 +53,7 @@ public:
     void  Timer1_Process(const ros::TimerEvent &event);
 
     void  SetAction(const nubot_common::ActionCmd::ConstPtr& cmd);
+    void  SendingOff_isvalid_flag(const nubot_common::SendingOff::ConstPtr& cmd);
     void  BaseController(/*const ros::TimerEvent &event*/);
     void  calculateSpeed();
     float basicPDControl(float pgain,float dgain, float err,float err1, float maxval);
@@ -66,6 +69,8 @@ private:
     ros::NodeHandle n;
     ros::Timer timer1;
     ros::Subscriber     actioncmd_sub_;
+    ros::Subscriber     sendingoff_sub_;
+    ros::Subscriber     magenta_sendingoff_sub_;
     ros::Publisher      motor_cmd_pub_;
 
 public:
@@ -126,6 +131,10 @@ public:
     bool   IsBallSensorInited;
     bool   BallSensor_IsHolding,IsBallLost;
     int    HoldingCnt, UnholdingCnt;
+    /// just for simulation
+    bool is_id_valid = true;
+    std::string  TeamName;
+    int robot_id = 0;
 };
 
 

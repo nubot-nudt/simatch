@@ -20,6 +20,7 @@
 #include "nubot_common/BallIsHolding.h"
 #include "nubot_common/DribbleId.h"
 #include "nubot_common/CoachInfo.h"
+#include "nubot_common/SendingOff.h"
 #include <std_msgs/Float64MultiArray.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
@@ -88,6 +89,9 @@ namespace gazebo{
         ros::Subscriber             ModelStates_sub_;
         ros::Subscriber             Velcmd_sub_;
         ros::Subscriber             CoachInfo_sub_;
+
+        ros::Subscriber             cyan_sendingoff_;
+        ros::Subscriber             magenta_sendingoff_;
         ros::Subscriber             actioncmd_sub_;     //listen the action command
         ros::Publisher              omin_vision_pub_;      /* four publishers cooresponding to those in world_model.cpp */
         ros::Publisher              debug_pub_;
@@ -169,7 +173,7 @@ namespace gazebo{
         /// \brief ModelStates message CallBack function
         /// \param[in] _msg model_states msg shared pointer
         void model_states_CB(const gazebo_msgs::ModelStates::ConstPtr& _msg);
-
+        void SendingOff_CB(const nubot_common::SendingOff::ConstPtr & _msg);
         /// \brief VelCmd message CallBack function
         /// \param[in] cmd VelCmd msg shared pointer
         void vel_cmd_CB(const nubot_common::VelCmd::ConstPtr& cmd);

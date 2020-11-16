@@ -8,6 +8,7 @@
 #include "nubot_common/CoachInfo.h"
 #include "nubot_common/Point2d.h"
 #include "nubot_common/DribbleId.h"
+#include "nubot_common/SendingOff.h"
 #include "nubot/nubot_control/fieldinformation.h"
 #include <gazebo_msgs/ContactState.h>
 #include <gazebo_msgs/ContactsState.h>
@@ -164,6 +165,9 @@ public:
 private:
     ros::NodeHandle*            rosnode_;
     ros::Timer                  loop_timer_;
+
+    ros::Publisher              cyan_sending_off_pub;
+    ros::Publisher              magenta_sending_off_pub;
     ros::Publisher              cyan_pub_;
     ros::Publisher              magenta_pub_;
     ros::Publisher              setMS_pub_;            // set model state publisher
@@ -195,6 +199,8 @@ private:
     bool                        ModelStatesCB_flag_;         // Indicate receiving messages
     bool                        kickoff_flg_;                // when kickoff cmd sends, this is true;
     std::ofstream               record_;
+
+    nubot_common::SendingOff    pub_sendingoff_flag;         //for sending off robot player
 
     boost::thread               message_callback_queue_thread_;     // Thead object for the running callback Thread.
     boost::thread               service_callback_queue_thread_;

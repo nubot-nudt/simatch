@@ -170,6 +170,19 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
                 "nubotcontrol/actioncmd", 100, boost::bind( &NubotGazebo::actionCmd_CB,this,_1),
                 ros::VoidPtr(), &message_queue_);
     actioncmd_sub_ = rosnode_->subscribe(so4);
+
+    //zdx_note
+
+
+    ros::SubscribeOptions so5 = ros::SubscribeOptions::create<nubot_common::SendingOff>(
+                "/"+cyan_pre_+"/redcard/chatter",100,boost::bind( &NubotGazebo::SendingOff_CB,this,_1),
+                ros::VoidPtr(), &message_queue_);
+    cyan_sendingoff_ = rosnode_->subscribe(so5);
+
+    ros::SubscribeOptions so6 = ros::SubscribeOptions::create<nubot_common::SendingOff>(
+                "/"+mag_pre_+"/redcard/chatter",100,boost::bind( &NubotGazebo::SendingOff_CB,this,_1),
+                ros::VoidPtr(), &message_queue_);
+    magenta_sendingoff_ = rosnode_->subscribe(so6);
     // Service Servers & clients
     dribbleId_client_ = rosnode_->serviceClient<nubot_common::DribbleId>("/DribbleId");
 
@@ -391,6 +404,8 @@ bool NubotGazebo::update_model_info(void)
                 teamate_info_.vtrans.x      = robot_twist.linear.x * M2CM_CONVERSION;
                 //teamate_info_.isvalid       = true;
                 teamate_info_.isvalid       =  is_robot_valid(robot_pose.position.x, robot_pose.position.y);
+                //if(AgentID_ == 2) teamate_info_.isvalid         = false;
+                //else teamate_info_.isvalid                      = is_robot_valid(robot_pose.position.x, robot_pose.position.y);
                 teamate_info_.vtrans.y      = robot_twist.linear.y * M2CM_CONVERSION;
                 teamate_info_.isstuck       = get_nubot_stuck();
                 omni_info_.robotinfo.push_back(teamate_info_);
@@ -564,6 +579,125 @@ void NubotGazebo::vel_cmd_CB(const nubot_common::VelCmd::ConstPtr& cmd)
     nubot_locomotion(linear_vector, angular_vector);
     msgCB_lock_.unlock();
 }
+
+//zdx_note
+//add the sending off code here#
+void NubotGazebo::SendingOff_CB(const nubot_common::SendingOff::ConstPtr & _msg)
+{
+        msgCB_lock_.lock();
+        int sendingoff_flag_num = _msg->PlayerNum;
+        int sendingback_flag_num = _msg->id_maxvel_isvalid;
+        //cyan_sendingoff
+        if(_msg->TeamInfo == 0 && flip_cord_ == 0)
+        {
+            //cyan_sendingoff_pose
+            math::Pose parking_2_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_3_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_4_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_5_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            //cyan_sendingback_pose
+            math::Pose parking_2_back_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_3_back_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_4_back_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_5_back_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+
+            if(_msg->PlayerNum == AgentID_ )   //2,3,4,5 is the identifier of robot.besides, the type of the variable shoube int ,if float,will send a error in gazebo model.
+            //cout<<_msg->data<<endl;
+            {
+                switch(sendingoff_flag_num)
+                {
+                case 2:
+                    robot_model_->SetWorldPose(parking_2_pose,true,true);
+
+                case 3:
+                    robot_model_->SetWorldPose(parking_3_pose,true,true);
+
+                case 4:
+                    robot_model_->SetWorldPose(parking_4_pose,true,true);
+
+                case 5:
+                    robot_model_->SetWorldPose(parking_5_pose,true,true);
+
+
+                }
+                switch(sendingback_flag_num)
+                {
+                case 12:
+                    robot_model_->SetWorldPose(parking_2_back_pose,true,true);
+                case 13:
+                    robot_model_->SetWorldPose(parking_3_back_pose,true,true);
+                case 14:
+                    robot_model_->SetWorldPose(parking_4_back_pose,true,true);
+                case 15:
+                    robot_model_->SetWorldPose(parking_5_back_pose,true,true);
+
+                }
+                //ROS_INFO("is_valid:%d",sendingback_flag_num,"back_num:%d",sendingback_flag_num);
+                //teamate_info_.isvalid = false;
+            }
+        }
+
+
+        if(_msg->TeamInfo == 1 && flip_cord_ == 1)
+        {
+       //magenta_sengdingoff_pose
+            math::Pose parking_2_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_3_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_4_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_5_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            //magenta_sendingback_pose
+            math::Pose parking_2_back_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_3_back_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_4_back_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+
+            math::Pose parking_5_back_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+
+            if(_msg->PlayerNum == AgentID_ )
+            {
+                switch(sendingoff_flag_num)
+                {
+                    case 2:
+                        robot_model_->SetWorldPose(parking_2_pose,true,true);
+                    case 3:
+                        robot_model_->SetWorldPose(parking_3_pose,true,true);
+                    case 4:
+                        robot_model_->SetWorldPose(parking_4_pose,true,true);
+                    case 5:
+                        robot_model_->SetWorldPose(parking_5_pose,true,true);
+                }
+                switch(sendingback_flag_num)
+                {
+                    case 12:
+                        robot_model_->SetWorldPose(parking_2_back_pose,true,true);
+                    case 13:
+                        robot_model_->SetWorldPose(parking_3_back_pose,true,true);
+                    case 14:
+                        robot_model_->SetWorldPose(parking_4_back_pose,true,true);
+                    case 15:
+                        robot_model_->SetWorldPose(parking_5_back_pose,true,true);
+                }
+            }
+
+        }
+
+
+    msgCB_lock_.unlock();
+
+
+}
+//end#
+
 
 void NubotGazebo::coachinfo_CB(const nubot_common::CoachInfo::ConstPtr &cmd)
 {
@@ -872,7 +1006,7 @@ void NubotGazebo::nubot_be_control(void)
 
 bool NubotGazebo::is_robot_valid(double x, double y)
 {
-    if(fabs(x) > field_length_/2 + 2 || fabs(y) > field_width_/2+2)
+    if(fabs(x) > field_length_/2 + 1 || fabs(y) > field_width_/2+1)
         return false;
     else
         return true;
