@@ -45,6 +45,7 @@ TargetInfo.msg
 simulation_strategy.msg
 BallIsHolding.msg
 Relocation.msg
+SendingOff.msg
 )
 
 add_service_files(DIRECTORY srv FILES DribbleId.srv)
