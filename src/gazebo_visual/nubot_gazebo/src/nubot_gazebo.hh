@@ -14,6 +14,7 @@
 #include <ros/subscribe_options.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <gazebo_msgs/ModelState.h>
+#include <ignition/math.hh>
 #include "nubot_common/ActionCmd.h"
 #include "nubot_common/OminiVisionInfo.h"
 #include "nubot_common/VelCmd.h"
@@ -34,7 +35,7 @@
 
 #include <nubot_gazebo/NubotGazeboConfig.h>
 #include <dynamic_reconfigure/server.h>
-
+using namespace ignition;
 
 enum nubot_state
 {
@@ -53,13 +54,13 @@ enum nubot_substate
 namespace gazebo{
    struct Pose
    {
-       math::Vector3    position;
-       math::Quaternion orient;
+       math::Vector3d   position;
+       math::Quaterniond orient;
    };
    struct Twist
    {
-       math::Vector3    linear;
-       math::Vector3    angular;
+       math::Vector3d     linear;
+       math::Vector3d     angular;
    };
 
    struct model_state
@@ -118,10 +119,10 @@ namespace gazebo{
         //common::Time                  receive_sim_time_;
         std_msgs::Float64MultiArray   debug_msgs_;
 
-        math::Vector3               desired_rot_vector_;
-        math::Vector3               desired_trans_vector_;
-        math::Vector3               nubot_ball_vec_;
-        math::Vector3               kick_vector_world_;
+        math::Vector3d               desired_rot_vector_;
+        math::Vector3d               desired_trans_vector_;
+        math::Vector3d               nubot_ball_vec_;
+        math::Vector3d               kick_vector_world_;
         math::Rand                  rand_;
         std::string                 robot_namespace_;   // robot namespace. Not used yet.
         std::string                 model_name_;
@@ -199,7 +200,7 @@ namespace gazebo{
         /// \brief Nubot moving fuction: rotation + translation
         /// \param[in] linear_vel_vector translation velocity 3D vector
         /// \param[in] angular_vel_vector rotation velocity 3D vector
-        void nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector3 angular_vel_vector);
+        void nubot_locomotion(math::Vector3d linear_vel_vector, math::Vector3d angular_vel_vector);
 
         /// \brief Nubot dribbling ball function. The football follows nubot movement.
         void dribble_ball(void);
@@ -248,12 +249,12 @@ namespace gazebo{
         /// \param[in] target_vel the target linear velocity of model now
         /// \param[in] model_vel the real angular velocity of model at the last step
         /// \param[in] target_vel the target angular velocity of model now
-        math::Vector3 accelerateLimit(double duration, math::Vector3  model_linear_vel, math::Vector3 target_linear_vel,math::Vector3  model_ang_vel, math::Vector3 target_ang_vel);
+        math::Vector3d accelerateLimit(double duration, math::Vector3d  model_linear_vel, math::Vector3d target_linear_vel,math::Vector3d  model_ang_vel, math::Vector3d target_ang_vel);
 
         /// \brief return the velocity after limitting the speed of nubot model
         /// \brief we limit the speed of every wheel for better simulation of real match
         /// \param[in] target_vel the target linear velocity of model now
-        math::Vector3 speedLimit( math::Vector3 target_linear_vel,math::Vector3 target_ang_vel);
+        math::Vector3d speedLimit( math::Vector3d target_linear_vel,math::Vector3d target_ang_vel);
 
     public:
         /// \brief Constructor. Will be called firstly
