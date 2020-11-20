@@ -29,7 +29,7 @@
 #include <ignition/math.hh>
 using namespace  ignition;
 #define PI 3.14159265
-using namespace gazebo;
+//using namespace gazebo;
 
 double get_cos_angle(math::Vector3d vector1, math::Vector3d vector2); // vectors' angle range [-PI, PI]
 double get_sin_angle(math::Vector3d reference_vector, math::Vector3d target_vector); // vectors' angle range [-PI, PI]

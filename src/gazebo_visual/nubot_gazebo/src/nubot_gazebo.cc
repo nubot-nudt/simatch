@@ -346,9 +346,7 @@ bool NubotGazebo::update_model_info(void)
 
         // transform kick_vector_nubot in world frame
         math::Quaterniond    rotation_quaternion = robot_state_.pose.orient;
-        ///wait for dealing with
-        math::Matrix3d       RotationMatrix3 ;//= rotation_quaternion.GetAsMatrix3();
-        kick_vector_world_ = RotationMatrix3 * kick_vector_robot; // vector from nubot origin to kicking mechanism in world frame
+        kick_vector_world_ = rotation_quaternion.RotateVector( kick_vector_robot );
         // ROS_INFO("kick_vector_world_: %f %f %f",kick_vector_world_.x, kick_vector_world_.y, kick_vector_world_.z);
 
         obs_->world_obs_.reserve(20);
@@ -479,9 +477,10 @@ void NubotGazebo::nubot_locomotion(math::Vector3d linear_vel_vector, math::Vecto
 {
 
     static ros::Time last_time_ = ros::Time::now();
-    static ros::Time last_robot_time_[10];
-    static math::Vector3d last_robot_linear_vector_[10];
-    static math::Vector3d last_robot_angular_vector_[10];
+    /// from nieyiming
+    static ros::Time last_robot_time_[10]={(ros::Time::now())};
+    static math::Vector3d last_robot_linear_vector_[10]={(math::Vector3d::Zero)};
+    static math::Vector3d last_robot_angular_vector_[10]={(math::Vector3d::Zero)};
     math::Vector3d last_linear_vector_;
     math::Vector3d last_angular_vector_;
     if(model_name_.substr(0,cyan_pre_.size())==cyan_pre_)
