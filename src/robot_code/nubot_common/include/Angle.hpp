@@ -21,15 +21,15 @@ public:
 	Angle (double a) ; 
 	Angle (double a,bool israd) ;
 	Angle (const Angle& a) ;
-	const Angle & operator = (const Angle& a);
+    const Angle & operator = (const Angle& a);
 	//! conversion to (-pi,pi]
 	void   setAngle (const double & ) ;
 	//! conversion to degree(-180,180]
 	int    degree();
 	//! conversion to (-pi,pi] from degree;
-	double radian(int _degree);
+    double radian(int _degree);
 
-	bool in_between(const Angle a, const Angle b);
+    bool in_between(const Angle a, const Angle b);
     double Angsin();
     double Angcos();
     double radian_;
@@ -63,20 +63,20 @@ inline const Angle& Angle::operator= (const Angle& a)
 
 inline void Angle::setAngle(const double & a)
 {
-	if (a<-SINGLEPI_CONSTANT) {
-		int k =int(ceil (-a/(SINGLEPI_CONSTANT)));
-		radian_ = a+(k/2)*DOUBLEPI_CONSTANT;
-		return ;
-	}
-	if (a>=SINGLEPI_CONSTANT) {
-		int k = int(ceil (a/(SINGLEPI_CONSTANT)));
-		radian_ = a-(k/2)*DOUBLEPI_CONSTANT;
-		return ;
-	}
-	radian_=a;
+    if (a<-SINGLEPI_CONSTANT) {
+        int k =int(ceil (-a/(SINGLEPI_CONSTANT)));
+        radian_ = a+(k/2)*DOUBLEPI_CONSTANT;
+        return ;
+    }
+    if (a>=SINGLEPI_CONSTANT) {
+        int k = int(ceil (a/(SINGLEPI_CONSTANT)));
+        radian_ = a-(k/2)*DOUBLEPI_CONSTANT;
+        return ;
+    }
+    radian_=a;
 }
 inline int Angle::degree(){
-	return (int(radian_*RADIAN2DEGREE_CONSTANT));  
+    return (int(radian_*RADIAN2DEGREE_CONSTANT));
 }
 
 inline double Angle::Angsin(){
@@ -88,36 +88,28 @@ inline double Angle::Angcos(){
 
 inline double Angle::radian(int _degree)
 { return Angle(_degree*DEGREE2RADIAN_CONSTANT).radian_; }
-static inline Angle operator - (const Angle& a)
+inline Angle operator - (const Angle& a)
 { return Angle(-a.radian_);}
-static inline bool operator == (const Angle& a, const Angle& b)
+inline bool operator == (const Angle& a, const Angle& b)
 { return a.radian_==b.radian_; } 
 
-static inline bool operator != (const Angle& a, const Angle& b)
+inline bool operator != (const Angle& a, const Angle& b)
 { return a.radian_!=b.radian_; }
-static inline  Angle operator +  (const Angle & a, const Angle & b) {
+inline  Angle operator +  (const Angle & a, const Angle & b) {
 	return Angle(double(a.radian_+b.radian_));
 }	
-static inline  Angle operator - (const Angle & a, const Angle & b)  {		
+inline  Angle operator - (const Angle & a, const Angle & b)  {
 	return Angle(double(a.radian_-b.radian_));
 }
-static inline Angle & operator += (Angle& a, Angle & b){
+inline Angle & operator += (Angle& a, Angle & b){
 	a=Angle(a.radian_+b.radian_);
 	return a;
 }
-static inline Angle & operator -= (Angle& a, Angle&  b){
+inline Angle & operator -= (Angle& a, Angle&  b){
 	a=Angle(a.radian_-b.radian_);
 	return a;
 }	
-template<typename _Tp> static inline Angle & operator += (Angle& a, _Tp b){
-	a=Angle(a.radian_+b);
-	return a;
-}	
-template<typename _Tp> static inline Angle & operator -= (Angle& a , _Tp b)
-{
-	a=Angle(a.radian_-b);
-	return a;
-}	
+
 template<typename _Tp> static inline Angle & operator /= (Angle& a , _Tp b){
 	a=Angle(a.radian_/b);
 	return a;
@@ -126,13 +118,8 @@ template<typename _Tp> static inline Angle & operator *= (Angle& a , _Tp b){
 	a=Angle(a.radian_*b);
 	return a;
 }
-template<typename _Tp> static inline Angle operator +  (const Angle & a , const _Tp & b){
-	return Angle(double(a.radian_+b));
-}	
-template<typename _Tp> static inline Angle operator - (const Angle & a , const _Tp & b){
-	return Angle(double(a.radian_-b));
-}	
-template<typename _Tp> static inline Angle operator * (const _Tp &a , const Angle & b){ 
+
+template<typename _Tp> static inline Angle operator * (const _Tp &a , const Angle & b){
 	return Angle(double(a*b.radian_));
 }
 template<typename _Tp> static inline Angle operator * (const Angle & a , const _Tp & b ){
