@@ -57,7 +57,6 @@ const DPoint LU_RSTPT(-RSTPT_X, RSTPT_Y);
 const DPoint LD_RSTPT(-RSTPT_X, -RSTPT_Y);
 
 using namespace nubot_common;
-using namespace nubot;
 
 struct ModelState
 {

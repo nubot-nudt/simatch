@@ -10,7 +10,7 @@
 #include <gazebo/common/Events.hh>
 #include <gazebo_msgs/ContactState.h>
 #include <gazebo_msgs/ContactsState.h>
-
+#include <ignition/math.hh>
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <sensor_msgs/Joy.h>

@@ -11,14 +11,15 @@
 
 #define RUN 1
 #define FLY -1
-#define ZERO_VECTOR math::Vector3::Zero
+#define ZERO_VECTOR math::Vector3d::Zero
+
 #define PI 3.14159265
 
 #define CM2M_CONVERSION 0.01
 #define M2CM_CONVERSION 100
 
 enum {NOTSEEBALL = 0, SEEBALLBYOWN = 1,SEEBALLBYOTHERS = 2};
-const math::Vector3 kick_vector_robot(1,0,0);    // assume the normalized vector from origin to kicking mechanism in robot refercence frame
+const math::Vector3d kick_vector_robot(1,0,0);    // assume the normalized vector from origin to kicking mechanism in robot refercence frame
                                                  // is in x-axis direction
 const double goal_x = 9.0;
 const double goal_height = 1.0;
@@ -44,7 +45,7 @@ NubotGazebo::NubotGazebo()
     // Variables initialization
     desired_rot_vector_ = ZERO_VECTOR;
     desired_trans_vector_ = ZERO_VECTOR;
-    nubot_ball_vec_ = math::Vector3(1,0,0);
+    nubot_ball_vec_ = math::Vector3d(1,0,0);
     kick_vector_world_ = kick_vector_robot;
     nubot_ball_vec_len_ = 1;
     ball_index_=robot_index_=0;
@@ -79,7 +80,9 @@ NubotGazebo::NubotGazebo()
 
 NubotGazebo::~NubotGazebo()
 {
-    event::Events::DisconnectWorldUpdateBegin(update_connection_);
+    ///wait for solving
+//    event::Events::DisconnectWorldUpdateBegin(update_connection_);
+    update_connection_.reset();
     // Removes all callbacks from the queue. Does not wait for calls currently in progress to finish.
     message_queue_.clear();
     service_queue_.clear();
@@ -136,7 +139,7 @@ void NubotGazebo::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
         AgentID_ = atoi( model_name_.substr(mag_pre_.size(),1).c_str() );    // get the robot id
 
     // Load the football model
-    ball_model_ = world_->GetModel(ball_name_);
+    ball_model_ = world_->ModelByName(ball_name_);
     if (!ball_model_)
         ROS_ERROR("model [%s] does not exist", ball_name_.c_str());
     else
@@ -211,7 +214,7 @@ void NubotGazebo::Reset()
     // Variables initialization
     desired_rot_vector_ = ZERO_VECTOR;
     desired_trans_vector_ = ZERO_VECTOR;
-    nubot_ball_vec_ = math::Vector3(1,0,0);
+    nubot_ball_vec_ = math::Vector3d(1,0,0);
     kick_vector_world_ = kick_vector_robot;
     nubot_ball_vec_len_ = 1;
     Vx_cmd_=Vy_cmd_=w_cmd_=0;
@@ -270,7 +273,7 @@ void NubotGazebo::model_states_CB(const gazebo_msgs::ModelStates::ConstPtr& _msg
     model_states_.pose.clear();
     model_states_.twist.clear();
 
-    for(int i=0; i<world_->GetModelCount() ;i++)
+    for(int i=0; i<world_->ModelCount() ;i++)
     {
         // get info of robots and the ball; reference frame: world
         if( (_msg->name[i].find(cyan_pre_) != std::string::npos) ||
@@ -319,43 +322,31 @@ bool NubotGazebo::update_model_info(void)
     {
         // Get football and nubot's pose and twist
         ball_state_.model_name = ball_name_ ;
-        ball_state_.pose.position.x     = model_states_.pose[ball_index_].position.x;
-        ball_state_.pose.position.y     = model_states_.pose[ball_index_].position.y;
-        ball_state_.pose.position.z     = model_states_.pose[ball_index_].position.z;
-        ball_state_.pose.orient.w  = model_states_.pose[ball_index_].orientation.w;
-        ball_state_.pose.orient.x  = model_states_.pose[ball_index_].orientation.x;
-        ball_state_.pose.orient.y  = model_states_.pose[ball_index_].orientation.y;
-        ball_state_.pose.orient.z  = model_states_.pose[ball_index_].orientation.z;
-        ball_state_.twist.linear.x      = model_states_.twist[ball_index_].linear.x;
-        ball_state_.twist.linear.y      = model_states_.twist[ball_index_].linear.y;
-        ball_state_.twist.linear.z      = model_states_.twist[ball_index_].linear.z;
-        ball_state_.twist.angular.x     = model_states_.twist[ball_index_].angular.x;
-        ball_state_.twist.angular.y     = model_states_.twist[ball_index_].angular.y;
-        ball_state_.twist.angular.z     = model_states_.twist[ball_index_].angular.z;
+        ball_state_.pose.position.Set(model_states_.pose[ball_index_].position.x,model_states_.pose[ball_index_].position.y,
+                                      model_states_.pose[ball_index_].position.z);
+        ball_state_.pose.orient.Set(model_states_.pose[ball_index_].orientation.w,model_states_.pose[ball_index_].orientation.x,
+                                    model_states_.pose[ball_index_].orientation.y,model_states_.pose[ball_index_].orientation.z);
+        ball_state_.twist.linear.Set(model_states_.twist[ball_index_].linear.x, model_states_.twist[ball_index_].linear.y,
+                                     model_states_.twist[ball_index_].linear.z);
+        ball_state_.twist.angular.Set(model_states_.twist[ball_index_].angular.x, model_states_.twist[ball_index_].angular.y,
+                                      model_states_.twist[ball_index_].angular.z);
 
         robot_state_.model_name = ball_name_ ;
-        robot_state_.pose.position.x    = model_states_.pose[robot_index_].position.x;
-        robot_state_.pose.position.y    = model_states_.pose[robot_index_].position.y;
-        robot_state_.pose.position.z    = model_states_.pose[robot_index_].position.z;
-        robot_state_.pose.orient.w = model_states_.pose[robot_index_].orientation.w;
-        robot_state_.pose.orient.x = model_states_.pose[robot_index_].orientation.x;
-        robot_state_.pose.orient.y = model_states_.pose[robot_index_].orientation.y;
-        robot_state_.pose.orient.z = model_states_.pose[robot_index_].orientation.z;
-        robot_state_.twist.linear.x     = model_states_.twist[robot_index_].linear.x;
-        robot_state_.twist.linear.y     = model_states_.twist[robot_index_].linear.y;
-        robot_state_.twist.linear.z     = model_states_.twist[robot_index_].linear.z;
-        robot_state_.twist.angular.x    = model_states_.twist[robot_index_].angular.x;
-        robot_state_.twist.angular.y    = model_states_.twist[robot_index_].angular.y;
-        robot_state_.twist.angular.z    = model_states_.twist[robot_index_].angular.z;
-
+        robot_state_.pose.position.Set(model_states_.pose[robot_index_].position.x,model_states_.pose[robot_index_].position.y,
+                                      model_states_.pose[robot_index_].position.z);
+        robot_state_.pose.orient.Set(model_states_.pose[robot_index_].orientation.w,model_states_.pose[robot_index_].orientation.x,
+                                    model_states_.pose[robot_index_].orientation.y,model_states_.pose[robot_index_].orientation.z);
+        robot_state_.twist.linear.Set(model_states_.twist[robot_index_].linear.x, model_states_.twist[robot_index_].linear.y,
+                                     model_states_.twist[robot_index_].linear.z);
+        robot_state_.twist.angular.Set(model_states_.twist[robot_index_].angular.x, model_states_.twist[robot_index_].angular.y,
+                                      model_states_.twist[robot_index_].angular.z);
         // calculate vector from nubot to football
         nubot_ball_vec_ = ball_state_.pose.position - robot_state_.pose.position;
-        nubot_ball_vec_len_ = nubot_ball_vec_.GetLength();
+        nubot_ball_vec_len_ = nubot_ball_vec_.Length();
 
         // transform kick_vector_nubot in world frame
-        math::Quaternion    rotation_quaternion = robot_state_.pose.orient;
-        math::Matrix3       RotationMatrix3 = rotation_quaternion.GetAsMatrix3();
-        kick_vector_world_ = RotationMatrix3 * kick_vector_robot; // vector from nubot origin to kicking mechanism in world frame
+        math::Quaterniond    rotation_quaternion = robot_state_.pose.orient;
+        kick_vector_world_ = rotation_quaternion.RotateVector( kick_vector_robot );
         // ROS_INFO("kick_vector_world_: %f %f %f",kick_vector_world_.x, kick_vector_world_.y, kick_vector_world_.z);
 
         obs_->world_obs_.reserve(20);
@@ -370,15 +361,15 @@ bool NubotGazebo::update_model_info(void)
             if(model_states_.name[i].compare(0, cyan_pre_.size(), cyan_pre_) == 0 ||
                model_states_.name[i].compare(0, mag_pre_.size(), mag_pre_) == 0)   //compare model name' prefix to determine robots
             {
-                math::Vector3 obs_pos(model_states_.pose[i].position.x,
+                math::Vector3d obs_pos(model_states_.pose[i].position.x,
                                                 model_states_.pose[i].position.y,
                                                 model_states_.pose[i].position.z);
                 if(i != robot_index_)
                 {
-                    obs_->world_obs_.push_back(nubot::DPoint(obs_pos.x, obs_pos.y));
+                    obs_->world_obs_.push_back(nubot::DPoint(obs_pos.X(), obs_pos.Y()));
 
-                    math::Vector3 nubot_obs_vec = obs_pos - robot_state_.pose.position;   // vector from nubot to obstacle
-                    obs_->real_obs_.push_back( nubot::PPoint( get_angle_PI(kick_vector_world_,nubot_obs_vec),nubot_obs_vec.GetLength()) );
+                    math::Vector3d nubot_obs_vec = obs_pos - robot_state_.pose.position;   // vector from nubot to obstacle
+                    obs_->real_obs_.push_back( nubot::PPoint( get_angle_PI(kick_vector_world_,nubot_obs_vec),nubot_obs_vec.Length()) );
                 }
             }
 
@@ -391,9 +382,9 @@ bool NubotGazebo::update_model_info(void)
                 // get my own and teammates's info
                 geometry_msgs::Pose  robot_pose = model_states_.pose[i];
                 geometry_msgs::Twist robot_twist = model_states_.twist[i];
-                math::Quaternion rot_qua(robot_pose.orientation.w, robot_pose.orientation.x,
+                math::Quaterniond rot_qua(robot_pose.orientation.w, robot_pose.orientation.x,
                                          robot_pose.orientation.y, robot_pose.orientation.z);
-                double heading_theta = rot_qua.GetYaw();
+                double heading_theta = rot_qua.Yaw();
                 teamate_info_.header.seq++;
                 teamate_info_.header.stamp = ros::Time::now();
                 teamate_info_.AgentID       = robot_id;
@@ -426,8 +417,8 @@ double NubotGazebo::noise(double scale, double probability)
         return 0.0;
     else
     {
-        if(rand_.GetIntUniform(0,10) <= (int)10.0*probability)
-            return scale*rand_.GetDblNormal(0,1);
+        if(rand_.IntUniform(0,10) <= (int)10.0*probability)
+            return scale*rand_.DblNormal(0,1);
         else
             return 0.0;
     }
@@ -436,19 +427,19 @@ double NubotGazebo::noise(double scale, double probability)
 void NubotGazebo::message_publish(void)
 {
     //ros::Time simulation_time(receive_sim_time_.sec, receive_sim_time_.nsec);
-    //math::Quaternion    rotation_quaternion=nubot_state_.pose.orientation;
+    //math::Quaterniond    rotation_quaternion=nubot_state_.pose.orientation;
 
     ////////////// OminiVision message /////////////////////////
     // ROS_INFO("Gazebo is publishing Omnivision Info!");
     ball_info_.header.stamp = ros::Time::now();
     ball_info_.header.seq++;
     ball_info_.ballinfostate = SEEBALLBYOWN;
-    ball_info_.pos.x =  ball_state_.pose.position.x * M2CM_CONVERSION;
-    ball_info_.pos.y =  ball_state_.pose.position.y * M2CM_CONVERSION;
+    ball_info_.pos.x =  ball_state_.pose.position.X() * M2CM_CONVERSION;
+    ball_info_.pos.y =  ball_state_.pose.position.Y() * M2CM_CONVERSION;
     ball_info_.real_pos.angle  = get_angle_PI(kick_vector_world_,nubot_ball_vec_);
     ball_info_.real_pos.radius = nubot_ball_vec_len_ * M2CM_CONVERSION;
-    ball_info_.velocity.x = ball_state_.twist.linear.x * M2CM_CONVERSION;
-    ball_info_.velocity.y = ball_state_.twist.linear.y * M2CM_CONVERSION;
+    ball_info_.velocity.x = ball_state_.twist.linear.X() * M2CM_CONVERSION;
+    ball_info_.velocity.y = ball_state_.twist.linear.Y() * M2CM_CONVERSION;
     ball_info_.pos_known = true;
     ball_info_.velocity_known = true;
 
@@ -482,15 +473,16 @@ void NubotGazebo::message_publish(void)
     Ballisholding_pub.publish(ballisholding_info_);
 }
 
-void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector3 angular_vel_vector)
+void NubotGazebo::nubot_locomotion(math::Vector3d linear_vel_vector, math::Vector3d angular_vel_vector)
 {
 
     static ros::Time last_time_ = ros::Time::now();
-    static ros::Time last_robot_time_[10](ros::Time::now());
-    static math::Vector3 last_robot_linear_vector_[10](math::Vector3(0,0,0));
-    static math::Vector3 last_robot_angular_vector_[10](math::Vector3(0,0,0));
-    math::Vector3 last_linear_vector_;
-    math::Vector3 last_angular_vector_;
+    /// from nieyiming
+    static ros::Time last_robot_time_[10]={(ros::Time::now())};
+    static math::Vector3d last_robot_linear_vector_[10]={(math::Vector3d::Zero)};
+    static math::Vector3d last_robot_angular_vector_[10]={(math::Vector3d::Zero)};
+    math::Vector3d last_linear_vector_;
+    math::Vector3d last_angular_vector_;
     if(model_name_.substr(0,cyan_pre_.size())==cyan_pre_)
     {
         last_linear_vector_ = last_robot_linear_vector_[AgentID_-1];
@@ -507,24 +499,24 @@ void NubotGazebo::nubot_locomotion(math::Vector3 linear_vel_vector, math::Vector
     ros::Duration duration_time_ = now_time_ - last_time_;
     double duration;
     duration = duration_time_.toNSec()/1000000000.0;
-    math::Vector3 result_vector_;
+    math::Vector3d result_vector_;
     desired_trans_vector_ = linear_vel_vector;
     desired_rot_vector_   = angular_vel_vector;
     // planar movement
-    desired_trans_vector_.z = 0;
-    desired_rot_vector_.x = 0;
-    desired_rot_vector_.y = 0;
+    desired_trans_vector_.Z() = 0;
+    desired_rot_vector_.X() = 0;
+    desired_rot_vector_.Y() = 0;
     ///speed limit for every wheel zhouzhiqian 180825
     result_vector_ = speedLimit(desired_trans_vector_,desired_rot_vector_);
-    desired_rot_vector_ = result_vector_.Dot(math::Vector3(0,0,1)) * math::Vector3(0,0,1);
+    desired_rot_vector_ = result_vector_.Dot(math::Vector3d(0,0,1)) * math::Vector3d(0,0,1);
     desired_trans_vector_ = result_vector_ - desired_rot_vector_;
 
     ///accelerate limit for every wheel
     result_vector_ = accelerateLimit(duration,desired_trans_vector_,last_linear_vector_,desired_rot_vector_,last_angular_vector_);
-    desired_rot_vector_ = result_vector_.Dot(math::Vector3(0,0,1)) * math::Vector3(0,0,1);
+    desired_rot_vector_ = result_vector_.Dot(math::Vector3d(0,0,1)) * math::Vector3d(0,0,1);
     desired_trans_vector_ = result_vector_ - desired_rot_vector_;
     result_vector_ = speedLimit(desired_trans_vector_,desired_rot_vector_);
-    desired_rot_vector_ = result_vector_.Dot(math::Vector3(0,0,1)) * math::Vector3(0,0,1);
+    desired_rot_vector_ = result_vector_.Dot(math::Vector3d(0,0,1)) * math::Vector3d(0,0,1);
     desired_trans_vector_ = result_vector_ - desired_rot_vector_;
 
     robot_model_->SetLinearVel(desired_trans_vector_);
@@ -559,21 +551,22 @@ void NubotGazebo::vel_cmd_CB(const nubot_common::VelCmd::ConstPtr& cmd)
         Vy_cmd_ = cmd->Vy * CM2M_CONVERSION;
     }
     w_cmd_  = cmd->w;
-    math::Vector3 Vx_nubot = Vx_cmd_ * kick_vector_world_;
-    math::Vector3 Vy_nubot = Vy_cmd_ * (math::Vector3(0,0,1).Cross(kick_vector_world_));    // velocity with reference to nubot
-    math::Vector3 linear_vector = Vx_nubot + Vy_nubot;
-    math::Vector3 angular_vector(0,0,w_cmd_);
+    math::Vector3d Vx_nubot = Vx_cmd_ * kick_vector_world_;
+    math::Vector3d Vy_nubot = Vy_cmd_ * (math::Vector3d(0,0,1).Cross(kick_vector_world_));    // velocity with reference to nubot
+    math::Vector3d linear_vector = Vx_nubot + Vy_nubot;
+    math::Vector3d angular_vector(0,0,w_cmd_);
 
 
-    math::Quaternion    target_rot = robot_model_->GetWorldPose().rot;
-    math::Vector3 euler = target_rot.GetAsEuler();
-    math::Pose          target_pose;
-    target_pose.pos = robot_model_->GetWorldPose().pos;
-    if(fabs(target_pose.pos.z)>0.05 || fabs(euler.x)>0.05 || fabs(euler.y)>0.05)
+    math::Quaterniond    target_rot = robot_model_->WorldPose().Rot();
+    math::Vector3d euler = target_rot.Euler();
+    math::Pose3d          target_pose;
+    target_pose.Pos() = robot_model_->WorldPose().Pos();
+    if(fabs(target_pose.Pos().Z())>0.05 || fabs(euler.X())>0.05 || fabs(euler.Y())>0.05)
     {
-        target_pose.pos.z = 0.01;
-        target_rot.SetFromEuler(0,0,euler.z);
-        target_pose.rot = target_rot;
+        target_pose.Pos().Z() = 0.01;
+        target_rot.Euler(0,0,euler.Z());
+//        target_rot.SetFromEuler(0,0,euler.Z());
+        target_pose.Rot() = target_rot;
         robot_model_->SetWorldPose(target_pose);
     }
     nubot_locomotion(linear_vector, angular_vector);
@@ -591,21 +584,21 @@ void NubotGazebo::SendingOff_CB(const nubot_common::SendingOff::ConstPtr & _msg)
         if(_msg->TeamInfo == 0 && flip_cord_ == 0)
         {
             //cyan_sendingoff_pose
-            math::Pose parking_2_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_2_pose( math::Vector3d (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_3_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_3_pose( math::Vector3d (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_4_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_4_pose( math::Vector3d (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_5_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_5_pose( math::Vector3d (-12.0+2*_msg->PlayerNum, -8.5, 0.0), math::Quaterniond(0,0,0) );
             //cyan_sendingback_pose
-            math::Pose parking_2_back_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_2_back_pose( math::Vector3d (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_3_back_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_3_back_pose( math::Vector3d (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_4_back_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_4_back_pose( math::Vector3d (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_5_back_pose( math::Vector3 (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_5_back_pose( math::Vector3d (-12.0+2*_msg->PlayerNum, -7, 0.0), math::Quaterniond(0,0,0) );
 
             if(_msg->PlayerNum == AgentID_ )   //2,3,4,5 is the identifier of robot.besides, the type of the variable shoube int ,if float,will send a error in gazebo model.
             //cout<<_msg->data<<endl;
@@ -647,21 +640,21 @@ void NubotGazebo::SendingOff_CB(const nubot_common::SendingOff::ConstPtr & _msg)
         if(_msg->TeamInfo == 1 && flip_cord_ == 1)
         {
        //magenta_sengdingoff_pose
-            math::Pose parking_2_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_2_pose( math::Vector3d (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_3_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_3_pose( math::Vector3d (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_4_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_4_pose( math::Vector3d (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_5_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_5_pose( math::Vector3d (12.0-2*_msg->PlayerNum, -8.5, 0.0), math::Quaterniond(0,0,0) );
             //magenta_sendingback_pose
-            math::Pose parking_2_back_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_2_back_pose( math::Vector3d (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_3_back_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_3_back_pose( math::Vector3d (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_4_back_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_4_back_pose( math::Vector3d (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaterniond(0,0,0) );
 
-            math::Pose parking_5_back_pose( math::Vector3 (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaternion(0,0,0) );
+            math::Pose3d parking_5_back_pose( math::Vector3d (12.0-2*_msg->PlayerNum, -7, 0.0), math::Quaterniond(0,0,0) );
 
             if(_msg->PlayerNum == AgentID_ )
             {
@@ -746,18 +739,18 @@ void NubotGazebo::dribble_ball(void)
 {
 
 #if 1
-    math::Quaternion    target_rot = robot_state_.pose.orient;
-    math::Vector3       relative_pos = kick_vector_world_* 0.35;
-    math::Vector3       target_pos;
+    math::Quaterniond    target_rot = robot_state_.pose.orient;
+    math::Vector3d       relative_pos = kick_vector_world_* 0.35;
+    math::Vector3d       target_pos;
     if(flip_cord_)
         target_pos = -(robot_state_.pose.position + relative_pos);
     else
         target_pos = robot_state_.pose.position + relative_pos;
 
-    target_pos.z = 0.12;
+    target_pos.Z() = 0.12;
     //ROS_INFO("target pos:%f %f %f",target_pos.x, target_pos.y, target_pos.z);
-    math::Pose          target_pose(target_pos, target_rot);
-    ball_model_->SetLinearVel(math::Vector3(0,0,0));
+    math::Pose3d          target_pose(target_pos, target_rot);
+    ball_model_->SetLinearVel(math::Vector3d(0,0,0));
 
     ball_model_->SetWorldPose(target_pose);
     ball_state_.twist.linear = robot_state_.twist.linear;
@@ -770,13 +763,13 @@ void NubotGazebo::dribble_ball(void)
         return;
     }
 
-    math::Vector3     nubot_linear_vel = nubot_model_->GetWorldLinearVel();
-    math::Vector3     nubot_angular_vel = nubot_model_->GetWorldAngularVel();
+    math::Vector3d     nubot_linear_vel = nubot_model_->GetWorldLinearVel();
+    math::Vector3d     nubot_angular_vel = nubot_model_->GetWorldAngularVel();
     nubot_linear_vel.z=0; nubot_angular_vel.x=0; nubot_angular_vel.y=0;
     // Set up the direction from nubot to football. Let vector lies in x-y plane
     nubot_football_vector_.z = 0;                             // don't point to the air
-    math::Vector3     perpencular_vel = nubot_angular_vel.Cross(nubot_football_vector_);
-    math::Vector3     football_vel = nubot_linear_vel + perpencular_vel;
+    math::Vector3d     perpencular_vel = nubot_angular_vel.Cross(nubot_football_vector_);
+    math::Vector3d     football_vel = nubot_linear_vel + perpencular_vel;
     football_model_->SetLinearVel(football_vel);
 
     ROS_INFO("%s dribble_ball(): dribbling ball. ball vel:%f %f", model_name_.c_str(),football_vel.x, football_vel.y);
@@ -785,8 +778,8 @@ void NubotGazebo::dribble_ball(void)
 
 void NubotGazebo::kick_ball(int mode, double vel=20.0)
 {
-    math::Vector3 kick_vector_planar(kick_vector_world_.x, kick_vector_world_.y, 0.0);
-    math::Vector3 vel_vector;
+    math::Vector3d kick_vector_planar(kick_vector_world_.X(), kick_vector_world_.Y(), 0.0);
+    math::Vector3d vel_vector;
 
     if(mode == RUN)
     {
@@ -808,12 +801,12 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
         //  mid_point coordinates:[-b/(2*a), (4a*c-b^2)/(4a) ]
 
         static const double g = 9.8, kick_goal_height = goal_height - 0.20;      // FIXME: can be tuned
-        nubot::DPoint point1(robot_state_.pose.position.x,robot_state_.pose.position.y);
-        nubot::DPoint point2(robot_state_.pose.position.x + kick_vector_world_.x,
-                             robot_state_.pose.position.y + kick_vector_world_.y);
-        nubot::DPoint point3(ball_state_.pose.position.x,ball_state_.pose.position.y);
+        nubot::DPoint point1(robot_state_.pose.position.X(),robot_state_.pose.position.Y());
+        nubot::DPoint point2(robot_state_.pose.position.X() + kick_vector_world_.X(),
+                             robot_state_.pose.position.Y() + kick_vector_world_.Y());
+        nubot::DPoint point3(ball_state_.pose.position.X(),ball_state_.pose.position.Y());
         nubot::Line_ line1(point1, point2);
-        nubot::Line_ line2(1.0, 0.0, kick_vector_world_.x>0 ? -goal_x : goal_x);         // nubot::Line_(A,B,C);
+        nubot::Line_ line2(1.0, 0.0, kick_vector_world_.X()>0 ? -goal_x : goal_x);         // nubot::Line_(A,B,C);
 
         nubot::DPoint crosspoint;
         line1.crosspoint(line2,crosspoint);
@@ -827,11 +820,11 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
 //                 crosspoint.x_, crosspoint.y_, vx);
 //        if( fabs(crosspoint.y_) < 10)
 //        {
-        math::Vector3 kick_vector;
+        math::Vector3d kick_vector;
         if(flip_cord_)
-            kick_vector = math::Vector3(-0.8*vx*kick_vector_world_.x, -0.8*vx*kick_vector_world_.y, 0.6*vx);
+            kick_vector = math::Vector3d(-0.8*vx*kick_vector_world_.X(), -0.8*vx*kick_vector_world_.Y(), 0.6*vx);
         else
-            kick_vector = math::Vector3(0.8*vx*kick_vector_world_.x, 0.8*vx*kick_vector_world_.y, 0.6*vx);
+            kick_vector = math::Vector3d(0.8*vx*kick_vector_world_.X(), 0.8*vx*kick_vector_world_.Y(), 0.6*vx);
         ball_model_->SetLinearVel(kick_vector);
 //        }
 //        else
@@ -846,9 +839,9 @@ void NubotGazebo::kick_ball(int mode, double vel=20.0)
 bool NubotGazebo::get_is_hold_ball(void)
 {
     bool near_ball, allign_ball;
-    math::Vector3 norm = nubot_ball_vec_;
-    norm.z=0.0; norm.Normalize();
-    kick_vector_world_.z=0.0;
+    math::Vector3d norm = nubot_ball_vec_;
+    norm.Z()=0.0; norm.Normalize();
+    kick_vector_world_.Z()=0.0;
     angle_error_degree_ = get_angle_PI(kick_vector_world_,norm)*(180/PI);
 
     allign_ball = (angle_error_degree_ <= dribble_angle_thres_/2.0
@@ -875,12 +868,12 @@ bool NubotGazebo::get_nubot_stuck(void)
     {
         judge_nubot_stuck_ = 0;
         static const double scale = 0.5;                                    // FIXME. Can tune
-        double desired_trans_length = desired_trans_vector_.GetLength();
-        double desired_rot_length   = desired_rot_vector_.z>0 ?
-                    desired_rot_vector_.z :-desired_rot_vector_.z ;
-        double actual_trans_length  = robot_state_.twist.linear.GetLength();
-        double actual_rot_length    = robot_state_.twist.angular.z>0 ?
-                    robot_state_.twist.angular.z : -robot_state_.twist.angular.z;
+        double desired_trans_length = desired_trans_vector_.Length();
+        double desired_rot_length   = desired_rot_vector_.Z()>0 ?
+                    desired_rot_vector_.Z() :-desired_rot_vector_.Z() ;
+        double actual_trans_length  = robot_state_.twist.linear.Length();
+        double actual_rot_length    = robot_state_.twist.angular.Z()>0 ?
+                    robot_state_.twist.angular.Z() : -robot_state_.twist.angular.Z();
 
         //ROS_INFO("%s time_count:%d, last_time_stuck:%d",model_name_.c_str(), time_count, last_time_stuck);
         //ROS_INFO("desired_trans_len:%f actual_trans_len:%f",desired_trans_length,actual_trans_length);
@@ -955,7 +948,7 @@ void NubotGazebo::update_child()
 void NubotGazebo::nubot_be_control(void)
 {
     static nubot_common::DribbleId di;
-    if(robot_state_.pose.position.z < 0.05)          // not in the air
+    if(robot_state_.pose.position.Z() < 0.05)          // not in the air
     {
         can_move_ = true;
         if(dribble_req_ && get_is_hold_ball() && match_mode_ != STOPROBOT)
@@ -1016,7 +1009,7 @@ void NubotGazebo::nubot_test(void)
 {
     // dribble ball
 #if 0
-    nubot_locomotion(math::Vector3(5,0,0),math::Vector3(0,0,2);
+    nubot_locomotion(math::Vector3d(5,0,0),math::Vector3d(0,0,2);
             dribble_ball();
     ROS_INFO("nubot-football distance:%f",nubot_football_vector_length_);
 #endif
@@ -1033,16 +1026,16 @@ void NubotGazebo::nubot_test(void)
 #if 0
     bool a=get_nubot_stuck();
     ROS_FATAL("%d",a);
-    nubot_locomotion(math::Vector3(0,0,0),math::Vector3(0,0,1));
+    nubot_locomotion(math::Vector3d(0,0,0),math::Vector3d(0,0,1));
 #endif
     //for testing velocity decay
 #if 0
     static int count=0;
-    math::Vector3 vel(3,0,0);
+    math::Vector3d vel(3,0,0);
     if(count++<50)
     {
         football_model_->SetLinearVel(vel);
-        nubot_model_->SetLinearVel(math::Vector3(2,0,0));
+        nubot_model_->SetLinearVel(math::Vector3d(2,0,0));
     }
     debug_msgs_.data.clear();
     double data0 = football_model_->GetWorldLinearVel().GetLength();
@@ -1065,15 +1058,15 @@ void NubotGazebo::nubot_test(void)
 #if 0
     double vel = nubot_model_->GetWorldLinearVel().GetLength();
     //double vel2 = nubot_state_.twist.linear.x;
-    nubot_locomotion(math::Vector3(1,0,0),ZERO_VECTOR);
+    nubot_locomotion(math::Vector3d(1,0,0),ZERO_VECTOR);
     //ROS_INFO("function:%f state:%f",vel,vel2);
     debug_msgs_.data.clear();
     debug_msgs_.data.push_back(vel);
     //debug_msgs_.data.push_back(vel2);
     debug_pub_.publish(debug_msgs_);
 #endif
-    math::Vector3 a(5,0,0);
-    math::Vector3 b(8,0,0);
+    math::Vector3d a(5,0,0);
+    math::Vector3d b(8,0,0);
     static ros::Time last_time = ros::Time::now();
     if((ros::Time::now()-last_time).toSec() > 1)
     {
@@ -1085,9 +1078,9 @@ void NubotGazebo::nubot_test(void)
         nubot_locomotion(a, ZERO_VECTOR);
 }
 
-math::Vector3
-NubotGazebo::accelerateLimit(double duration, math::Vector3  model_linear_vel, math::Vector3 target_linear_vel,
-                             math::Vector3  model_ang_vel, math::Vector3 target_ang_vel)
+math::Vector3d
+NubotGazebo::accelerateLimit(double duration, math::Vector3d  model_linear_vel, math::Vector3d target_linear_vel,
+                             math::Vector3d  model_ang_vel, math::Vector3d target_ang_vel)
 {
     /// ACC limit
     //it is used for distinguish nubot with 4 wheels and nubot with 3 wheels.
@@ -1096,17 +1089,17 @@ NubotGazebo::accelerateLimit(double duration, math::Vector3  model_linear_vel, m
     const double WHEEL_DISTANCE=20.3 * CM2M_CONVERSION;  //it is decided by the real nubot wiht 4 wheels
 
     //同时平动和转动，要想保持全局速度方向不变，会给轮子带来额外的加速度开销，暂且称为牵连加速度:|acc_convect| <= |v*w|
-    math::Vector3 result_vel;
+    math::Vector3d result_vel;
     float wheel_speed_old[WHEELS];
     float wheel_speed[WHEELS];
     float wheel_acc[WHEELS];
-    float target_Vx = target_linear_vel.Dot(math::Vector3(1,0,0));
-    float target_Vy = target_linear_vel.Dot(math::Vector3(0,1,0));
-    float target_w  = target_ang_vel.Dot(math::Vector3(0,0,1));
+    float target_Vx = target_linear_vel.Dot(math::Vector3d(1,0,0));
+    float target_Vy = target_linear_vel.Dot(math::Vector3d(0,1,0));
+    float target_w  = target_ang_vel.Dot(math::Vector3d(0,0,1));
 
-    float model_Vx = model_linear_vel.Dot(math::Vector3(1,0,0));
-    float model_Vy = model_linear_vel.Dot(math::Vector3(0,1,0));
-    float model_w  = model_ang_vel.Dot(math::Vector3(0,0,1));
+    float model_Vx = model_linear_vel.Dot(math::Vector3d(1,0,0));
+    float model_Vy = model_linear_vel.Dot(math::Vector3d(0,1,0));
+    float model_w  = model_ang_vel.Dot(math::Vector3d(0,0,1));
     float Vx,Vy,w;
 
     if(WHEELS == 4)
@@ -1164,27 +1157,27 @@ NubotGazebo::accelerateLimit(double duration, math::Vector3  model_linear_vel, m
             Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
             w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
         }
-        result_vel = math::Vector3(Vx,Vy,w);
+        result_vel = math::Vector3d(Vx,Vy,w);
     }
     else
-        result_vel = math::Vector3(model_Vx,model_Vy,model_w);
+        result_vel = math::Vector3d(model_Vx,model_Vy,model_w);
 
     return result_vel;
 }
 
-math::Vector3
-NubotGazebo::speedLimit(math::Vector3 target_linear_vel,math::Vector3 target_ang_vel)
+math::Vector3d
+NubotGazebo::speedLimit(math::Vector3d target_linear_vel,math::Vector3d target_ang_vel)
 {
     // Speed limit
     ///it is used for distinguish nubot with 4 wheels and nubot with 3 wheels.
     /// Now. all nubots have 4 wheels.
 #define WHEELS 4
     const double WHEEL_DISTANCE=20.3 * CM2M_CONVERSION;  //it is decided by the real nubot wiht 4 wheels
-    math::Vector3 result_vel;
+    math::Vector3d result_vel;
     float wheel_speed[WHEELS];
-    float target_Vx = target_linear_vel.Dot(math::Vector3(1,0,0));
-    float target_Vy = target_linear_vel.Dot(math::Vector3(0,1,0));
-    float target_w  = target_ang_vel.Dot(math::Vector3(0,0,1));
+    float target_Vx = target_linear_vel.Dot(math::Vector3d(1,0,0));
+    float target_Vy = target_linear_vel.Dot(math::Vector3d(0,1,0));
+    float target_w  = target_ang_vel.Dot(math::Vector3d(0,0,1));
     float Vx,Vy,w;
     if(WHEELS == 4)
     {
@@ -1228,7 +1221,7 @@ NubotGazebo::speedLimit(math::Vector3 target_linear_vel,math::Vector3 target_ang
         Vy = (-0.333*wheel_speed[0]  + 0.667*wheel_speed[1] - wheel_speed[2]*0.333);
         w  = (-wheel_speed[0] - wheel_speed[1] - wheel_speed[2] )/(3*WHEEL_DISTANCE);
     }
-    result_vel = math::Vector3(Vx,Vy,w);
+    result_vel = math::Vector3d(Vx,Vy,w);
     return result_vel;
 }
 
