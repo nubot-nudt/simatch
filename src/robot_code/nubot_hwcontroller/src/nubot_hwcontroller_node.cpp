@@ -46,7 +46,7 @@ Nubot_HWController::Nubot_HWController(int argc,char** argv)
       RotationMode(0),
       HoldingCnt(0),UnholdingCnt(0),
       move_action_(21),rotate_action_(21),
-      LeverPos_SetPoint(0),FFRatio_Set(1)
+      LeverPos_SetPoint(0),FFRatio_Set(1),target_ori_(0.0)
 {
 //    ROS_INFO("initialize hw_node process");
     robot_name = argv[1];
